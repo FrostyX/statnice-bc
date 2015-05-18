@@ -89,6 +89,32 @@ Orientované grafy $G_1 = (U_1, H_1)$ a $G_2 = (U_2, H_2)$ jsou izomorfní práv
 \url{http://upload.wikimedia.org/wikipedia/commons/9/9a/Graph_isomorphism_a.svg} \\
 \url{http://upload.wikimedia.org/wikipedia/commons/8/84/Graph_isomorphism_b.svg} \\
 Je zřejmé, že izomorfní grafy musí mít stejný počet uzlů, stejný počet hran, stejný počet uzlů daného stupně atd.
+\paragraph{Souvislost grafu}
+\begin{definition}
+Nechť je dán graf $G = (U, H)$ a dva jeho uzly u a v. \textbf{Sledem} mezi uzly u a v nazveme posloupnost uzlů a hran $u, h_{i1}, u_{i1}, h_{i2}, u_{i2}, \cdots , u_{ik-1}, h_{ik}, v$ pro kterou platí $h_{ir} = \{u_{ir-1}, u_{ir} \} pro r = 1,\cdots, k $
+\end{definition}
+Tedy sled je na sebe navazující posloupnost hran, kdy vždy dvě za sebou následující hrany ve sledu mají společný koncový uzel, který je ve sledu uveden mezi nimi. \\
+Je-li u=v (počáteční a koncový uzel sledu je stejný), jde o \textbf{uzavřený sled}. \\
+\textbf{Tah} mezi uzly u a v je sled mezi těmito dvěma uzly, ve kterém se žádná hrana nevyskytuje vícekrát. \\
+\textbf{Cesta} mezi uzly u a v je tah mezi těmito dvěma uzly, ve kterém se žádný jeho vnitřní uzel nevyskytuje vícekrát. \\
+Uzavřená cesta (je-li u=v) je označována jako \textbf{kružnice grafu}. \\
+\textbf{Orientovaný sled} - všechny jeho hrany mají stejnou orientaci – od počátečního uzlu u ke koncovému uzlu v. \\
+Dále jsou to pojmy orientovaný tah, orientovaná cesta a cyklus. Cyklus je označení pro orientovanou kružnici.
+\begin{definition}
+Graf, mezi jehož každými dvěma uzly existuje cesta, nazveme souvislým grafem.
+\end{definition}
+\begin{definition}
+Komponentou grafu nazveme každý jeho maximální souvislý podgraf. Přitom souvislý podgraf daného grafu považujeme za maximální, jestliže ho už nelze zvětšit přidáním dalších hran, či uzlů daného výchozího grafu tak, aby podgraf byl stále souvislý. Tedy není vlastním podgrafem jiného souvislého podgrafu.
+\end{definition}
+\begin{veta}
+Nechť souvislý graf s m uzly má p komponent. Pak má nejméně m-p hran.
+\end{veta}
+U orientovaného grafu rozeznáváme dva stupně souvislosti: souvislý a silně souvislý graf.
+\begin{definition}
+Orientovaný graf je souvislý, jestliže mezi každými jeho dvěma uzly u a v existuje orientovaná cesta buďto z uzlu u do uzlu v nebo z uzlu v do uzlu u.
+Orientovaný graf je silně souvislý, jestliže mezi každými jeho dvěma uzly u a v existuje orientovaná cesta z uzlu u do uzlu v a rovněž opačná cesta z uzlu v do uzlu u.
+\end{definition}
+
 \subsection{Stromy}
 
 
