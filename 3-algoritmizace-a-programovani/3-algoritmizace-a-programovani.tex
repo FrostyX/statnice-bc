@@ -75,13 +75,13 @@ V teorii grafů se používají termíny:
 \begin{definition}
 Nechť je dán graf $G = (U, H)$. Pak graf $G_1 = (U_1 , H_1 )$ takový, že $U_1 \subset U$ a $H_1 \subset H$, nazveme \textbf{podgrafem grafu G}.
 \end{definition}
-\paragraph{Reprezentace grafu v programech}
+\subsubsection{Reprezentace grafu v programech}
 Graf si můžeme v programu reprezentovat různými způsoby. Můžeme si ho například uložit jako matici sousednosti. Ovšem u rozsáhlejších grafů s větším počtem uzlů je tato matice značně velká a navíc její použití v algoritmech je poměrně neefektivní, neboť v ní musíme pracně hledat.
-\paragraph{Reprezentace pomocí polí}
+\subsubsection{Reprezentace pomocí polí}
 Struktura grafu je uložena ve dvou polích. První pole má stejný počet prvků, jako je počet uzlů v grafu. Každému uzlu odpovídá jeden prvek pole. V něm je uložena hodnota indexu, od kterého v druhém poli začíná seznam uzlů, jež jsou sousedé tohoto uzlu.
-\paragraph{Reprezentace dynamickou datovou strukturou}
+\subsubsection{Reprezentace dynamickou datovou strukturou}
 Další možnost je uzel grafu reprezentovat jako strukturovaný datový typ. Každý uzel obsahuje pole (seznam) ukazatelů na sousední uzly.
-\paragraph{Izomorfismus grafů}
+\subsubsection{Izomorfismus grafů}
 \begin{definition}
 Neorientované grafy $G_1 = (U_1, H_1)$ a $G_2 = (U_2, H_2)$ jsou izomorfní právě když existuje bijektivní zobrazení $h: U_1 \rightarrow U_2$, pro které platí $\{u, v\} \in H_1$ právě když $\{h(u), h(v)\} \in H_2$.
 \end{definition}
@@ -91,7 +91,7 @@ Orientované grafy $G_1 = (U_1, H_1)$ a $G_2 = (U_2, H_2)$ jsou izomorfní práv
 \url{http://upload.wikimedia.org/wikipedia/commons/9/9a/Graph_isomorphism_a.svg} \\
 \url{http://upload.wikimedia.org/wikipedia/commons/8/84/Graph_isomorphism_b.svg} \\
 Je zřejmé, že izomorfní grafy musí mít stejný počet uzlů, stejný počet hran, stejný počet uzlů daného stupně atd.
-\paragraph{Souvislost grafu}
+\subsubsection{Souvislost grafu}
 \begin{definition}
 Nechť je dán graf $G = (U, H)$ a dva jeho uzly u a v. \textbf{Sledem} mezi uzly u a v nazveme posloupnost uzlů a hran $u, h_{i1}, u_{i1}, h_{i2}, u_{i2}, \cdots , u_{ik-1}, h_{ik}, v$ pro kterou platí $h_{ir} = \{u_{ir-1}, u_{ir} \} pro r = 1,\cdots, k $
 \end{definition}
@@ -116,11 +116,11 @@ U orientovaného grafu rozeznáváme dva stupně souvislosti: souvislý a silně
 Orientovaný graf je souvislý, jestliže mezi každými jeho dvěma uzly u a v existuje orientovaná cesta buďto z uzlu u do uzlu v nebo z uzlu v do uzlu u.
 Orientovaný graf je silně souvislý, jestliže mezi každými jeho dvěma uzly u a v existuje orientovaná cesta z uzlu u do uzlu v a rovněž opačná cesta z uzlu v do uzlu u.
 \end{definition}
-\paragraph{Minimální kostry grafu}
+\subsubsection{Minimální kostry grafu}
 Kostra je faktor grafu, který má stejný počet komponent a neobsahuje kružnice.
 Připomeňme, že faktor grafu je jeho podgraf, který má stejnou množinu uzlů.
 U hranově ohodnocených grafů se v praxi vyskytuje úloha nalezení minimální kostry.
-\paragraph{Vzdálenosti v grafu}
+\subsubsection{Vzdálenosti v grafu}
 Mějme souvislý graf G = (U, H), jehož hrany jsou ohodnoceny nezápornými reálnými čísly. Čísla, jimiž jsou jednotlivé hrany ohodnoceny, budeme nazývat délkami těchto hran. Délkou cesty budeme nazývat součet délek všech hran obsažených na této cestě.
 \begin{definition}
 Vzdáleností d(u,v) dvou uzlů u a v souvislém grafu G nazveme délku nejkratší z cest mezi oběma uzly u a v.
@@ -169,7 +169,7 @@ Vyhledávání je další velmi důležitou a často se vyskytující úlohou. P
 \subsection{Vyhledávání v lineárních datových strukturách}
 Mezi nejjednodušší případy vyhledávání patří vyhledávání v lineární datové struktuře, tj. v poli nebo v seznamu. Přepokládáme přitom, že prvky jsou v ní uloženy v libovolném pořadí (nesetříděné). Není zde jiný způsob, než prvky postupně procházet (zpravidla od začátku směrem ke konci) a každý srovnat s hledanou hodnotou. Počet srovnání se přitom pohybuje od 1, jestliže hledaný prvek je hned první, po n, jestliže hledaný prvek je až poslední anebo hledaný prvek mezi prohledávanými prvky není obsažen (nebyl nalezen). Tedy průměrný počet srovnání (je-li prvek nalezen) je $\frac{1+n}{2}$. Maximální počet srovnání je n. \\
 Sekvenční vyhledávání v lineární datové struktuře má časovou složitost $\theta (n)$
-\paragraph{Binární vyhledávání v setříděném poli}
+\subsubsection{Binární vyhledávání v setříděném poli}
 V případě pole je pro vyhledávání mnohem příznivější případ, když prvky jsou v něm uspořádány (seřazeny) dle velikosti vyhledávacího klíče.
 Zde se dá použít algoritmus binárního vyhledávání, často také nazývaný vyhledávání půlením intervalu. \\ \\
 Popis algoritmu \\
@@ -191,14 +191,14 @@ Složitost binárního vyhledávání je $\theta(ln(n))$
 \subsection{Binární vyhledávací stromy}
 Binární vyhledávání má velmi příznivou časovou složitost. Problém ovšem nastane, když se tato množina v průběhu času mění, tj. jsou k ní přidávány nové prvky nebo z ní jsou naopak některé prvky odebírány.
 Vkládání prvků doprostřed pole nebo jejich odebírání zprostředka pole je poměrně neefektivní operace, neboť je spojena s přesuny poměrné značné části prvků v poli. Pro takovéto případy je výhodnější použít vyhledávací stromy.
-
 \paragraph{Binární vyhledávací stromy}
-Jsou binární stromy s vlastnostmi:
+jsou binární stromy s vlastnostmi:
 \begin{itemize}
 	\item V každém uzlu stromu je uložen jeden datový prvek.
+	\item Každý uzel má nanejvýš dva potomky - levého a pravého.
 	\item Pro každý uzel u a prvek v něm uložený c platí, že prvky uložené v levém podstromu uzlu u (má-li uzel u levý podstrom) jsou menší než prvek c a prvky uložené v pravém podstromu uzlu u (má-li uzel u pravý podstrom) jsou větší než prvek c.
 \end{itemize}
-\paragraph{Vyhledání prvku}
+\subsubsection{Vyhledání prvku}
 \begin{enumerate}
 	\item Počáteční krok \\
 	Uzel, který je v daném okamžiku vyhledávání aktuální, budeme označovat u. Na začátku jím bude kořen stromu. Hledaná hodnota nechť je x.
@@ -215,7 +215,7 @@ Jsou binární stromy s vlastnostmi:
 	\end{itemize}
 \end{enumerate}
 Časová složitost $\theta(h)$, kde h je výška vyhledávacího stromu.
-\paragraph{Přidání prvku}
+\subsubsection{Přidání prvku}
 Operace přidání prvku do binárního vyhledávacího stromu znamená na příslušném místě přidat do stromu uzel, do kterého nový prvek vložíme. Označme přidávaný prvek x. Provedeme jeho vyhledání ve stromu. Použijeme k tomu již popsaný algoritmus vyhledávání. Ten může skončit třemi způsoby:
 \begin{itemize}
 	\item Prvek x byl ve stromu nalezen. Tím přidávání končí, neboť prvek x už je ve stromu obsažen a u vyhledávacích stromů se nepředpokládá vícenásobný výskyt stejného prvku.
@@ -223,7 +223,7 @@ Operace přidání prvku do binárního vyhledávacího stromu znamená na pří
 	\item Vyhledávání skončilo v uzlu u s prvkem c, přičemž x > c a přitom uzel u už nemá pravého následníka. V tom případě přidáme ke stromu pravého následníka uzlu u, do kterého nový prvek x vložíme.
 \end{itemize}
 Časová složitost $\theta(h)$, kde h je výška vyhledávacího stromu.
-\paragraph{Odebrání prvku}
+\subsubsection{Odebrání prvku}
 Operace odebrání prvku z binárního stromu znamená na příslušném místě zrušení uzlu ve stromu. Označme odebíraný prvek x. Vyhledáme prvek x ve stromu. Vyhledání může skončit třemi způsoby:
 \begin{itemize}
 	\item Prvek x nebyl ve stromu nalezen – není co odebrat.
@@ -231,6 +231,76 @@ Operace odebrání prvku z binárního stromu znamená na příslušném místě
 	\item Prvek byl nalezen v uzlu v, který má dva následníky. V tomto případě do uzlu v přesuneme buďto nejpravější (největší) prvek z jeho levého podstromu anebo nejlevější (nejmenší) prvek z jeho pravého podstromu a uzel, z kterého byl prvek přesunut, zrušíme.
 \end{itemize}
 Časová složitost $\theta(h)$, kde h je výška vyhledávacího stromu.
+
+
+
+
+\subsection{Red-black stromy}
+Červeno-černé stromy jsou vyvážené binární vyhledávací stromy. Mají obdobnou strukturu jako B-stromy řádu 4.
+\paragraph{B-stromy řádu 4}
+jsou vyvážené vyhledávací stromy s vlastnostmi:
+\begin{itemize}
+	\item V každém uzlu mohou být uloženy 1-3 datové prvky.
+	\item Každý uzel je list nebo má o 1 následníka více, než je počet prvků uložených v uzlu.
+	\item Pro každý prvek uložený ve stromu platí pravidlo, že prvky uložené ve stejném uzlu vlevo od něho jsou menší a prvky uložené vpravo od něho jsou větší. Totéž platí pro podstromy – prvky v podstromu, který je vlevo, jsou menší a prvky v podstromu vpravo jsou větší.
+	\item Všechny listy mají stejnou vzdálenost od kořene (strom je vyvážený).
+\end{itemize}
+\subsubsection{Vytvoření RB stromu z B-stromu}
+Jednotlivé uzly B-stromu nahradíme 1-3 binárními uzly. Horní nahrazující uzel bude černý, uzly pod ním budou červené uzly. Horní uzel bude s uzly pod ním spojen červenými hranami (viz obrázek RBstrom.jpg).
+\subsubsection{Vlastnosti RB stromu}
+\begin{itemize}
+	\item Kořenový uzel je vždy černý. Barva ostatních uzlů je dána barvou hrany, kterou je uzel spojen s předchůdcem.
+	\item Mezi kořenem a libovolným listovým uzlem je stejný počet černých hran (a tím i černých uzlů).
+	\item Ve stromu nikdy nenásledují dvě červené hrany po sobě (a tím i nikdy nenásledují dva červené uzly po sobě).
+	\item Nechť mezi kořenem a listem je m černých hran. Pak mezi kořenem a libovolným listem je nejvýše m+1 červených hran.
+\end{itemize}
+\subsubsection{Přidání prvku}
+Přidání probíhá standardním způsobem jako v běžném binárním vyhledávacím stromu. \\
+Označení: x - přidávaný prvek \\
+Vyhledáme prvek x ve stromu. Vyhledání může skončit třemi způsoby:
+\begin{itemize}
+	\item Prvek x byl ve stromu nalezen – nelze ho znovu přidat a přidávání tím končí.
+	\item Vyhledávání skončilo v uzlu u, ve kterém je uložen prvek c, přičemž x < c a uzel u nemá levého následovníka. Vytvoříme nový uzel jako levého následovníka uzlu u a do něho dáme přidávaný prvek x.
+	\item Vyhledávání skončilo v uzlu u s prvkem c, přičemž x > c a uzel u nemá pravého následovníka. Vytvoříme pravého následovníka uzlu u a do něho dáme přidávaný prvek x.
+\end{itemize}
+Přidávání je tedy realizováno vytvořením nového uzlu a jeho spojením hranou s uzlem u, ve kterém skončilo vyhledávání. Vytvořený uzel bude novým listem stromu. Aby zůstala zachována podmínka, že mezi kořenem a libovolným listem byl stejný počet černých hran, musíme nový uzel spojit s uzlem u červenou hranou a nový uzel bude červený uzel. Pokud uzel u je černý uzel, operace přidání je ukončena. Jestliže ale uzel u je červený uzel, jsou nyní ve stromu dvě červené hrany (dva červené uzly) po sobě.
+\paragraph{Odstranění dvou červených uzlů po sobě}
+rotace x výměna barev. \\
+\begin{itemize}
+	\item Horní z dvojice po sobě následujících červených uzlů nemá červeného sourozence – jednoduchá nebo dvojitá rotace.
+	\item Horní z dvojice červených uzlů má červeného sourozence. Změníme jejich obarvení na černou barvu a barvu jejich předchůdce, pokud to není kořen, změníme na červenou barvu.
+\end{itemize}
+\subsubsection{Odebrání prvku}
+Označení: x - odebíraný prvek
+\begin{enumerate}
+	\item Vyhledáme prvek x ve stromu. Vyhledání může skončit třemi způsoby:
+	\begin{itemize}
+		\item Prvek x nebyl ve stromu nalezen – není co odebrat.
+		\item Prvek byl nalezen v uzlu v, který má nejvýše jednoho následníka. Tento uzel zrušíme.
+		\item Prvek byl nalezen v uzlu v, který má dva následníky. V tomto případě do uzlu v přesuneme buďto nejpravější (největší) prvek z jeho levého podstromu anebo nejlevější (nejmenší) prvek z jeho pravého podstromu a uzel, z kterého byl prvek přesunut, zrušíme.
+	\end{itemize}
+	\item Další postup závisí na tom, jakou barvu má rušený uzel.
+	\begin{itemize}
+		\item Rušený uzel má červenou barvu. V tomto případě zrušení uzlu neovlivní počet černých uzlů (a černých hran) a odebrání je ukončeno.
+		\item Rušený uzel má černou barvu a má červeného následníka. Následníka přebarvíme na černou barvu. Tím počet černých uzlů (a černých hran) zůstane zachován a odebrání je ukončeno.
+		\item Rušený uzel v má černou barvu a nemá červeného následníka. Uzel v obarvíme jako dvojitý černý. Toto obarvení vyjadřuje, že zrušením uzlu by nastal deficit černé barvy na cestách od kořenu k listům, na kterých tento uzel leží. \\
+		Další postup je transformacemi dosáhnout, aby ve stromu nebyl žádný uzel s dvojitým černým obarvením. Přitom u uzlu, který chceme zrušit, lze při odstranění jeho dvojitého černého obarvení ho ze stromu odstranit.
+	\end{itemize}
+\end{enumerate}
+\paragraph{Odstranění dvojitého černého obarvení uzlu}
+rotace x výměna barev.
+\begin{itemize}
+	\item Sourozenec uzlu s dvojitým černým obarvením je černý uzel a tento má přitom aspoň jednoho červeného následníka – jednoduchá nebo dvojitá rotace (spojená s určitým přebarvením uzlů).
+	\item Sourozenec uzlu v s dvojitým černým obarvením je černý uzel a tento přitom nemá žádného červeného následníka. Jedno černé obarvení od obou uzlů (uzlu v a jeho sourozence) odebereme a k předchůdci těchto uzlů naopak jedno černé obarvení přidáme. Uzel v bude tímto mít jedno černé obarvení a jeho sourozenec bude červeně obarven.
+	\begin{itemize}
+		\item Předchůdce uzlu v je červený uzel – nyní bude černý uzel.
+		\item Předchůdce uzlu v je černý uzel. Pokud to není kořen, bude mít nyní dvojité černé obarvení.
+	\end{itemize}
+	\item Sourozenec uzlu v s dvojitým černým obarvením je červený uzel – jednoduchá rotace.
+\end{itemize}
+\paragraph{Časová složitost operací} je závislá na výšce červeno-černého stromu. Odtud $\theta(ln(n))$.
+
+
 
 
 \end{document}
