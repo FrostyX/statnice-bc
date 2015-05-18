@@ -2,7 +2,97 @@
 \usepackage[utf8]{inputenc}
 \usepackage[czech]{babel}
 \usepackage[T1]{fontenc}
+\usepackage{epsfig}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{ amssymb }
+\usepackage{ mathrsfs }
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\newtheorem{veta}{Věta}
+\newtheorem{definition}{Definice}
+\newtheorem{note}{Poznámka}
+
+
+
 
 \begin{document}
-3 -- Algoritmizace a programování
+
+\title{Státnicový okruh 3: \\ Algoritmizace a programování}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{}
+\paragraph{Lineární datové struktury: seznam, zásobník, fronta. Úloha třídění a rozdělení třídících algoritmů. Metody třídění porovnáváním: insert sort, Select sort, Bubble sort, Quick sort, Merge sort, Heap sort. Další metody třídění: Counting sort, Radix Sort, Bucket sort, vnější třídění. Složitosti třídicích algoritmů. Pořádkové statistiky.}
+\newpage
+
+\section{}
+\paragraph{Grafy, stromy, základní pojmy a tvrzení. Vyhledávání a rozdělení vyhledávacích algoritmů. Vyhledávání v lineárních datových strukturách. Binární vyhledávací stromy, průchod a vyhledávání. Red-black stromy, AVL-stromy, B-stromy a jejich struktura, operace vyhledání, vložení a zrušení prvku. Hashování: hashovací funkce, organizace tabulek a způsoby řešení konfliktů.}
+
+\subsection{Grafy}
+Grafický způsob vyjádření vztahů mezi nějakými objekty. Objekty jsou v grafu reprezentovány uzly. Vztahy jsou v grafu reprezentovány hranami. Způsob kreslení volíme především tak, aby graf byl přehledný. Hrana vždy začíná a končí v nějakém uzlu. Většinou jsou koncové uzly hrany různé, ale může to být i stejný uzel, pak takové hraně říkáme \textbf{smyčka}. Dva uzly mohou být spojeny více hranami – takovým hranám říkáme \textbf{násobné}. Graf, ve kterém mezi některými uzly je více hran, nazýváme \textbf{multigraf}.
+\\ \\
+Hrany v grafu mohou být:
+\begin{itemize}
+	\item \textbf{Neorientované} reprezentují symetrické vztahy mezi uzly. Například v situaci, kdy Petr a Jana jsou bratr a sestra a hrana nám bude v grafu vyjadřovat tento vztah, že jsou sourozenci, tato hrana bude neorientovaná.
+	\item \textbf{Orientované} reprezentují jednosměrné, nesymetrické vztahy mezi uzly. Orientace hrany je vyznačena šipkou na jednom jejím konci. Například je-li Eva matkou Petra a Jany a hrany nám budou vyjadřovat vztah, že Eva je jejich rodičem, bude tyto hrany orientované.
+\end{itemize}
+Podle typu hran dělíme grafy na:
+\begin{itemize}
+	\item \textbf{Neorientované} – všechny jejich hrany jsou neorientované
+	\item \textbf{Orientované} – všechny jejich hrany jsou orientované
+	\item \textbf{Smíšené} – obsahují neorientované i orientované hrany
+\end{itemize}
+\begin{definition}
+Graf je dvojice G = (U, H), kde \\
+\begin{itemize}
+	\item[] U je množina uzlů $U = \{ u_1, u_2, \cdots, u_m \}$\\
+	\item[] H je množina hran $H = \{ h_1, h_2, \cdots, h_n \}$
+\end{itemize}
+\end{definition}
+U neorientovaného grafu jsou hrany určeny neuspořádanými dvojicemi svých koncových uzlů $h_i = \{ u_j, u_k\}$, kde $u_j, u_k \in U$ \\
+U orientovaného grafu jsou hrany určeny uspořádanými dvojicemi svých koncových uzlů $h_i = \langle u_j, u_k \rangle$, kde $u_j, u_k \in U$ \\
+Počet hran se zančí $|H|$. Počet uzlů $|U|$.
+\begin{definition}
+\textbf{Stupeň uzlu} je počet hran, které jsou s tímto uzel spojeny - mají tento uzel jako koncový. Pro skutečnost, že hrana má daný uzel jako koncový, používáme termín, že hrana s tímto uzlem \textbf{inciduje}.
+\end{definition}
+U orientovaného grafu navíc rozeznáváme výstupní stupeň uzlu, což je počet hran, které z něho vychází, označujeme ho $d^-(u)$, a vstupní stupeň uzlu, což je počet hran, které do něho vchází, označuje ho $d^+(u)$. Zřejmě pro stupeň uzlu v orientovaném grafu platí $d(u) = d^-(u) + d^+(u) $.
+\begin{definition}
+V teorii grafů se používají termíny:
+\begin{itemize}
+	\item Pro uzel, jehož stupeň je nulový, používáme název diskrétní uzel.
+	\item Graf, jehož všechny uzly jsou diskrétní, nazveme diskrétní graf.
+	\item Dva uzly, jež jsou spojeny hranou, nazveme sousedními uzly.
+	\item Pro graf, jehož všechny uzly jsou sousední (má při daném počtu uzlů maximální počet hran), se používá označení úplný graf.
+\end{itemize}
+\end{definition}
+\begin{definition}
+Nechť je dán graf $G = (U, H)$. Pak graf $G_1 = (U_1 , H_1 )$ takový, že $U_1 \subset U$ a $H_1 \subset H$, nazveme \textbf{podgrafem grafu G}.
+\end{definition}
+\paragraph{Reprezentace grafu v programech}
+Graf si můžeme v programu reprezentovat různými způsoby. Můžeme si ho například uložit jako matici sousednosti. Ovšem u rozsáhlejších grafů s větším počtem uzlů je tato matice značně velká a navíc její použití v algoritmech je poměrně neefektivní, neboť v ní musíme pracně hledat.
+\paragraph{Reprezentace pomocí polí}
+Struktura grafu je uložena ve dvou polích. První pole má stejný počet prvků, jako je počet uzlů v grafu. Každému uzlu odpovídá jeden prvek pole. V něm je uložena hodnota indexu, od kterého v druhém poli začíná seznam uzlů, jež jsou sousedé tohoto uzlu.
+\paragraph{Reprezentace dynamickou datovou strukturou}
+Další možnost je uzel grafu reprezentovat jako strukturovaný datový typ. Každý uzel obsahuje pole (seznam) ukazatelů na sousední uzly.
+\paragraph{Izomorfismus grafů}
+\begin{definition}
+Neorientované grafy $G_1 = (U_1, H_1)$ a $G_2 = (U_2, H_2)$ jsou izomorfní právě když existuje bijektivní zobrazení $h: U_1 \rightarrow U_2$, pro které platí $\{u, v\} \in H_1$ právě když $\{h(u), h(v)\} \in H_2$.
+\end{definition}
+\begin{definition}
+Orientované grafy $G_1 = (U_1, H_1)$ a $G_2 = (U_2, H_2)$ jsou izomorfní právě když existuje bijektivní zobrazení $h: U_1 \rightarrow U_2$, pro které platí $\langle u, v\rangle \in H_1$ právě když $\langle h(u), h(v)\rangle \in H_2$.
+\end{definition}
+\url{http://upload.wikimedia.org/wikipedia/commons/9/9a/Graph_isomorphism_a.svg} \\
+\url{http://upload.wikimedia.org/wikipedia/commons/8/84/Graph_isomorphism_b.svg} \\
+Je zřejmé, že izomorfní grafy musí mít stejný počet uzlů, stejný počet hran, stejný počet uzlů daného stupně atd.
+\subsection{Stromy}
+
+
+
+
+
 \end{document}
