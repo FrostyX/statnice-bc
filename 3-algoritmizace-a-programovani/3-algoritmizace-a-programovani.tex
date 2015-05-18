@@ -26,10 +26,12 @@
 \tableofcontents
 \newpage
 
+%-----------------------------------prvni odstavec------------------------------------
 \section{}
 \paragraph{Lineární datové struktury: seznam, zásobník, fronta. Úloha třídění a rozdělení třídících algoritmů. Metody třídění porovnáváním: insert sort, Select sort, Bubble sort, Quick sort, Merge sort, Heap sort. Další metody třídění: Counting sort, Radix Sort, Bucket sort, vnější třídění. Složitosti třídicích algoritmů. Pořádkové statistiky.}
 \newpage
 
+%-----------------------------------druhy odstavec------------------------------------
 \section{}
 \paragraph{Grafy, stromy, základní pojmy a tvrzení. Vyhledávání a rozdělení vyhledávacích algoritmů. Vyhledávání v lineárních datových strukturách. Binární vyhledávací stromy, průchod a vyhledávání. Red-black stromy, AVL-stromy, B-stromy a jejich struktura, operace vyhledání, vložení a zrušení prvku. Hashování: hashovací funkce, organizace tabulek a způsoby řešení konfliktů.}
 
@@ -114,11 +116,121 @@ U orientovaného grafu rozeznáváme dva stupně souvislosti: souvislý a silně
 Orientovaný graf je souvislý, jestliže mezi každými jeho dvěma uzly u a v existuje orientovaná cesta buďto z uzlu u do uzlu v nebo z uzlu v do uzlu u.
 Orientovaný graf je silně souvislý, jestliže mezi každými jeho dvěma uzly u a v existuje orientovaná cesta z uzlu u do uzlu v a rovněž opačná cesta z uzlu v do uzlu u.
 \end{definition}
+\paragraph{Minimální kostry grafu}
+Kostra je faktor grafu, který má stejný počet komponent a neobsahuje kružnice.
+Připomeňme, že faktor grafu je jeho podgraf, který má stejnou množinu uzlů.
+U hranově ohodnocených grafů se v praxi vyskytuje úloha nalezení minimální kostry.
+\paragraph{Vzdálenosti v grafu}
+Mějme souvislý graf G = (U, H), jehož hrany jsou ohodnoceny nezápornými reálnými čísly. Čísla, jimiž jsou jednotlivé hrany ohodnoceny, budeme nazývat délkami těchto hran. Délkou cesty budeme nazývat součet délek všech hran obsažených na této cestě.
+\begin{definition}
+Vzdáleností d(u,v) dvou uzlů u a v souvislém grafu G nazveme délku nejkratší z cest mezi oběma uzly u a v.
+\end{definition}
+\begin{veta}
+Pro libovolné tři uzly u, v a w platí:
+\begin{enumerate}
+	\item $d(u, v) \geq 0, přičemž d(u, v) = 0 právě když u = v$
+	\item $d(u, v) = d(v, u)$
+	\item $d(u, v) \leq d(u, w) + d(w, v)$
+\end{enumerate}
+\end{veta}
+
+
 
 \subsection{Stromy}
+\begin{definition}
+Strom je souvislý graf neobsahující kružnice.
+\end{definition}
+\begin{veta}
+Následující tvrzení pro graf G = (U, H) jsou ekvivalentní:
+\begin{enumerate}
+	\item Graf G je strom.
+	\item Graf G je souvislý a platí $|H| = |U|-1$.
+	\item Mezi každými dvěma uzly grafu existuje právě jedna cesta.
+	\item Graf G je souvislý a odebráním libovolné hrany se jeho souvislost poruší.
+	\item Graf G neobsahuje kružnice a přidáním libovolné hrany vznikne v grafu kružnice
+\end{enumerate}
+\end{veta}
+\begin{definition}
+Listy stromu jsou uzly se stupněm 1. Uzly, které mají větší stupeň než je 1, jsou vnitřní uzly stromu.
+\end{definition}
+\begin{definition}
+Kořenový strom je strom, v němž jeden uzel je stanoven jako kořen. Všechny hrany v kořenovém stromu mají přirozenou orientaci – jejich orientace je ve směru od kořene ke vzdálenějším uzlům.
+\end{definition}
 
 
 
+
+\subsection{Vyhledávání a rozdělení vyhledávacích algoritmů}
+Vyhledávání je další velmi důležitou a často se vyskytující úlohou. Při ní máme zadanou nějakou množinu (multimnožinu) prvků a cílem je nalézt mezi nimi takový prvek, který má danou hodnotu vyhledávacího klíče, anebo případně zjistit, že takový prvek mezi nimi není.
+
+
+
+
+\subsection{Vyhledávání v lineárních datových strukturách}
+Mezi nejjednodušší případy vyhledávání patří vyhledávání v lineární datové struktuře, tj. v poli nebo v seznamu. Přepokládáme přitom, že prvky jsou v ní uloženy v libovolném pořadí (nesetříděné). Není zde jiný způsob, než prvky postupně procházet (zpravidla od začátku směrem ke konci) a každý srovnat s hledanou hodnotou. Počet srovnání se přitom pohybuje od 1, jestliže hledaný prvek je hned první, po n, jestliže hledaný prvek je až poslední anebo hledaný prvek mezi prohledávanými prvky není obsažen (nebyl nalezen). Tedy průměrný počet srovnání (je-li prvek nalezen) je $\frac{1+n}{2}$. Maximální počet srovnání je n. \\
+Sekvenční vyhledávání v lineární datové struktuře má časovou složitost $\theta (n)$
+\paragraph{Binární vyhledávání v setříděném poli}
+V případě pole je pro vyhledávání mnohem příznivější případ, když prvky jsou v něm uspořádány (seřazeny) dle velikosti vyhledávacího klíče.
+Zde se dá použít algoritmus binárního vyhledávání, často také nazývaný vyhledávání půlením intervalu. \\ \\
+Popis algoritmu \\
+Vezmeme prvek, který je v poli uprostřed (je-li počet prvků sudý, jsou uprostřed dva prvky - zde vezmeme jeden z nich, při implementaci metody to zpravidla bývá ten levý), označme jeho index s. \\
+Následně provedeme srovnání hledané x hodnoty s hodnotou středního prvku $a_s$ :
+\begin{itemize}
+	\item Nejprve srovnáme, zda je $x < a_s$ \\
+	Pokud ano, pak zřejmě hledaný prvek, pokud v poli vůbec je, musí být v části L, jež je nalevo od středního prvku a s . Je-li část L neprázdná(obsahuje aspoň jeden prvek), rekurzivně na ni provedeme stejný postup. Je-li už prázdná, vyhledávání neúspěšně končí. Hledaný prvek není v poli obsažen.
+	\item Pokud neplatí $x < a_s$, uděláme další srovnání. Srovnáme, zda je $x > a_s$ \\
+	Pokud ano, musíme v dalším kroku hledání pokračovat v části P, jež je napravo od středního prvku a s . Je-li část P neprázdná (obsahuje aspoň jeden prvek), rekurzivně na ni provedeme stejný postup. Je-li už prázdná, vyhledávání neúspěšně končí.
+	\item Pokud není ani $x > a_s$, zbývá už jen možnost, že platí $x = a_s$, čímž vyhledávání končí, neboť prvek $a_s$ je hledaným prvkem.
+\end{itemize}
+Maximální počet kroků logaritmicky závisí na počtu prvků v prohledávané posloupnosti. V každém kroku provádíme nejvýše dvě operace srovnání. První operací zjistíme, zda hledaný prvek je menší než střední prvek. Pokud ano, pokračujeme v hledání v části nalevo. Pokud ne, druhou operací srovnání zjistíme, zda hledaný je větší než střední prvek, čímž rozhodneme, zda pokračovat v hledání v části napravo anebo už jsme hledaný prvek našli. \\
+Složitost binárního vyhledávání je $\theta(ln(n))$
+
+
+
+
+\subsection{Binární vyhledávací stromy}
+Binární vyhledávání má velmi příznivou časovou složitost. Problém ovšem nastane, když se tato množina v průběhu času mění, tj. jsou k ní přidávány nové prvky nebo z ní jsou naopak některé prvky odebírány.
+Vkládání prvků doprostřed pole nebo jejich odebírání zprostředka pole je poměrně neefektivní operace, neboť je spojena s přesuny poměrné značné části prvků v poli. Pro takovéto případy je výhodnější použít vyhledávací stromy.
+
+\paragraph{Binární vyhledávací stromy}
+Jsou binární stromy s vlastnostmi:
+\begin{itemize}
+	\item V každém uzlu stromu je uložen jeden datový prvek.
+	\item Pro každý uzel u a prvek v něm uložený c platí, že prvky uložené v levém podstromu uzlu u (má-li uzel u levý podstrom) jsou menší než prvek c a prvky uložené v pravém podstromu uzlu u (má-li uzel u pravý podstrom) jsou větší než prvek c.
+\end{itemize}
+\paragraph{Vyhledání prvku}
+\begin{enumerate}
+	\item Počáteční krok \\
+	Uzel, který je v daném okamžiku vyhledávání aktuální, budeme označovat u. Na začátku jím bude kořen stromu. Hledaná hodnota nechť je x.
+	\item Průběžný krok \\
+	Vezmeme prvek obsažený v aktuálním uzlu u, označme ho c, a provedeme jeho srovnání s hledanou hodnotou x:
+	\begin{itemize}
+		\item Nejprve srovnáme, zda je x < c: \\
+		Pokud ano, pak je nutné v hledání pokračovat v levém podstromu. Jako nový aktuální uzel u položíme levého následníka současného aktuálního uzlu a znovu provedeme krok 2. \\
+		Pokud současný aktuální uzel levého následníka nemá, vyhledávání končí - hledaný prvek není ve stromu obsažen.
+		\item Pokud není x < c, srovnáme, zda je x > c: \\
+		Pokud ano, je nutné v hledání pokračovat v pravém podstromu. Jako nový aktuální uzel u položíme pravého následníka současného aktuálního uzlu a opět provedeme krok 2. \\
+		Pokud uzel pravého následníka nemá, vyhledávání končí, hledaný prvek není ve stromu obsažen.
+		\item Pokud není x > c, zbývá už jen případ, že platí x = c, čímž jsme u konce hledání, neboť prvek c obsažený v současném aktuálním uzlu u je tím hledaným prvkem.
+	\end{itemize}
+\end{enumerate}
+Časová složitost $\theta(h)$, kde h je výška vyhledávacího stromu.
+\paragraph{Přidání prvku}
+Operace přidání prvku do binárního vyhledávacího stromu znamená na příslušném místě přidat do stromu uzel, do kterého nový prvek vložíme. Označme přidávaný prvek x. Provedeme jeho vyhledání ve stromu. Použijeme k tomu již popsaný algoritmus vyhledávání. Ten může skončit třemi způsoby:
+\begin{itemize}
+	\item Prvek x byl ve stromu nalezen. Tím přidávání končí, neboť prvek x už je ve stromu obsažen a u vyhledávacích stromů se nepředpokládá vícenásobný výskyt stejného prvku.
+ 	\item Vyhledávání skončilo v uzlu u s prvkem c, přičemž x < c a přitom uzel u už nemá levého následníka. V tom případě přidáme ke stromu nový uzel jako levého následníka uzlu u a do něho nový prvek x vložíme.
+	\item Vyhledávání skončilo v uzlu u s prvkem c, přičemž x > c a přitom uzel u už nemá pravého následníka. V tom případě přidáme ke stromu pravého následníka uzlu u, do kterého nový prvek x vložíme.
+\end{itemize}
+Časová složitost $\theta(h)$, kde h je výška vyhledávacího stromu.
+\paragraph{Odebrání prvku}
+Operace odebrání prvku z binárního stromu znamená na příslušném místě zrušení uzlu ve stromu. Označme odebíraný prvek x. Vyhledáme prvek x ve stromu. Vyhledání může skončit třemi způsoby:
+\begin{itemize}
+	\item Prvek x nebyl ve stromu nalezen – není co odebrat.
+	\item Prvek byl nalezen v uzlu v, který má nejvýše jednoho následníka.Tento uzel zrušíme.
+	\item Prvek byl nalezen v uzlu v, který má dva následníky. V tomto případě do uzlu v přesuneme buďto nejpravější (největší) prvek z jeho levého podstromu anebo nejlevější (nejmenší) prvek z jeho pravého podstromu a uzel, z kterého byl prvek přesunut, zrušíme.
+\end{itemize}
+Časová složitost $\theta(h)$, kde h je výška vyhledávacího stromu.
 
 
 \end{document}
