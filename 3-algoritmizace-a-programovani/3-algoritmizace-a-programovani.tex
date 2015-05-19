@@ -380,6 +380,78 @@ Označení: x - odebíraný prvek
 		\end{itemize}
 	\end{itemize}
 \end{enumerate}
-Operace nad AVL stromy mají logaritmickou složitost.
+\paragraph{Časová složitost operací} $\theta(log(n))$.
+
+
+
+
+\subsection{B-stromy}
+B-stromy jsou velmi významným typem vyhledávacích stromů. Mají v uzlech uloženo více prvků. Struktura B-stromů je definována následujícími vlastnostmi:
+\begin{itemize}
+	\item Kapacita uzlu (počet prvků, který lze do uzlu uložit) je u všech uzlů stromu stejná a volíme ji před začátkem vytváření stromu, kapacitu označme r $(r \geq 2)$ Protože v B-stromech má významnou úlohu polovina z tohoto počtu, zaveďme si pro ni samostatné označení $p = \frac{r}{2}$ pro r sudé a $p = \frac{r-1}{2}$ pro r liché.
+	\item Důležité pro efektivní využití uzlů je jejich zaplnění. Všechny uzly vyjma kořene musí být aspoň z poloviny zaplněny prvky pro r sudé nebo p prvky pro r liché, tedy počet prvků v uzlech uložených musí být v rozmezí p až r prvků. Jedině u kořene stačí, aby obsahoval aspoň jeden prvek, tedy jeho zaplnění je v rozmezí 1 až r prvků.
+	\item Prvky uložené v uzlu jsou v něm seřazeny vzestupně dle velikosti.
+	\item Uzel je buďto list anebo má o jednoho následníka více, než je počet prvků v něm uložený. \\
+	Přitom pro prvky v jednotlivých podstromech, které těmito následníky začínají, platí:
+	\begin{itemize}
+		\item Pro každý prvek d v podstromu začínajícího uzlem $násl_0$ platí $d < c_1$.
+		\item Pro každý prvek d v podstromu začínajícího uzlem $násl_1$ platí $c_1 < d < c_2$.
+		\item ............
+		\item Pro každý prvek d v podstromu začínajícího uzlem $násl_{k-1}$ platí $c_{k-1} < d <c_k$.
+		\item Pro každý prvek d v podstromu začínajícího uzlem $násl_k$ platí $d > c_k$.
+	\end{itemize}
+	\item Listy jsou v B-stromu jen v jeho poslední (nejspodnější) úrovni.
+\end{itemize}
+Podle maximálního počtu následníků označujeme i řád B-stromu. B-strom s kapacitou uzlu r má řád r + 1, neboť nelistový uzel může mít až r + 1 následníků.
+\subsubsection{Vyhledání prvku}
+\begin{enumerate}
+	\item Počáteční krok \\
+	Uzel, který je v daném okamžiku vyhledávání aktuální, budeme označovat u. Na začátku jím bude kořen stromu. \\
+	Hledaná hodnota nechť je x.
+	\item Průběžný krok \\
+	Provedeme vyhledání hodnoty mezi prvky uloženými v aktuálním uzlu u. Protože prvky jsou v uzlu setříděné, lze k tomu použít binární vyhledávání. To použijeme v případě, kdy kapacita uzlů je zvolena dostatečně velká, aby se to vyplatilo. Vyhledání může skončit třemi způsoby:
+	\begin{itemize}
+		\item Prvek byl v aktuálním uzlu u nalezen, čímž vyhledávání úspěšně končí.
+		\item Prvek nebyl v aktuálním uzlu u nalezen a tento uzel je list. Tím vyhledávání končí - hledaný prvek není ve stromu obsažen.
+		\item Prvek nebyl v aktuálním uzlu u nalezen a tento uzel je nelistový. V tom případě vyhledávání skončilo v místě, kde je odkaz na následníka, ve kterém vyhledávání má pokračovat (tj. na následníka, kterým začíná podstrom, jež by hledaný prvek měl obsahovat). Tohoto následníka učiníme novým aktuální uzlem a opět se provede krok 2.
+	\end{itemize}
+\end{enumerate}
+\subsubsection{Přidání prvku}
+Chceme-li do B-stromu přidat prvek, znamená to najít příslušný uzel, do kterého nový prvek patří, a následně ověřit, zda přitom nedošlo k přeplnění, a pokud ano, provést rozdělení uzlu.
+\begin{enumerate}
+	\item Přidání prvku \\
+	Označme přidávaný prvek x. Provedeme je vyhledání ve stromu. Použijeme k tomu běžný algoritmus pro vyhledání. Ten může skončit dvěma způsoby:
+	\begin{itemize}
+		\item Prvek x byl ve stromu nalezen. Tím přidávání končí, neboť prvek x už je ve stromu obsažen (u vyhledávacích stromů se nepředpokládá vícenásobný výskyt stejného prvku).
+		\item Vyhledávání skončilo v listovém uzlu u v místě, kam nový prvek podle velikosti vzhledem k ostatním prvků patří. Prvek na toto místo vložíme. Pokud uzel u předtím nebyl zcela zaplněn, operace přidání tím končí. Jinak provedeme rozdělení uzlu.
+	\end{itemize}
+	\item Rozdělení uzlu \\
+	Jestliže uzel u má po přidání r+1 prvků, tedy došlo k jeho přeplnění uzlu, rozdělíme ho na tři části: \\
+	p prvků na začátku uzlu + prvek uprostřed uzlu + p prvků na konci uzlu. \\
+	Části s p prvky budou tvořit nové listy. Prvek, jež je v uzlu u uprostřed, se přesune do předchůdce na místo, kde byl původní odkaz na list. Po přesunu nalevo a napravo od něho vytvoříme nové odkazy na nově vzniklé listy.
+\end{enumerate}
+Zřejmě po přidání uzlu do předchůdce v něm může dojít rovněž k jeho přeplnění, pokud předtím byl zcela zaplněn. To se řeší stejným způsobem - rozdělením tohoto uzlu na tři části s počtem prvků p+1+p. Dvě jeho části s p prvky budou tvořit nové uzly a zbývající prostřední prvek vložíme do jeho předchůdce. Takto postupujeme směrem nahoru, až buďto narazíme na uzel, u kterého po vložení dalšího prvku nedojde k přeplnění, anebo se nakonec dostaneme až ke kořenu. Pokud i u něho dojde k přeplnění, rozdělí se a střední prvek v tomto rozdělení bude nyní nový kořen. V této situaci dojde ke zvětšení výšky stromu.
+\subsubsection{Odebrání prvku}
+Chceme-li z B-stromu odebrat prvek, znamená to vyhledat uzel, ve kterém se prvek nachází, prvek z něho odstranit a následně ověřit, zda odebráním prvku nepoklesl počet prvků v daném uzlu pod přípustnou mez, a pokud ano, je nutné to vyřešit.
+\begin{enumerate}
+	\item Odebrání prvku: \\
+	Označme odstraňovaný prvek x. Provedeme jeho vyhledání ve stromu. Použijeme k tomu běžný algoritmus pro vyhledání. Ten může skončit třemi způsoby:
+	\begin{itemize}
+		\item Prvek x nebyl ve stromu nalezen - není co odebrat.
+		\item Prvek x byl nalezen v listovém uzlu. Prvek z uzlu odstraníme. Pokud list je po zrušení prvku aspoň z poloviny zaplněn, operace odebrání končí. Jinak přejdeme ke kroku 2.
+		\item Prvek x byl nalezen v uzlu u, který není listem. Prvek x z uzlu odstraníme a na volné místo v uzlu u přesuneme buďto největší prvek z jeho levého podstromu, což je poslední prvek v nejpravějším listu podstromu, anebo nejmenší prvek z jeho pravého podstromu, což je první prvek v nejlevějším listu podstromu. Pokud list, odkud jsme prvek přesunuli, je stále aspoň z poloviny zaplněn, operace odebrání prvku končí. Jinak přejdeme ke kroku 2.
+	\end{itemize}
+	\item Zmenšení počtu prvků v uzlu \\
+	Sem se dostáváme v situaci, kdy po odstranění prvku ze stromu je nyní ve stromu list v, který má jen p-1 prvků. Jak se tento stav řeší, závisí na zaplnění přímých sousedů listu. Jsou dvě možnosti:
+	\begin{itemize}
+		\item List v má aspoň jednoho přímého souseda, který má více než p prvků. Přímým sousedem zde máme na mysli uzel, který je nejen vedle uzlu v, ale má i stejného předchůdce. Pak do listu v přesuneme prvek z předchůdce a na prázdné místo v předchůdci přesuneme příslušný prvek ze souseda. Následující obrázek ukazuje tento přesun pro oba možné přímé sousedy, nejdříve pro levého souseda, pak pro pravého souseda.
+		\item List v má jen přímé sousedy, které mají právě p prvků. Pak vytvoříme nový list s r prvky tak, že sloučíme prvky z listu v + prvek z předchůdce + prvky ze souseda. \\
+		Je zřejmé, že tímto ubyl jeden prvek v předchůdci. Pokud tento má nyní jen p-1 prvků, řeší se to analogicky v závislosti na tom, kolik prvků mají jeho přímí sousedé. Takto se můžeme případně dostat až k uzlu, který je následníkemkořene. Pokud je vytvořen nový uzel sloučením s jeho přímým sousedem a pokud kořen v této chvíli má jen jeden prvek, dojde přitom k vytvoření nového kořene a zároveň ke snížení výšky stromu. Na následujícím obrázku je tato situace pro případ, kdy je pro sloučení vzat levý přímý soused.
+	\end{itemize}
+\end{enumerate}
+\paragraph{Časová složitost operací} $\theta(log(n))$.
+
+
+
 
 \end{document}
