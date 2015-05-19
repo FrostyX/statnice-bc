@@ -303,4 +303,83 @@ rotace x výměna barev.
 
 
 
+\subsection{AVL stromy}
+Jsou určitým způsobem vyvážené binární vyhledávací stromy.
+Vyváženost v AVL stromu je zajištěna podmínkou, že pro každý uzel u stromu musí platit, že rozdíl mezi výškou jeho levého podstromu a výškou jeho pravého podstromu je nejvýše 1. Přitom výškou podstromu zde rozumíme maximum ze vzdáleností od uzlu u k uzlům daného podstromu, tedy vzdálenost mezi uzlem u a uzly, které jsou úplně naspodu podstromu. Pokud uzel nemá daného následníka (levého, pravého), je výška tohoto podstromu 0.
+Při operaci přidání prvku do stromu je přidán nový uzel, při operaci odebrání prvku ze stromu je naopak uzel zrušen. Tyto operaci v příslušném místě, kde byl přidán nebo zrušen uzel, mění tvar stromu a mohou vést k porušení uvedené podmínky vyvážení u některého uzlu stromu. Proto je po operaci přidání nebo odebrání nutné ověřit, zda k této situaci nedošlo. Aby toto ověřování proběhlo efektivně, je v každém uzlu proměnná b (b=balance), která je označovaná jako faktor vyvážení uzlu a která obsahuje informaci o jeho stávajícím vyvážení.
+Uzel je vyvážený, jestliže jeho faktor vyvážení je 1, 0 nebo -1. Při přidání prvku do stromu nebo odebrání prvku ze stromu se v důsledku změny tvaru stromu může v některém uzlu jeho faktor vyvážení změnit na 2 nebo -2. V tom případě je zapotřebí udělat transformaci, která obnoví vyvážení daného uzlu.
+\subsubsection{Přidání prvku}
+Operace přidání prvku do AVL stromu znamená na příslušném místě přidání uzlu do stromu, do kterého nový prvek vložíme, a následně aktualizujeme v příslušných částích stromu údaje o vyvážení v uzlech a ověřujeme, zda v některém uzlu nedošlo k narušení vyvážení stromu, a pokud ano, uzel vhodnou transformací vyvážíme. \\
+Označení: x - přidávaný prvek
+\begin{enumerate}
+	\item Vyhledáme prvek x ve stromu. Vyhledání může skončit třemi způsoby:
+	\begin{itemize}
+		\item Prvek x byl ve stromu nalezen. Tím přidávání končí, neboť prvek x už je ve stromu obsažen a nelze ho přidat.
+		\item Vyhledání skončilo v uzlu u, ve kterém je uložen prvek c, přičemž x < c a přitom uzel u už nemá levého následníka. V tom případě přidáme ke stromu nový uzel v jako levého následníka uzlu u a do něho nový prvek x vložíme.
+		\item Vyhledání skončilo v uzlu u s prvkem c, přičemž x > c a přitom uzel u už nemá pravého následníka. V tom případě přidáme ke stromu nový uzel v jako pravého následníka uzlu u a do něho nový prvek x vložíme.
+	\end{itemize}
+	\item Po přidání uzlu procházíme uzly stromu na cestě od přidaného uzlu v směrem ke kořenu. Pro každý procházený uzel u na cestě aktualizujeme jeho faktor vyvážení.
+	\begin{itemize}
+		\item Pokud přidaný prvek je v levém podstromu aktuálního uzlu u, jeho faktor vyvážení zvýšíme o 1. \\
+		Po aktualizaci faktoru vyvážení mohou nastat případy:
+		\begin{itemize}
+			\item Faktor vyvážení uzlu u je nyní 0. V tomto případě přidání prvku x nemá vliv na faktory vyvážení dalších uzlů na cestě ke kořenu a operace přidání tím skončila.
+			\item Faktor vyvážení uzlu u je nyní 1. Je-li uzel u již kořen, operace přidání skončila. Jinak aktuální uzlem u učiníme předchůdce současného uzlu u a opět krok 2.
+			\item Faktor vyvážení uzlu u je nyní 2. Uzel u je nevyvážený - vyvážíme ho vhodnou transformací (RR, RL). Po vyvážení:
+			\begin{itemize}
+				\item Je-li uzel u již kořen, operace přidání skončila.
+				\item Je-li po vyvážení hodnota faktoru vyvážení uzlu u rovna 0, operace přidání je ukončena (maximum z výšek podstromů uzlu u se transformací snížilo o 1, tudíž už to nemá vliv na faktor vyvážení předchůdce uzlu u). Jinak přejdeme k předchůdci uzlu u a opět krok 2.
+			\end{itemize}
+		\end{itemize}
+		\item Pokud přidaný prvek je v pravém podstromu aktuálního uzlu u, jeho faktor vyvážení snížíme o 1. \\
+		Po aktualizaci faktoru vyvážení mohou nastat případy:
+		\begin{itemize}
+			\item Faktor vyvážení uzlu u je nyní 0. V tomto případě přidání prvku x nemá vliv na faktory vyvážení dalších uzlů na cestě ke kořenu a operace přidání tím skončila.
+			\item Faktor vyvážení uzlu u je nyní -1. Je-li uzel u již kořen, operace přidání skončila. Jinak aktuální uzlem u učiníme předchůdce současného uzlu u a opět krok 2.
+			\item Faktor vyvážení uzlu u je nyní -2. Uzel u je nevyvážený - vyvážíme ho vhodnou transformací (LL, LR). Po vyvážení:
+			\begin{itemize}
+				\item Je-li uzel u již kořen, operace přidání skončila.
+				\item Je-li po vyvážení hodnota faktoru vyvážení uzlu u rovna 0, operace přidání je ukončena (maximum z výšek podstromů uzlu u se transformací snížilo o 1, tudíž už to nemá vliv na faktor vyvážení předchůdce uzlu u). Jinak přejdeme k předchůdci uzlu u a opět krok 2.
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+\end{enumerate}
+\subsubsection{Odebrání prvku}
+Operace odebrání prvku z AVL stromu znamená na příslušném místě zrušení uzlu ve stromu. Následně aktualizujeme v příslušných částích stromu údaje o vyvážení v uzlech a ověřujeme, zda v některém uzlu nedošlo k narušení vyvážení stromu, a pokud ano, uzel vhodnou transformací vyvážíme. \\
+Označení: x - odebíraný prvek
+\begin{enumerate}
+	\item Vyhledáme prvek x ve stromu. Vyhledání může skončit třemi způsoby:
+	\begin{itemize}
+		\item Prvek x nebyl ve stromu nalezen – není co odebrat.
+		\item Prvek byl nalezen v uzlu v, který má nejvýše jednoho následníka.Tento uzel zrušíme.
+		\item Prvek byl nalezen v uzlu v, který má dva následníky. V tomto případě do uzlu v přesuneme buďto nejpravější (největší) prvek z jeho levého podstromu anebo nejlevější (nejmenší) prvek z jeho pravého podstromu a uzel, z kterého byl prvek přesunut, zrušíme.
+	\end{itemize}
+	\item Po zrušení uzlu procházíme uzly stromu na cestě od zrušeného uzlu směrem ke kořenu. Pro každý procházený uzel u na cestě aktualizujeme jeho hodnotu vyvážení b.
+	\begin{itemize}
+		\item Pokud zrušený uzel byl v levém podstromu aktuálního uzlu u, jeho faktor vyvážení snížíme o 1. \\
+		Po aktualizaci faktoru vyvážení mohou nastat případy:
+		\begin{itemize}
+			\item Faktor vyvážení uzlu u je nyní -1. V tomto případě zrušení uzlu nemá vliv na faktory vyvážení dalších uzlů na cestě ke kořenu a operace odebrání tím skončila.
+			\item Faktor vyvážení uzlu u je nyní 0. Je-li uzel u již kořen, operace odebrání skončila. Jinak aktuální uzlem u učiníme předchůdce současného uzlu u a opět krok 2.
+			\item Faktor vyvážení uzlu u je nyní -2. Uzel u je nevyvážený - vyvážíme ho vhodnou transformací (LL, LR). Po vyvážení:
+			\begin{itemize}
+				\item Je-li uzel u již kořen, operace odebrání skončila.
+				\item Je-li po vyvážení faktor vyvážení uzlu u roven -1, operace přidání je ukončena (maximum z výšek podstromů uzlu u se transformací zvýšilo o 1, tudíž už to nemá vliv na faktor vyvážení předchůdce uzlu u). Jinak přejdeme k předchůdci uzlu u a opět krok 2.
+			\end{itemize}
+		\end{itemize}
+		\item Pokud zrušený uzel je v pravém podstromu aktuálního uzlu u, jeho faktor vyvážení zvýšíme o 1. \\
+		Po aktualizaci faktoru vyvážení mohou nastat případy:
+		\begin{itemize}
+			\item Faktor vyvážení uzlu u je nyní 1. V tomto případě zrušení uzlu nemá vliv na faktory vyvážení dalších uzlů na cestě ke kořenu a operace přidání tím skončila.
+			\item Faktor vyvážení uzlu u je nyní 0. Je-li uzel u již kořen, operace odebrání skončila. Jinak aktuální uzlem u učiníme předchůdce současného uzlu u a opět krok 2.
+			\item Faktor vyvážení uzlu u je nyní 2. Uzel u je nevyvážený - vyvážíme ho vhodnou transformací (RR, RL). Po vyvážení:
+			\begin{itemize}
+				\item Je-li uzel u již kořen, operace přidání skončila.
+				\item Je-li po vyvážení faktor vyvážení uzlu u roven 1, operace přidání je ukončena (maximum z výšek podstromů uzlu u setransformací zvýšilo o 1, tudíž už to nemá vliv na faktor vyvážení předchůdce uzlu u). Jinak přejdeme k předchůdci uzlu u a opět krok 2.
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+\end{enumerate}
+Operace nad AVL stromy mají logaritmickou složitost.
+
 \end{document}
