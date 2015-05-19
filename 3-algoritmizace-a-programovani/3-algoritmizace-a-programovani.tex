@@ -454,4 +454,24 @@ Chceme-li z B-stromu odebrat prvek, znamená to vyhledat uzel, ve kterém se prv
 
 
 
+\subsection{Hašování}
+Datová struktura použitá v hašování pro uložení prvků je tabulka. Tabulka se skládá z řádků. U hašování pro řádky tabulky používáme označení přihrádky. V každé přihrádce je místo pro uložení jednoho datového prvku. Počet přihrádek v tabulce, tedy kapacitu tabulky označme m. Na jednotlivé přihrádky v tabulce se odkazujeme (adresujeme je) čísly 0 až m-1. Při implementaci hašování se tabulka snadno realizuje pomocí pole. Datový typ prvků pole se zvolí takový, aby se do něho daly uložit údaje, které ukládáme do přihrádek tabulky. Tím každý prvek pole reprezentuje jednu přihrádku tabulky a indexování prvků pole odpovídá adresování jednotlivých přihrádek v tabulce. \\
+Základem hašování je hašovací funkce. Je to zobrazení, které hodnotě prvku (nebo vyhledávacímu klíči prvku, pokud prvek je strukturovaný typ) přiřadí číslo některé z přihrádek v tabulce, tedy číslo v rozmezí 0 až m-1. Hašovací funkce se typicky sestaví ze dvou funkcí. Ta první hodnotu prvku zobrazí na celé (nezáporné) číslo. Druhá celé číslo zobrazí na číslo přihrádky v tabulce, tedy na celé číslo z intervalu <0,m-1>. \\
+Cílem hašovací funkce je rovnoměrné rozmístění prvků v tabulce. Z toho plyne, že první funkce, která převádí hodnotu prvku na celé číslo, by měla mít vlastnosti:
+\begin{itemize}
+	\item Zobrazovat hodnoty prvků na co největší počet různých celých čísel.
+	\item Zobrazení na celá čísla by mělo být rovnoměrné (na jednotlivá čísla by se měl zobrazovat přibližně stejný počet prvků, které chceme do hašovací tabulky uložit).
+\end{itemize}
+Dalším přirozeným požadavkem na hašovací funkci je, aby její výpočet nebyl příliš časově náročný.
+\subsubsection{Hašovací funkce pro řetězce}
+Řetězec si označme $z_1 z_2 \cdots z_k$, kde $z_i$ je znak z řetězce a k je délka řetězce.
+\paragraph{První část hašovací funkce}
+Jedna z jednodušších funkcí zobrazující řetězec na celé číslo je $c_1 ( z_1 z_2 \cdots z_k ) = p \ast asc ( z_1 ) + q \ast asc ( z_2 ) + asc ( z_k ) + k$, kde p a q jsou zvolené konstanty, nejlépe prvočísla (např. p=127, q=31), protože ty mají nejlepší předpoklady pro rovnoměrné zobrazení do množiny celých čísel. Funkce asc převádí znak na jeho ASCII hodnotu (nebo Unicode hodnotu). \\
+Dokonalejší, ale na druhé straně náročnější na výpočet, je funkce $c_2 ( z_1 z_2 \cdots z_k ) = p^{k-1} \ast asc ( z_1 ) + p^{k-2} \ast asc ( z_2 ) + \cdots + p \ast asc ( z_{k-1} ) + asc ( z_k )$, kde p je konstanta, opět nejlépe prvočíslo (např. p=31).
+\paragraph{Drugá část hashovací funkce}
+která převádí celé číslo na číslo přihrádky v hašovací tabulce, je velmi jednoduchá. Používá se pro ni operace modulo. Obecný zápis hašovací funkce je $h ( x ) = c ( x ) mod m$, kde c(x) je první část hašovací funkce a m je rozsah (počet přihrádek) hašovací tabulky. Opět je nejlepší zvolit m prvočíslo, protože to nemá žádného netriviálního vlastního dělitele, čímž poskytuje nejlepší předpoklady pro rovnoměrné rozmístění prvků v tabulce. \\ \\
+Vedle prvočíselného počtu přihrádek v tabulce se v praxi používá i počet přihrádek, který je mocninou čísla 2. Tento počet nemá tak dobré předpoklady pro rovnoměrné rozmístění prvků v tabulce, ale výpočet hašovací funkce je snadnější, protože místo operace modulo lze použít jednodušší operaci bitového součinu.
+
+
+
 \end{document}
