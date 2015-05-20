@@ -10,6 +10,7 @@ Vypracované otázky na státnice UPOL Bc 2015 | [Seznam pojmů](http://www.inf.
 | Milan Vojáček    | 3. okruh - třetí odstavec                             |
 | Lukáš Vrajík     | x                                                     |
 | Roman Vyjídáček  | 1. okruh - první odstavec                             |
+| Tomáš Beznoska   | 1. okruh - čtvrtý odstavec (MATA muhehe)              |
 
 ## Build
 
