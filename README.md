@@ -14,7 +14,7 @@ Vypracované otázky na státnice UPOL Bc 2015 | [Seznam pojmů](http://www.inf.
 | Lukáš Oščádal    | 2. okruh - druhý, třetí a čtvrtý odstavec             |
 
 ## Zpracované otázky
-3. okruh - druhý odstavec
+třetí okruh - druhý odstavec
 
 ## Build
 
