@@ -1,4 +1,4 @@
-# Státnice UP Bc
+﻿# Státnice UP Bc
 Vypracované otázky na státnice UPOL Bc 2015 | [Seznam pojmů](http://www.inf.upol.cz/downloads/studium/2015_INFv01_bc.pdf)
 
 ## Rozdělení otázek
@@ -11,6 +11,9 @@ Vypracované otázky na státnice UPOL Bc 2015 | [Seznam pojmů](http://www.inf.
 | Lukáš Vrajík     | x                                                     |
 | Roman Vyjídáček  | 1. okruh - první odstavec                             |
 | Tomáš Beznoska   | 1. okruh - čtvrtý odstavec (MATA muhehe)              |
+| Lukáš Oščádal    | 2. okruh - druhý, třetí a čtvrtý odstavec             |
+
+
 
 ## Build
 
