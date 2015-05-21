@@ -136,32 +136,66 @@ Pro libovolné tři uzly u, v a w platí:
 
 
 
+
 \subsection{Stromy}
-\begin{definition}
-Strom je souvislý graf neobsahující kružnice.
-\end{definition}
-\begin{veta}
-Následující tvrzení pro graf G = (U, H) jsou ekvivalentní:
-\begin{enumerate}
-	\item Graf G je strom.
-	\item Graf G je souvislý a platí $|H| = |U|-1$.
-	\item Mezi každými dvěma uzly grafu existuje právě jedna cesta.
-	\item Graf G je souvislý a odebráním libovolné hrany se jeho souvislost poruší.
-	\item Graf G neobsahuje kružnice a přidáním libovolné hrany vznikne v grafu kružnice
-\end{enumerate}
-\end{veta}
+Strom je velmi využívaná datová struktura.
+\subsubsection{Prvky stromu}
+\begin{itemize}
+	\item \textbf{Kořen stromu} Nejvyšší uzel stromu, jediný uzel bez rodiče, v každém stromu právě jeden kořen.
+	\item \textbf{Vnitřní uzly} Uzel, který není koncový.
+	\item \textbf{Koncový uzel = list} Prvek, který nemá žádného potomka.
+\end{itemize}
+Má-li strom pouze jeden prvek, je to kořen a list zároveň. Uzly jsou navzájem spojeny hranami. Neexistuje osamocený uzel, ke kterému by nevedla žádná hrana (s výjimkou stromu s pouze jedním uzlem). Pokud jsou hrany orientované, nazývají se uzly připojené k jednomu uzlu jako \textbf{potomci uzlu}, nadřazený uzel je potom \textbf{rodičovský uzel}. Uzel může mít pouze jednoho rodiče, ale více potomků. Počet všech potomků nějakého uzlu se nazývá \textbf{stupeň uzlu}.
 \begin{definition}
 Listy stromu jsou uzly se stupněm 1. Uzly, které mají větší stupeň než je 1, jsou vnitřní uzly stromu.
 \end{definition}
-\begin{definition}
-Kořenový strom je strom, v němž jeden uzel je stanoven jako kořen. Všechny hrany v kořenovém stromu mají přirozenou orientaci – jejich orientace je ve směru od kořene ke vzdálenějším uzlům.
-\end{definition}
+\paragraph{Podstrom}
+je část stromové datové struktury tvořené jedním uzlem (kořenem podstromu) a všemi jeho potomky. Každý uzel ve stromu může tvořit kořen podstromu.
+\paragraph{Další pojmy:}
+\begin{itemize}
+	\item \textbf{Cesta} k nějakému uzlu je definována jako posloupnost všech uzlů od kořene k uzlu.
+	\item \textbf{Délka cesty} je rovna počtu hran, které cesta obsahuje, tedy počtu uzlů posloupnosti-1.
+	\item \textbf{Hloubka uzlu} je definována jako délka cesty od kořene k uzlu. Prvky se stejnou hloubkou jsou na \textbf{téže úrovni}.
+	\item \textbf{Výška stromu} je rovna hodnotě maximální hloubky uzlu.
+	\item \textbf{Šířka stromu} je počet uzlů na stejné úrovni.
+\end{itemize}
+Strom má \textbf{nejmenší výšku} právě tehdy, když na všech úrovních (s možnou výjimkou té poslední) má tato struktura plný počet uzlů. Úroveň všech listů je stejná nebo se liší maximálně o 1. \\ Uspořádané vs. neuspořádané stromy. \\
+\subsubsection{procházení stromu do hloubky} začíná v kořeni stromu a postupuje se vždy na potomky daného vrcholu. Procházení končí, když v žádné větvi (tj. v žádném podstromu) již není následník. \\
+Podle pořadí, ve kterém se prochází uzly uspořádaného stromu, se rozlišují tři základní metody:
+\begin{itemize}
+	\item Preorder: proveď akci, projdi levý podstrom, projdi pravý podstrom.
+	\item Inorder: projdi levý podstrom, proveď akci, projdi pravý podstrom.
+	\item Postorder: projdi levý podstrom, projdi pravý podstrom, proveď akci.
+\end{itemize}
+V teorii grafů strom = acyklický graf.
+\subsubsection{Operace nad stromy}
+\begin{itemize}
+	\item Počet všech prvků
+	\item Hledání prvků
+	\item Přidání nového prvku na určitou pozici ve stromu
+	\item Smazání prvku
+	\item Vyjmutí celé části stromu = prořezávání
+	\item Přidání celé části do stromu = roubování
+	\item Hledání kořene pro každý uzel
+	\item Výška (hloubka) stromu
+\end{itemize}
 
 
 
 
 \subsection{Vyhledávání a rozdělení vyhledávacích algoritmů}
 Vyhledávání je další velmi důležitou a často se vyskytující úlohou. Při ní máme zadanou nějakou množinu (multimnožinu) prvků a cílem je nalézt mezi nimi takový prvek, který má danou hodnotu vyhledávacího klíče, anebo případně zjistit, že takový prvek mezi nimi není.
+\paragraph{Metody vyhledavani}
+\begin{itemize}
+	\item Vyhledavani v linearnich datovych strukturach \\
+	Jeden z nejjednodušších typů vyhledávání. Pole nebo seznam. Sekvenční vs. binární.
+	\item Vyhledavaci stromy \\
+	Binarni vyhledavaci stromy, AVL-stromy (vyvážený binární strom), B-stromy (uzel má víc, než 2 následníky), 2-3-4-stromy (vylepšená verze B-stromů, efektivní vyvažování), red-black stromy.
+	\item Číslicové vyhledávání \\
+	Lze použít pro prvky, které jsou reprezentovany v binarnim tvaru (cela čísla,řetězce)
+	\item Hašovací tabulky \\
+	Pokud je vyžadováno časté vyhledávání dat velmi rychle. Méně častá změna struktury dat.
+\end{itemize}
 
 
 
