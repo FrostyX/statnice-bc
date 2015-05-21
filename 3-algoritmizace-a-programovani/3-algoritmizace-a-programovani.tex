@@ -471,7 +471,70 @@ Dokonalejší, ale na druhé straně náročnější na výpočet, je funkce $c_
 \paragraph{Drugá část hashovací funkce}
 která převádí celé číslo na číslo přihrádky v hašovací tabulce, je velmi jednoduchá. Používá se pro ni operace modulo. Obecný zápis hašovací funkce je $h ( x ) = c ( x ) mod m$, kde c(x) je první část hašovací funkce a m je rozsah (počet přihrádek) hašovací tabulky. Opět je nejlepší zvolit m prvočíslo, protože to nemá žádného netriviálního vlastního dělitele, čímž poskytuje nejlepší předpoklady pro rovnoměrné rozmístění prvků v tabulce. \\ \\
 Vedle prvočíselného počtu přihrádek v tabulce se v praxi používá i počet přihrádek, který je mocninou čísla 2. Tento počet nemá tak dobré předpoklady pro rovnoměrné rozmístění prvků v tabulce, ale výpočet hašovací funkce je snadnější, protože místo operace modulo lze použít jednodušší operaci bitového součinu.
-
+\subsubsection{Metoda otevřeného adresování}
+V případě, kdy pozice v tabulce vypočítaná hašovací funkcí je obsazena, počítá další pozice tak dlouho, dokud se nenajde volná pozice anebo se nezjistí, že tabulka už je zaplněna.
+\paragraph{Lineární hledání}
+nové pozice počítáme funkcí $H(x, i) = (h(x) + i)\:mod\:m$, kde h(x) je výchozí hašovací funkce, i je celočíselný parametr a m je rozsah tabulky. \\
+Lineární umísťování za sebou vede k vytváření nežádoucích shluků. \textbf{Shlukem} nazýváme větší počty za sebou následujících obsazených přihrádek tabulky. Pokud je vypočítaná primární pozice obsazená a je přitom uvnitř takového shluku, znamená to při lineárním hledání, že musíme projít všechny přihrádky v tomto shluku za primární pozicí, než se dostaneme k nějaké volné sekundární pozici, abychom prvek do ní mohli uložit. Přitom shluky prodlužují nejen operaci přidání prvku do tabulky, ale také vyhledávání prvku v tabulce. Při vyhledávání začínáme na primární pozici a pokud na ní prvek není a tato pozice je přitom obsazena (je na ní jiný prvek), procházíme sekundární pozice tak dlouho, dokud prvek nenajdeme nebo se nedostaneme k volné pozici, což je příznakem toho, že hledaný prvek v tabulce není.
+\paragraph{Kvadratické hledání}
+Proto místo lineárního hledání se často používá kvadratické hledání. U něho sice také vznikají shluky, ale už v menší míře. Hašovací funkce používaná pro kvadratické hledání má většinou jednoduchý tvar $H(x, i) = (h(x) + i^2 )\:mod\:m$. U ní je už určitý problém, že během hledání se můžeme touto funkcí dostat znovu na stejnou pozici, kterou jsme již prošli, aniž jsme přitom vyčerpali celou tabulku.
+\paragraph{Dvojí hašování}
+je propracovanější metoda. Hašovací funkce má tvar $H(x, i) = (h(x) + i \ast h_2(x))\:mod\:m$, kde $h_2$ je sekundární hašovací funkce v rozmezí hodnot 1 až m-1. V praxi nejčastějí vychází z primární funkce. Máme funkci $c(x)$, primírní hašovací funkci $h(x) = c(x)\:mod\:m$. Sekundární hašovací funkce vznikne jako $h_2(x) = 1 + (c(x)\:mod\:(m -1))$. Pozici nyní můžeme počítat rekurzivně \\
+$H(x,0) = h(x)$ \\ $H(x, i) = (H(x, i-1) + h_2(x))\:mod\:m\;$	pro i = 1,2,3,...
+\paragraph{Vyhledávání v tabulce}
+Při vyhledávání v hašovací tabulce nejprve vypočítáme hodnotu hašovací funkce pro hledaný prvek x. Podíváme se do tabulky na přihrádku, na kterou ukazuje hodnota hašovací funkce. Mohou nastat případy:
+\begin{itemize}
+	\item Přihrádka je prázdná – hledaný prvek není v tabulce.
+	\item V přihrádce je hledaný prvek x – vyhledávání tím úspěšně končí.
+	\item V přihrádce je jiný prvek než x. Začneme postupně počítat další možné pozice a srovnávat prvky na nich s hledaným prvkem x, dokud buďto hledaný prvek nenalezneme anebo se nedostaneme na prázdnou přihrádku anebo nevyčerpáme všechny možné pozice.
+\end{itemize}
+\subsubsection{Zřetězení}
+Předchozí metoda otevřeného adresování má dvě nevýhody:
+\begin{itemize}
+	\item Počet prvků, jež lze do tabulky uložit, je omezen její velikostí. Pokud dopředu neznáme, kolik prvků bude do tabulky ukládáno, může se stát, že ji stanovíme malou a dojde k jejímu přeplnění. Následné zvětšení velikosti tabulky je většinou časově náročně.
+	\item Při vyhledávání, zejména v dost zaplněné tabulce, procházíme v důsledku otevřeného adresování i prvky, které mají jinou hodnotu hašovací funkce, čímž se doba vyhledávání zvětšuje.
+\end{itemize}
+Tyto nevýhody odstraňuje metoda zřetězení, která k ukládání dalších prvků se stejnou hodnotou hašovací funkce využívá seznamy. Hašovací tabulka v tomto případě obsahuje ukazatele na začátek (první uzel) jednotlivých seznamů. \\
+Pokud potřebujeme do hašovací tabulky prvky nejen přidávat, ale i odebírat je, pak je nejvhodnější použít metodu zřetězení pro řešení kolicí. Odebrání se pak realizuje vyhledáním prvku v příslušném seznamu a zrušením uzlu, který odebíraný prvek obsahuje.\\
+V případě, že odebírání bude v hašovací tabulce s otevřeným adresováním, je realizace odebírání o něco komplikovanější. Budeme rozeznávat tři různé stavy přihrádky tabulky:
+\begin{itemize}
+	\item Přihrádka je prázdná – v této přihrádce nikdy nebyl uložen žádný prvek.
+	\item Přihrádka je volná – v této přihrádce byl uložen prvek, ale ten byl pak z tabulky odebrán.
+	\item Přihrádka je obsazena – v této přihrádce je uložen prvek.
+\end{itemize}
+Při vyhledávání budeme volné přihrádky přeskakovat. Vyhledávání skončí, až když hledaný prvek najdeme nebo se dostaneme na prázdnou přihrádku (nebo jsme prošli celou tabulku, či její podstatnou část). Při přidávání budeme hledat první prázdnou nebo volnou přihrádku.
+\paragraph{Časová složitost} vyhledávání je dána složitostí hašovací funkce (můžeme považovat za konstantní - řetězce mají omezenou délku). Při vkládání bez kolizí $\theta (1)$. Složitost roste s počtem kolizí v tabulce. Volba hašovací tabulky je zejména podstatná u metody otevřeného adresování. Volíme ji aspoň o 10\% větší, než je očekávaný počet prvků.
+\paragraph{Perfektní hašování} Je hašování bez kolizí. Používá se v případech, kdy jsou známy prvky, které budou uloženy do hašovací tabulky. Pro tyto prvky se navrhne samostatná hašovací funkce, při jejímž použití nenastanou žádné kolize.
+\paragraph{Minimální perfektní hašování} Je perfektní hašování, kdy navíc po uložení prvků nezůstanou v tabulce žádné volné přihrádky. Počet přihrádek v tabulce je tedy roven počtu uložených prvků. Nalezení takové hašovací funkce je ale obtížné.
+\subsubsection{Extendible hashing}
+Metoda hašování nazývaná extendible hashing nevyžaduje počáteční stanovení velikosti hašovací tabulky a navíc poskytuje konstantní časovou složitost vyhledání prvku bez ohledu na to, kolik prvků je do tabulky vloženo. Hašovací datová struktura se skládá ze dvou částí - adresáře a přihrádky. Adresář je pole odkazů na přihrádky. Velikost pole adresáře je $2^d$ odkazů. Hodnota d se dynamicky mění v závislosti na počtu prvků uložených v hašovací struktuře. Na začátku je zpravidla d malé. Při postupném zvyšování počtu ukládaných prvků do hašovací struktury se v určitých okamžicích hodnota d zvyšuje. Přihrádka je místo pro uložení pevně stanoveného počtu datových prvků. Velikost všech přihrádek je stejná. Základem metody je opět hašovací funkce, která datový prvek zobrazí na celé číslo. Posledních d bitů tohoto čísla je indexem v poli adresáře, kde najdeme odkaz na přihrádku, ve které je uložen daný prvek.
+\paragraph{Vyhledání prvku v hašovací struktuře}
+Jednotlivé bity hodnoty hašovací funkce si označíme: \\
+$\cdots b_{d+1} b_d b_{d-1} \cdots b_3 b_2 b_1$ ($b_1$ je nejméně významný bit)
+\begin{itemize}
+	\item Vypočítáme hodnotu hašovací funkce hledaného prvku.
+	\item Vezmeme posledních d bitů $b_d\cdots b_1$ vypočtené hodnoty hašovací funkce. Ty jsou indexem v poli adresáře. V něm v prvku, který odpovídá tomuto indexu, zjistíme odkaz na příslušnou přihrádku.
+	\item V přihrádce procházíme v ní uložené prvky a srovnáváme je s hledaným prvkem, dokud nenalezneme prvek shodný s hledaným prvkem nebo je všechny neprojdeme (pak hledaný prvek není nalezen).
+\end{itemize}
+\paragraph{Přidání prvku do hašovací struktury}
+\begin{itemize}
+	\item Vypočítáme hodnotu hašovací funkce přidávaného prvku.
+	\item Vezmeme posledních d bitů $b_d \cdots b_1$ vypočtené hodnoty hašovací funkce. Ty jsou indexem v poli adresáře. V něm v prvku pole, který odpovídá tomuto indexu, zjistíme odkaz na příslušnou přihrádku.
+	\item Je-li v přihrádce místo pro uložení přidávaného prvku, prvek do přihrádky vložíme. Jinak je nutné přihrádku rozdělit.
+\end{itemize}
+\paragraph{Rozdělení přihrádky}
+\begin{itemize}
+	\item Pokud mají všechny prvky uložené v přihrádce stejnou hodnotu posledních d bitů $b_d \cdots b_1$ hodnot svých hašovacích funkcí, přihrádku rozdělíme na dvě a do první dáme prvky, jejichž hašovací funkce má hodnotu dalšího bitu $b_{d+1}$ rovnu 0. Do druhé dáme prvky, jejichž hodnota bitu $b_{d+1}$ je 1. Po rozdělení přihrádek následně i zdvojnásobíme velikost adresář (hodnotu d zvýšíme o 1). Při zdvojnásobení velikosti adresáře zachováme odkazy na přihrádky, které se nerozdělily. Pokud by bit $b_{d+1}$ byl u všech prvků stejný, vzali bychom další bit $b_{d+2}$ a adresář bychom zvětšili čtyřikrát (hodnotu d bychom zvýšili celkově o 2). Atd.
+	\item Jestliže prvky uložené v přihrádce nemají shodnou hodnotu posledních d bitů hodnot svých hašovacích funkcí, rozdělíme je do dvou přihrádek podle prvního (bráno zleva) z d bitů, který není u všech prvků identický. Nechť je to bit b i, kde $i \leq d$ a i je největší index takový, že hodnota tohoto bitu hašovacích funkcí všech prvků není stejná. Následně v adresáři příslušně upravíme odkazy na tyto přihrádky.
+\end{itemize}
+\paragraph{Odebrání prvku z hašovací struktury}
+\begin{itemize}
+	\item Vyhledáme odebíraný prvek.
+	\item Pokud byl nalezen, odstraníme ho z dané přihrádky.
+\end{itemize}
+Při větším odebírání, kdy vznikne více prázdných přihrádek, lze některé přihrádky sloučit. Případně po větším sloučení je někdy možné zmenšit velikost adresáře na polovinu. Jednoduchým způsobem lze sloučit prázdnou přihrádku, na kterou je jen jeden odkaz z adresáře, s přihrádkou, na kterou je opět jen jeden odkaz z adresáře a zároveň hodnoty indexů těchto odkazů v adresáři se liší jen v jednom bitu. Bylo by možné sloučit i v případě, že na obě slučované přihrádky je stejný počet $2^m$ odkazů a přitom hodnoty indexů jednotlivých odkazů v adresáři se liší právě v m bitech. Běžně se ale slučování přihrádek při odebírání nedělá.
+\paragraph{Uložení na vnější paměti}
+Použití této metody je vhodné, pokud by standardní hašovací tabulka byla tak rozsáhlá, že by se nevešla do paměti. U rozšiřitelného hašování stačí, aby v paměti byl uložen jen adresář. Přihrádky mohou být uloženy v souboru na vnější paměti.
 
 
 \end{document}
