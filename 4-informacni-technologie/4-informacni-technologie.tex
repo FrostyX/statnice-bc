@@ -51,4 +51,92 @@ ISO OSI. Strukturovaná kabeláž, přepínaný Ethernet a WLAN. Protokol IP, ad
 multicast. Protokoly TCP a UDP, správa spojení a řízení toku dat. Systém DNS, překlad jména (na IP adresu,
 reverzní), protokol. Služby WWW, elektronické pošty, přenosu souborů a vzdáleného přihlášení.}
 \subsection{Klasifikace (LAN/MAN/WAN)}
+Klasifikace sítí podle různých kritérií: rozlehlost, rychlost přenosu (klasické, vysokorychlostní), forma aplikace, dělení podle postavení uzlů (perr-to-peer, klient-server), podle druhu přenášení signálů (analog vs. digital) aj.
+\subsubsection{Dělení podle rozlehlosti}
+\begin{itemize}
+	\item \textbf{PAN (Personal Area Network)}: Sítě s nejmenší rozlehlostí. Propojení mobilů, PDA, atd. Požadavky na odolnost vůči rušení, nízká spotřeba energie, snadná implementace.Ppřenosová rychlost není prioritou (zpravidla jen několik Mb/s). Dosah pouze několik metrů. Typické technologie Bluetooth, IrDA, Wifi.
+	\item \textbf{LAN (Local Area Network)}: Sítě propojující koncové uzly typu počítač, tiskárna, server. V soukromé správě, dosah jednotky km (v rámci budovy/komplexu budov). Přenosové rychlosti 10Mb/s až 1Gb/s. Sdílené využití přenosového média. Ethernet, Wifi.
+	\item \textbf{MAN (Metropolitan Area Network)}: Propojení několika LAN (účelem přenosové sítě, charakterem lokální). V rámci města (desítky km). Přenosové rychlosti jak vyšší (několik Gb/s), tak i nižší (<1Gb/s) ve srovnání s LAN.
+	\item \textbf{WAN (Wide Area Network)}: Rozsáhlé sítě spojující LAN/MAN (páteřní sítě, telekomunikační - broadband). Velké vzdálenosti (prakticky neomezené). Mohou být soukromé i veřejné. Vysoké přenosové rychlosti (až stovky Gb/s). Příklad GPRS, xDSL, aj. Pronájem kapacity sítě = vyhrazené nesdílené využití přenosového média.
+\end{itemize}
+\subsubsection{Dělení podle topologie}
+Topologie počítačové sítě říká, jak jsou vlastně prvky v této síti uspořádány.
+\paragraph{Kruhová topologie (RING)}
+Každý počítač je propojen přímo s předchozím a následujícím počítačem v kruhu. V LAN je používána velmi málo, používá se v průmyslových sítí nebo sítích MAN. \\ Výhody:
+\begin{itemize}
+	\item lehce rozšiřitelná struktura
+	\item malý počet spojů
+	\item snadné vysílání, zprávy v kruhu od stanice ke stanici
+\end{itemize}
+Nevýhody:
+\begin{itemize}
+	\item výpadek libovolné stanice zapříčiní výpadek celé sítě, úplný výpadek sítě při přerušení kabelu v  libovolném místě
+	\item poměrně veliké nebezpeční odposlechu síťové komunikace, která prochází přes spojovací počítače
+\end{itemize}
+Problém výpadku se řešil tzv. dvojitým kruhem, ve kterém byly stanice propojeny dvěma kruhy, každý v opačné směru.
+\paragraph{Sběrnicová topologie (BUS)}
+Tato topologie patří k nejstarším, všechny stanice jsou připojeny na pasivní společné médium, které sdílejí. Dnes už se tato topologie příliš nepoužívá, ale na začátku devadesátých let byla dominantní. Tím společným médiem byl koaxiální kabel, pomocí kterého se jednotlivé počítače připojily do sítě. \\
+Výhody:
+\begin{itemize}
+	\item nezávislost stanic na výpadku libovolné jiné stanice
+	\item levné náklady takového řešení
+	\item neexistence aktivních prvků
+	\item snadné všesměrové vysílání
+\end{itemize}
+Nevýhody:
+\begin{itemize}
+	\item úplný výpadek sítě při přerušení kabelu v libovolném místě
+	\item nutnost vyřešení přístupu stanic k médiu (kdo bude vysílat)
+\end{itemize}
+Výhody a nevýhody jsou relativní a poplatné době. To, že se v dobách používání této topologie v sítích LAN, považovala absence aktivních prvků za výhodu, bychom v dnešní době řadili spíše k nevýhodě.
+\paragraph{Hvězdicová topologie}
+Tato topologie je dnes jednoznačně nejpoužívanější topologií v sítích LAN. Myšlenka spočívá v tom, že existuje centrální prvek, který spojuje všechny prvky. Dříve tím centrálním prvkem býval počítač, dnes je aktivní prvek (HUB nebo SWITCH). \\
+Výhody:
+\begin{itemize}
+	\item lehce rozšiřitelná struktura
+	\item výpadek libovolné stanice neznamená výpadek celé sítě
+	\item větší možnosti zabezpečení, při použití aktivních prvků typu SWITCH je většina síťové komunikace skryta před ostatními účastníky sítě
+\end{itemize}
+Nevýhody:
+\begin{itemize}
+	\item nutnost použití hubu nebo switche
+	\item vyžaduje veliké množství kabelů a je tak náročná na montáž
+\end{itemize}
+\paragraph{Páteřní topologie}
+Páteřní topologií rozumíme situaci, kdy pomocí určité topologie propojujeme celé sítě LAN. Páteřní topologie může být zapojena jako sběrnice, hvězda i kruh, často se používá zapojení typu kruh. Jejím základem je vytvoření nezávislé hlavní části, která propojuje důležité celky. Na ni se naopak připojují různé subsítě nebo segmenty. V případě výpadku libovolného segmentu zůstává provoz na páteři neohrožen. Páteř může mít vyšší přenosovou rychlost.
+\subsubsection{Služby počítačových sítí}
+\begin{itemize}
+	\item připojení k síti
+	\item vzdálený přístup, sdílení výpočetních prostředků a přenos dat (sdílené databáze, perr-to-peer sítě, sdílené soubory)
+	\item sdílení technických prostředků (tiskárny, faxy, disky, apod.)
+	\item adresářové služby (jednotný přístup do informačního systému a k informacím z centrální databáze, např. LDAP, Active Directory)
+	\item elektronická pošta a výměna dokumentů (objednávky, faktury, atd.)
+	\item online komunikace/multimedia (např. IRC, VoIP, straming, hry) - vysoké nároky na síť
+	\item informační služby, internetové aplikace (WWW, business a desktopové aplikace)
+	\item monitorování a vzdálená administrace sítě
+\end{itemize}
+Komunikace uzlů a propojovacích prvků sítě na různých úrovních:
+\begin{itemize}
+	\item nižší - přenos bloků dat, většinou nespolehlivý (bez potvrzení a opakování přenosu), nespojová komunikace
+	\begin{itemize}
+		\item \textbf{unicast}: dvoubodová, základní
+		\item \textbf{multicast}: bod-skupina, např. straming, virtuální sítě
+		\item \textbf{broadcast}: bod-všichni, např. konfigurace a zapojení do sítě
+	\end{itemize}
+	\item vyšší - komunikace aplikací, většinou spolehlivá (s potvrzením doručení, popř. opakování přenosu), spojově orientovaná (vytvořeno spojení mezi aplikacemi)
+	\begin{itemize}
+		\item \textbf{peer-to-peer}: zpravidla rovnocenná výměna dat
+		\item \textbf{klient-server}: hiearchická, forma požadavek-odpověď
+	\end{itemize}
+\end{itemize}
+Typy koncových uzlů:
+\begin{itemize}
+	\item \textbf{pracovní stanice} (work station, klient): převážně využívá služeb sítě
+	\begin{itemize}
+		\item \textbf{tenký klient}: znakový/grafický HW terminál, pouze zprostředkování vstupu a výstupu pro vzdálený server, nemůže pracovat samostatně
+		\item \textbf{tlustý klient}: osobní počítač - klientské části síťových služeb i lokální úlohy, může (do určité míry) fungovat samostatně
+	\end{itemize}
+	\item \textbf{server}: převážně poskytuje služby v síti \\ souborový (FTP, NFS, SMB), databázový/adresářový (SŘBD, LDAP), poštovní (IMAP, POP3, SMTP), terminálový (telnet, SSH), informační/WWW (HTTP), komunikační (IM, VoIP), tiskový, aj.
+\end{itemize}
+
 \end{document}
