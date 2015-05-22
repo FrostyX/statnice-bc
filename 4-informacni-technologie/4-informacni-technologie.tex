@@ -235,6 +235,33 @@ použití v síti Internet, nejpoužívanější síťová architektura. Síť t
 \paragraph{Transportní vrstva} je implementována až v koncových zařízeních (počítačích) a umožňuje proto přizpůsobit chování sítě potřebám aplikace. Poskytuje transportní služby kontrolovaným spojením spolehlivým protokolem TCP nebo nekontrolovaným spojením nespolehlivým protokolem UDP.
 \paragraph{Aplikační vrstva} Vrstva aplikací. To jsou programy (procesy), které využívají přenosu dat po síti ke konkrétním službám pro uživatele. \\
 Aplikační protokoly používají vždy jednu ze dvou základních služeb transportní vrstvy: TCP nebo UDP, případně obě dvě (např. DNS). Pro rozlišení aplikačních protokolů se používají tzv. porty, což jsou domluvená číselná označení aplikací. Každé síťové spojení aplikace je jednoznačně určeno číslem portu a transportním protokolem (a samozřejmě adresou počítače).
-
+\subsubsection{Bezpečnost}
+Obecné metody ochrany:
+\begin{itemize}
+	\item omezování přenosu dat a přístupu k síti: blokace, filtrace
+	\item autorizace přístupu: jméno a heslo, vícefaktorové, speciální protokoly
+	\item zabezpečení kanálu: šifrování, výměna klíčů
+	\item autenticita zpráv: digitální podpis, certifikáty
+\end{itemize}
+\paragraph{TCP/IP} původně žádné zabezpečení, ponecháno na aplikaci. \\
+Útoky:
+\begin{itemize}
+	\item falešná adresace (spoofing)
+	\item analýza hesla, trojský kůň
+	\item odposlech
+	\item odmítnutí služby (DoS, zahlcení, vyčerpání zdrojů)
+	\item zneužití chyb aplikací
+	\item ...
+\end{itemize}
+Ochrana:
+\begin{itemize}
+	\item firewall (oddělení vnitřní sítě od vnější)
+	\item překlad adres (NAT) - vlastní skrytá adresace
+	\item aplikační brány (proxy)
+	\item autentizace komunikujících stran
+	\item zabezpečení komunikace (šifrování)
+	\item opatření proti zahlcení
+	\item ...
+\end{itemize}
 
 \end{document}
