@@ -264,4 +264,38 @@ Ochrana:
 	\item ...
 \end{itemize}
 
+
+
+
+\subsection{Strukturovaná kabeláž, přepínaný ethernet a WLAN}
+\subsubsection{Strukturovaná kabeláž}
+Obecný pojem pro metalické a optické prvky, které umožňují propojení.
+\paragraph{Telekomunikační přípojky} Slouží pro připojení koncových uživatelských zařízení - např. stolní počítač, notebook, analogový nebo ISDN telefon, VoIP telefon či síťová tiskárna. Telekomunikační zásuvky bývají umístěny přímo v pracovních prostorách (např. kancelářích) každé budovy, a to buď přímo ve zdi, v parapetních žlabech, případně podlahových systémech tak, aby byly lehce dostupné.
+\paragraph{Patch panely} Na rozdíl od běžně dostupných zásuvek jsou patch panely umístěny v rozvaděčích v telekomunikační místnosti a nejsou tedy pro běžné uživatele přístupné. Patch panely slouží správci sítě k připojení jednotlivých uživatelů do aktivních zařízení jako jsou switche nebo telefonní ústředny. Pro připojení vodičů do zářezových konektorů se používá narážecí nástroj.
+\paragraph{Horizontální kabely, Patch kabely} Měděné kabely obsahující čtyři kroucené páry, které vzájemně propojují telekomunikační zásuvky a patch panely.
+\paragraph{Koaxiální kabel} se dnes už nepoužívá. Vnější (stínění) a vnitřní (jádro) vodič. BNC konektor. Maximálně 500m.
+\paragraph{Kroucená dvojlinka} je tvořena páry vodičů, které jsou po své délce pravidelným způsobem zkrouceny a následně jsou do sebe zakrouceny i samy výsledné páry. Oba vodiče jsou v rovnocenné pozici (i v tom smyslu, že žádný z nich není spojován se zemí či s kostrou), a proto kroucená dvojlinka patří mezi tzv. symetrická vedení. Maximálně 100m. Nestíněná (UTP) vs. stíněná (STP). Konektor RJ-45. \\ \\
+Jednou ze základních odlišností kroucené dvojlinky od koaxiálního kabelu je skutečnost, že na kroucené dvojlince není možné dělat odbočky. Kroucená dvojlinka je proto použitelná jen pro vytváření dvoubodových spojů. Nemožnost vytvářet odbočky pak ale nutně znamená, že prostřednictvím kroucené dvojlinky nelze vytvořit sběrnicovou topologii sítě.
+\paragraph{Optická vlákna} Vlákna imunní vůči elektromagnetickému rušení. Dvě vrstvy skla (obal a jádro). Vícevidové vlákno - odraz od rozhraní skel. Jednovidové vlákno - buzení laserem. Různé optické konektory (FC, LC, ST) nutné navařit. Vlákno simplexní, pro duplexní přenos dvojice vláken.
+\subsubsection{WLAN}
+= bezdrátové lokální sítě. Důvodem pro WLAN je rozšiřitelnost, nižší náklady, mobilita, snadná použitelnost, roaming (vysílače si klienta předávají). Připojení od poskytovatele i v rámci LAN. Norma IEEE 802.11.
+\paragraph{Konfigurace}
+\begin{itemize}
+	\item peer-to-peer/ad-hoc: přímá komunikace mezi stanicemi (do 10ti stanic)
+	\item AP (access point): propojení WLAN a LAN, bezpečnostní prvky (autorizace, filtrace, šifrování, atd.)
+	\item s více AP (roaming): AP propojeny pevnou sítí, klient se připojuje k zařízení s nejsilnějším signálem
+	\item point-to-point: připojení pomocí dvou AP
+\end{itemize}
+\paragraph{}Přenosové medium jsou radiové vlny (2,4 GHz - 802.11b/g/n nebo 5GHz - 802.11a/n) Není třeba licence, vzájemné rušení. \\
+\textbf{antény}: omezení výkonu normou ČTÚ na 100 mW \\
+\paragraph{Bezpečnost}
+\begin{itemize}
+	\item obtížná ochrana proti odposlechu na fyzické vrstvě
+	\item SSID: označení AP (název sítě), AP jej nemusí vysílat
+	\item WEP: Autentizace stanic vůči AP (40 bitů heslo společně s MAC adresou), lze v krátkém čase prolomit
+	\item WPA, WPA2: silná šifra AES, autentizace (heslo, EAP)
+\end{itemize}
+
+
+
 \end{document}
