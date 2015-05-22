@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[czech]{babel}
 \usepackage[T1]{fontenc}
-\setlength{\parskip}{12pt}
+\setlength{\parskip}{6pt}
 \usepackage{ amssymb }
 \usepackage{ mathrsfs }
 \usepackage{amsthm}
@@ -12,6 +12,7 @@
 \newtheorem{sentence}{Věta}
 \newtheorem{example}{Příklad}
 \usepackage{graphicx}
+\usepackage{ dsfont }
 
 \begin{document}
 
@@ -156,5 +157,162 @@ Další způsob reprezentace pro uložení binární relace $R$ na množině $X$
 	\includegraphics[scale=0.6]{images/1/RelationList}
 \end{center}
 
+\subsection{Zobrazení (funkce)}
+Zobrazení (funkce) je matematickým protějškem běžně používaného pojmu přiřazení.
+
+\begin{definition}
+	Relace R mezi X a Y se nazývá zobrazení (funkce) množiny X do množiny Y, právě když pro každé $x \in X$ existuje právě jedni $y \in Y$ tak že $\langle x, y \rangle \in R$.
+\end{definition}
+
+\begin{definition}
+	Zobrazení $f : X \rightarrow Y$ se nazývá
+	\begin{itemize}
+		\item[a)] \textbf{prosté (injektivní)}, právě když pro každé $x_1,x_2 \in X$, pro $x_1 \not= x_2$ plyne $f(x_1) \not= f(x_2)$,
+		\item[b)] \textbf{surjektivní} nebo-li zobrazení X \textbf{na} Y, právě když pro každé $y \in Y$ existuje $x \in X$ tak, že  $f(x) = y$,
+		\item[c)] \textbf{vzájemně jednoznačné (bijektivní)}, právě když je prosté a na (je tedy injektivní a současně surjektivní).
+	\end{itemize}
+\end{definition}
+
+\begin{sentence}
+	Pro zobrazení $f : X \rightarrow Y, g : Y \rightarrow Z$ platí
+	\begin{itemize}
+		\item[a)] $f \circ g$ je zobrazení,
+		\item[b)] jsou-li f,g injekce, je $f \circ g$ injekce,
+		\item[c)] jsou-li f,g surjekce, je $f \circ g$ surjekce.
+	\end{itemize}
+\end{sentence}
+
+\subsubsection{Poznámka k nekonečným množinám}
+\begin{definition}
+	Množina A se nazývá \textbf{spočetná} , právě když existuje bijekce $f : A \rightarrow \mathbb{N}$. Množina se nazývá \textbf{nespočetná}, právě když je nekonečná a není spočetná.
+\end{definition}
+
+\subsection{Binární relace na množině}
+Binární relace na množině jsou matematickým protějškem vztahů mezi dvěma prvky množiny například: \uv{$x$ je menší než $y$}. Speciálními relacemi jsou \textbf{prázdná relace $\emptyset$, relace identity} $\omega_X = \{ \langle x, x \rangle \ | \ x \in X \}$, a \textbf{kartézský čtverec} $\tau_X = X \times X$.
+
+\begin{definition}
+Nechť $R$ je binární relace na $X$. Řekněme že $R$ je
+\begin{itemize}
+	\item \textbf{reflexivní}, pokud pro každé $x \in X$ platí $\langle x, x \rangle \in R$
+	\item \textbf{symetrická}, pokud pro každé $x,y \in X$ platí $\langle x, y \rangle \in R \Rightarrow \langle y, x \rangle \in R$
+	\item \textbf{antisymetrická}, pokud pro každé $x,y \in X$ platí \\$(\langle x, y \rangle \in R \wedge \langle y, x \rangle \in R) \Rightarrow x = y$
+	\item \textbf{tranzitivní}, pokud pro každé $x,y,z \in X$ platí \\$(\langle x, y \rangle \in R \wedge \langle y, z \rangle \in R) \Rightarrow \langle x, z \rangle \in R$
+	\item \textbf{irreflexivní}, pokud pro každé $x \in X$ platí $\langle x,x \rangle \not\in R$
+	\item \textbf{asymetrická}, pokud pro každé $x,y \in X$ platí $\langle x, y \rangle \in R \Rightarrow \langle y, x \rangle \not\in R$
+	\item \textbf{úplná}, pokud pro každé $x,y \in X$ platí $\langle x, y \rangle \in R \vee \langle y, x \rangle \in R$ 
+\end{itemize}
+\end{definition}
+
+Relace $R$ je \textbf{(relace) ekvivalence}, jestliže je reflexivní, symetrická, a tranzitivní. Relace $R$ je \textbf{(relace) uspořádání}, jestliže je reflexivní, anti\-symetrická a tranzitivní.
+
+\paragraph{Reflexivita} relace $R$ vyjadřuje, že každý prvek $x \in X$ je v relace \uv{sám se sebou}. V matici takovou relaci poznáme že má na diagonále samé 1, v orientovaném grafu je u každého uzlu smyčka.
+
+\paragraph{Symetrie} relace $R$ vyjadřuje, že $\langle x, y \rangle \in R$ právě když  $\langle y, x \rangle \in R$ Tedy relace $R$ je symetrická pokud pro $\forall x,y \in X$ máme buď současně $\langle x, y \rangle \in R$ a  $\langle y, x \rangle \in R$, nebo současně  $\langle x, y \rangle \not\in R$ a  $\langle y, x \rangle \not\in R$. Symetrickou relaci v matici $M_R$ poznáme tak, že je symetrická podle hlavní podle hlavní diagonály. V grafu se tato relace pozná tak že pokud vede orientovaná hrana z $x$ do $y$ pak musí vést i z $y$ do $x$, nebo z $x$ do $y$ nevede žádná hrana.
+
+\paragraph{Antisymetrie} relace $R$ vyjadřuje,že pro každé dav různé prvky $x,y \in X$ neplatí současně $\langle x, y \rangle \in R$ a  $\langle y, x \rangle \in R$. V matici $M_R$ poznáme antisymetrii tak, že dvě různá pole, která jsou souměrná podle diagonály neobsahují dvě jedničky. V grafu se antisymetrie projevuje tak, že meze dvěma různými vrcholy $x,y$ je buď jedna hrana nebo žádná.
+
+\paragraph{Tranzitivita} relace $R$ vyjadřuje, že pro pokud $\langle x, y \rangle \in R$ a pokud $\langle y, z \rangle \in R$, pak také $\langle y, z \rangle \in R$. V grafu je tranzitivita projevuje tak, že pokud vede hrana z $x$ do $y$ a zároveň z $y$ do $z$ potom také $x$ do $z$.
+
+\paragraph{Irreflexivita} relace $R$  vyjadřuje, že žádný prvek $x \in X$ není v relaci \uv{sám se sebou}.
+\paragraph{Asymetrie} relace $R$  vyjadřuje, že do $R$ nepadnou $\langle x, y \rangle$ a  $\langle y, x \rangle$ současně.
+\paragraph{Úplnost} relace $R$  vyjadřuje, že aspoň jedna z dvojic $\langle x, y \rangle$, $\langle y, x \rangle$ padne do $R$.
+
+\subsection{Uzávěry relací}
+Ke každé binární relaci můžeme stanovit její reflexivní, symetrický a tranzitivní uzávěr, to je nejmenší reflexivní, symetrickou a tranzitivní relaci na dané množině, která obsahuje výchozí relaci.
+
+\begin{sentence}
+	Nechť R je binární relace na X. Pak
+	\begin{itemize}
+		\item Ref(R) = $R \cup \omega_X$
+		\item Sym(R) = $R \cup R^{-1}$
+		\item Tra(R) = $\bigcup^\infty_{n=1} R^n$, kde $R^1 = R$ a $R^n = R \circ R^{n-1}$
+	\end{itemize}
+\end{sentence}
+
+\subsection{Ekvivalence}
+Je binární relace, kterou lze interpretovat jako matematický protějšek nerozlišitelnosti. Pro ekvivalenci $E$ na množině $X$ definujeme pro každý $x \in X$ množinu $[x]_E = \{ y \in X \ | \ \langle x, y \rangle \in E\} $
+, kterou nazýváme \textbf{třída ekvivalence prvku} x. Zřejmě $[x]_E$ obsahuje právě ty prvky z $X$, které nelze od $x$ rozlišit ekvivalencí $E$.
+
+\subsection{Rozklad}
+Rozklad na množině je matematický protějšek shluků nerozlišitelných prvků. Rozklad na $X$ je \textbf{disjuktní pokrytí} $X$.
+
+\begin{definition}
+	Nechť $X \not= \emptyset$. Systém množin $\sqcap \subseteq 2^X$ splňující
+	\begin{enumerate}
+		\item $Y \not= \emptyset$ pro každou $Y \in \sqcap$,
+		\item pro každé $Y_1,Y_2 \in \sqcap$ platí: pokud $Y_1 \cap Y_1 \not= \emptyset$, pak $Y_1 = Y_2$,
+		\item $\bigcup\sqcap = X$,
+	\end{enumerate}
+	se nazývá \textbf{rozklad na množině} X. Množiny $Y \in \sqcap$ nazýváme \textbf{třídy rozkladu} $\sqcap$. Pro prvek $x \in X$ označíme $[x]_\sqcap$ tu třídu rozkladu $\sqcap$, která obsahuje x. 
+\end{definition} 
+Na množině $X$ existuji dva mezní rozklady.Prvním z nic je rozklad $\sqcap$, kde $[x]_\sqcap = \{x\}$ pro každé $x \in X$, tj všechny třídy rozkladu $\sqcap$ jsou jednoprvkové. Druhým mezním případem je rozklad $\sqcap = \{X\}$, tj. $\sqcap$ obsahuje jedinou třídu, která je rovna celé $X$, tedy $[x]_\sqcap = X$ pro každé $x \in X$.
+
+\begin{sentence}
+	Nechť $\sqcap$ je rozklad na X. Pak binární relace $E_\sqcap$ na X definovaná $\langle x,y \rangle \in E_\sqcap$, právě když $[x]_\sqcap = [y]_\sqcap$ je ekvivalence.
+\end{sentence}
+
+Kromě ekvivalencí a rozkladů existují další přirozené pohledy na to \uv{jak zjednodušit nazírání} na výchozí množinu. Jedním z nich je \textbf{surjektivní zobrazení}. Pokud je zobrazení $f : X \rightarrow Y$ surjektivní, pak lez chápat obraz $f(x)$ prvku $x$ jako vyjádření \uv{prvek $x$ nahradíme prvkem $f(x)$}. Ukážeme, že surjektivní zobrazení a ekvivalence mají zvláštní vztah. Pro zobrazení $f : X \rightarrow Y$ definujeme binární relaci $E_f$ na $X$ předpisem $$\langle x , y \rangle \in E_f \qquad \text{právě když} \qquad f(x) = f(y)$$
+Zřejmě $E_f$ je ekvivalence, tzv. \textbf{ekvivalence indukovaná zobrazením} $f$.
+
+\subsection{Uspořádání}
+Uspořádání je v informatice zcela zásadní ačkoliv si to někdy neuvědomujeme, Mezi základní každého informatika patří znalost problému třídění a typických třídicích algoritmů. Problém třídění jako takový však de facto nemá smysl uvažovat pokud bychom na množině klíčů, podle kterých třídíme, nezavedli nějakou smysluplnou relaci uspořádání -- obvykle ji však chápeme jako \uv{určenou daným kontextem} a explicitně ji nezdůrazňujeme. Uspořádání množin může výrazně zvýšit efektivitu některých algoritmů, například vyhledávání.
+
+\begin{definition}
+	Reflexivní, antisymetrická a tranzitivní binární relace R na X se nazývá \textbf{uspořádání}. Úplné uspořádání se nazývá \textbf{lineární uspořádání} neboli \textbf{řetězec}. Pokud je R uspořádání na X, pak se $\langle X, R \rangle$ nazývá \textbf{upořádáná množina}.
+\end{definition}
+
+Relace uspořádání na $X$ obvykle značíme $\leq$ v souladu s intuitivním chápáním uspořádání a místo $\langle x ,y \rangle \in \ \leq$. Zdůrazněme ale, že označení $\leq$ v tuto chvíli nemá (obecně) nic společného se srovnáváním čísel, na které jsme zvyklí. Uspořádání pořád ještě není formálním protějškem \uv{upořádání} na které jsme zvyklí při porovnávání čísel. Je-li $\langle X, \leq \rangle$ uspořádaná množina, pak mohou  existovat $x,y \in X$ ,pro které neplatí $x \leq y$ ani $y \leq x$ (definice to nevylučuje). V tom případě říkáme, že prvky jsou \textbf{nesrovnatelné} což někdy značíme $x\ \| \ y$. V opačném případě prvky nazýváme \textbf{srovnatelné}. Je-li $\leq$ lineární uspořádání na $X$, pak je $\leq$ úplná relace, což znamená, že každé prvky jsou srovnatelné. Lineární uspořádání lze tedy chápat jako matematický protějšek \uv{tradičního srovnávání čísel}. Každá relace identity $\omega_X$ je uspořádání které nazýváme \textbf{antiřetězec}  
+
+\begin{sentence}
+	Princip duality. Nechť $\leq$ je uspořádání na $X$. Pak $\leq^{-1}$ je uspořádání na $X$, které označujeme $\geq$.
+\end{sentence}
+
+Konečné uspořádání $\leq$ na $X$ je relace, mžeme ji tedy reprezentovat binární maticí nebo příslušným orientovaným grafem. Díky speciálním vlastnostem konečných uspořádání je však můžeme znázorňovat mnohem přehledněji pomocí speciálních diagramů. Ke každému uspořádání $\leq$ na $X$ lze uvažovat odvozenou relaci $\prec$ definovanou předpisem
+$$x \prec y, \text{ právě když } x \leq y \text{ a } \forall z \in X \text{ platí: }$$
+$$\text{pokud} y \leq z \leq y, \text{ pak } z \in \{ x, y\}$$
+
+
+
+Relaci $\prec$ nazýváme pokrytí příslušné $\leq$ , a výraz $x \prec y$ čteme \uv{x je pokryt y} nebo \uv{x pokrývá y}. Na relaci pokrytí je založena jedna z metod jak znázornit konečnou uspořádanou množinu, tak zvané \textbf{Hasseovy diagramy} uspořádaných množin.
+
+\begin{center}
+	\includegraphics[scale=0.9]{images/1/HasseDiagrams}
+\end{center}
+
+\begin{definition}
+	Nechť $\langle X, \leq \rangle$ je uspořádaná množina. Prvek $x \in X$ se nazývá
+	\begin{itemize}
+		\item \textbf{minimální}, jestliže $\forall y \in X$ platí: pokud $y \leq x$, pak $x = y$,
+		\item \textbf{nejmenší}, jestliže $x \leq y$ pro každá $y \in X$,
+		\item \textbf{maximální}, jestliže $\forall y \in X$ platí: pokud $y \geq x$ pak $x = y$,
+		\item \textbf{nejmenší}, jestliže $x \geq y$ pro každý $y \in X$.
+	\end{itemize}
+\end{definition}
+
+\begin{sentence}
+	Nechť $\langle X, \leq \rangle$ je uspořádaná množina. Pak platí
+	\begin{enumerate}
+		\item v $\langle X, \leq \rangle$ existuje nejvýše jeden největší a nejvýše jeden nejmenší prvek;
+		\item je-li $x \in X$ největší (nejmenší) prvek, pak je také maximální (minimální);
+		\item pokud je $\leq$ lineární uspořádání, pak je $x \in X$ největší (nejmenší) prvek, právě když je maximální (minimální).
+	\end{enumerate}
+\end{sentence}
+
+\begin{definition}
+	Nechť $\langle X, \leq \rangle$ je uspořádaná množina a nechť $Y \subseteq X$. Definujeme množiny
+	$$L(Y) = \{ x \in X \ | \ x \leq y \text{ platí pro každé } y \in Y\}$$
+	$$U(Y) =  \{ x \in X \ | \ x \geq y \text{ platí pro každé } y \in Y\}$$
+	L(Y) se nazývá \textbf{dolní kužel množiny} Y v  $\langle X, \leq \rangle$. U(Y) se nazývá \textbf{horní kužel množiny} Y v  $\langle X, \leq \rangle$.
+\end{definition}
+
+Jinými slovy dolní kužel množiny $Y$ v  $\langle X, \leq \rangle$ obsahuje tedy právě ty prvky z $X$, které jsou menší nebo rovny všem prvkům obsaženým v $Y$, analogicky pro horní kužel.
+
+\begin{definition}
+	Nechť  $\langle X, \leq \rangle$ je uspořádaná množina a nechť $Y \subseteq X$. Pokud má $L(Y)$ největší prvek, pak se nazývá \textbf{infimum} Y a označuje se $inf(Y)$. Pokud má $U(Y)$ nejmenší prvek, pak se nazývá \textbf{supremum} Y a označuje se $sup(Y)$.
+\end{definition}
+
+\begin{definition}
+	Nechť  $\langle X, \leq \rangle$ je uspořádaná množina. Pokud pro každé $x,y \in X$ existuje $inf(x,y)$, pak  $\langle X, \leq \rangle$ nazveme \textbf{průsekový polosvaz}. Pokud pro každé $x,y \in X$ existuje $sup(x,y)$ pak  $\langle X, \leq \rangle$ nazveme \textbf{spojový polosvaz}. Je-li  $\langle X, \leq \rangle$ průsekový i spojový polosvaz, pak  $\langle X, \leq \rangle$ nazveme \textbf{svaz}.
+\end{definition}
 
 \end{document}
