@@ -12,6 +12,7 @@ Vypracované otázky na státnice UPOL Bc 2015 | [Seznam pojmů](http://www.inf.
 | Roman Vyjídáček  | 1. okruh - první a druhý odstavec                     |
 | Tomáš Beznoska   | 1. okruh - čtvrtý odstavec (MATA muhehe)              |
 | Lukáš Oščádal    | 2. okruh - druhý, třetí a čtvrtý odstavec             |
+| Lukáš Medelský   | 1. okruh - pátý, šestý
 
 ## Zpracované otázky
 třetí okruh - druhý odstavec
