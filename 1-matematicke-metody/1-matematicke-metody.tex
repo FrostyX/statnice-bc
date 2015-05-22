@@ -75,6 +75,27 @@ Množiny nazýváme navzájem disjunktní právě když $A \cap B = \emptyset$.
 	\item $A \cup (A \cap B) = A, \hspace{10pt} A \cap (A \cup B) = A$ 
 \end{itemize}
 
+\section{Princip indukce}
+Princip matematické indukce umožňuje dokazovat tvrzení ve tvaru \uv{pro každé přirozené číslo $n$ platí $V(n)$}, kde $V(n)$ je nějaké tvrzení, které závisí na $n$ (např. $1 + 2 + \dots + n = \frac{n(n+1)}{2}$).
+
+\begin{sentence}
+	Nechť je pro každé $n \in \mathbb{N}$ dáno tvrzení $V(n)$. Předpokládejme že platí
+	\begin{itemize}
+		\item V(1) (indukční předpoklad)
+		\item pro každé $n \in \mathbb{N}$: z V(n) plyne V($n+1$) (indukční krok).
+	\end{itemize} 
+	Pak platí V(n) pro každé $n \in \mathbb{N}$.
+\end{sentence}
+
+Princip indukce je jednou ze základních vlastností přirozených čísel, Z předpokladu, že každá neprázdná podmnožina $K \subseteq \mathbb{N}$má nejmenší prvek (což je pravdivý a intuitivně jasný předpoklad) lze princip indukce dokázat.
+
+\begin{example}
+	Dokažte už uvedený vztah $1 + 2 + \dots + n = \frac{n(n+1)}{2}$. Tedy V(n) je tvrzení $\sum^n_{k=1} k =  \frac{n(n+1)}{2}$. Podle principu indukce stačí ověřit indukční předpoklad a indukční krok. \\[6pt]
+	Indukční předpoklad: V(1) je tvrzení $1 = \frac{1 \cdot (1 + 1)}{2}$ a to evidentně platí.\\[6pt]
+	Indukční krok: Předpokládejme, že platí V(n) a dokažme V($n + 1$). $1 + \dots + n + n + 1$ se rovná  $(1 + \dots + n) + n + 1$, což se dle předpokladu rovná $\frac{n(n + 1)}{2} + n + 1$. Dále je $\frac{n(n + 1)}{2} + n + 1 = \frac{n(n + 1) + 2(n + 1)}{2} = \frac{n^2 + 3n + 2}{2} = \frac{(n + 1) \cdot (n + 2)}{2}$. Celkem tedy $1 + \dots + n + n + 1 =  \frac{(n + 1) \cdot (n + 2)}{2}$, což je právě tvrzení V(n + 1).\\[6pt]
+	Podle principu indukce je tedy tvrzení dokázané.
+\end{example}
+
 \section{Relace}
 Pojem relace je matematickým protějškem pojmu \textit{vztah}. Různé objekty jsou nebo nejsou v různých vztazích. Například číslo 3 je ve vztahu \uv{být menší} s číslem 5. Vztah je také určen aritou tj. počtem objektů které do vztahu vstupují, výše uvedený příklad má aritu 2 protože porovnáváme 2 čísla. Takovou relaci nazveme binární. Dále máme unární (jeden prvek), ternární (tři prvky), \dots
 
