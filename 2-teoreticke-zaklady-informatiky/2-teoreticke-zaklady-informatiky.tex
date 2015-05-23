@@ -2,6 +2,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage[czech]{babel}
 \usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{ amssymb }
 
 \title{Teoretické základy informatiky}
 \begin{document}
@@ -31,7 +34,6 @@ a částečně rekurzivních jazyků. Uzávěrové vlastnosti jazyků TS. Riceov
 Chomského hierarchie. Věta o rekurzi.
 
 	\subsection{Turingův stroj (TS)}
-
 		
 		\begin{itemize}
 			\item Alan Turing, 1936
@@ -140,6 +142,7 @@ Chomského hierarchie. Věta o rekurzi.
 					\item Roziníme TS, který zastaví pouze v konfiguraci $\langle q_{+}, \epsilon, 0 \rangle$
 						nebo $\langle q_{-}, \epsilon, 0 \rangle$. Tzn. smaže obsah pásky.
 				\end{itemize}
+			\item ( předchozí 3 se nejspíš nepočítají mezi varianty TS) 
 			\item \textbf{TS s instrukcí stop} --- struktura  $\langle Q, \Sigma, \Gamma, \delta, q_{start}, q_{+}, q_{-} \rangle $
 								dána:
 				\begin{itemize}
@@ -194,20 +197,139 @@ Chomského hierarchie. Věta o rekurzi.
 
 	
 
-	\subsection{Částečně rekurzivní a rekurzivní jazyky}
+	\subsection{Částečně rekurzivní a rekurzivní jazyky, Jazyky a rozhodovací problémy, Vztah rekurzivních a částečne rekurzivních jazyků }
 	
-	\subsection{Jazyky a rozhodovací problémy}
+		\begin{itemize}
+			\item Jazykům rozhodovaným TS říkáme \textbf{rekurzivní jazyky (R)}
+			\item Jazykům přijímaným TS říkáme \textbf{ částečně rekurzivní jazyky (ČR)}
+			\item R $\subseteq$ ČR
+		\end{itemize}
+		
+		
+		\begin{figure}[!h]
+		\centering
+		\includegraphics[width=12cm]{jazykyAJejichDoplnky.png}	
+		\caption{Jiné stavy nastat nemůžou !!!}	
+		\end{figure}
 
-	\subsection{Vztah rekurzivních a částečne rekurzivních jazyků}
+		\vspace{1cm}
+		\textbf{Jazyky, které jsou částečně rekurzivní ale nejdou rekurzivní:}
+		
+		\begin{itemize}
+			\item Univezální jazyl $L_{U}$ definován takto : $$L_{U} = \{ [T,w]| T \text{ je } TS \text{, který přijímá } w\}$$
+			\item Jazyk $L_{\text{HALT}}$ definován takto:  
+						$$L_{\text{HALT}} = \{ [T,w]| T \text{ je } TS \text{, který zastaví pro } w\}$$
+			\item Jazyk  $L_{\text{NE}}$ definován takto: 
+					$$L_{\text{NE}} = \{ [ T ] |  L(T)  \neq  \emptyset\} \text{\dots (zastaví alespoň pro jedno slovo)} $$
+	
+		\end{itemize}
+		
+		\textbf{Jazyky, které nejsou částečně rekurzivní:}
+		
+		\begin{itemize}
+			\item Diagonální jazyk $L_{d}$ $$L_{d} = \{[T]| T \text{ je } TS \text{, který nepřijímá svůj kód} \}$$
+			\item Jazyk strojů přijímajících prázdný jazyk 
+				$$L_{\emptyset} = \{[T]| T \text{ je } TS \text{ a } L(T) = 
+						\emptyset \} \text{\dots(všechny slova zamítne?)}$$
+			\item Jazyk strojů, které se nezacyklí
+				$$L_{noncycle} = \{ [T]| T \text{ je } TS \text{ a necyklí pro žádné slovo } w\}$$
+		\end{itemize}
+		
+		\vspace{1cm}
+		JAZYK $\approx$ PROBLÉM
+	
+		\begin{itemize}
+			\item $L_{U} \rightarrow$ problém přijetí
+			\item $L_{HALT} \rightarrow$ problém zastavení
+			\item $L_{NE} \rightarrow$ problém neprázdnosti jazyka			
+		\end{itemize}
+		\vspace{1cm}
+		
 
 	\subsection{Uzávěrové vlastnosti jazyků TS}
+	
+	\textbf{Věty:}
+		\begin{itemize}
+			\item Pokud $L$ je rekurzivní pak, $\Sigma^{*} \setminus  L$ je rekurzivní (staší sestrojit TS který rozhoduje L 
+				a prohodit přijímací a zamítací stavy).
+			\item Nechť $L_{1}, L_{2} \in R$ jsou rekurzuvní jazyky, pak $L_{1} \cup L_{2} \in R$  a  $L_{1} \cap L_{2} \in R$.
+			\item Nechť $L_{1},L_{2} \in R$, pak $L_{1} \circ  L_{2}\in R$
+			\item Pokud $L \in R$, pak $L^{*} \in R$ \dots($L^{*}$ je kleenyho uzávěr- zřetězení slov z L)
 
-	\subsection{Riceova věta}
+						
+
+			\item Nechť $L_{1}, L_{2} \in ČR$ pak:
+				\begin{itemize}
+					\item $L_{1} \cup L_{2} \in ČR$
+					\item $L_{1} \cap L_{2} \in ČR$
+					\item $L_{1} \circ L_{2} \in ČR$
+					\item $L^{*} \in ČR$
+				\end{itemize}
+			\item Pokud $L \in ČR$ a  $\Sigma^{*} \setminus  L \in ČR$, pak $L \in R$ 
+			
+		\end{itemize}
+
+	\subsection{Riceova věta :}
+
+	Nechť $L$ je jazyk, jehož slova jsou kódy TS, a platí:
+	\begin{itemize}
+		\item pokud $L(T_{1}) = L(T_{2})$, pak $[T_{1}] \in L \leftrightarrow [T_{2}] \in L $
+		\item $\exists T_{1},T_{2}$ t.ž. $ [T_{1}] \in L, [T_{2}] \notin L$
+	\end{itemize}
+	pak L není rekurzivní.\\
+	\vspace{0,5cm}
+
+	\textit{\textbf{Věta slovně:} Pokud se rovnají jazyky strojů, pak jejich kódydo jazyku buďto oba 
+				patří nebo oba nepatří a dále existuje alespoň jeden stoj jehož kód do tohoto jazyka nepatří a
+				 alespoň jeden který do něj patří, pak není rekurzivní. (zjevně vyplývá třetí podmínka že slova
+				 těchto jazyků musí být kódy TS)}\\
+
+	\vspace{0,5cm}	
+
+	Tvzdení ve tvaru implikace né ekvilalence! Tzn. že lze použít pouze k důkazu, že nějaký jazyk není rekurzivní a nelze použít
+	k důkazu že nějaký jazyk je rekurzivní.
+		
 
 	\subsection{Vztah jazyků TS k jazykům Chomského hierarchie}
+	
+		\vspace{5mm}
+		$$\text{Typ 3} \subset \text{Typ 2} \subset \text{Typ 1} \subset \text{R} \subset \text{Typ 0} = \text{ČR} $$
+		\begin{itemize}
+		\item regulární jazyky = jazyky KA
+		\item bezkontextové jazyky = jazyky nedeterministických ZA
+		\item kontextové jazyky = jazyky LBA
+		\item jazyky gen. gramatikami bez omezení = jazyky přijímané TS
+		\end{itemize}
+		
 
+		\textbf{Věty: }
+		\begin{itemize}
+		\item Třídy jazyků generovaných gramatikami typu 0 = částečně rekurzivní jazyky.
+		\item Jazyky generované kontextově závislými gramatikamy = jazyky přijímané LBA
+		\item Existuje rekurzivní jazyk, který není generovaný kontextovou gramatikou.
+		\end{itemize}
+		
+		\begin{figure}[!h]
+		\centering
+		\includegraphics[width=8cm]{chomskyVSts.png}			
+		\end{figure}
+	
 	\subsection{Věta o rekurzi}
 
+		TS \textit{vyčísluje funkci $f$}, pokud pro každé slovo $w \in \Sigma^{*}$ zapíše na pásku $f(w)$ a skončí.
+		\vspace{5mm}
+	
+		\textbf{Věta o rekurzi: }Nechť $T$ je TS, který vyčísluje 
+			$t : \Sigma^{*} \times \Sigma^{*} \rightarrow \Sigma^{*}$. Existuje TS $R$, který
+		počítá funkci $ r : \Sigma^{*} \rightarrow \Sigma^{*}$, kde pro každé $w$ platí $$r(w) = t(\langle R \rangle,w)$$
+		
+		\textit{Tvrzení věty říká, že abychom vytvořili TS $R$, který pracuje s vlastním kódem, stačí umět udělat
+			 TS $T$, který pracuje stejně, ale dostává kód [R] na vstup. }\\
+
+		\vspace{5mm}
+		\textbf{Aplikace věty o rekurzi -- Věta o pevném bodě:}
+		Nechť $t : \Sigma^{*} \rightarrow \Sigma^{*}$ je vyčíslitelná funkce. Pak existuje TS $F$, t.ž. $t([F])$ je kód
+		ekvivalentního TS.
 
 %============================================================================
 %                                                                             TŘETÍ ODSTAVEC
@@ -221,15 +343,90 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 
 	\subsection{Složitost algoritmu(časová a paměťová)}
 
+		\textbf{Časová složitost} = funkce $f : N \rightarrow N_{0}$, kde $f(n)$ je maximální 
+		počet kroků při výpočtu nad jakýmkoli vstupem délky $n$.\\
+		\vspace{3mm}
+
+		\textbf{Paměťová složitost} = funkce $f : N \rightarrow N$, kde $f(n)$ je maximální
+		 počet kroků při výpočtu nad jakýmkoli vstupem délky $n$.
+		\\\vspace{3mm}
+
+		$f,g : N \rightarrow R$\\
+		$g(n)$ je \textbf{asymptotická hosní hranice} $f(n)$, když existují $c, n_{0} \in N$, t.ž. pro každé $n~\geq~n_{0}$:
+		$$f(n) \leq c \cdot g(n)$$
+		Notace: $f(n) = O(g(n))$
+		
+
 	\subsection{Třída P, NP, důvody jejich zavedení, vzájemný vztah}
+
+		\textbf{turingův stroj}	
+		$$TIME(t(n)) = \{ L | L \text{rozhodovaný TS v čase} O(t(n))\}$$
+		$$SPACE(s(n)) = \{ L | L \text{rozhodovaný TS v paměti} O(s(n))\}$$
+		\vspace{3mm}
+		\textbf{nedeterministický turingův stroj}
+
+		NTS časová složitost t(n) \dots TS časová složitost $2^{O(t(n))}$\\
+
+		NTS paměťová složitost t(n) \dots TS časová složitost $O(t^{2} (n))$
+			
+		$$NTIME(t(n)) = \{ L | L \text{rozhodovaný NTS v čase} O(t(n))\}$$
+		$$NSPACE(s(n)) = \{ L | L \text{rozhodovaný NTS v paměti} O(s(n))\}$$\\
+
+		\vspace{3mm}
+		\textbf{Třídy P a NP:}
+		$$P = \bigcup\{TIME(n^k) | k \in N\}$$
+		$$NP = \bigcup\{NTIME(n^k) | k \in N\}$$
+	\vspace{3mm}
+
+	Víme že $$P\subseteq NP$$ 
+
+	co ale nevíme je jestli $$NP\subseteq P \text{ tzn. (P=NP) nebo jestli } NP\nsubseteq P$$		
+		
 
 	\subsection{NP--úplné problémy}
 
+		Funkce $f :  \Sigma^{*} \rightarrow \Sigma^{*}$ je \textbf{funkce vyčíslitelná v polynomiálním čase}, pokud existuje TS
+		pracující v polynomiálním čase, který pro každé $w \in  \Sigma^{*}$ zastaví a na pásce má zapsáno $w$.
+
+		Jazyk A je \textbf{redukovatelný v polynomiálním čase} na jazyk B, načeno $A \leq_P B$, pokud existuje redukce 
+		v polynomiálním čase, tj. $r :  \Sigma^{*} \rightarrow \Sigma^{*}$, t.ž. $$w \in A \text{ p. k. } f(w) \in B$$
+		
+		\vspace{3mm}
+		Jazyk B je \textbf{NP-úplný}, pokud
+		\begin{itemize}
+			\item B je v NP
+			\item B je NP-těžký. Tj. pro každý $A\in NP$ platí $A\leq_P B$
+		\end{itemize}
+		
+		\vspace{3mm}
+		\textbf{Věty:}
+		\begin{itemize}
+			\item Pokud B je NP-úplný a $B \in P$, pak $P = NP$
+			\item Pokud B je NP-úplný a $B \leq_P C$ pro $C \in $ NP, pak je NP-úplný
+			\item SAT je NP-úplný
+			\item 3SAT je NP-úplný
+		\end{itemize}
+
+		Hlavní důvod, proč jsou NP-úplné úlohy tak zajímavé, je právě jejich velmi obtížná řešitelnost. Díky ní nacházejí uplatnění v
+ 		moderní kryptografii, kde musíme být schopni rychle ověřovat správnost řešení, ale jeho nalezení musí trvat dlouho. Obtížnost 
+		výpočtu ovšem záleží i na konkrétních datech, pro speciální množinu vstupů může být úloha polynomiální, například řešíme-li 
+		obarvení třemi barvami pro jednoduché grafy (cesty).
+		 
+	
+
 	\subsection{Cook--Levinova věta}
+		\textbf{Věta:} SAT je NP-úplný \dots (vic k tomu nemáme a důkaz psat nebudu stejně byste
+			 se na to vysrali a mě už ten \LaTeX  pěkně mrdá)
 
 	\subsection{Příklady NP--úplných problémů}
+		\begin{itemize}
+			\item SAT je NP-úplný
+			\item 3SAT je NP-úplný
+			\item  problém obchodního cestujícího, tj. hledání (nejkratší) hamiltonovské kružnice			
+		\end{itemize}
 
 	\subsection{Dokazování NP--úplnosti}
+		\textbf{Věta:}Pokud B je NP-úplný a $B \leq_P C$ pro $C \in $ NP, pak je NP-úplný
 
 	\subsection{Třída PSPACE, její vztah k třídám P a NP}
 
