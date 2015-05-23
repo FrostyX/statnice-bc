@@ -140,4 +140,175 @@ Typy koncových uzlů:
 	\item \textbf{server}: převážně poskytuje služby v síti \\ souborový (FTP, NFS, SMB), databázový/adresářový (SŘBD, LDAP), poštovní (IMAP, POP3, SMTP), terminálový (telnet, SSH), informační/WWW (HTTP), komunikační (IM, VoIP), tiskový, aj.
 \end{itemize}
 
+
+
+
+\subsection{Síťová architektura TCP/IP a referenční model ISO OSI.}
+Snaha o vytvoření univerzálního konceptu sítě (topologie, formy a pravidlakomunikace, poskytování služeb atd.). Požadavky: decentralizace služeb, rozumná adresace uzlů, data zasílána v nezávislých blocích, směrování bloků, zabezpečení, kontrola a řízení přenosu aj. Dříve proprietární uzavřená řešení, následně standatdizace s koncepcí komunikace nezávislé na implementaci. \\
+\textbf{Komunikace ve vrstvách}
+\begin{itemize}
+	\item definované službami poskytované vyšším vrstvám a využívající služby nižších vrstev, implementace skryté okolním vrstvám
+	\item samostatné vrstvy s funkcemi podobnými v rámci vrstvy a odlišnými v různých vrstvách, nezávislé na implementaci
+\end{itemize}
+Komunikace mezi vrstvami pomocí \textbf{mezivrstvových protokolů} - na každé komunikující straně zvlášť; skrze \textbf{programová rozhraní}; prostřednictvím přístupových bodů; využívající tzv. služební primitiva.
+\paragraph{Obecná služební primitiva}
+\begin{itemize}
+	\item žádost o službu (request)
+	\item oznámení poskytovatele o přijetí žádosti (indication) - nepovinné
+	\item odezva poskytovatele (response), příp. vytvoření spojení
+	\item potvrzení odezvy žadatelem (confirmation) - nepovinné
+\end{itemize}
+Komunikace ve stejných vrstvách mezi entitami (zařízeními) pomocí \textbf{vrstvových protokolů}.
+\subsubsection{Protokol}
+= souhrn pravidel (norem a doporučení) a procedur pro komunikaci (výměnu dat). Obsahuje syntaktická a sémantická pravidla výměny protokolových datových jednotek.\\
+\textbf{Protokolové datové jednotky} = režijní informace a data (rámce, pakety, segmenty). Komunikace zprostředkována sousední nižší vrstvou. Na straně odesílatele \textbf{zapouzdřování} od nejvyšší po nejnižší vrstvu. Na straně příjemce \textbf{rozbalování} dat v opačném směru.
+\paragraph{Síťová (protokolová) architektura} = definice vrstev, služeb funkcí, protokolů a forem komunikace. Normalizované (OSI, TCP/IP) a firemní proprietární (Novell NetWare, SMB, Apple Appletalk aj.)
+\paragraph{Abstraktní referenční síťový model} Abstrakce konkrétních síťových architektur - nemusí podporovat všechny funkce modelu (např. průmyslové sítě nepodporují směrování, propojení pomocí mostů a bran).
+\subsubsection{Referenční model ISO/OSI}
+Propojení otevřených systémů = zařízení podporující příslušné normy. Deinovány koncové uzly (koncová datová zařízení) a mezilehlé uzly (propojovací prvky). \\
+Každá ze sedmi vrstev vykonává skupinu jasně definovaných funkcí potřebných pro komunikaci. Pro svou činnost využívá služeb své sousední nižší vrstvy. Své služby pak poskytuje sousední vyšší vrstvě. Podle referenčního modelu není dovoleno vynechávat vrstvy, ale některá vrstva nemusí být aktivní. Takové vrstvě se říká nulová, nebo transparentní. \\
+Na počátku vznikne požadavek některého procesu v aplikační vrstvě. Příslušný podsystém požádá o vytvoření spojení prezentační vrstvu. V rámci aplikační vrstvy je komunikace s protějším systémem řízena aplikačním protokolem. Podsystémy v prezentační vrstvě se dorozumívají prezentačním protokolem. Takto se postupuje stále níže až k fyzické vrstvě, kde se použije pro spojení přenosové prostředí. Současně se při přechodu z vyšší vrstvy k nižší přidávají k uživatelským (aplikačním) datům záhlaví jednotlivých vrstev. Tak dochází k postupnému zapouzdřování původní informace. U příjemce se postupně zpracovávají řídící informace jednotlivých vrstev a vykonávají jejich funkce.
+\paragraph{Fyzická vrstva} Specifikuje fyzickou komunikaci. Aktivuje, udržuje a deaktivuje fyzické spoje mezi koncovými systémy. Definuje všechny elektrické a fyzikální vlastnosti zařízení (tvary konektorů; typy médií = kroucená dvojlinka, optické vlákno, mikrovlny; přenosové rychlosti). Obsahuje rozložení pinů, napěťové úrovně a specifikuje vlastnosti kabelů. \\
+Funkce poskytované fyzickou vrstvou:
+\begin{itemize}
+	\item Navazování a ukončování spojení s komunikačním médiem.
+	\item Spolupráce na efektivním rozložení všech zdrojů mezi všechny uživatele.
+	\item Modulace neboli konverze digitálních dat na signály používané přenosovým médiem (a zpět) (A/D, D/A převodníky).
+\end{itemize}
+HW zařízení: HUB, opakovač.
+\paragraph{Linková vrstva} Poskytuje spojení mezi dvěma sousedními systémy. Uspořádává data z fyzické vrstvy do logických celků = \textbf{rámce (frames)}: záhlaví s linkovou adresou příjemce a odesílatele (např. MAC) + data + zápatí s kontrolním součtem (CRC) celého rámce. Stará se o nastavení parametrů přenosu linky, oznamuje neopravitelné chyby. Formátuje fyzické rámce, opatřuje je fyzickou adresou a poskytuje synchronizaci pro fyzickou vrstvu. Příkladem je MAC u Ethernetu. Poskytuje propojení pouze mezi místně připojenými zařízeními a tak vytváří doménu na druhé vrstvě pro směrové a všesměrové vysílání. \\
+HW zařízení: most, přepínač, síťová karta, přístupový bod.
+\paragraph{Síťová vrstva} Stará se o směrování v síti a síťové adresování. Poskytuje spojení mezi systémy, které spolu přímo nesousedí. Poskytuje funkce k zajištění přenosu dat různé délky od zdroje k příjemci skrze jednu případně několik vzájemně propojených sítí při zachování kvality služby, kterou požaduje přenosová vrstva. Síťová vrstva poskytuje směrovací funkce a také reportuje o problémech při doručování dat. Jednotkou přenosu je \textbf{síťový packet}: záhlaví se síťovou adresou příjemce a odesílatele (např. IP) + data + zápatí jen výjimečně. \\
+Funkce poskytované síťovou vrstvou:
+\begin{itemize}
+	\item abstrakce různých linkových technologií
+	\item správa linkových spojení, multiplexování síťových spojení do linkových (více datových toků kombinováno do jednoho)
+	\item formátování dat do packetů
+	\item směrování packetů
+	\item zjišťování a oprava chyb
+	\item vytváření podsítí
+\end{itemize}
+HW zařízení: směrovač, brána.
+\paragraph{Transportní vrstva} Zajišťuje přenos dat mezi koncovými uzly. Jejím účelem je poskytnout takovou kvalitu přenosu, jakou požadují vyšší vrstvy. Vrstva nabízí spojově (TCP) a nespojově orientované (UDP) protokoly. Jednotkou přenosu je \textbf{transportní packet}: záhlaví s transportní adresou příjemce a odesílatele + data. \\
+\textbf{TCP}: Protokol garantuje spolehlivé doručování a doručování ve správném pořadí. TCP také umožňuje rozlišovat a rozdělovat data pro více aplikací (například webový server a emailový server) běžících na stejném počítači. TCP využívá mnoho populárních aplikačních protokolů a aplikací na internetu, včetně WWW, e-mailu a SSH. \\
+\textbf{UDP}: Na rozdíl od protokolu TCP nezaručuje, zda se přenášený datagram neztratí, zda se nezmění pořadí doručených datagramů, nebo zda některý datagram nebude doručen vícekrát. UDP je vhodný pro nasazení, které vyžaduje jednoduchost nebo pro aplikace pracující systémem otázka-odpověď (např. DNS, sdílení souborů v LAN). \\
+Funkce poskytované transportní vrstvou:
+\begin{itemize}
+	\item adresování (transportní na síťové)
+	\item správa síťových spojení
+	\item multiplexování a větvení
+	\item rozdělení dat na datagramy, segmentace, formátování
+	\item řízení proudu dat (správné pořadí datagramů), optimalizace služeb
+	\item koncová detekce a oprava chyb
+\end{itemize}
+Umožňuje \textbf{duplexní přenos} (= přenos oběma směry).
+\paragraph{Relační vrstva} Smyslem vrstvy je organizovat a synchronizovat dialog mezi spolupracujícími relačními vrstvami obou systémů a řídit výměnu dat mezi nimi (např. sdílení síťového disku). Umožňuje vytvoření a ukončení relačního spojení, synchronizaci a obnovení spojení, oznamovaní výjimečných stavů. Jednotka přenosu je \textbf{relační packet}: poze data. \\
+Funkce poskytované relační vrstvou:
+\begin{itemize}
+	\item organizace a synchronizcae dialogu výměny dat (pomocí kontrolních bodů)
+	\item zobrazení relačních spojení do transportních
+	\item správa transportních spojení
+\end{itemize}
+\paragraph{Prezentační vrstva} Funkcí vrstvy je transformovat data do tvaru, který používají aplikace (šifrování, konvertování, komprimace). Formát dat (datové struktury) se může lišit na obou komunikujících systémech, navíc dochází k transformaci pro účel přenosu dat nižšími vrstvami. Vrstva se zabývá jen strukturou dat, ale ne jejich významem, který je znám jen vrstvě aplikační. \\
+Funkce poskytované prezentační vrstvou:
+\begin{itemize}
+	\item transformace a výběr reprezentace dat
+	\item formátování, komprese, zabezpečení (šifrování), integrita dat
+	\item transparentní přenos zpráv (nezná jejich význam
+\end{itemize}
+\paragraph{Aplikační vrstva} Účelem vrstvy je poskytnout aplikacím přístup ke komunikačnímu systému a umožnit tak jejich spolupráci. \\
+Funkce poskytované aplikační vrstvou:
+\begin{itemize}
+	\item zprostředkování funkcionality sítě
+	\item přenos zpráv, určení kvality, synchronizace
+	\item identifikace, stanovení pověření
+	\item dohoda o ochraně, o opravách chyb
+\end{itemize}
+Protokoly: SMTP, SSH, Telnet, POP3, DHCP, FTP, DNS aj.
+\paragraph{Funkce společné více  vrstvám}
+Komunikace \textbf{se spojením} má 3 fáze: navázání spojení, přenos dat, ukončení spojení. Dohoda na parametrech, použití potvrzování přijetí/nepříjetí (spolehlivost), stejné pořadí dat na vstupu i výstupu. \\
+Komunikace \textbf{bez spojení}: při každém přenosu všechny parametry, nezávislý přenos datových jednotek, různé pořadí na vstupu a výstupu, spolehlivost i nespolehlivost. \\
+Dále se může mezi těmito typy konvertovat. Transportní služby musí být se spojením.
+\subsubsection{TCP/IP}
+použití v síti Internet, nejpoužívanější síťová architektura. Síť tvořena směrovači, specializovanými bránami (bezpečnostní, aplikační, telekomunikační), lokálními sítěmi a koncovými zařízeními. Vlastní protokoly.
+\paragraph{Vrstva síťového rozhraní} Nejnižší vrstva umožňuje přístup k fyzickému přenosovému médiu. Je specifická pro každou síť v závislosti na její implementaci.
+\paragraph{Síťová vrstva} Vrstva zajišťuje především síťovou adresaci, směrování a předávání datagramů.
+\paragraph{Transportní vrstva} je implementována až v koncových zařízeních (počítačích) a umožňuje proto přizpůsobit chování sítě potřebám aplikace. Poskytuje transportní služby kontrolovaným spojením spolehlivým protokolem TCP nebo nekontrolovaným spojením nespolehlivým protokolem UDP.
+\paragraph{Aplikační vrstva} Vrstva aplikací. To jsou programy (procesy), které využívají přenosu dat po síti ke konkrétním službám pro uživatele. \\
+Aplikační protokoly používají vždy jednu ze dvou základních služeb transportní vrstvy: TCP nebo UDP, případně obě dvě (např. DNS). Pro rozlišení aplikačních protokolů se používají tzv. porty, což jsou domluvená číselná označení aplikací. Každé síťové spojení aplikace je jednoznačně určeno číslem portu a transportním protokolem (a samozřejmě adresou počítače).
+\subsubsection{Bezpečnost}
+Obecné metody ochrany:
+\begin{itemize}
+	\item omezování přenosu dat a přístupu k síti: blokace, filtrace
+	\item autorizace přístupu: jméno a heslo, vícefaktorové, speciální protokoly
+	\item zabezpečení kanálu: šifrování, výměna klíčů
+	\item autenticita zpráv: digitální podpis, certifikáty
+\end{itemize}
+\paragraph{TCP/IP} původně žádné zabezpečení, ponecháno na aplikaci. \\
+Útoky:
+\begin{itemize}
+	\item falešná adresace (spoofing)
+	\item analýza hesla, trojský kůň
+	\item odposlech
+	\item odmítnutí služby (DoS, zahlcení, vyčerpání zdrojů)
+	\item zneužití chyb aplikací
+	\item ...
+\end{itemize}
+Ochrana:
+\begin{itemize}
+	\item firewall (oddělení vnitřní sítě od vnější)
+	\item překlad adres (NAT) - vlastní skrytá adresace
+	\item aplikační brány (proxy)
+	\item autentizace komunikujících stran
+	\item zabezpečení komunikace (šifrování)
+	\item opatření proti zahlcení
+	\item ...
+\end{itemize}
+
+
+
+
+\subsection{Strukturovaná kabeláž, přepínaný ethernet a WLAN}
+\subsubsection{Strukturovaná kabeláž}
+Obecný pojem pro metalické a optické prvky, které umožňují propojení.
+\paragraph{Telekomunikační přípojky} Slouží pro připojení koncových uživatelských zařízení - např. stolní počítač, notebook, analogový nebo ISDN telefon, VoIP telefon či síťová tiskárna. Telekomunikační zásuvky bývají umístěny přímo v pracovních prostorách (např. kancelářích) každé budovy, a to buď přímo ve zdi, v parapetních žlabech, případně podlahových systémech tak, aby byly lehce dostupné.
+\paragraph{Patch panely} Na rozdíl od běžně dostupných zásuvek jsou patch panely umístěny v rozvaděčích v telekomunikační místnosti a nejsou tedy pro běžné uživatele přístupné. Patch panely slouží správci sítě k připojení jednotlivých uživatelů do aktivních zařízení jako jsou switche nebo telefonní ústředny. Pro připojení vodičů do zářezových konektorů se používá narážecí nástroj.
+\paragraph{Horizontální kabely, Patch kabely} Měděné kabely obsahující čtyři kroucené páry, které vzájemně propojují telekomunikační zásuvky a patch panely.
+\paragraph{Koaxiální kabel} se dnes už nepoužívá. Vnější (stínění) a vnitřní (jádro) vodič. BNC konektor. Maximálně 500m.
+\paragraph{Kroucená dvojlinka} je tvořena páry vodičů, které jsou po své délce pravidelným způsobem zkrouceny a následně jsou do sebe zakrouceny i samy výsledné páry. Oba vodiče jsou v rovnocenné pozici (i v tom smyslu, že žádný z nich není spojován se zemí či s kostrou), a proto kroucená dvojlinka patří mezi tzv. symetrická vedení. Maximálně 100m. Nestíněná (UTP) vs. stíněná (STP). Konektor RJ-45. \\ \\
+Jednou ze základních odlišností kroucené dvojlinky od koaxiálního kabelu je skutečnost, že na kroucené dvojlince není možné dělat odbočky. Kroucená dvojlinka je proto použitelná jen pro vytváření dvoubodových spojů. Nemožnost vytvářet odbočky pak ale nutně znamená, že prostřednictvím kroucené dvojlinky nelze vytvořit sběrnicovou topologii sítě.
+\paragraph{Optická vlákna} Vlákna imunní vůči elektromagnetickému rušení. Dvě vrstvy skla (obal a jádro). Vícevidové vlákno - odraz od rozhraní skel. Jednovidové vlákno - buzení laserem. Různé optické konektory (FC, LC, ST) nutné navařit. Vlákno simplexní, pro duplexní přenos dvojice vláken.
+\subsubsection{WLAN}
+= bezdrátové lokální sítě. Důvodem pro WLAN je rozšiřitelnost, nižší náklady, mobilita, snadná použitelnost, roaming (vysílače si klienta předávají). Připojení od poskytovatele i v rámci LAN. Norma IEEE 802.11.
+\paragraph{Konfigurace}
+\begin{itemize}
+	\item peer-to-peer/ad-hoc: přímá komunikace mezi stanicemi (do 10ti stanic)
+	\item AP (access point): propojení WLAN a LAN, bezpečnostní prvky (autorizace, filtrace, šifrování, atd.)
+	\item s více AP (roaming): AP propojeny pevnou sítí, klient se připojuje k zařízení s nejsilnějším signálem
+	\item point-to-point: připojení pomocí dvou AP
+\end{itemize}
+\paragraph{}Přenosové medium jsou radiové vlny (2,4 GHz - 802.11b/g/n nebo 5GHz - 802.11a/n) Není třeba licence, vzájemné rušení. \\
+\textbf{antény}: omezení výkonu normou ČTÚ na 100 mW \\
+\paragraph{Bezpečnost}
+\begin{itemize}
+	\item obtížná ochrana proti odposlechu na fyzické vrstvě
+	\item SSID: označení AP (název sítě), AP jej nemusí vysílat
+	\item WEP: Autentizace stanic vůči AP (40 bitů heslo společně s MAC adresou), lze v krátkém čase prolomit
+	\item WPA, WPA2: silná šifra AES, autentizace (heslo, EAP)
+\end{itemize}
+\subsubsection{přepínaný Ethernet}
+Norma IEEE 802.1: Propojení sítí na úrovni MAC, tvorva VLAN. Propojení LAN pomocí přepínačů a mostů, propojení WAN pomocí směrovačů.
+\paragraph{podvrstva LLC} je podvrstvou linkové vrstvy. Funguje jako rozhraní mezi síťovou vrstvou a podvrstvou Media Access Control (MAC). V dnešních protokolech linkové vrstvy plní často jen funkci multiplexování. LLC hlavička říká linkové vrstvě, co má provést s paketem, když je přijat datový rámec.
+\paragraph{Ethernet} Rámce se šíří segmentem po sdíleném mediu nezávisle na sobě, stanice (síťové rozhraní) "vidí" všechny, ale přijímá jen ty adresované jí nebo všeobecné. \textbf{Promiskuitní režim} (přijímá všechny rámce). Uzly rovnocenné, jen jeden v daný čas využívá sdílené medium pro vysílání rámců (= half duplex). 10Gbit režim už bez sdíleného media (= full duplex).
+\paragraph{Protokol CSMA/CD} Kolizní přístup ke sdílenému médiu: Stanice naslouchá (Carrier) a vysílá, až nevysílá nikdo jiný. Když takto začne vysílat více stanic najednou, dojde ke kolizi. První stanice detekující kolizi vyšle \textbf{signal JAM} a všechny stanice se na náhodný čas odmlčí (čas odvozený od MAC adresy).
+\paragraph{Přepínaný Ethernet} využívá místo opakovače most. Normy IEEE 802.1d a 802.1q. \\
+\textbf{Přepínač (Switch)} je multiportový most, který zpracovává příchozí rámce na svých rozhraních paralelně a vytváří souběžné virtuální linkové segmenty (dvojbodové plně duplexní spoje) propojující odesílatele s adresátem. Virtuální linkové segmenty jsou bezkolizní, kolize nastávají pouze u různých odesílatelů se shodným adresátem. Pro přepínání používá \textbf{přepínací matici}. Dokáže spojit sítě s různými rychlostmi (má vyrovnávací paměť, store-and-forward) a může hned po načtení hlavičky rámce načítat další (cut-trough).
+\paragraph{Ethernet II} předepsaný pro lokální sítě připojené přímo do internetu.
+\paragraph{MAC adresy:}
+\begin{itemize}
+	\item globální (první tři bajty udávají výrobce), "zadrátované" v trvalé paměti síťové karty
+	\item skupinová (nejnižší bit prvního bytu = 1)
+	\item všesměrová (samé 1)
+\end{itemize}
+
 \end{document}

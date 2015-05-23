@@ -2,7 +2,307 @@
 \usepackage[utf8]{inputenc}
 \usepackage[czech]{babel}
 \usepackage[T1]{fontenc}
+<<<<<<< HEAD
 \usepackage{fullpage}
+=======
+
+\title{Teoretické základy informatiky}
+>>>>>>> 6b9067b7c8b951d889c2ad66d92fa9c7a1d23eb8
 \begin{document}
-2 -- Teoretické základy informatiky
+\maketitle
+
+
+
+\newpage
+
+\section{První odstavec}
+
+Formální jazyky a jejich hierarchie. Regulární jazyky (definice, uzávěrové vlastnosti). Konečné automaty deterministické
+a nedeterministické. Regulární výrazy, automaty s epsilon-přechody. Minimalizace konečného deterministického
+automatu. Pumping lemma. Bezkontextové jazyky a jejich vlastnosti (uzávěrové vlastnosti, jednoznačnost).
+Zásobníkové automaty a jejich modifikace. Deterministické zásobníkové automaty. Deterministické
+bezkontextové jazyky.
+
+%============================================================================
+%                                                                             DRUHÝ ODSTAVEC
+%============================================================================
+
+\section{Druhý odstavec}
+
+Turingův stroj (TS), nedeterministický TS. Jazyk přijímaný TS, jazyk rozhodovaný TS. Church-Turingova
+teze, varianty TS. Částečně rekurzivní a rekurzivní jazyky, jazyky a rozhodovací problémy. Vztah rekurzivních
+a částečně rekurzivních jazyků. Uzávěrové vlastnosti jazyků TS. Riceova věta. Vztah jazyků TS k jazykům
+Chomského hierarchie. Věta o rekurzi.
+
+	\subsection{Turingův stroj (TS)}
+
+		
+		\begin{itemize}
+			\item Alan Turing, 1936
+			\item účel: porozumět omezením mechanického výpočtu
+		\end{itemize}		
+		\textbf{TS se skládá z}
+		\begin{itemize}
+			\item řídící jednotky, která se vždy nachází v jednom z konečného množství stavů
+			\item zleva omezené nekonečné pásky rozdělené na políčka, v každém políčku je zapsán jeden symbol
+			\item čtecí / zapisovací hlavy která je vždy umístěna nad jedním políčkem pásky
+		\end{itemize}
+		\textbf{Definice: }
+		Turingův stroj je struktura $\langle Q, \Sigma, \Gamma, \delta, q_{start}, q_{+}, q_{-} \rangle $ dána:
+		\begin{itemize}
+			\item Neprázdnou konečnou množinou stavů $Q$
+			\item Vstupní abecedou  $\Sigma$ t.ž. \textvisiblespace $ \notin \Sigma$
+			\item páskovou abecedou $\Gamma$ t.ž. $\Sigma \subset \Gamma,$ \textvisiblespace $\in  \Gamma $
+			\item přechodovou funkcí $\delta : Q \times  \Gamma \rightarrow Q \times \Gamma \times \{L , R \} $
+			\item počátečním stavem $q_{start} \in Q$
+			\item přijímacím stavem $q_{+} \in Q $ a zamítacím stavem $q_{-} \in Q.$ $q_{+} \neq q_{-}$
+		\end{itemize}
+		Program TS lze chápat jako množinu elementárních instrukcí ve tvaru: 
+
+		\textit{\uv{Pokud je řídící jednotka ve stavu $q$ a čtecí/zapisovací hlava čte symbol $a$, tak změň stav řídící jednotky
+		na $q'$, na pásku zapiš $a'$ a posuň
+		čtecí/zapisovací hlavu o jedno políčko směrem $d$.}}
+
+		Takováto instrukce se zapisuje jako $\delta (q,a) = (q', a', d)$ a nazýváme ji přechod. Celý program, tedy množinu 				takovýchto instrukcí, pak nazýváme přechodovou funkcí TS
+
+		\textbf{Konfigurace} TS je uspořádaná trojice $(q, \alpha, n) \in Q \times \Gamma^{*} \times N_{0}$ , která zachycuje
+		aktuální status všech tří komponent. 
+		\begin{itemize}
+			\item $q$ je aktuální stav řídící jednotky
+			\item $\alpha$ je obsah pásky
+			\item $n$ je pozice hlavy
+		\end{itemize}
+
+		\textbf{Krok výpočtu TS} je definován jako binární relace na množině konfigurací: Nechť $(q,a_{0} \dots a_{n}, i) $
+		je taková konfigurace $T$, kde $q \neq q_{\pm}, n \in N_{0}, a_{0}, \dots, a_{n}~\in~\Gamma, i~\leq~n. $
+		\begin{itemize}
+			\item Je-li $1 \leq i \leq n a \delta(q,a_{i}) = (q', b, L), pak$
+				$$(q,a_{0} \dots a_{n}, i) \vdash (q', a_{0} \dots a_{i-1}ba_{i+1} \dots a_{n}, i-1) $$
+			\item Je-li $\delta(q,a_{0}) = (q', b, L), pak$
+				$$(q,a_{0} \dots a_{n}, 0) \vdash (q', ba_{1} \dots a_{n}, 0) $$
+			\item Je-li $\delta(q,a_{i}) = (q', b, R), pak$
+				$$(q,a_{0} \dots a_{n}, i) \vdash (q', a_{0} \dots a_{i-1}ba_{i+1} \dots a_{n}, i+1) $$
+		\end{itemize}
+	
+	
+
+	\subsection{Nedeterministický TS}
+
+		Obdobný rozdíl jako u konečných deterministických a konečných nedeterministických automatů. Přechodová funkce ve 				tvaru:
+		$$\delta : Q \times  \Gamma \rightarrow 2^{Q \times \Gamma \times \{L , R \}}$$
+
+		\textbf{Definice: }
+		Nedeterministický TS je struktura $\langle Q, \Sigma, \Gamma, \delta, q_{start}, q_{+}, q_{-} \rangle $ dána:
+		\begin{itemize}
+			\item Neprázdnou konečnou množinou stavů $Q$
+			\item Vstupní abecedou  $\Sigma$ t.ž. \textvisiblespace $ \notin \Sigma$
+			\item páskovou abecedou $\Gamma$ t.ž. $\Sigma \subset \Gamma,$ \textvisiblespace $\in  \Gamma $
+			\item přechodovou funkcí $\delta : Q \times  \Gamma \rightarrow 2^{Q \times \Gamma \times \{L , R \}} $
+			\item počátečním stavem $q_{start} \in Q$
+			\item přijímacím stavem $q_{+} \in Q $ a zamítacím stavem $q_{-} \in Q.$ $q_{+} \neq q_{-}$
+		\end{itemize}
+
+		Ke každému deterministickému existuje ekvivalentní nedeterministický automat a ke každému 
+		nedeterministickému existuje ekvivalentní deterministický automat.
+
+	\subsection{Jazyk přijímaný TS}
+
+		Množinu všech slov $\omega \in \Sigma^{*}$, které TS \textit{T} Přijímá značíme \textit{L(T)} a nazýváme 					\textit{\textbf{jazykem Turingova stroje}}, t.j.
+		 $$L(T) = \{ \omega | \omega \in \Sigma^{*}, (\omega, q_{0},0) \vdash^{*} C_{+}\} $$
+		Jazyk $L(T)$ nazýváme \textit{jazyk přijímaný TS} $T$.\\
+		Říkáme, že TS $T$ \textit{přijímá jazyk}$ L(T)$.\\		 
+	
+		Jazyk $L \subseteq \Sigma^{*} $ nazveme\textit{ jazyk přijímaný TS}, pokud existuje TS $T$ který jej přijímá.
+
+	\subsection{Jazyk rozhodovaný TS}
+
+		Pokud navíc platí, že TS $T$ zamítá každé $\omega \notin L(T)$, nazýváme jazyk L(T) 
+		\textit{jazyk~rozhodovaný} TS $T$.\\
+		Říkáme, že TS $T$ \textit{rozhoduje jazyk} $L(T)$. (to znamená že nikdy necyklí)
+
+		Jazyk $L \subseteq \Sigma^{*} $ nazveme\textit{ jazyk rozhodovaný TS}, pokud existuje TS $T$ který jej rozhoduje.
+	
+
+	\subsection{Churg-Turingova teze}
+
+		\textit{Intuitivní pojem algoritmu = algoritmus TS.} \\(to je všechno co k tomu máme)
+
+	\subsection{Varianty TS}
+		\begin{itemize}
+			\item TS, který se nikdy nepokusí přejet levý okraj pásky
+				\begin{itemize}
+					\item Rozumíme TS, u kterého při výpočtu nad jakým koli slovem nedojde k tomu že, je v konfiguraci 
+						$(q,a\omega,0)$ a existuje přechod $\delta(q,a) = (q',b,L).$  Tedy nikdy nenastane situace
+						že by byla hlava nad nejlevějším políčkem pásky a přechodová funkce by určovala pohyb 								vlevo.
+				\end{itemize}
+			\item TS, který nikdy nezapíše na pásku \textvisiblespace
+				\begin{itemize}
+					\item Roziníme TS, který nemá žádný přechod ve tvaru $\delta(q,a) = (q',\textvisiblespace,D)$
+				\end{itemize}
+			\item TS, který po sobě \uv{který po sobě uklízí}
+				\begin{itemize}
+					\item Roziníme TS, který zastaví pouze v konfiguraci $\langle q_{+}, \epsilon, 0 \rangle$
+						nebo $\langle q_{-}, \epsilon, 0 \rangle$. Tzn. smaže obsah pásky.
+				\end{itemize}
+			\item \textbf{TS s instrukcí stop} --- struktura  $\langle Q, \Sigma, \Gamma, \delta, q_{start}, q_{+}, q_{-} \rangle $
+								dána:
+				\begin{itemize}
+					\item Neprázdnou konečnou množinou stavů $Q$
+					\item Vstupní abecedou  $\Sigma$ t.ž. \textvisiblespace $ \notin \Sigma$
+					\item páskovou abecedou $\Gamma$ t.ž. $\Sigma \subset \Gamma,$ \textvisiblespace $\in  \Gamma $
+					\item přechodovou funkcí $\delta : Q \times  \Gamma \rightarrow Q \times \Gamma \times \{L, S, R \} $
+					\item počátečním stavem $q_{start} \in Q$
+					\item přijímacím stavem $q_{+} \in Q $ a zamítacím stavem $q_{-} \in Q.$ $q_{+} \neq q_{-}$
+				\end{itemize}
+				Odpovídajícím způsobem se upraví definice kroku výpočtu, vlatně se přidá bod: 
+
+				-- Je-li $\delta(q, a_{i}) = (q', b, S)$, pak 
+					$$(q,a_{0} \dots a_{n}, i) \vdash (q', a_{0} \dots a_{i-1}ba_{i+1} \dots a_{n},i) $$
+			\item \textbf{TS s oboustranně nekonečnou páskou} --- definice je totožná jako u klasického TS; rozdíl je v definici
+			 konfigurace (nevystačíme si s $\langle q, \omega, i \rangle \in Q \times \Gamma^{*} \times N_{0}$)a výpočtu
+			(není zarážení o levý okraj)
+				\begin{itemize}
+					\item \textbf{Konfigurace:} Alternativně zapisujeme jako řetězec
+					 	$\alpha q\beta \in \Gamma^{*}Q\Gamma^{*}.$ 
+						Konfigurace $\alpha q\beta$ představuje status stroje, který má na pásce zapsán řetězec
+						$ \alpha\beta$,
+						hlava	je nad prvním symbolem řetězce $\beta$, řídící jednotka je ve stavu q.
+
+						U TS s oboustranně nekonečnou páskou považujeme $\alpha q\beta$ za totožnou s  
+						$\alpha q\beta$\textvisiblespace a s \textvisiblespace$\alpha q\beta$.
+					\item \textbf{Krok výpočtu TS (s oboustranně nekonečnou páskou)} je definován jako binární 
+						relace na množině konfigurací: Nechť $\alpha aqB\beta$ je taková konfigurace $T$, kde 
+						$q \neq q, \alpha, \beta \in \Gamma^{*}, a,b \in \Gamma.$
+						\begin{itemize}
+							\item Je-li $\delta(q,a) = (q', x, L) $, pak  $$\alpha aqb\beta \vdash \alpha q'ax\beta$$.
+							\item Je-li $\delta(q,a_{1}) = (q', x, R) $, pak 
+									$$\alpha aqb\beta \vdash \alpha axq'\beta$$.
+						\end{itemize}
+				\end{itemize}
+					\item \textbf{TS s více páskami} --- je struktura $\langle Q, \Sigma, \Gamma, \delta, q_{0}, q_{+}, 
+						q_{-} \rangle $ dána:
+						\begin{itemize}
+							\item Neprázdnou konečnou množinou stavů $Q$
+							\item Vstupní abecedou  $\Sigma$ t.ž. \textvisiblespace $ \notin \Sigma$
+							\item páskovou abecedou $\Gamma$ t.ž. $\Sigma \subset \Gamma,$ \textvisiblespace 
+								$\in  \Gamma $
+							\item přechodovou funkcí $\delta : Q \times  \Gamma^{k} \rightarrow Q \times [ \Gamma 
+								\times \{L, S, R \} ]^{k}$
+							\item počátečním stavem $q_{start} \in Q$
+							\item přijímacím stavem $q_{+} \in Q $ a zamítacím stavem $q_{-} 
+								\in Q.$ $q_{+} \neq q_{-}$
+						\end{itemize}		
+			
+		\end{itemize}
+		Ke každé variantě TS vždy existuje ekvilalentní klasický TS a obráceně.
+
+	
+
+	\subsection{Částečně rekurzivní a rekurzivní jazyky}
+	
+	\subsection{Jazyky a rozhodovací problémy}
+
+	\subsection{Vztah rekurzivních a částečne rekurzivních jazyků}
+
+	\subsection{Uzávěrové vlastnosti jazyků TS}
+
+	\subsection{Riceova věta}
+
+	\subsection{Vztah jazyků TS k jazykům Chomského hierarchie}
+
+	\subsection{Věta o rekurzi}
+
+
+%============================================================================
+%                                                                             TŘETÍ ODSTAVEC
+%============================================================================
+
+\section{Třetí odstavec}
+
+Složitost algoritmu (časová a paměťová). Třída P, třída NP, důvody jejich zavedení, jejich vzájemný vztah. NP-
+úplné problémy. Cook-Levinova věta. Příklady NP-úplných problémů, dokazovaní NP-úplnosti. Třída PSPACE,
+její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-úplné problémy.
+
+	\subsection{Složitost algoritmu(časová a paměťová)}
+
+	\subsection{Třída P, NP, důvody jejich zavedení, vzájemný vztah}
+
+	\subsection{NP--úplné problémy}
+
+	\subsection{Cook--Levinova věta}
+
+	\subsection{Příklady NP--úplných problémů}
+
+	\subsection{Dokazování NP--úplnosti}
+
+	\subsection{Třída PSPACE, její vztah k třídám P a NP}
+
+	\subsection{PSPACE--úplné problémy}
+
+	\subsection{Třídy N, NL a NL--úplné problémy}
+
+
+%============================================================================
+%                                                                            ČTVRTÝ ODSTAVEC
+%============================================================================
+
+\section{Čtvrtý odstavec}
+
+Výroková logika: jazyk, formule, pravdivostní ohodnocení, tautologie, tabulková metoda, sémantické vyplývání,
+normální formy formulí, úplné systémy spojek. Axiomatický systém výrokové logiky, syntaktické vyplývání. Věta
+o dedukci. Věty o korektnosti a úplnosti výrokové logiky. Predikátová logika: jazyk, termy a formule, struktury
+pro jazyk, ohodnocení termů a formulí. Axiomatický systém predikátové logiky, syntaktické vyplývání. Věty o
+korektnosti a úplnosti predikátové logiky. Neklasické logiky, fuzzy logika. Základy logického programování, úvod
+do Prologu.
+
+
+	\subsection{Výroková Logika}
+
+
+		\subsubsection{ jazyk}
+ 
+		\subsubsection{pravdivostní ohodnocení}
+ 
+		\subsubsection{tautologie}
+ 
+		\subsubsection{tabulková metoda}
+ 
+		\subsubsection{sémantické vyplývání}
+ 
+		\subsubsection{normální formy formulí}
+ 
+		\subsubsection{úplné systémy spojek}
+
+		\subsubsection{axiomatický systém výrokové logiky}
+
+		\subsubsection{syntaktické výplývání}
+
+		\subsubsection{Věta o dedukci}
+
+		\subsubsection{Věty o korektnosti a úplnosti výrokové logiky}
+
+	\subsection{Predikátová logika}
+
+		\subsubsection{jazyk}
+
+		\subsubsection{termy a formule}
+
+		\subsubsection{struktury pro jazyk}
+
+		\subsubsection{ohodnocení termu a formulí}
+
+		\subsubsection{axiomatický systém predikátové logiky}
+
+		\subsubsection{syntaktické vyplývání}
+
+		\subsubsection{věty o korektnosti a úplnosti predikátové logiky}
+
+	\subsection{Neklasické logiky}
+
+		\subsubsection{fuzzy logika}
+
+	\subsection{Základy logického programování, úvod do Prologu}
+	
+			
+
 \end{document}
