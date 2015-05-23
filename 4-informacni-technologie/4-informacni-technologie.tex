@@ -295,7 +295,19 @@ Jednou ze základních odlišností kroucené dvojlinky od koaxiálního kabelu 
 	\item WEP: Autentizace stanic vůči AP (40 bitů heslo společně s MAC adresou), lze v krátkém čase prolomit
 	\item WPA, WPA2: silná šifra AES, autentizace (heslo, EAP)
 \end{itemize}
-
-
+\subsubsection{přepínaný Ethernet}
+Norma IEEE 802.1: Propojení sítí na úrovni MAC, tvorva VLAN. Propojení LAN pomocí přepínačů a mostů, propojení WAN pomocí směrovačů.
+\paragraph{podvrstva LLC} je podvrstvou linkové vrstvy. Funguje jako rozhraní mezi síťovou vrstvou a podvrstvou Media Access Control (MAC). V dnešních protokolech linkové vrstvy plní často jen funkci multiplexování. LLC hlavička říká linkové vrstvě, co má provést s paketem, když je přijat datový rámec.
+\paragraph{Ethernet} Rámce se šíří segmentem po sdíleném mediu nezávisle na sobě, stanice (síťové rozhraní) "vidí" všechny, ale přijímá jen ty adresované jí nebo všeobecné. \textbf{Promiskuitní režim} (přijímá všechny rámce). Uzly rovnocenné, jen jeden v daný čas využívá sdílené medium pro vysílání rámců (= half duplex). 10Gbit režim už bez sdíleného media (= full duplex).
+\paragraph{Protokol CSMA/CD} Kolizní přístup ke sdílenému médiu: Stanice naslouchá (Carrier) a vysílá, až nevysílá nikdo jiný. Když takto začne vysílat více stanic najednou, dojde ke kolizi. První stanice detekující kolizi vyšle \textbf{signal JAM} a všechny stanice se na náhodný čas odmlčí (čas odvozený od MAC adresy).
+\paragraph{Přepínaný Ethernet} využívá místo opakovače most. Normy IEEE 802.1d a 802.1q. \\
+\textbf{Přepínač (Switch)} je multiportový most, který zpracovává příchozí rámce na svých rozhraních paralelně a vytváří souběžné virtuální linkové segmenty (dvojbodové plně duplexní spoje) propojující odesílatele s adresátem. Virtuální linkové segmenty jsou bezkolizní, kolize nastávají pouze u různých odesílatelů se shodným adresátem. Pro přepínání používá \textbf{přepínací matici}. Dokáže spojit sítě s různými rychlostmi (má vyrovnávací paměť, store-and-forward) a může hned po načtení hlavičky rámce načítat další (cut-trough).
+\paragraph{Ethernet II} předepsaný pro lokální sítě připojené přímo do internetu.
+\paragraph{MAC adresy:}
+\begin{itemize}
+	\item globální (první tři bajty udávají výrobce), "zadrátované" v trvalé paměti síťové karty
+	\item skupinová (nejnižší bit prvního bytu = 1)
+	\item všesměrová (samé 1)
+\end{itemize}
 
 \end{document}
