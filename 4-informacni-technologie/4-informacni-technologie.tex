@@ -320,6 +320,9 @@ Norma IEEE 802.1: Propojení sítí na úrovni MAC, tvorva VLAN. Propojení LAN 
 Poskytuje nespolehlivou nespojovou službu (nevytváří spojení , nepotvrzuje příjem packetů). Spojuje lokální sítě do globální sítě Internet. Tvořen několika dílčími protokoly: vlastní protokol IP, ICMP (diagnostika a signalizace mimořádných stavů), IGMP (skupinové adresování), ARP a RARP (zjištění linkové adresy k IP adrese a opačně). Síťové rozhraní uzlu má alespoŇ jednu IP adresu. \\
 IP protokol byl původně vyvinut pro potřeby komunikace v Internetu. IP adresa musí být v dané síti jednoznačná (jedno rozhraní může mít více IP adres, ale stejná IP adresa nemůže být na více rozhraních), avšak lze používat NAT a privátní IP adresy.
 \paragraph{IP packet} záhlaví 20B povinných položek + volitelné položky, data, maximální délka 64kB
+\paragraph{Fragmentace}
+Linkové rámce mají omezenou velikost (max. jednotky kB). Maximální velikost = \textbf{MTU (Maximum Transfer Unit)}. IP packet může mít až 64kB -> fragmentace. Pokud je zakázána (DF), je packet zahozen (odesílateli signalizováno pomocí ICMP). Zvyšuje nároky režie, OS se snaží vytvářet packety menší než je MTU, aby k fragmentaci nedocházelo. \\
+Fragmentace = dělení IP packetu na fragmenty o celkové délce menší, než MTU. \textbf{Freagment} = samostatný IP packet se stejnou hlavičkou, jako původní. Skládání fragmentů do původního packetu provádí pouze příjemce. Lze fragmentovat fragmenty.
 \paragraph{Složení hlavičky packetu:} bity označující verzi (IPv4 vs IPv6), typ služby = ToS (nepoužíváno, v současnosti QoS), délka packetu, tag pomáhající k rekonstrukci packetu z více fragmentů, příznak DF (zakázání fragmentace) a MF (indikace dalších fragmentů), TTL (Time To Live - přes kolik routerů může projít, než bude zničen), bity označující protokol (ICMP, UDP, TCP, ...), kontrolní součet, zdrojová a cílová IP.
 \paragraph{doba života TTL} zamezení nekonečného "toulání" packetu. Každý směrovač snižuje alespoň o 1 (a musí tedy přepsat kontrolní součet v záhlaví). Při 0 se packet zahodí a odesílateli je to signalizováno pomocí ICMP.
 \subsubsection{IP adresa} Každé síťové rozhraní může mít jednu či více IP adres (jednozačných). Přidělení IP adresy staticky síťovému rozhraní pomocí ipconfig (MS Windows) nebo ifconfig/ip (UNIX, GNU/Linux).
@@ -363,5 +366,79 @@ Zjišťování příslušnosti cílové IP adresy k síti (definované v řádku
 \paragraph{IP multicast} je metoda přeposílání IP datagramů z jednoho zdroje skupině více koncových stanic. Místo odesílání jednotlivých datagramů ke každému cíli je odeslán jediný datagram. K identifikaci jednotlivých multicastových skupin se používají IP adresy třídy D. Aby cílová stanice mohla přijímat multicastová data, musí být přihlášena alespoň do jedné skupiny a samozřejmě router sítě musí multicasting podporovat, udržovat tedy v sobě tabulku skupin, které má odchytávat. Router, který přijímá informace z multicastových skupin, se od uzlů snaží zjistit, které skupiny mají být vysílány uzlům do bezprostředně připojené sítě. Tuto službu nám zajišťuje IGMP protokol, díky kterému se uzly mohou přidávat do skupin. \\
 \textbf{IGMP protokol} dynamicky registruje jednotlivé hostitele, patřící do skupiny adres D. Hostitel identifikuje členství ve skupině odesláním zpráv protokolu IGMP a data zasílá vždy všem členům skupiny. Směrovače používající protokol IGMP pravidelně naslouchají zprávám protokolu IGMP a systematicky odesílají dotazy s cílem zjistit, které skupiny jsou v síti LAN aktivní. \\
 Každá IP adresa se v síti musí překládat na MAC adresu tedy i multicastová, právě díky této adrese se přenáší multicastová data v lokální síti. Zde však nastává problém v možné nejednoznačnosti, protože 48 bitová MAC adresa musí mít pro multicast prefix 01:00:5e následovaný nulovým bitem a zbylých 23 bitů MAC adresy je vyplněno posledními 23 bity IP adresy. Více stejně končícím IP adresám je tak přiřazena stejná multicastová MAC adresa. Tento problém se někdy nazývá 32-to-1 overlapping, protože právě 32 multicastových IP adres je mapováno na jedinou multicastovou MAC adresu.
+
+
+
+
+\subsection{Protokoly TCP a UDP}
+\paragraph{Opakování:}
+\begin{itemize}
+	\item \textbf{spojová služba} - mezi aplikacemi navázáno spojení s plně duplexní výměnou dat, spolehlivá služba (ztracená a poškozená data znova vyžádána), integrita dat zajištěna kontrolním součtem, zpracovává souvislý prud/tok (uspořádaných) dat od vyšší vrstvy (stream)
+	\item \textbf{nespojová služba} - nenavazuje spojení, nespolehlivá služba (nezaručuje pořadí doručených dat, znovuzaslání poškozených/ztracených), zpracovává nesouvislé části dat od vyšší vrstvy
+\end{itemize}
+\paragraph{Port} = indentifikátor aplikace (aplikace jich mlže používat víc), transportní adresa, je to číslo o délce 2B (0 až 65535). \\
+Rozdělení na:
+\begin{itemize}
+	\item privilegované - může je používat pouze privilegovaná aplikace, rozsah 0 - 1023
+	\item neprivilegované - může je použít kdokoliv, pokud je volný
+\end{itemize}
+Pro běžné služby jsou známá "standarní" čísla portů.
+
+\subsubsection{Transmission Control Protocol (TCP)}
+TCP je spojově orientovaný protokol pro přenos toku bajtů na transportní vrstvě se spolehlivým doručováním. TCP využívá mnoho populárních aplikačních protokolů a aplikací na internetu, včetně WWW, e-mailu a SSH.
+\paragraph{TCP segment}
+Aplikace posílá proud (stream) bajtů TCP protokolu k doručení sítí, TCP rozděluje proud bajtů do přiměřeně velkých segmentů. (Velikost segmentů je určena parametrem \textbf{MTU (maximum transmission unit)} linkové vrstvy sítě, ke které je počítač připojen.) TCP pak předá takto vzniklé pakety IP protokolu k přepravě internetem do TCP modulu na druhé straně TCP spojení. TCP ověří, že se pakety neztratily tím, že každému paketu přidělil \textbf{pořadové číslo}, které se také použije k ověření, že data byla přijata ve správném pořadí. TCP modul na straně příjemce posílá zpět potvrzení pro pakety které byly úspěšně přijaty. Pokud by se odesilateli potvrzení nevrátilo do rozumné doby (dané obousměrným zpožděním, anglicky round-trip time, \textbf{RTT}), vypršel by odesilatelův časovač a (pravděpodobně ztracená) data by vyslal znovu. TCP protokol ověřuje, zda přenesená data nebyla poškozena šumem tím, že před odesláním spočte \textbf{kontrolní součet}, uloží jej do odesílaného paketu a příjemce kontrolní součet vypočte znovu a ověří, že se shodují. \\
+Příznaky:
+\begin{itemize}
+	\item CWR, ECN - pro oznámení zahlcení sítě
+	\item URG - segment nese urgentní data, která mají být zpracována přednostně
+	\item ACK - signalizace správného pořadového čísla přijímaného bytu
+	\item RST - odmítnutí navazovaného TCP spojení
+	\item SYN - nová sekvence číslování odesílaných bytů, pořadové číslo odesílaného bytu je číslo 1. bytu toku dat, nastaven u 1. segmentu při navazování spojení
+	\item FIN - ukončení odesílání dat, ukončení spojení pro daný směr přenosu dat
+\end{itemize}
+\textbf{Délka okna} je počet bytů, které je příjemce schopen přijmout - předcházení zahlcení sítě. \\
+Protože TCP je spojovaná transportní služba, musí se před odesíláním dat navázat spojení mezi klientem a serverem. K tomu slouží trojcestný handshaking (three-way handshake). Obě strany otevřou port (pomocí socketu), klient v \textbf{aktivním režimu}, server \textbf{pasivní režim} (očekávání spojení). V průběhu navazování spojení se obě strany dohodnou na číslu sekvence a potvrzovacím čísle. Pro navázání spojení se odesílají datagramy s nastavenými příznaky SYN a ACK.
+\paragraph{Navazování spojení:}
+\begin{itemize}
+	\item Klient odešle na server datagram s nastaveným příznakem SYN a náhodně vygenerovaným číslem sekvence ISN (x), potvrzovací číslo=0, maximální délka přijímaných segmentů (MSS).
+	\item Server odešle klientovi datagram s nastavenými příznaky SYN a ACK, potvrzovací číslo=x+1, číslo sekvence ISN je náhodně vygenerované (y), navrhnutá MSS směrem od serveru.
+	\item Klient odešle datagram s nastaveným příznakem ACK, číslo sekvence=x+1, číslo odpovědi=y+1.
+\end{itemize}
+Navrhované MSS je menší, než MTU, aby se zamezilo IP fragmentaci. \\
+Obě strany si pamatují číslo sekvence své i protistrany. Používají se totiž i pro další komunikaci a určují pořadí paketů. Když úspěšně proběhne trojcestný handshaking, je spojení navázáno a zůstane tak až do ukončení spojení. To se může zneužít na SYN flood útok.
+\paragraph{Ukončování spojení:} probíhá podobně jako jeho navázání. Používá se k tomu příznaků FIN a ACK:
+\begin{itemize}
+	\item Klient odešle datagram s nastaveným příznakem FIN
+	\item Server odpoví datagramem s nastaveným příznakem ACK
+	\item Server odešle datagram s nastaveným příznakem FIN
+	\item Klient odpoví s nastaveným příznakem ACK
+\end{itemize}
+Teprve po těchto čtyřech krocích je spojení ukončeno.
+\paragraph{Odmítnutí spojení:}
+Pokud cílový port na straně příjemce není otevřen (např. segmenty jsou zahazovány firewallem nebo neběží aplikace serveru), klient, bez odpovědi serveru, po čase opakuje požadavek na navázání spojení do vypršení celkového času nebo počtu pokusů = časová prodleva. Odmítnutí nastává kdykoliv po zaslání segmentu s příznakem RST. Například u neúspěšného navázání šifrovaného spojení SSL/TLS.
+
+\subsubsection{Řízení toku dat}
+\paragraph{Ztráta segmentu}
+\begin{itemize}
+	\item Odesílatel: Má definovaný časový interval pro příjem potvrzovacího segmentu od příjemce (retransmission timeout). Při ztrátě nebo poškození segmentu po vypršení intervalu nebo příjmu tří opakovaných stejných potvrzení od příjemce \textbf{opakuje odesílání segmentu}. Hodnota intervalu se dynamicky mění podle stavu sítě na základě předpokládané doby odezvy (vypočítané z RTT).
+	\item Příjemce: Má definovaný časový interval pro příjem následujícího segmentu v toku dat (dle pořadových čísel). Při neobdržení následujícího segmentu po vypršení časového intervalu nebo obdržení segmentu s dalšími daty mimo pořadí \textbf{opakuje potvrzení přijetí} předchozích dat. Ukládá si data obdržené mimo pořadí do bufferu a po obdržení chybějícího segmentu \textbf{potvrdí příjem všech dat}.
+\end{itemize}
+\paragraph{Zpoždění odpovědi} je výhodné u interaktivních (konzolových) aplikací (Telnet, SSH, příkazový kanál FTP) vyměňujících malé segmenty. Ilustrační situace: Uživatel stiskne klávesu, klient odešle znak serveru (v segmentu IP packetu v linkovém rámci), server potvrdí příjem, zpracuje znak a odešle ho klientovi ke zobrazení, klient potvrdí příjem a zobrazí -> velká režie. \\
+Zpoždění je tedy potvrzení příjmu dat se zpožděním a ne hned, kdy se mohou data k odeslání nahromadit. \textbf{Delayed ACK} je odesílání v intervalech (např. 200 ms (< jak 500 ms)). \textbf{Nagleův algoritmus}: odeslání dat až po obdržení dalších dat od druhé strany nebo až objem dat k odeslání překročí MSS. Lze vypnout pomocí síťového API OS příznakem TCP\_NODELAY.
+\paragraph{Posuvné okno (Sliding windows)} Využití při odesílání většího množství dat, zamezení zahlcení sítě. Segmenty se posílají bez potvrzování každého až do počtu odeslaných bytů rovno délce posuvného okna. Délka okna udává, kolik bytů je příjemce schopen přijmout či zpracovat. Při navazování spojení příjemce navrhne délku posuvného okna spolu s MSS (typicky 6-8x MSS) a pak ji může v potvrzovacích segmentech měnit nebo vynulovat (zakázat odesílateli odesílat další data, když "nestíhá"). Potvrzováním příjmu dat se okno posouvá a mění velikost = řízení toku dat.
+\paragraph{Zahlcení sítě} Posuvné okno udává množství dat akceptované příjemcem. Pokud je příliš velké a síť na straně příjemce plně využita nebo pomalá, odesílatel může síť zahltit a ta začne data zahazovat. Řešením je \textbf{okno zahlcení} na straně odesílatele, které udává množství nepotvrzených dat, které je možné odeslat, aniž by došlo k zahlcení sítě (cíl je samozřejmě největší možné). Odesílatel pak odesílá data do menší z velikostí posuvného okna a okna zahlcení. \\
+Dvě fáze určení velikosti okna zahlcení:
+\begin{itemize}
+	\item \textbf{Pomalý start}: Od navázání spojení se velikost okna zahlcení s každým potvrzovacím segmentem zdvojnásobuje až do ztráty segmentu nebo dosáhnutí velikosti posuvného okna nebo parametru SSTHRESH (hranice pravděpodobnosti zahlcení sítě - typicky 64kB). Po třech stejných potvrzeních předchozího segmentu se okno zahlcení zmenší na polovinu a stejně nastaví SSTHRESH (ta však musí být minimálně 2xMSS). Po neobdržení potvrzení se okno zahlcení nastaví na MSS, SSTHRESH se nastaví na 2xMSS a začne se znovu.
+	\item \textbf{Předcházení/vyhýbání se zahlcení}: Následuje po pomalém startu, kdy se s každým potvrzením navyšuje. Algoritmy vyhýbání se zahlcení: Reno, New Reno, BIC, CUBIC, aj. SACK = selective ACK (selektivní potvrzování) je potvrzování segmentů i mimo pořadí pomocí volitelných položek záhlaví.
+\end{itemize}
+Pro každé spojení uživatel udržuje velikost MSS, posuvného okna, okna zahlcení a parametru SSTHRESH. SSTRESH se ukládá do směrovací tabulky a používá se jako výchozí hodnota pro nová spojení v témže směru.\\
+Při ztrátě segmntu:
+\begin{itemize}
+	\item po třetím stejném potvrzení se nastaví SSTHRESH na polovinu aktuálního okna zahlcení (minimálně 2xMSS), zopakuje se segment, nastaví se okno o něco výšší, než SSTHRESH a při opakovaných potvrzeních se zvyšuje o MSS
+	\item po potvrzení ztraceného segmentu se nastaví okno na původní SSTHRESH a opět probíhá pomalé zvětšování
+	\item po neobdržení potvrzení znovu pomalý start (okno = MSS, SSTRESH = 2xMSS)
+\end{itemize}
 
 \end{document}
