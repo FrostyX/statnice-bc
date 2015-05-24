@@ -51,6 +51,7 @@ konzistence dat.}
 ISO OSI. Strukturovaná kabeláž, přepínaný Ethernet a WLAN. Protokol IP, adresa a maska, směrování, IP
 multicast. Protokoly TCP a UDP, správa spojení a řízení toku dat. Systém DNS, překlad jména (na IP adresu,
 reverzní), protokol. Služby WWW, elektronické pošty, přenosu souborů a vzdáleného přihlášení.}
+\paragraph{POZOR!} packet = jakákoliv naformátovaná zpráva jako packet vs. datagram = packet nespolehlivého přenosu dat.
 \subsection{Klasifikace (LAN/MAN/WAN)}
 Klasifikace sítí podle různých kritérií: rozlehlost, rychlost přenosu (klasické, vysokorychlostní), forma aplikace, dělení podle postavení uzlů (perr-to-peer, klient-server), podle druhu přenášení signálů (analog vs. digital) aj.
 \subsubsection{Dělení podle rozlehlosti}
@@ -310,5 +311,57 @@ Norma IEEE 802.1: Propojení sítí na úrovni MAC, tvorva VLAN. Propojení LAN 
 	\item skupinová (nejnižší bit prvního bytu = 1)
 	\item všesměrová (samé 1)
 \end{itemize}
+
+
+
+
+\subsection{Protokol IP, adresa a maska, směrování, IP multicast}
+\subsubsection{Protokol IP}
+Poskytuje nespolehlivou nespojovou službu (nevytváří spojení , nepotvrzuje příjem packetů). Spojuje lokální sítě do globální sítě Internet. Tvořen několika dílčími protokoly: vlastní protokol IP, ICMP (diagnostika a signalizace mimořádných stavů), IGMP (skupinové adresování), ARP a RARP (zjištění linkové adresy k IP adrese a opačně). Síťové rozhraní uzlu má alespoŇ jednu IP adresu. \\
+IP protokol byl původně vyvinut pro potřeby komunikace v Internetu. IP adresa musí být v dané síti jednoznačná (jedno rozhraní může mít více IP adres, ale stejná IP adresa nemůže být na více rozhraních), avšak lze používat NAT a privátní IP adresy.
+\paragraph{IP packet} záhlaví 20B povinných položek + volitelné položky, data, maximální délka 64kB
+\paragraph{Složení hlavičky packetu:} bity označující verzi (IPv4 vs IPv6), typ služby = ToS (nepoužíváno, v současnosti QoS), délka packetu, tag pomáhající k rekonstrukci packetu z více fragmentů, příznak DF (zakázání fragmentace) a MF (indikace dalších fragmentů), TTL (Time To Live - přes kolik routerů může projít, než bude zničen), bity označující protokol (ICMP, UDP, TCP, ...), kontrolní součet, zdrojová a cílová IP.
+\paragraph{doba života TTL} zamezení nekonečného "toulání" packetu. Každý směrovač snižuje alespoň o 1 (a musí tedy přepsat kontrolní součet v záhlaví). Při 0 se packet zahodí a odesílateli je to signalizováno pomocí ICMP.
+\subsubsection{IP adresa} Každé síťové rozhraní může mít jednu či více IP adres (jednozačných). Přidělení IP adresy staticky síťovému rozhraní pomocí ipconfig (MS Windows) nebo ifconfig/ip (UNIX, GNU/Linux).
+\paragraph{IPv4}
+Číslo o délce 4B. Notace v desítkovém tvaru oddělené tečkou po každém bytu (např. 127.0.0.1). \\
+\textbf{Struktura adresy} Adresa se dělí na: adresu sítě, adresu podsítě a adresu počítače. Adresu sítě pro danou koncovou síť přiděluje poskytovatel připojení (oficiálně ji přiděluje lokální registrátor, ale tím bývá právě poskytovatel). Je třeba o ni požádat prostřednictvím standardních formulářů. Strukturu lokální části adresy – zda bude rozdělena na podsítě a jaká její část bude případně věnována adrese podsítě a jaká adrese počítače – určuje správce dotyčné sítě. Ten také přiděluje adresy. \\
+\textbf{Třídy sítě} Historická záležitost, třídy A-E (rozdělení podle toho jaká část IP adresy určuje síť a jaká část počítač) \\
+\begin{tabular}{| l | l | l | l | l |}
+\hline
+třída & 1. bajt & minimum & maximum& maska podstítě \\ \hline
+A & 0–127 & 0.0.0.0 & 127.255.255.255 & 255.0.0.0 \\ \hline
+B & 128–191 & 128.0.0.0 & 191.255.255.255 & 255.255.0.0 \\ \hline
+C & 192–223 & 192.0.0.0 & 223.255.255.255 & 255.255.255.0 \\ \hline
+D & 224–239 & 224.0.0.0 & 239.255.255.255 & 255.255.255.255 \\ \hline
+E & 240–255 & 240.0.0.0 & 255.255.255.255 & — \\ \hline
+\end{tabular} \\
+Například síť třídy A je taková síť, kde první číslo čtyřčíselné IP adresy označuje síť a zbylá tři čísla označují adresu hostitele. Třída B používá první dvě pro označení síťové adresy a zbývající dvě pro hostitele a síť třídy C používá první tři čísla pro označení sítě a poslední pro označení hostitele. \\
+Postupem času se však i toto rozdělení ukazovalo jako velice nepružné a s rostoucím nedostatkem adres se hledaly způsoby na vylepšení původního systému.
+\paragraph{Síťová maska} Maska sítě zapsaná v binárním tvaru má zleva samé jedničky až do místa, kde končí číslo sítě a na místě části pro číslo síťového rozhraní jsou samé nuly. Maska sítě je v IPv4 zapisována stejně jako IP adresa – čtyřmi desítkovými čísly oddělenými tečkami, z nichž každé odpovídá jednomu oktetu v 32bitové adrese. Někdy se udává maska sítě zkrácenou formou zápisu, kterou označujeme CIDR (Classless Inter-Domain Routing, beztřídní mezidoménové směrování), ve kterém je možno v IP adrese hranici mezi číslem sítě a číslem počítače umisťovat libovolně (mezi dva libovolné bity). Adresa síťového rozhraní je pak zapisována pomocí IP adresy a délky prefixu (místo prefixu, který určuje délku čísla sítě v bitech lze použít i desítkový zápis masky sítě) (192.168.24.0/21 nebo 192.168.24.0/255.255.248.0). Protože má maska sítě na místě čísla sítě samé jedničky, můžeme z libovolné IP adresy určit číslo sítě pomocí logického součinu IP adresy a masky sítě. Pokud známe číslo sítě a masku, můžeme spočítat rozsah IP adres, které se v této podsíti nacházejí a tím i počet IP adres, které je možné použít pro síťová rozhraní v této podsíti. \\
+Speciální adresy:
+\begin{itemize}
+	\item celá adresa samé 0: tento uzel (loopback bez přidělené adresy)
+	\item uzel 0: adresa sítě
+	\item síť 0: uzel v síti (nepoužívá se)
+	\item uzel samé 1: všesměrová adresa sítě (network broadcast)
+	\item celá adresa samé 1: všesměrová adresa lokální sítě (local broadcast), nesměřuje se
+	\item 127.cokoliv: smyčka (loopback), většinou 127.0.0.1, odesílaný packet "ihned přijde"
+\end{itemize}
+\paragraph{IPv6} adresa má délku 128 bitů. Zpisuje se jako osm skupin po čtyřech hexadecimálních číslicích (např. 2001:0718:1c01:0016:0214:22ff:fec9:0ca5). Úvodní nuly v každé skupině lze ze zápisu vynechat. Pokud adresa obsahuje několik po sobě jdoucích nulových skupin, lze místo nich zapsat jen "::". Tato zkratka smí být v adrese pouze jedna (např. loopback je ::1).\\
+Tři typy adres:
+\begin{itemize}
+	\item Individuální (unicast) která identifikují právě jedno síťové rozhraní.
+	\item Skupinové (multicast) označují skupinu síťových rozhraní, jejímž členům se mají data dopravit. Skupinově adresovaný datagram se doručuje všem členům skupiny.
+	\item Výběrové (anycast) označují také skupinu síťových rozhraní, data se však doručují jen jejímu nejbližšímu členovi.
+\end{itemize}
+IPv6 neobsahuje všesměrové (broadcast) adresy. Byly nahrazeny obecnějším modelem skupinových adres a pro potřeby doručení dat všem zařízením připojeným k určité síti slouží speciální skupinové adresy (např. ff02::1 označuje všechny uzly na dané lince). Zavádí se také koncepce dosahu (scope) adres. Adresa je jednoznačná vždy jen v rámci svého dosahu. Nejčastější dosah je pochopitelně globální, kdy adresa je jednoznačná v celém Internetu. Kromě toho se často používá dosah linkový, definující jednoznačnou adresu v rámci jedné linky (lokální sítě, např. Ethernetu).
+\paragraph{DHCP} Používá se pro automatickou konfiguraci počítačů připojených do počítačové sítě. DHCP server přiděluje počítačům pomocí DHCP protokolu zejména IP adresu, masku sítě, implicitní bránu a adresu DNS serveru. Platnost přidělených údajů je omezená, proto je na počítači spuštěn DHCP klient, který jejich platnost prodlužuje.
+\paragraph{Směrování} Chce-li počítač vyslat IP datagram, musí nejprve zjistit, do které sítě zadaná IP adresa náleží. Tuto činnost označujeme jako směrování IP datagramů. \textbf{Směrování (routing)} = odeslání packetů na další směrovač nebo cílový uzel (next hop). \textbf{Předávání (forwarding)} = předávání packetu v rámci směrovače mezi jeho síťovými rozhraními. Packety mohou být \textbf{filtorvány} nastavením filtračních pravidel v OS, na základě IP záhlaví, TCP/UDP záhlaví nebo aplikačního protokolu\\
+Směrování probíhá podle směrovací tabulky, ve které je na každém řádku definována jedna síť (pomocí čísla sítě a masky). Tabulku vytváří administrátor \textbf{ručně} nebo vzniká \textbf{dynamicky} pomocí směrovacích protokolů. Tabulka je setříděna podle jednotlivých masek sítí tak, že záznamy s nejdelší maskou (tj. nejkonkrétnější) jsou ve směrovací tabulce umístěny nejdříve, což umožňuje ve směrovací tabulce vytvářet výjimky (z větší sítě vyjmout jako speciální případ menší podsíť).
+Zjišťování příslušnosti cílové IP adresy k síti (definované v řádku směrovací tabulky) probíhá tak, že se postupně pro každý řádek ve směrovací tabulce provede logický součin cílové IP adresy s maskou definované sítě a porovná se výsledek s definovaným číslem sítě. Pokud dojde ke shodě, patří IP adresa do sítě definované na řádku, kde ke shodě došlo. \\
+\paragraph{IP multicast} je metoda přeposílání IP datagramů z jednoho zdroje skupině více koncových stanic. Místo odesílání jednotlivých datagramů ke každému cíli je odeslán jediný datagram. K identifikaci jednotlivých multicastových skupin se používají IP adresy třídy D. Aby cílová stanice mohla přijímat multicastová data, musí být přihlášena alespoň do jedné skupiny a samozřejmě router sítě musí multicasting podporovat, udržovat tedy v sobě tabulku skupin, které má odchytávat. Router, který přijímá informace z multicastových skupin, se od uzlů snaží zjistit, které skupiny mají být vysílány uzlům do bezprostředně připojené sítě. Tuto službu nám zajišťuje IGMP protokol, díky kterému se uzly mohou přidávat do skupin. \\
+\textbf{IGMP protokol} dynamicky registruje jednotlivé hostitele, patřící do skupiny adres D. Hostitel identifikuje členství ve skupině odesláním zpráv protokolu IGMP a data zasílá vždy všem členům skupiny. Směrovače používající protokol IGMP pravidelně naslouchají zprávám protokolu IGMP a systematicky odesílají dotazy s cílem zjistit, které skupiny jsou v síti LAN aktivní. \\
+Každá IP adresa se v síti musí překládat na MAC adresu tedy i multicastová, právě díky této adrese se přenáší multicastová data v lokální síti. Zde však nastává problém v možné nejednoznačnosti, protože 48 bitová MAC adresa musí mít pro multicast prefix 01:00:5e následovaný nulovým bitem a zbylých 23 bitů MAC adresy je vyplněno posledními 23 bity IP adresy. Více stejně končícím IP adresám je tak přiřazena stejná multicastová MAC adresa. Tento problém se někdy nazývá 32-to-1 overlapping, protože právě 32 multicastových IP adres je mapováno na jedinou multicastovou MAC adresu.
 
 \end{document}
