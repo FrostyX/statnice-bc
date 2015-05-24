@@ -2,7 +2,12 @@
 \usepackage[utf8]{inputenc}
 \usepackage[czech]{babel}
 \usepackage[T1]{fontenc}
+<<<<<<< HEAD
+\setlength{\parskip}{12pt}
+\usepackage{fullpage}
+=======
 \setlength{\parskip}{6pt}
+>>>>>>> 6b9067b7c8b951d889c2ad66d92fa9c7a1d23eb8
 \usepackage{ amssymb }
 \usepackage{ mathrsfs }
 \usepackage{amsthm}
@@ -11,6 +16,7 @@
 \newtheorem{definition}{Definice}
 \newtheorem{sentence}{Věta}
 \newtheorem{example}{Příklad}
+\newtheorem{result}{Důsledek}
 \usepackage{graphicx}
 \usepackage{ dsfont }
 
@@ -203,6 +209,31 @@ Zobrazení (funkce) je matematickým protějškem běžně používaného pojmu 
 	\end{itemize}
 \end{sentence}
 
+\begin{sentence}
+	Nechť $f: A \rightarrow B$ je zobrazení. Inverzní relace $f^{-1}$ je zobrazením $B \rightarrow A$ tehdy a jen tehdy, je-li $f$ bijekce.
+\end{sentence}
+
+\begin{result}
+	Nechť $f: A \rightarrow B, \ g: B \rightarrow C$ jsou bijekce. Pak
+	\begin{itemize}
+		\item[a)] $f^{-1} : B \rightarrow A$ je bijekce
+		\item[b)] $g^{-1} \circ f^{-1}$ je bijekce C na A a platí $(f \circ g)^{-1} = g^{-1} \circ f^{-1}$.
+	\end{itemize}
+\end{result}
+
+\begin{definition}
+	Nechť $A \not= \emptyset$ je množina. Zobrazení $id_A : A \rightarrow A$ dané předpisem $id_A(x) = x$ pro každé $x \in A$ se nazývá \textbf{identické zobrazení}.
+\end{definition}
+
+\begin{definition}
+	Nechť $f : A \rightarrow B$ je zobrazení. Pak
+	\begin{itemize}
+		\item[a)] $f = f \circ id_B = id_A \circ f$
+		\item[b)] $f$ je bijekce tehdy a jen tehdy, když existuje zobrazení $g : B \rightarrow A$ tak, že $f \circ g = id_A, g \circ f = id_B$
+	\end{itemize}	
+\end{definition}
+
+
 \subsubsection{Poznámka k nekonečným množinám}
 \begin{definition}
 	Množina A se nazývá \textbf{spočetná} , právě když existuje bijekce $f : A \rightarrow \mathbb{N}$. Množina se nazývá \textbf{nespočetná}, právě když je nekonečná a není spočetná.
@@ -335,5 +366,305 @@ Jinými slovy dolní kužel množiny $Y$ v  $\langle X, \leq \rangle$ obsahuje t
 \begin{definition}
 	Nechť  $\langle X, \leq \rangle$ je uspořádaná množina. Pokud pro každé $x,y \in X$ existuje $inf(x,y)$, pak  $\langle X, \leq \rangle$ nazveme \textbf{průsekový polosvaz}. Pokud pro každé $x,y \in X$ existuje $sup(x,y)$ pak  $\langle X, \leq \rangle$ nazveme \textbf{spojový polosvaz}. Je-li  $\langle X, \leq \rangle$ průsekový i spojový polosvaz, pak  $\langle X, \leq \rangle$ nazveme \textbf{svaz}.
 \end{definition}
+
+\newpage
+\textbf{Vektorové prostory, lineární závislost a nezávislost, báze a dimenze vektorového prostoru. Eukleidovské vektorové
+prostory. Matice, determinanty: vlastnosti, operace s nimi. Řešení soustav lineárních rovnic. Algebraické
+struktury: grupa, okruh, obor integrity, těleso. Svazy: modulární, distributivní, komplementární.}
+
+\section{Algebraické struktury}
+\subsection{Grupoid}
+\begin{definition}
+	Nechť $A \not= \emptyset$. Binární operací na množině A nazveme každé zobrazení $f : A \times A \rightarrow A$. 
+\end{definition}
+
+\begin{example}
+	Nechť $\mathbb{Z}$ je množina všech celých čísel, + přiřadí každé dvojici čísel $a,b \in \mathbb{Z}$ číslo $a + b \in \mathbb{Z}$. Je tedy binární operace.
+\end{example}
+
+\begin{definition}
+	Nechť $A \not= \emptyset$ a $\circ$ je binární operace na A. Dvojici $\mathscr{A} = (A, \circ)$ budeme nazývat grupoid. Jeli operace $\circ$ asociativní, tj. jestliže $\forall a,b,c \in A$ platí $a \circ (b \circ c) = (a \circ b) \circ c$, nazývá se grupoid $(A, \circ)$ pologrupa. Operace $\circ$ se nazývá komutativní jestliže $a \circ b = b \circ a$ pro každé $a,b \in A$.
+\end{definition}
+
+Budeme-li operaci v grupoidu zapisovat symbolem +, nazýváme grupoid $(A, +)$ \textbf{aditivní}, budeme-li operaci zapisovat $\circ$ (nebo vynechávat), nazývá se grupoid $(A, \circ)$ \textbf{multiplikativní}.
+
+\begin{definition}
+	Jestliže v grupoidu $(A, \circ)$ existuje prvek $e$ takový, že $a \circ e = e \circ a = a$ pro každé $a \in A$, nazývá se e \textbf{jednotkou} $(A, \circ)$. Jestliže v A existuje prvek n takový, že $a \circ n = n \circ a = n$, nazývá se n \textbf{nula} grupoidu $(A, \circ)$.
+\end{definition}
+
+\begin{definition}
+	Nechť $\mathscr{A} = (A, \circ)$ je grupoid, nechť $\emptyset \not= B \subseteq A$.Jestliže $\forall a,b \in B$ platí $a \circ b \in B$, nazývá se $(B, \circ)$ \textbf{podgrupoid} grupoidu $\mathscr{A}$.
+\end{definition}
+
+\subsection{Grupa}
+\begin{definition}
+	Nechť $(A, \circ)$ je pologrupa. Jestliže pro každé dva prvky $a,b \in A$ existují $x,y \in A$ tak, že platí  $a \circ x = b, y \circ a = b$, pak se $(A, \circ)$ se nazývá \textbf{grupa}.
+\end{definition}
+
+Další možností jak definovat to, že je grupoid $\mathscr{G}$ grupa říká následující definice.
+\begin{definition}
+	 $\mathscr{G} = (G, \circ)$  nazveme grupou pokud platí
+	\begin{enumerate}
+		\item $\forall a,b, \in G : a \circ b \in G$ (uzavřenost)
+		\item $\forall a,b,c \in G : (a \circ b) \circ c = a \circ (b \circ c)$ (asociativita)
+		\item $\exists e \in G \quad \forall a \in G : a \circ e = e \circ a = a$ (jednotkový prvek)
+		\item $\forall a \in G \quad \exists a^{-1} \in G : a \circ a^{-1} = a^{-1} \circ a = e$ (inverzní prvek)
+	\end{enumerate}
+	Grupa se nazývá \textbf{abelovská} právě když platí komutativita: $$\forall a,b, \in G : a \circ b = b \circ a$$
+\end{definition}
+
+\begin{definition}
+	Nechť $\mathscr{G} = (G, \circ)$ je grupa. Podgrupoid $(A, \circ)$ grupoidu $(G, \circ)$ se nazývá \textbf{podgrupa grupy} $\mathscr{G}$, je-li $(A, \circ)$ grupou.
+\end{definition}
+
+\begin{example}
+	Grupa $(\mathbb{Z}, +)$ je podgrupou grupy $(\mathbb{R}, +)$ všech reálných čísel.
+\end{example}
+
+\subsection{Okruh}
+\begin{definition}
+	\textbf{Okruhem} nazveme trojici $\mathscr{R} = (R, + , \cdot)$ takovou, že $R \not= \emptyset$ je množina, + a $\cdot$ jsou binární operace na R a
+	\begin{enumerate}
+		\item $(R, +)$ je abelovská grupa (0 její jednotka)
+		\item $(R, \cdot)$ je pologrupa
+		\item Platí \textbf{distributivní zákony}, tj. pro každé $a,b,c \in R$ platí $$a \cdot (b + c) = a \cdot b + a \cdot +\ c, \qquad (b + c) \cdot a = b \cdot a + c \cdot a$$
+	\end{enumerate}
+	Okruh $\mathscr{R}$ se nazývá \textbf{komutativní}, jestliže $ a \cdot b = b \cdot a$ pro každé $a,b \in R$. Okruh $\mathscr{R}$ se nazývá \textbf{unitární}, má-li pologrupa $(R \setminus \{0\}, \cdot)$ jednotku. Je-li $\mathscr{R}$ unitární, budeme jeho jednotku označovat 1. Prvek 0 (jednotka $(R, +)$) se nazývá \textbf{nulou okruhu} $\mathscr{R}$.
+\end{definition}
+
+\begin{example}
+	Komutativní unitární okruhy jsou například: okruh celých čísel $(\mathbb{Z}, + , \cdot)$, okruh reálných čísel $(\mathbb{R}, + , \cdot)$, okruh komplexních čísel $(\mathbb{C}, + , \cdot)$ a okruh racionálních čísel $(\mathbb{Q}, + , \cdot)$.
+\end{example}
+
+\begin{definition}
+	Prvek a okruhu $\mathscr{R} = (R,+,\cdot)$ se nazývá \textbf{dělitel nuly}, jestliže $a \not= 0$ existuje $b \not= 0, b \in R$ tak, že $a \cdot b = 0$. 
+\end{definition}
+
+\subsection{Obor integrity}
+\begin{definition}
+	Okruh $\mathscr{R} = (R,+,\cdot)$ se nazývá \textbf{obor integrity}, je-li komutativní, unitární a neobsahuje dělitele nuly.
+\end{definition}
+
+\begin{example}
+	Každý z okruhů $(\mathbb{Z}, + , \cdot)$, $(\mathbb{R}, + , \cdot)$,  $(\mathbb{C}, + , \cdot)$, $(\mathbb{Q}, + , \cdot)$ je obor integrity.
+\end{example}
+
+
+\subsection{Těleso}
+\begin{definition}
+	Okruh $\mathscr{R} = (R,+,\cdot)$ se nazývá \textbf{těleso}, je-li množina jeho nenulových prvků grupou vzhledem k operaci $\cdot$. Těleso $\mathscr{R}$ se nazývá \textbf{komutativní}, je-li $(R \setminus \{0\}, \cdot)$ abelovská grupa.
+\end{definition}
+
+\begin{example}
+	Okruhy  $(\mathbb{R}, + , \cdot)$,  $(\mathbb{C}, + , \cdot)$, $(\mathbb{Q}, + , \cdot)$ jsou komutativní tělesa. Okruh $(\mathbb{Z}, + , \cdot)$ není těleso.
+\end{example}
+
+\begin{sentence}
+	Každé komutativní těleso je obor integrity.
+\end{sentence}
+
+\begin{definition}
+	Je-li  $\mathscr{R} = (R,+,\cdot)$ okruh, $A \subseteq R$ taková že  $(A,+,\cdot)$ je opět okruh, pak se    $(A,+,\cdot)$ nazývá \textbf{podokruh okruhu} $\mathscr{R}$. Je-li  $\mathscr{R} = (R,+,\cdot)$ těleso, $A \subseteq R$ taková že  $(A,+,\cdot)$ je opět těleso, pak se $(A,+,\cdot)$ nazývá \textbf{podtěleso tělesa} $\mathscr{R}$. Každé podtěleso tělesa $\mathscr{C} = (C,+,\cdot)$  komplexních čísel nazveme \textbf{číselné těleso}. Každý podokruh okruhu  $\mathscr{C}$ nazveme \textbf{číselný okruh}.
+\end{definition}
+
+\begin{example}
+	 $ \mathscr{R} = (\mathbb{R}, + , \cdot)$,  $\mathscr{C} = (\mathbb{C}, + , \cdot)$, $ \mathscr{Q} = (\mathbb{Q}, + , \cdot)$ jsou číselná tělesa. $\mathscr{Z} = (\mathbb{Z}, + , \cdot)$ je číselný okruh, který není tělesem.
+\end{example}
+
+\section{Vektorové prostory}
+\begin{definition}
+	Nechť $A \not= \emptyset \not= B$ jsou množiny. Zobrazení $\circ : A \times B \rightarrow B$ nazveme \textbf{levá vnější operace nad množinami} A,B (v tomto pořadí). Jsou-li $a \in A, b \in B$, pak prvek $\circ(a,b)$ budeme zapisovat $a \circ b$.
+\end{definition}
+
+\begin{definition}
+	Nechť $(V, +)$ je abelovská grupa, nechť T je číselné těleso, nechť $\circ : T \times V \rightarrow V$ je levá vnější operace nad T,V. Pak čtveřici $\mathscr{V} = (V, +, T, \circ)$ nazveme \textbf{vektorový prostor nad} T, platí-li $\forall u,v \in V, \forall c,d, \in T$
+	\begin{enumerate}
+		\item $c \circ (u + v) = c \circ u + \circ v$
+		\item $(c + d) \circ u = c \circ u + d \circ u$
+		\item $(c \cdot d) \circ u = c \circ (d \circ u)$
+		\item $1 \circ u = u$ 
+	\end{enumerate} 
+	Prvky v V budeme nazývat \textbf{vektory}, čísla z tělesa T \textbf{skaláry}. Množinu V nazveme \textbf{pole} vektorového prostoru $\mathscr{V}$.
+\end{definition}
+
+\begin{definition}
+	Nechť  $\mathscr{V}$ je vektorový prostor nad tělesem T, nechť $v,u_1,\dots,u_k \in V$. Řekneme, že vektor v je \textbf{lineární kombinací vektorů}  $v,u_1,\dots,u_k$, jestliže existují čísla $c_1, \dots, c_k \in T$ tak, že $$v = c_1 \cdot u_1 + \dots + c_k \cdot u_k$$
+\end{definition}
+\paragraph{Poznámka.} Symbolem \textbf{o} budeme označovat tzv. \textbf{nulový vektor}, což je jednotka grupy $(V, +)$. Použitím podmínky 2. dostaneme $\forall u \in V:$ $$0 \cdot u = (c + (-c)) \cdot u = c \cdot u + (-c \cdot u) = o$$
+Tedy nulový vektor je lineární kombinací libovolných vektorů z $V: $ je-li $u_1,\dots,u_k \in V$ pak $$0 \cdot u_1 + \dots + 0 \cdot u_k = o$$
+
+
+\begin{definition}
+	Vektory $u_1, \dots, u_k$ z vektorového prostoru $\mathscr{V}$ se nazývají \textbf{lineárně nezávislé}, jestliže existují čísla $c_1, \dots, c_k \in T$, která nejsou všechna rovna nule tak, že nulový vektor \textbf{o} je roven netriviální lineární kombinaci vektorů $u_1, \dots, u_k$, tj. $$o = c_1 \cdot u_1 + \dots + c_k \cdot u_k,$$
+	kde aspoň jedno $c_i \not= 0$. Jestliže vektory $u_1, \dots, u_k$ nejsou lineárně závislé, nazývají se \textbf{lineárně nezávislé}.
+\end{definition}
+
+\paragraph{Poznámka.} Zřejmě vektory  $u_1, \dots, u_k \in \mathscr{V}$ jsou lineárně nezávislé, právě když $$o = c_1 \cdot u_1 +  \dots + c_k \cdot u_k \quad \Rightarrow \quad c_1 = c_2 = \dots = c_k = 0$$
+
+\begin{sentence}
+	Jsou-li mezi vektory  $u_1, \dots, u_k \in \mathscr{V}$  některé lineárně závislé, pak jsou  $u_1, \dots, u_k$ lineárně závislé. 
+\end{sentence}
+
+\begin{sentence}
+	Je-li mezi vektory  $u_1, \dots, u_k$  vektor nulový \textbf{o}, pak jsou $u_1, \dots, u_k$ lineárně závislé. 
+\end{sentence}
+
+\begin{sentence}
+	Nechť $u_1, \dots, u_k \in \mathscr{V}$. Pak  $u_1, \dots, u_k$ jsou lineárně závislé, právě když je aspoň jeden z nich lineární kombinací ostatních vektorů. 
+\end{sentence}
+
+\begin{definition}
+	Nechť  $\mathscr{V} = (V, +, T, \circ)$  je vektorový prostor nad tělesem T, nechť $\emptyset \not= W \subseteq V$. Pak  $\mathscr{W} = (W, +, T, \circ)$ nazveme \textbf{podprostor vektorového prostoru} $\mathscr{V}$, jestliže
+	\begin{enumerate}
+		\item $\forall u,c \in W$ je $u + v \in W$
+		\item $\forall u \in W, \forall c \in T$ je $c \cdot u \in W$.
+	\end{enumerate}
+\end{definition}
+
+
+\begin{definition}
+	nechť M je podmnožina vektorového prostoru $\mathscr{V}$. \textbf{Lineárním obalem množiny M ve} $\mathscr{V}$ rozumíme množinu všech lineárních kombinací vektorů z M.
+\end{definition}
+
+\begin{definition}
+	Nechť  $\mathscr{V}$ je vektorový prostor, $m \not= \emptyset$ jeho podmnožina. Je-li $[M] =\mathscr{V}$, nazývá se M množina generátorů  $\mathscr{V}$.
+\end{definition}
+
+\begin{definition}
+	Řekněme, že vektorový prostor $\mathscr{V}$ je konečné dimenze, má-li aspoň jednu konečnou množinu generátorů.		
+\end{definition}
+
+\begin{definition}
+	Bází vektorového prostoru $\mathscr{V}$ konečné dimenze rozumíme libovolnou lineárně nezávislou konečnou množinu $\{u_1, \dots, u_n\}$ jeho generátorů.
+\end{definition}
+
+\begin{sentence}
+	Nechť $M = \{u_1, \dots, u_n\}$ je bází $\mathscr{V}$. Pak každý vektor $v \in \mathscr{V}$ lze jediným způsobem vyjádřit jako lineární kombinaci vektorů $u_1, \dots, u_n$.
+\end{sentence}
+
+\begin{example}
+	Příklad báze vektorového prostoru $e_1 = (1,0,0,0), e_2 = (0,1,0,0), e_3 = (0,0,1,0), e_4 = (0,0,0,1)$
+\end{example}
+
+\begin{definition}
+	Je-li $\mathscr{V} \not= \{o\}$  vektorový prostor konečné dimenze, pak počet prvků jeho libovolné báze nazýváme dimenze $\mathscr{V}$ a značíme $dim\mathscr{V}$, Je-li $\mathscr{V} = \{o\}$, položíme dim$\mathscr{V} = 0$.  
+\end{definition}
+
+\section{Eukleidovské vektorové prostory}
+Ve vektorovém prostoru nad tělesem $T$ můžeme vektory sčítat, odčítat a násobit skaláry z tělesa $T$ (levá vnější operace). Nemáme však zaveden pojem délky vektoru, úhlu mezi vektory apod. Zavedeme proto další pojem. 
+
+\begin{definition}
+	Nechť $\mathscr{V} = (V, +, \mathbb{R}, \cdot)$ je vektorový prostor nad tělesem reálných čísel $\mathbb{R}$. \textbf{Skalárním součinem} $\circ$ nazveme zobrazení $V \times V$ do tělesa $\mathbb{R}$, které má tyto vlastnosti:
+	\begin{enumerate}
+		\item $\forall u,v \in V, u \circ v = v \circ u$
+		\item $\forall u \in V, u \not= o, u \circ o > 0$
+		\item $\forall u,v,w \in V, (u + v) \circ w = u \circ w + v \circ w$
+		\item $\forall u,v \in V, \forall c \in \mathbb{R}, (c \cdot u) \circ v = c \cdot (u \circ v)$.
+	\end{enumerate}
+\end{definition}
+
+\begin{example}
+	Je-li $\mathscr{V} = (\mathbb{R}^n, +, \mathbb{R}, \cdot)$ aritmeticky (n-dimenzionální) vektorový prostor nad $\mathbb{R}, x = (x_1,x_2, \dots, x_n), y = (y_1,y_2, \dots, y_n)$, pak $x \circ y = \sum^n_{i=1} x_i \cdot y_i$ definuje skalární součin $\circ$.
+\end{example}
+
+\begin{definition}
+	Nechť $\mathscr{V} = (V, + \mathbb{R}, \cdot)$ je vektorový prostor nad tělesem reálných čísel, ve kterém je definován skalární součin. Pak se $\mathscr{V}$ nazývá \textbf{Eukleidovský vektorový prostor}
+\end{definition}
+
+\begin{definition}
+	Nechť $\mathscr{V}$ je Eukleidovský vektorový prostor, nechť $u \in V$. Číslo $\| u \| = \sqrt{u \circ u}$ nazveme délka vektoru u.
+\end{definition}
+
+\begin{definition}
+	Nechť $\mathscr{V}$ je Eukleidovský vektorový prostor, $u,v \in V$. Pak
+	\begin{itemize}
+		\item[a)] $\forall c \in \mathbb{R}$ je $\| c \cdot u \| = |c| \cdot \| u \|$
+		\item[b)] $\| o \|$ a pro $u \not= o$ je $\| u \| > 0$
+		\item[c)] $|u \circ v| \leq \| u \| \cdot \| v \|$ (Schwarzova nerovnost)
+	\end{itemize}
+\end{definition}
+
+\begin{definition}
+	Nechť $\mathscr{V}$ je Eukleidovský vektorový prostor, $u,v \in V$, $u \not= o \not= v$. Úhlem $\varphi$ vektorů u,v nazveme číslo $$\varphi = arccos \frac{u \circ v}{\| u \| \cdot \| v \|}$$
+\end{definition}
+Platí tedy $cos \varphi = \frac{u \circ v}{\| u \| \cdot \| v \|}$, kde $0 < \varphi < \pi$
+
+\begin{definition}
+	Vektory u,v nazveme ortogonální (kolmé). ozn. $u \bot v$, je-li $\varphi = \frac{\pi}{2}$ tj. $cos \varphi = 0$, tj. $u \circ v = 0$.
+\end{definition}
+
+\begin{definition}
+	Vektory $u_1, \dots, u_m$ jsou vzájemně ortogonální, platí-li $u_i \bot u_j$ pro každé $i \not= j$.
+\end{definition}
+
+\begin{sentence}
+	Nenulové vzájemně ortogonální vektory $u_1, \dots, u_m$ jsou lineárně nezávislé.
+\end{sentence}
+
+\begin{definition}
+	Jsou-li  $u_1, \dots, u_m$ vzájemně ortogonální vektory, přičemž $\{ u_1, \dots, u_m\}$ generuje celý prostor $\mathscr{V}$, pak je to báze $\mathscr{V}$ (tzv. ortogonální báze).
+\end{definition}
+
+\section{Matice}
+\begin{definition}
+	Nechť T je číselné těleso, m,n jsou čísla přirozená a nechť $a_{ij} \in T$  pro $i = 1, \dots, m, j = 1, \dots n.$ Dvojindexované schéma
+\begin{displaymath}
+{\bf A} =
+\left( \begin{array}{cccc}
+a_{11} & a_{12} & \dots & a_{1n} \\
+a_{21} & a_{22} & \dots & a_{2n} \\
+\vdots &  &  &  \\
+a_{m1} & a_{m2} & \dots & a_{mn} \\
+\end{array} \right)
+\end{displaymath}
+se nazývá matice typu $m \times n$ nad T. Číslo $a_{ij}$ se nazývá prvek matice A z i-tého řádku a j-tého sloupce. Číslo i se nazývá řádkový, číslo j sloupcový index prvku $a_{ij}$.
+\end{definition}
+
+\paragraph{Poznámka.} Někdy budeme matice značit následovně: $A = \| a_{ij}\|$.
+
+\begin{definition}
+	Matice $A = \|a_{ij}\|$ typu $m \times n$, kde $m = n$ se nazývá čtvercová matice stupně n. Čtvercová matice A se nazývá diagonální pokud pro všechny její prvky. která neleží na hlavní diagonále jsou rovny 0. Diagonální matice se nazývá skalární, jestliže všechny její prvky na hlavní diagonále jsou si rovny. Skalární matice se nazývá jednotková stupně n, jsou-li všechny její prvky na hlavní diagonále rovny 1 (budeme ji označovat $E_n$). Matici N typu $m \times n$ nazveme nulová matice jestliže jsou všechny její prvky rovny 0.
+\end{definition}
+
+\paragraph{Označení.} Symbolem $\mathscr{M}_{m \times n}(T)$ resp. $\mathscr{M}_{n}(T)$ označíme množinu všech matic typu $m \times n$ resp. všech čtvercových matic stupně $n$ nad tělesem $T$.
+ 
+\begin{definition}
+	Dvě matice $A,B$ z $\mathscr{M}_{m \times n}(T)$ jsou si rovny, jestliže $a_{ij} = b_{ij}$ pro každé  $i = 1, \dots, m, j = 1, \dots n.$ 
+\end{definition}
+
+\begin{definition}
+	Mějme matice $A,B \in \mathscr{M}_{m \times n}(T)$. Součtem matice $A$ a $B$ rozumíme matici $A + B = \|c_{ij}\|$, kde $ \|c_{ij}\| =  a_{ij} + b_{ij}$ pro každé $i = 1, \dots, m, j = 1, \dots n.$ 
+\end{definition}
+
+\begin{sentence}
+	Množina $\mathscr{M}_{m \times n}(T)$ spolu se zavedenou operací sčítání matic tvoří abelovskou grupu.
+\end{sentence}
+\begin{definition}
+	Nechť T je číselné těleso, $A \in \mathscr{M}_{m \times n}(T)$. Prvky z T budeme nazývat skaláry. zavedeme levou vnější operaci $\cdot : T \times  \mathscr{M}_{m \times n}(T) \rightarrow \mathscr{M}_{m \times n}(T)$ takto: $c \in T, \ A= \| a_{ij} \| \ pak \ cA = \|c \cdot a_{ij} \|$ je tzv. násobení matice skalárem.
+\end{definition}
+
+\begin{definition}
+	Nechť $A= \| a_{ij} \|$ je matice typu $m \times n$. Matici transponovanou k matici A nazýváme matici $A^T = \| a_{ji} \|$ typu $n \times m$ která vznikne z A vzájemnou výměnou řádků a sloupců (tj. otočením A podle hlavní diagonály).
+\end{definition}
+
+\begin{definition}
+	Nechť $A= \| a_{ij} \|$ je matice typu $m \times n$ a nechť $B= \| b_{jk} \|$ je matice typu $n \times p$  nad tělesem T. Součinem matic A a B (v tomto pořadí) nazveme matici $AB =  \| c_{ik} \|$ typu $m \times p$ pro jejíchž prvky platí: $$c_{ik} = a_{i1}b_{1k} + a_{i2}b_{2k} + \dots + a_{in}b_{nk} = \sum^n_{j=1} a_{ij}b_{jk}$$
+	pro každé $i = 1, \dots, m, k = 1, \dots p.$
+\end{definition}
+
+\begin{sentence}
+	Násobení matic je asociativní, tj. jestliže $A \in \mathscr{M}_{m \times n}(T), B \in \mathscr{M}_{n \times p}(T), C \in \mathscr{M}_{p \times r}(T)$, pak $$(AB)C = A(BC).$$
+\end{sentence}
+
+\begin{sentence}
+	Nechť T je těleso $n \in \mathbb{N}$. Pak $ \mathscr{M}_{n}(T) = (\mathscr{M}_{n}(T) ,+,\cdot)$ je unitární okruh, jehož jednotkou je jednotková matice. Je-li $n > 1$ pak tento okruh není komutativní a obsahuje dělitele nuly. Je-li $n = 1$ pak $\mathscr{M}_{1}(T)$  je komutativní těleso.
+\end{sentence}
+
+\section{Determinanty}
+
+\begin{definition}\end{definition}
+\begin{definition}\end{definition}
+\begin{definition}\end{definition}
+\begin{definition}\end{definition}
 
 \end{document}

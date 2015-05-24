@@ -3,12 +3,12 @@
 \usepackage[czech]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{epsfig}
+\usepackage{fullpage}
 \usepackage{listings}
 \usepackage{color}
 \usepackage{hyperref}
 \usepackage{ amssymb }
 \usepackage{ mathrsfs }
-\usepackage{graphicx}
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -281,7 +281,13 @@ jsou vyvážené vyhledávací stromy s vlastnostmi:
 	\item Všechny listy mají stejnou vzdálenost od kořene (strom je vyvážený).
 \end{itemize}
 \subsubsection{Vytvoření RB stromu z B-stromu}
-Jednotlivé uzly B-stromu nahradíme 1-3 binárními uzly. Horní nahrazující uzel bude černý, uzly pod ním budou červené uzly. Horní uzel bude s uzly pod ním spojen červenými hranami (viz obrázek RBstrom.jpg).
+Jednotlivé uzly B-stromu nahradíme 1-3 binárními uzly. Horní nahrazující uzel bude černý, uzly pod ním budou červené uzly. Horní uzel bude s uzly pod ním spojen červenými hranami (viz obrázek).
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{images/3/RBstrom}
+    \caption{Vytvoření RB stromu z B-stromu}
+    \label{fig:rb_strom_z_b_stromu}
+\end{figure}
 \subsubsection{Vlastnosti RB stromu}
 \begin{itemize}
 	\item Kořenový uzel je vždy černý. Barva ostatních uzlů je dána barvou hrany, kterou je uzel spojen s předchůdcem.
@@ -578,10 +584,71 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
 \newpage
 %----------------------------------------treti odstavec---------------------------------------------------
 \section{}
-\paragraph{Programovací jazyky, jejich syntaxe a sémantika. Přehled paradigmat: funkcionální, procedurální, logické, objektové.
-Symbolické výrazy a vyhodnocovací proces jazyka Scheme. Vytváření abstrakcí pomocí procedur. Procedury
-vyšších řádů: aplikace a mapování. Seznamy a hierarchická data. Indukce a rekurze: princip a příklady.
-Typy rekurzivních výpočetních procesů. Lexikální a dynamický rozsah platnosti. Vlastnosti typových systémů.}
-  \subsection{Programovací jazyky, jejich syntaxe a sémantika.}
+\paragraph{Programovací jazyky, jejich syntaxe a sémantika. Přehled paradigmat: funkcionální, procedurální, logické, objektové. Symbolické výrazy a vyhodnocovací proces jazyka Scheme. Vytváření abstrakcí pomocí procedur. Procedury vyšších řádů: aplikace a mapování. Seznamy a hierarchická data. Indukce a rekurze: princip a příklady. Typy rekurzivních výpočetních procesů. Lexikální a dynamický rozsah platnosti. Vlastnosti typových systémů.}
+  \subsection{Programovací jazyky, jejich syntaxe a sémantika}
     \paragraph{Programovací jazyk}
+    Programovací jazyk jsou smluvená pravidla, v souladu se kterými je vytvořen program. Program je předpisem s přesně daným tvarem a významem, podle kterého vzniká výpočetní proces. Výpočetní proces je proces, při kterém jsou zpracováváná vstupní data. Každý programovací jazyk musí mít popsánu svoji syntax a sémantiku.\\
+    Dělení:
+    \begin{itemize}
+      \item dle míry abstrakce
+      \begin{itemize}
+        \item nižší -- kód stroje, jazyk symbolických adres, autokód, bajtkód
+        \begin{itemize}
+          \item těsně vázané na hardware počítače
+          \item programové konstrukce jsou spjaty s instrukční sadou procesoru
+          \item prakticky žádné prostředky abstrakce $\rightarrow$ zdlouhavé programování $\rightarrow$ zanášení chyb do programu (špatně odhalitelné)
+          \item vazba na hardware umožňuje počítač \uv{plně využít}
+        \end{itemize}
+        \item vyšší -- většina jazyků
+        \begin{itemize}
+          \item nejsou vázané na hardware
+          \item výrazně vyšší stupeň abstrakce $\rightarrow$ snadnější a rychlejší tvorba programů $\rightarrow$ menší riziko vzniku chyb
+          \end{itemize}
+          \item každý vyšší jazyk by měl programátorovi dát k dispozici:
+          \begin{itemize}
+            \item \textit{primitivní výrazy} (např. čísla, symboly, \ldots)
+            \item \textit{prostředky pro kombinaci} primitivních výrazů do složitějších
+            \item \textit{prostředky pro abstrakci} (možnost pojmenování složených výrazů a možnost s nimi dále manipulovat)
+          \end{itemize}
+        \end{itemize}
+        \item dle způsobu překladu a spuštění
+        \begin{itemize}
+          \item překlad přes nižší programovací jazyk (např. Pascal, C, Java, Cobol)
+          \begin{itemize}
+            \item \textit{překladač} (\textit{kompilátor, compiler}) \textit{programovacího jazyka} je program, který načte celý program a poté provede jeho překlad do některého nižšího programovacího jazyka, typicky do \textit{assembleru} nebo do nějakého bajtkódu, při překladu mohou nastat tři situace
+            \begin{itemize}
+              \item překlad byl proveden do \textit{kódu stroje}, pak překlad končí, protože jeho výsledkem je již program zpracovatelný procesorem, může být přímo spuštěn
+              \item překlad byl proveden do \textit{assembleru}, pak je potřeba dodatečný překlad do kódu stroje, který obvykle provádí rovněž překladač
+              \item překlad byl proveden do \textit{bajtkódu}, pak překlad končí, bajtkód ale není přímo zpracovatelný procesorem, musí tedy být ještě \textit{interpretován} nebo \textit{přeložen} (méně časté) dalším programem.
+            \end{itemize}
+            \item konstrukčně složitější než interpret
+            \item výsledkem je větší rychlost, ale také náročnost na správně zapsaný kód
+          \end{itemize}
+          \item překlad přes vyšší programovací jazyk
+          \begin{itemize}
+            \item typickou volbou překlad do některého z cílových jazyků, jejichž překladače jsou široce rozšířené, např. C
+          \end{itemize}
+          \item interpretace (např. BASIC, Perl, Python, shell, Ruby)
+          \begin{itemize}
+            \item \textit{interpret programovacího jazyka} je program, který čte výrazy programu a postupně je přímo vykonává, interprety tedy (obvykle) z daného programu neprodukují kód v jazyku stroje
+            \item kvůli efektivitě výsledného výpočetního procesu se může dodatečně kompilovat během interpretace, takovou kompilaci označujeme anglickým termínem \textit{just in time compilation}.
+          \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \paragraph{Syntaxe}
+    Soubor přesně daných pravidel definujících, jak zapisujeme programy v daném programovacím jazyku. Syntax většiny programovacích jazyků je popsána v jejich standardech pomocí \textit{formálních gramatik}, případně jejich vhodným rozšířením, například \textit{Backus-Naurovy formy}.
+    \begin{itemize}
+      \item \textit{syntaktická chyba} je chybou v zápisu programu -- kód, který není z pohledu daného jazyka syntakticky správný, nelze v podstatě chápat ani jako program v daném jazyku -- odhalí překladač během překladu, interpret odhalí až v momentě, kdy se pokusí načíst chybný vstupní výraz
+    \end{itemize}
+    \paragraph{Sémantika}
+      \textit{Význam programu}. V případě ohodnocování syntakticky neplatných řetězců není výpočet proveden. Sémantika popisuje procesy, které řídí počítač při vykonávání programu v daném programovacím jazyce. Například tím, že popisuje vztah mezi vstupem a výstupem programu, nebo popisem jak program poběží na určité platformě, tedy vytvořením modelu výpočtu.
+  \subsection{Přehled paradigmat: funkcionální, procedurální, logické, objektové}
+  \subsection{Symbolické výrazy a vyhodnocovací proces jazyka Scheme}
+  \subsection{Vytváření abstrakcí pomocí procedur}
+  \subsection{Procedury vyšších řádů: aplikace a mapování}
+  \subsection{Seznamy a hierarchická data}
+  \subsection{Indukce a rekurze: princip a příklady}
+  \subsection{Typy rekurzivních výpočetních procesů}
+  \subsection{Lexikální a dynamický rozsah platnosti}
+  \subsection{Vlastnosti typových systémů}
 \end{document}
