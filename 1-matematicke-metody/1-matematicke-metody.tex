@@ -2,12 +2,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage[czech]{babel}
 \usepackage[T1]{fontenc}
-<<<<<<< HEAD
 \setlength{\parskip}{12pt}
 \usepackage{fullpage}
-=======
 \setlength{\parskip}{6pt}
->>>>>>> 6b9067b7c8b951d889c2ad66d92fa9c7a1d23eb8
 \usepackage{ amssymb }
 \usepackage{ mathrsfs }
 \usepackage{amsthm}
@@ -65,9 +62,9 @@ Mezi základní operace s množinami patří průnik (značí se $\cap$), sjedno
 
 Jsou-li $A,B$ množiny, definujeme množiny $A \cup B, A \cap B, A \setminus B$ následovně:
 \begin{itemize}
-	\item[] $A \cap B = \{ x|x \in A \text{ a } x \in B\}$ 
-	\item[] $A \cup B = \{ x|x \in A \text{ nebo } x \in B\}$ 
-	\item[] $A \setminus B = \{ x|x \in A \text{ a } x \not\in B\}$ 
+	\item[] $A \cap B = \{ x|x \in A \text{ a } x \in B\}$
+	\item[] $A \cup B = \{ x|x \in A \text{ nebo } x \in B\}$
+	\item[] $A \setminus B = \{ x|x \in A \text{ a } x \not\in B\}$
 \end{itemize}
 
 Množiny nazýváme navzájem disjunktní právě když $A \cap B = \emptyset$.
@@ -77,8 +74,8 @@ Množiny nazýváme navzájem disjunktní právě když $A \cap B = \emptyset$.
 	\item $A \cap \emptyset = \emptyset, \hspace{10pt} A \cup \emptyset = A,\hspace{10pt} A \cap A = A$
 	\item $A \cup B = B \cup A, \hspace{10pt} A \cap B = B \cap A$
 	\item $(A \cup B) \cup C = A \cup (B \cup C)$
-	\item $A \cap (B \cup C) = (A \cap B) \cup (A \cap C), \hspace{10pt} A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$ 
-	\item $A \cup (A \cap B) = A, \hspace{10pt} A \cap (A \cup B) = A$ 
+	\item $A \cap (B \cup C) = (A \cap B) \cup (A \cap C), \hspace{10pt} A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+	\item $A \cup (A \cap B) = A, \hspace{10pt} A \cap (A \cup B) = A$
 \end{itemize}
 
 \section{Princip indukce}
@@ -89,7 +86,7 @@ Princip matematické indukce umožňuje dokazovat tvrzení ve tvaru \uv{pro kaž
 	\begin{itemize}
 		\item V(1) (indukční předpoklad)
 		\item pro každé $n \in \mathbb{N}$: z V(n) plyne V($n+1$) (indukční krok).
-	\end{itemize} 
+	\end{itemize}
 	Pak platí V(n) pro každé $n \in \mathbb{N}$.
 \end{sentence}
 
@@ -146,8 +143,8 @@ Tedy je-li $\langle x, y \rangle \in R$, je v průsečíku řádku $x$ a sloupce
 
 \subsubsection{Maticí}
 Matice typu $m \times n$ je obdélníkové schéma o $m$ řádcích a $n$ sloupcích, ve kterém se na každém místě odpovídajícím nějakému řádku a nějakému sloupci nachází nějaká (nejčastěji číselná) hodnota. Označme tuto matici $M$, pro každé $i \in \{1, \dots,m\}$ a $j \in \{1,\dots,n\}$  Nechť $R$ je relace mezi množinami $X = \{x_1,\dots,x_m\}$ a $Y = \{y_1, \dots, y_n\}$. Potom relaci $R$ reprezentujeme maticí tak, že pokud:
-$$\langle x_i,y_j\rangle \in R \text{ pak } m_{ij} = 1$$ 
-$$\langle x_i,y_j\rangle \not\in R \text{ pak } m_{ij} = 0$$ 
+$$\langle x_i,y_j\rangle \in R \text{ pak } m_{ij} = 1$$
+$$\langle x_i,y_j\rangle \not\in R \text{ pak } m_{ij} = 0$$
 Tuto matici nazveme \textbf{matice relace} R a značíme ji $M_R$. Matice $M_R$ relace $R = \{ \langle 1, \alpha \rangle, \langle 2, \gamma \rangle, \langle 1, \delta \rangle, \langle 2, \beta \rangle, \langle 3, \alpha \rangle\}$ mezi množinami \\$X = \{1,2,3\}$ a $Y = \{\alpha, \beta, \gamma, \delta, \epsilon\}$ bude vypadat  následovně.
 
 \begin{displaymath}
@@ -230,7 +227,7 @@ Zobrazení (funkce) je matematickým protějškem běžně používaného pojmu 
 	\begin{itemize}
 		\item[a)] $f = f \circ id_B = id_A \circ f$
 		\item[b)] $f$ je bijekce tehdy a jen tehdy, když existuje zobrazení $g : B \rightarrow A$ tak, že $f \circ g = id_A, g \circ f = id_B$
-	\end{itemize}	
+	\end{itemize}
 \end{definition}
 
 
@@ -251,7 +248,7 @@ Nechť $R$ je binární relace na $X$. Řekněme že $R$ je
 	\item \textbf{tranzitivní}, pokud pro každé $x,y,z \in X$ platí \\$(\langle x, y \rangle \in R \wedge \langle y, z \rangle \in R) \Rightarrow \langle x, z \rangle \in R$
 	\item \textbf{irreflexivní}, pokud pro každé $x \in X$ platí $\langle x,x \rangle \not\in R$
 	\item \textbf{asymetrická}, pokud pro každé $x,y \in X$ platí $\langle x, y \rangle \in R \Rightarrow \langle y, x \rangle \not\in R$
-	\item \textbf{úplná}, pokud pro každé $x,y \in X$ platí $\langle x, y \rangle \in R \vee \langle y, x \rangle \in R$ 
+	\item \textbf{úplná}, pokud pro každé $x,y \in X$ platí $\langle x, y \rangle \in R \vee \langle y, x \rangle \in R$
 \end{itemize}
 \end{definition}
 
@@ -295,8 +292,8 @@ Rozklad na množině je matematický protějšek shluků nerozlišitelných prvk
 		\item pro každé $Y_1,Y_2 \in \sqcap$ platí: pokud $Y_1 \cap Y_1 \not= \emptyset$, pak $Y_1 = Y_2$,
 		\item $\bigcup\sqcap = X$,
 	\end{enumerate}
-	se nazývá \textbf{rozklad na množině} X. Množiny $Y \in \sqcap$ nazýváme \textbf{třídy rozkladu} $\sqcap$. Pro prvek $x \in X$ označíme $[x]_\sqcap$ tu třídu rozkladu $\sqcap$, která obsahuje x. 
-\end{definition} 
+	se nazývá \textbf{rozklad na množině} X. Množiny $Y \in \sqcap$ nazýváme \textbf{třídy rozkladu} $\sqcap$. Pro prvek $x \in X$ označíme $[x]_\sqcap$ tu třídu rozkladu $\sqcap$, která obsahuje x.
+\end{definition}
 Na množině $X$ existuji dva mezní rozklady.Prvním z nic je rozklad $\sqcap$, kde $[x]_\sqcap = \{x\}$ pro každé $x \in X$, tj všechny třídy rozkladu $\sqcap$ jsou jednoprvkové. Druhým mezním případem je rozklad $\sqcap = \{X\}$, tj. $\sqcap$ obsahuje jedinou třídu, která je rovna celé $X$, tedy $[x]_\sqcap = X$ pro každé $x \in X$.
 
 \begin{sentence}
@@ -313,7 +310,7 @@ Uspořádání je v informatice zcela zásadní ačkoliv si to někdy neuvědomu
 	Reflexivní, antisymetrická a tranzitivní binární relace R na X se nazývá \textbf{uspořádání}. Úplné uspořádání se nazývá \textbf{lineární uspořádání} neboli \textbf{řetězec}. Pokud je R uspořádání na X, pak se $\langle X, R \rangle$ nazývá \textbf{upořádáná množina}.
 \end{definition}
 
-Relace uspořádání na $X$ obvykle značíme $\leq$ v souladu s intuitivním chápáním uspořádání a místo $\langle x ,y \rangle \in \ \leq$. Zdůrazněme ale, že označení $\leq$ v tuto chvíli nemá (obecně) nic společného se srovnáváním čísel, na které jsme zvyklí. Uspořádání pořád ještě není formálním protějškem \uv{upořádání} na které jsme zvyklí při porovnávání čísel. Je-li $\langle X, \leq \rangle$ uspořádaná množina, pak mohou  existovat $x,y \in X$ ,pro které neplatí $x \leq y$ ani $y \leq x$ (definice to nevylučuje). V tom případě říkáme, že prvky jsou \textbf{nesrovnatelné} což někdy značíme $x\ \| \ y$. V opačném případě prvky nazýváme \textbf{srovnatelné}. Je-li $\leq$ lineární uspořádání na $X$, pak je $\leq$ úplná relace, což znamená, že každé prvky jsou srovnatelné. Lineární uspořádání lze tedy chápat jako matematický protějšek \uv{tradičního srovnávání čísel}. Každá relace identity $\omega_X$ je uspořádání které nazýváme \textbf{antiřetězec}  
+Relace uspořádání na $X$ obvykle značíme $\leq$ v souladu s intuitivním chápáním uspořádání a místo $\langle x ,y \rangle \in \ \leq$. Zdůrazněme ale, že označení $\leq$ v tuto chvíli nemá (obecně) nic společného se srovnáváním čísel, na které jsme zvyklí. Uspořádání pořád ještě není formálním protějškem \uv{upořádání} na které jsme zvyklí při porovnávání čísel. Je-li $\langle X, \leq \rangle$ uspořádaná množina, pak mohou  existovat $x,y \in X$ ,pro které neplatí $x \leq y$ ani $y \leq x$ (definice to nevylučuje). V tom případě říkáme, že prvky jsou \textbf{nesrovnatelné} což někdy značíme $x\ \| \ y$. V opačném případě prvky nazýváme \textbf{srovnatelné}. Je-li $\leq$ lineární uspořádání na $X$, pak je $\leq$ úplná relace, což znamená, že každé prvky jsou srovnatelné. Lineární uspořádání lze tedy chápat jako matematický protějšek \uv{tradičního srovnávání čísel}. Každá relace identity $\omega_X$ je uspořádání které nazýváme \textbf{antiřetězec}
 
 \begin{sentence}
 	Princip duality. Nechť $\leq$ je uspořádání na $X$. Pak $\leq^{-1}$ je uspořádání na $X$, které označujeme $\geq$.
@@ -375,7 +372,7 @@ struktury: grupa, okruh, obor integrity, těleso. Svazy: modulární, distributi
 \section{Algebraické struktury}
 \subsection{Grupoid}
 \begin{definition}
-	Nechť $A \not= \emptyset$. Binární operací na množině A nazveme každé zobrazení $f : A \times A \rightarrow A$. 
+	Nechť $A \not= \emptyset$. Binární operací na množině A nazveme každé zobrazení $f : A \times A \rightarrow A$.
 \end{definition}
 
 \begin{example}
@@ -437,7 +434,7 @@ Další možností jak definovat to, že je grupoid $\mathscr{G}$ grupa říká 
 \end{example}
 
 \begin{definition}
-	Prvek a okruhu $\mathscr{R} = (R,+,\cdot)$ se nazývá \textbf{dělitel nuly}, jestliže $a \not= 0$ existuje $b \not= 0, b \in R$ tak, že $a \cdot b = 0$. 
+	Prvek a okruhu $\mathscr{R} = (R,+,\cdot)$ se nazývá \textbf{dělitel nuly}, jestliže $a \not= 0$ existuje $b \not= 0, b \in R$ tak, že $a \cdot b = 0$.
 \end{definition}
 
 \subsection{Obor integrity}
@@ -482,8 +479,8 @@ Další možností jak definovat to, že je grupoid $\mathscr{G}$ grupa říká 
 		\item $c \circ (u + v) = c \circ u + \circ v$
 		\item $(c + d) \circ u = c \circ u + d \circ u$
 		\item $(c \cdot d) \circ u = c \circ (d \circ u)$
-		\item $1 \circ u = u$ 
-	\end{enumerate} 
+		\item $1 \circ u = u$
+	\end{enumerate}
 	Prvky v V budeme nazývat \textbf{vektory}, čísla z tělesa T \textbf{skaláry}. Množinu V nazveme \textbf{pole} vektorového prostoru $\mathscr{V}$.
 \end{definition}
 
@@ -502,15 +499,15 @@ Tedy nulový vektor je lineární kombinací libovolných vektorů z $V: $ je-li
 \paragraph{Poznámka.} Zřejmě vektory  $u_1, \dots, u_k \in \mathscr{V}$ jsou lineárně nezávislé, právě když $$o = c_1 \cdot u_1 +  \dots + c_k \cdot u_k \quad \Rightarrow \quad c_1 = c_2 = \dots = c_k = 0$$
 
 \begin{sentence}
-	Jsou-li mezi vektory  $u_1, \dots, u_k \in \mathscr{V}$  některé lineárně závislé, pak jsou  $u_1, \dots, u_k$ lineárně závislé. 
+	Jsou-li mezi vektory  $u_1, \dots, u_k \in \mathscr{V}$  některé lineárně závislé, pak jsou  $u_1, \dots, u_k$ lineárně závislé.
 \end{sentence}
 
 \begin{sentence}
-	Je-li mezi vektory  $u_1, \dots, u_k$  vektor nulový \textbf{o}, pak jsou $u_1, \dots, u_k$ lineárně závislé. 
+	Je-li mezi vektory  $u_1, \dots, u_k$  vektor nulový \textbf{o}, pak jsou $u_1, \dots, u_k$ lineárně závislé.
 \end{sentence}
 
 \begin{sentence}
-	Nechť $u_1, \dots, u_k \in \mathscr{V}$. Pak  $u_1, \dots, u_k$ jsou lineárně závislé, právě když je aspoň jeden z nich lineární kombinací ostatních vektorů. 
+	Nechť $u_1, \dots, u_k \in \mathscr{V}$. Pak  $u_1, \dots, u_k$ jsou lineárně závislé, právě když je aspoň jeden z nich lineární kombinací ostatních vektorů.
 \end{sentence}
 
 \begin{definition}
@@ -531,7 +528,7 @@ Tedy nulový vektor je lineární kombinací libovolných vektorů z $V: $ je-li
 \end{definition}
 
 \begin{definition}
-	Řekněme, že vektorový prostor $\mathscr{V}$ je konečné dimenze, má-li aspoň jednu konečnou množinu generátorů.		
+	Řekněme, že vektorový prostor $\mathscr{V}$ je konečné dimenze, má-li aspoň jednu konečnou množinu generátorů.
 \end{definition}
 
 \begin{definition}
@@ -547,11 +544,11 @@ Tedy nulový vektor je lineární kombinací libovolných vektorů z $V: $ je-li
 \end{example}
 
 \begin{definition}
-	Je-li $\mathscr{V} \not= \{o\}$  vektorový prostor konečné dimenze, pak počet prvků jeho libovolné báze nazýváme dimenze $\mathscr{V}$ a značíme $dim\mathscr{V}$, Je-li $\mathscr{V} = \{o\}$, položíme dim$\mathscr{V} = 0$.  
+	Je-li $\mathscr{V} \not= \{o\}$  vektorový prostor konečné dimenze, pak počet prvků jeho libovolné báze nazýváme dimenze $\mathscr{V}$ a značíme $dim\mathscr{V}$, Je-li $\mathscr{V} = \{o\}$, položíme dim$\mathscr{V} = 0$.
 \end{definition}
 
 \section{Eukleidovské vektorové prostory}
-Ve vektorovém prostoru nad tělesem $T$ můžeme vektory sčítat, odčítat a násobit skaláry z tělesa $T$ (levá vnější operace). Nemáme však zaveden pojem délky vektoru, úhlu mezi vektory apod. Zavedeme proto další pojem. 
+Ve vektorovém prostoru nad tělesem $T$ můžeme vektory sčítat, odčítat a násobit skaláry z tělesa $T$ (levá vnější operace). Nemáme však zaveden pojem délky vektoru, úhlu mezi vektory apod. Zavedeme proto další pojem.
 
 \begin{definition}
 	Nechť $\mathscr{V} = (V, +, \mathbb{R}, \cdot)$ je vektorový prostor nad tělesem reálných čísel $\mathbb{R}$. \textbf{Skalárním součinem} $\circ$ nazveme zobrazení $V \times V$ do tělesa $\mathbb{R}$, které má tyto vlastnosti:
@@ -627,13 +624,13 @@ se nazývá matice typu $m \times n$ nad T. Číslo $a_{ij}$ se nazývá prvek m
 \end{definition}
 
 \paragraph{Označení.} Symbolem $\mathscr{M}_{m \times n}(T)$ resp. $\mathscr{M}_{n}(T)$ označíme množinu všech matic typu $m \times n$ resp. všech čtvercových matic stupně $n$ nad tělesem $T$.
- 
+
 \begin{definition}
-	Dvě matice $A,B$ z $\mathscr{M}_{m \times n}(T)$ jsou si rovny, jestliže $a_{ij} = b_{ij}$ pro každé  $i = 1, \dots, m, j = 1, \dots n.$ 
+	Dvě matice $A,B$ z $\mathscr{M}_{m \times n}(T)$ jsou si rovny, jestliže $a_{ij} = b_{ij}$ pro každé  $i = 1, \dots, m, j = 1, \dots n.$
 \end{definition}
 
 \begin{definition}
-	Mějme matice $A,B \in \mathscr{M}_{m \times n}(T)$. Součtem matice $A$ a $B$ rozumíme matici $A + B = \|c_{ij}\|$, kde $ \|c_{ij}\| =  a_{ij} + b_{ij}$ pro každé $i = 1, \dots, m, j = 1, \dots n.$ 
+	Mějme matice $A,B \in \mathscr{M}_{m \times n}(T)$. Součtem matice $A$ a $B$ rozumíme matici $A + B = \|c_{ij}\|$, kde $ \|c_{ij}\| =  a_{ij} + b_{ij}$ pro každé $i = 1, \dots, m, j = 1, \dots n.$
 \end{definition}
 
 \begin{sentence}
