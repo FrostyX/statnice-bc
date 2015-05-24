@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{ amssymb }
+\usepackage{float}
 
 \title{Teoretické základy informatiky}
 \begin{document}
@@ -422,17 +423,65 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 		\begin{itemize}
 			\item SAT je NP-úplný
 			\item 3SAT je NP-úplný
-			\item  problém obchodního cestujícího, tj. hledání (nejkratší) hamiltonovské kružnice			
+			\item  hledání  hamiltonovské kružnice v grafu
+			\item vrcholové pokrytí	
+			\item trojrozměrné párování 	
 		\end{itemize}
 
 	\subsection{Dokazování NP--úplnosti}
-		\textbf{Věta:}Pokud B je NP-úplný a $B \leq_P C$ pro $C \in $ NP, pak je NP-úplný
+
+		\textbf{Věta:} Pokud B je NP-úplný a $B \leq_P C$ pro $C \in $ NP, pak $C$ je NP-úplný
 
 	\subsection{Třída PSPACE, její vztah k třídám P a NP}
+		
+		PSPACE je třída jazyku, které jsou rozhodnutelné v polynomickém čase na (deterministickém) TS, tedy 
+		$$\text{PSPACE} = \bigcup_k \text{SPACE}(n^k)$$	
+		Ze Savitchovy věty plyne že $$\text{PSPACE} = \text{NPSPACE}$$
+		Celkově tedy máme:
+		$$\text{ P } \subseteq \text{ NP } \subseteq \text{ PSPACE } \subseteq \text{ EXPTIME } $$  kde
+		$\text{EXPTIME} = \bigcup_k \text{TIME}(2^n)$\\
+		Alespoň jedna z těchto inkluzí je vlastní: ví se, že P~$\neq$~EXPTIME.\\
+		Věří se, že všechny ty jsou vlastní.
+		
 
 	\subsection{PSPACE--úplné problémy}
+		
+		Jazyk $B$ je \textbf{PSPACE-úplný problém}, pokud
+		\begin{itemize}
+			\item $B \in$ PSPACE
+			\item $B$ je PSPACE-těžký, tj. každý $A \in$ PSPACE he redukovatelný v polynomickém čase na $B$
+		\end{itemize}\vspace{3mm}
+		\textbf{Grafová hra:} Mějme orientovaný graf G s vyznačeným počátečním uzlem $u_1$
+		\begin{itemize}
+			\item Aktuální uzel je na začátku $u_1$
+			\item Hráči se střídají v tazích
+			\item Hráč na tahu zvolí souseda $u_1$, ten se stává aktuálním uzlem, nelze vybrat uzel, který už byl předtím 
+				navštíven
+			\item Hráč, který uvízne prohrává
+		\end{itemize} 
+		$$GG = \{[G,b] | \text{ hráč 1 má vítěznou strategii pro G a poč. b } \}$$\\
 
-	\subsection{Třídy N, NL a NL--úplné problémy}
+		GG je PSPACE-úplný.
+
+
+
+	\subsection{Třídy L, NL a NL--úplné problémy}
+
+		$$\text{L = SPACE}(log(n))$$
+		$$\text{NL = NSPACE}(log(n))$$
+
+	Omezujeme se na logaritmickou paměťovou složitost ze stejného důvodu, jako jsme se předtím omezili na
+	 polynomickou časovou složitost: problémy řešitelné v logaritmické paměti považujeme za řešitelné efektivně.
+
+		\begin{figure}[!h]
+		\centering
+		\includegraphics[width=13cm]{prepisovac.png}			
+		\end{figure}
+
+		\begin{figure}[!h]
+		\centering
+		\includegraphics[width=13cm]{NLuplny.png}			
+		\end{figure}
 
 
 %============================================================================
@@ -451,51 +500,299 @@ do Prologu.
 
 	\subsection{Výroková Logika}
 
+		\subsubsection{jazyk}
+			\begin{figure}[!h]
+			\centering
+			\includegraphics[width=13cm]{jazykVL.png}			
+			\end{figure}
 
-		\subsubsection{ jazyk}
- 
+			\begin{figure}[!h]
+			\centering
+			\includegraphics[width=13cm]{formuleVL.png}			
+			\end{figure}
+ 		\newpage
 		\subsubsection{pravdivostní ohodnocení}
- 
+
+			\begin{figure}[!h]
+			\centering
+			\includegraphics[width=13cm]{pravdivostniOhodnoceniVL.png}			
+			\end{figure}
+
+			\begin{figure}[!h]
+			\centering
+			\includegraphics[width=13cm]{ohodnoceniFormule.png}			
+			\end{figure}
+ 		
+		\newpage
 		\subsubsection{tautologie}
+
+		\begin{figure}[!h]
+			\centering
+			\includegraphics[width=13cm]{tautologie.png}			
+			\end{figure}
  
 		\subsubsection{tabulková metoda}
+			\begin{figure}[!h]
+			\centering
+			\includegraphics[width=13cm]{tabulkovaMetoda.png}			
+			\end{figure}
  
+		\newpage
 		\subsubsection{sémantické vyplývání}
+
+			\begin{figure}[!h]
+			\centering
+			\includegraphics[width=13cm]{semantickeVyplyvani.png}			
+			\end{figure}
  
 		\subsubsection{normální formy formulí}
- 
+
+			\begin{figure}[!h]
+			\centering
+			\includegraphics[width=13cm]{UKNF.png}			
+			\end{figure}
+
+			\begin{figure}[!h]
+			\centering
+			\includegraphics[width=13cm]{vetaUKNF.png}			
+			\end{figure}
+
+			\begin{figure}[!h]
+			\centering
+			\includegraphics[width=13cm]{prikladUKNF.png}			
+			\end{figure}
+
+ 		
 		\subsubsection{úplné systémy spojek}
+			
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{uplneSystemySpojek.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{uplneSystemySpojek2.png}			
+			\end{figure}
+
+			Existují pouze 2 jednoprvkové báze (Sheffer a Nicod)
 
 		\subsubsection{axiomatický systém výrokové logiky}
 
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=12cm]{MP.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=12cm]{axiomy.png}			
+			\end{figure}
+
 		\subsubsection{syntaktické výplývání}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=12cm]{dukaz.png}			
+			\end{figure}
 
 		\subsubsection{Věta o dedukci}
 
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{VoD.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{VoDpriklad.png}			
+			\end{figure}
+
 		\subsubsection{Věty o korektnosti a úplnosti výrokové logiky}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{VoK.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{VoKpoznamka.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{VoU.png}			
+			\end{figure}
 
 	\subsection{Predikátová logika}
 
 		\subsubsection{jazyk}
 
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{JazykPL.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{JazykPL2.png}			
+			\end{figure}
+
 		\subsubsection{termy a formule}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{termy.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{formulePL.png}			
+			\end{figure}
 
 		\subsubsection{struktury pro jazyk}
 
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{stukturaProJazyk.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{strukturaProJazyk.png}			
+			\end{figure}
+
 		\subsubsection{ohodnocení termu a formulí}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{ohodnoceniPL.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{mOhodnoceni.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{ohodnoceniFormuliPL.png}			
+			\end{figure}
 
 		\subsubsection{axiomatický systém predikátové logiky}
 
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{axiomyPL.png}			
+			\end{figure}
+
 		\subsubsection{syntaktické vyplývání}
+		
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{semantickeVyplyvaniPL.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{syntaktickeVyplyvaniPL.png}			
+			\end{figure}
+
+			Formule je dokazatelná z T = formule syntakticky plyne z T.
+		
 
 		\subsubsection{věty o korektnosti a úplnosti predikátové logiky}
 
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{VoKPL.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{VoUPL.png}			
+			\end{figure}
+
 	\subsection{Neklasické logiky}
+		\begin{itemize}
+			\item Modální logika (založena na pojmu \uv{možný svět}, spojky:\textit{ je možné že, je nutné že})
+			\item Temporální logika (logika času - pravdivost tvrzení závisí na čase)
+			\item Epistemická logika (logika znalostí, spojky: \textit{ví se že, věří se že})
+			\item Fuzzy logika
+		\end{itemize}
 
 		\subsubsection{fuzzy logika}
 
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{fuzzy1.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{fuzzy2.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{fuzzy3.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{fuzzy4.png}			
+			\end{figure}
+
+
 	\subsection{Základy logického programování, úvod do Prologu}
-	
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{prolog1.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{prolog2.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{prolog3.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{prolog4.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{prolog5.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{prolog6.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{prolog7.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{prolog8.png}			
+			\end{figure}
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{prolog9.png}			
+			\end{figure}
+
+	Zbytek prologu už je nechutně hnusnej a radši chcípnu než abych se to zas učil.
 			
 
 \end{document}
