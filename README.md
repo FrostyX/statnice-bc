@@ -28,6 +28,3 @@ třetí okruh - druhý odstavec
 	    2          pro vytvoření PDF k otázce Teoretické základy informatiky
 	    3          pro vytvoření PDF k otázce Algoritmizace a programování
 	    4          pro vytvoření PDF k otázce Informační technologie
-
-## FOO
-Tondo, tu máš něco na zkoušku. Pak to smaž
