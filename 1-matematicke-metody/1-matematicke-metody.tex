@@ -326,8 +326,6 @@ Relaci $\prec$ nazýváme pokrytí příslušné $\leq$ , a výraz $x \prec y$ �
 
 \begin{center}
 	\includegraphics[width=12cm]{img/HasseDiagrams}
-	\includegraphics[width=12cm]{img/HasseDiagrams}
-	\includegraphics[width=12cm]{img/HasseDiagrams}
 \end{center}
 
 \begin{definition}
@@ -549,7 +547,22 @@ Tedy nulový vektor je lineární kombinací libovolných vektorů z $V: $ je-li
 	Je-li $\mathscr{V} \not= \{o\}$  vektorový prostor konečné dimenze, pak počet prvků jeho libovolné báze nazýváme dimenze $\mathscr{V}$ a značíme $dim\mathscr{V}$, Je-li $\mathscr{V} = \{o\}$, položíme dim$\mathscr{V} = 0$.
 \end{definition}
 
-\section{Eukleidovské vektorové prostory}
+
+\subsection{Aritmetické vektorové prostory}
+Nechť $T$ je číselné těleso, $n$ přirozené číslo. Na n-násobném kartézském součinu $T^n = V$ definujeme operaci $+$ takto: je-li $(a_1,a_2,\dots, a_n), (b_1,b_2,\dots, b_n) \in V$ pak $$(a_1,a_2,\dots, a_n) +(b_1,b_2,\dots, b_n) = (a_1 + b_1, a_2 + b_2,\dots, a_n + b_n).$$
+Zřejmě $(V, +)$ je abelovská grupa, prvek $o = (0,0, \dots, 0)$ je její jednotkou a prvek $(- a_1, \dots, - a_n)$ je inverzní k prvku $(a_1, \dots, a_n)$. Definujeme levou vnější operaci: $c \in T, (a_1, \dots, a_n) \in V$, $$c \cdot (a_1,\dots, a_n) = (c \cdot a_1,\dots,c \cdot a_n).$$
+
+Jednoduše lze ověřit, že $\mathscr{V} = (V,+,T,\cdot)$ je vektorový prostor dimenze $n$. Tento vektorový prostor nazveme aritmetický a budeme jej značit $T^n$. Jednou z jeho (nekonečně mnoha) bází je $e_1, \dots, e_n)$, kde $e_1 = (1,0,\dots, 0),\ e_2 = (0,1,\dots, 0),\ \dots, \ e_n = (0,0,\dots, 1)$ 
+
+Zapisujeme-li aritmetický vektor \textbf{a} ve tvaru $(a_1,a_2, \dots, a_n)$, nazýváme tento zápis \textbf{řádkový vektor}. zapisujeme-li \textbf{a} ve tvaru 
+\begin{displaymath}
+	a = \left( 
+	 \begin{array}{c}
+		a_1\\ a_2 \\ \vdots \\ a_n
+	\end{array}\right)
+\end{displaymath}
+nazýváme jej sloupcový vektor.
+\subsection{Eukleidovské vektorové prostory}
 Ve vektorovém prostoru nad tělesem $T$ můžeme vektory sčítat, odčítat a násobit skaláry z tělesa $T$ (levá vnější operace). Nemáme však zaveden pojem délky vektoru, úhlu mezi vektory apod. Zavedeme proto další pojem.
 
 \begin{definition}
@@ -717,13 +730,328 @@ kde $\pi$ je některé pořadí množiny indexů.
 
 \subsection{Konečně co je to determinant}
 \begin{definition}
-	Nechť $A = \| a_{ij} \|$ je čtvercová matice stupně n nad číselným tělesem
+	Nechť $A = \| a_{ij} \|$ je čtvercová matice stupně n nad číselným tělesem T. Determinantem detA matice A rozumíme číslo z T takové, že $$detA =  \sum_P sqnP \cdot a_{1k_1}a_{2k_2} \dots a_{nk_n},$$ kde sčítáme přes všechny permutace $P = \left( \begin{array}{cccc} 1 & 2 & \dots & n\\ k_1 & k_2 & \dots & n \\ \end{array} \right)$. Každý ze součinů \\$a_{1k_1}a_{2k_2} \dots a_{nk_n}$ nazýváme člen determinantu detA.
+\end{definition}
+Tedy determinant matice $A$ je číslo z $T$, které je rovno součtu všech $n!$ součinů prvků matice $A$, ke v každém součinu je každý prvek právě z jednoho řádku a právě z jednoho sloupce, přičemž součin je opatřen znaménkem rovným znaménku permutace určené řádkovými a sloupcovými indexy prvků tohoto součinu.
+
+\begin{example}
+	Určete determinant matice
+	\begin{displaymath}
+{\bf A} =
+\left( \begin{array}{cc}
+a_{11} & a_{12}  \\
+a_{21} & a_{22}  \\
+\end{array} \right)
+\end{displaymath}
+Jeho členy tedy budou součiny $a_{11}a_{22}, a_{12}a_{21}$ Určíme jejich znaménka:
+	\begin{displaymath}
+{\bf sgn} =
+\left( \begin{array}{cc} 1 & 2  \\ 1 & 2  \\ \end{array} \right) = 1,\
+{\bf sgn} = \left( \begin{array}{cc} 1 & 2  \\ 2 & 1 \\ \end{array} \right) = -1
+\end{displaymath}
+Tedy $$detA = a_{11}a_{22} - a_{12}a_{21}$$
+\end{example}
+
+\begin{sentence}
+	Má-li čtvercová matice A v některém řádku (resp. sloupci) samé 0, je $detA = 0$.
+\end{sentence}
+
+\paragraph{Sarusovo pravidlo} pro výpočet determinantu matic maximálně 3-tého stupně. Mějme matici A druhého stupně $A = \left( \begin{array}{ccc} 5 & 3 & 2\\ 1 & 7 & -8\\ 0 & -2 & 7\\ \end{array} \right)$ použijeme následující schéma výpočtu: 
+\begin{center}
+	\includegraphics[scale=0.2]{img/SarussRule}
+\end{center}
+Naše \uv{rozšířená matice} bude vypadat následovně $A = \left( \begin{array}{ccc} 5 & 3 & 2\\ 1 & 7 & -8\\ 0 & -2 & 7\\ 5 & 3 & 2\\ 1 & 7 & -8\\ \end{array} \right)$ A determinant $detA = [5⋅7⋅7+1⋅(−2)⋅2+0⋅3⋅(−8)]−[2⋅7⋅0+(−8)⋅(−2)⋅5+7⋅3⋅1]=140$
+\begin{sentence}
+	Má-li $A \in \mathscr{M}_n(T)$ všechny prvky pod hlavní diagonálou rovny nule, pak $detA = a_{11}a_{22}\dots a_{nn}$. 
+\end{sentence}
+
+\begin{sentence}
+	Vznikne-li matice B z matice $A \in \mathscr{M}_n(T)$ záměnou i-tého a j-tého řádku (resp. sloupce), přičemž $i \not= j$, pak $detB = - detA$.
+\end{sentence}
+
+\begin{sentence}
+	Vznikne-li matice B z matice $A \in \mathscr{M}_n(T)$ provedením některé permutace P na řádky (resp. sloupce) matice A, pak $detB = sgnP \cdot detA$.
+\end{sentence}
+
+\begin{definition}
+	Nechť $A = \| a_{ij} \| \in \mathscr{M}_{m \times n}(T)$. Pak každou matici, která vznikne z A vynecháním některých řádků a některých sloupců nazýváme dílčí matice A. Je-li dílčí matice matice A čtvercová, pak její determinant nazýváme subdeterminant A.
 \end{definition}
 
-\begin{definition}\end{definition}
-\begin{definition}\end{definition}
-\begin{definition}\end{definition}
-\begin{definition}\end{definition}
-\begin{definition}\end{definition}
+\begin{definition}
+	Je-li  $A = \| a_{ij} \| \in \mathscr{M}_{n}(T)$, potom subdeterminant dílčí matice $A_{ij}$ stupně $n - 1$ vzniklé vynecháním i-tého řádku a j-tého sloupce nazveme \textbf{minor matice} A \textbf{příslušný k prvku} $a_{ij}$ a značíme jej $M_{ij}$. \textbf{Algebraickým doplňkem prvku} nazýváme číslo $\mathscr{A} = (-1)^{i+j} M_{ij}$.
+\end{definition}
 
+\begin{example}
+	Určete minory a algebraické doplňky $M_{12}, M_{33}, \mathscr{A}_{12}, \mathscr{A}_{33}$ matice
+	\begin{displaymath}
+		{\bf A} =
+		\left( \begin{array}{ccc}
+			2 & 5 & 1  \\
+			0 & -6 & 2  \\
+			5 & 1 & -3  \\
+		\end{array} \right).
+	\end{displaymath}
+Platí
+	\begin{displaymath}
+		{\bf M_{12}} =
+		\left| \begin{array}{cc}
+			0 & 2   \\
+			5 & -3  \\
+		\end{array} \right| = -10, \quad
+		{\bf M_{33}} =
+		\left| \begin{array}{cc}
+			0 & 2   \\
+			5 & -3  \\
+		\end{array} \right| = -12, 
+	\end{displaymath}
+	tedy $$ \mathscr{A}_{12} = (-1)^{1+2}(-10) = 10,\quad \mathscr{A}_{33} = (-1)^{3+3}(-12) = -12.$$
+\end{example}
+
+\begin{sentence}[\textbf{Laplaceova}]
+	Nechť $A = \| a_{ij} \|  \in \mathscr{M}_n(T)$ Pak
+	\begin{itemize}
+		\item[a)] $\forall i = 1, \dots, n$ platí $detA =  a_{i1}\mathscr{A}_{i1} +  a_{i2}\mathscr{A}_{i2} + \dots +  a_{in}\mathscr{A}_{in}$
+		\item[b)] $\forall i,j = 1, \dots, n,\ i \not=j$ platí $detA =  a_{i1}\mathscr{A}_{j1} +  a_{i2}\mathscr{A}_{j2} + \dots +  a_{in}\mathscr{A}_{jn}$
+	\end{itemize}
+\end{sentence}
+
+\begin{sentence}
+	Vznikne-li matice B z matice $A \in \mathscr{M}_n(T)$ vynásobením i-tého řádku (resp. sloupce) číslem $c \in T$, pak $detB = c \cdot detA$.
+\end{sentence}
+
+\begin{sentence}
+	Jsou-li řádkové (sloupcové) vektory matice $A \in \mathscr{M}_n(T)$ lineárně závislé, pak $detA = 0$.
+\end{sentence}
+
+\begin{example}
+	Výpočet determinantu matice n-tého stupně. Mějme matici $$A = \left( \begin{array}{cccc} -2 & 3 & -1 & 2\\ 1 & -2 & 0 & 4\\ 2 & -4 & -2 & 5\\ -3 & 2 & 1 & -5\\ \end{array} \right)$$
+	Řešení: 
+	\begin{displaymath}
+		\left| 
+		\begin{array}{cccc}
+			-2 & 3 & -1 & 2\\ 
+			1 & -2 & 0 & 4\\ 
+			2 & -4 & -2 & 5\\ 
+			-3 & 2 & 1 & -5\\
+		\end{array} \right| = 
+		\left| 
+		\begin{array}{cccc}
+			0 & -1 & -1 & 10\\ 
+			1 & -2 & 0 & 4\\ 
+			0 & 0 & -2 & -3\\ 
+			0 & -4 & 1 & 7\\
+		\end{array}\right| = (-1)^{1+2}
+		\left| 
+		\begin{array}{ccc}
+			 -1 & -1 & 10\\ 
+			 0 & -2 & -3\\ 
+			 -4 & 1 & 7\\
+		\end{array}\right| 
+		\end{displaymath}
+		\begin{displaymath}
+		= (-1)
+		\left| 
+		\begin{array}{ccc}
+			 -1 & 0 & 0 \\ 
+			0 & -2 & -3 \\ 
+			-4 & 5 & -33 \\ 
+		\end{array}\right| = (-1)(-1)^{1+1}(-1) 
+		\left| 
+		\begin{array}{cc}
+			 -2 & -3 \\ 
+			 5 & -33 \\  
+		\end{array}\right| = 66 + 15 = 81.
+	\end{displaymath}
+	
+\end{example}
+
+\begin{sentence}
+	Nechť $A,B \in \mathscr{M}_n(T)$. Pak $detAB = detA \cdot detB$.
+\end{sentence}
+
+\section{Řešení soustav lineárních rovnic}
+Nechť $A \in \mathscr{M}_{m \times n}(T)$. Tedy její řádky jsou řádkové vektory a patří do aritmetického vektorového prostoru $T^n$.
+
+\begin{definition}
+	\textbf{Řádkovým podprostorem matice} A rozumíme podprostor prostoru $T^n$ generovaný všemi řádkovými vektory matice A.
+\end{definition}
+
+\begin{definition}
+	\textbf{Elementárnímí řádkovými transformacemi matice} A nazýváme tyto operace:
+	\begin{enumerate}
+		\item výměnu libovolných dvou řádků v A
+		\item vynásobení některého řádku číslem $c \in T$ různým od 0
+		\item přičtením libovolného násobku některého řádku z A k jinému řádku v A.
+	\end{enumerate}
+\end{definition}
+
+\begin{definition}
+	Řekněme, že $A,B \in \mathscr{M}_{m \times n}(T)$ jsou \textbf{řádkově ekvivalentní}, lze-li B získat z A pomocí konečného počtu elementárních řádkových transformací. Zapisujeme $A \thicksim B$
+\end{definition}
+
+\begin{sentence}
+	Jestliže že $A,B \in \mathscr{M}_{m \times n}(T)$  a $A \thicksim B$ pak A i B určují stejné řádkové podprostory v $T^n$.
+\end{sentence}
+
+\begin{definition}
+	\textbf{Vedoucím prvkem} řádkového vektoru $\textbf{a}_i$ nazveme první nenulový prvek v tomto vektoru (řádku). Matice A se nazývá \textbf{redukovaná}, je-li vedoucí prvek každého nenulového řádku v A roven 1 a jestliže jsou v každém sloupci A, který obsahuje vedoucí prvek některého řádku všechny zbývající prvky rovny 0. Redukovaná matice se nazývá \textbf{redukovaná trojúhleníková}, jestliže všechny její nenulové řádky (pokud existují) jsou až za nenulovými a jestliže pro každé $i,j, i < j$ platí, že jsou-li $a_i,a_j$ nenulové řádky, vedoucí prvek v $a_i$ je v $k_i$-tém sloupci, vedoucí prvek v $a_j$ je v $k_j$-tém sloupci, pak $k_i < k_j$. 
+\end{definition}
+
+\begin{example}
+ Matice A je redukovaná, B redukovaná trojúhelníková:
+\begin{displaymath}
+	A = \left( \begin{array}{ccccc}
+	0 & 0 & 1 & 2 & -1 \\
+	1 & 0 & 0 & 3 & 6 \\
+	0 & 0 & 0 & 0 & 0 \\
+	0 & 1 & 0 & 8 & 11 \\
+	\end{array}\right), \quad 
+	B = \left( \begin{array}{cccccc}
+	0 & 1 & 0 & 0 & 4 & -1 \\
+	0 & 0 & 1 & 0 & 5 & 6 \\
+	0 & 0 & 0 & 1 & 0 & 1 \\
+	0 & 0 & 0 & 0 & 0 & 0 \\
+	\end{array}\right).
+\end{displaymath}
+\end{example}
+
+\begin{sentence}
+	Každá matice A je řádkově ekvivalentní s některou redukovanou maticí, kterou leze získat z A pomocí transformací 2) a 3). Každá matice je řádkově ekvivalentní s redukovanou trojúhelníkovou maticí.
+\end{sentence}
+
+\begin{definition}
+	Nechť $A \in \mathscr{M}_{m \times n}(T)$ je redukovaná matice s nenulovými řádky $a_1,\dots, a_r$. Pak pro každý vektor $\textbf{u} = \sum_{i=1}^r c_i a_i$ řádkového podprostoru matice A je $c_i$ rovno $k_i$-té souřadnici vektoru \textbf{u}. 
+\end{definition}
+
+\begin{result}
+	Nenulové řádky redukované matice jsou lineárně nezávislé.
+\end{result}
+
+\begin{result}
+	Je-li $A \thicksim B$, kde B je redukovaná, pak nenulové řádky matice B tvoří bázi řádkového podprostoru matice A.
+\end{result}
+
+\begin{definition}
+	\textbf{Hodností matice} $A \in \mathscr{M}_{m \times n}(T)$ rozumíme dimenzi řádkového podprostoru matice A v $T^n$. Hodnost matice A budeme značit h(A).
+\end{definition}
+
+\paragraph{Připomenutí.} Připomeňme, že \textbf{subdeterminantem matice stupně} $k$ \textbf{matice}  $A \in \mathscr{M}_{m \times n}(T)$ (kde $k \leq min(m.n)$) nazveme determinant libovolné čtvercové dílčí matice stupně $k$ matice $A$.
+
+\begin{example}
+Je-li $
+	A = \left( \begin{array}{cccc}
+	5 & 2 & -1 & 0  \\
+	-2 & 3 & 1 & -1 \\
+	6 & -8 & 0 & 9 \\
+	\end{array}\right)
+$, pak jejími subdeterminanty 2. stupně jsou například determinanty $\left| \begin{array}{cc} 5 & 2\\ -2 & 3 \end{array}\right| = 19, \ \left| \begin{array}{cc} 2 & 0\\ -8 & 9 \end{array}\right| = 18$, \\subdeterminant 3. stupně je například $\left| \begin{array}{ccc} 5 & 2 & 0\\ -2 & 3 & -1 \\ 6 & -8 & 9 \end{array}\right| = 119$, atd.
+\end{example}
+
+\begin{sentence}
+	Hodnost matice A je rovna maximálnímu stupni nenulového subdeterminantu matice A.
+\end{sentence}
+
+\begin{result}
+	Hodnost matice A je rovna maximálnímu počtu lineárně nezávislých sloupců matice A.
+\end{result}
+Jinak řečeno pokud matici A zredukujeme tak její hodnost je rovna počtu nenulových řádků.
+
+\begin{definition}
+	Nechť T je číselné těleso $a_1,\dots, a_n,b \in T$. Úloha určit všechny n-tice $(x_1, \dots, x_n) \in T^n$ pro které platí: $$a_1 x_1 + a_2 x_2 + \dots + a_n x_n = b$$ se nazývá \textbf{lineární rovnice o} n \textbf{neznámých nad} T. Každá n-tice $(x_1, \dots, x_n) \in T^n$ pro kterou tato rovnost platí se nazývá \textbf{řešení} této rovnice.
+\end{definition}
+
+\paragraph{Poznámka} Rovnici $a_1 x_1 + a_2 x_2 + \dots + a_n x_n = b$ budeme zkráceně zapisovat $$\sum^n_{i=1} a_i x_i = b$$
+
+
+\begin{definition}
+	Nechť T je číselné těleso, $a_{ij} \in T$ pro $i = 1, \dots,\ j = 1, \dots, m, b_j \in T$ Úloha určit všechny n-tice  $(x_1, \dots, x_n) \in T^n$ pro které platí
+	$$\sum^n_{i=1} a_{1i}x_i = b1 \qquad (R_1)$$
+	$$\vdots$$
+	$$\sum^n_{i=1} a_{mi}x_i = bm \qquad (R_m)$$
+	se nazývá \textbf{soustava} m \textbf{lineárních rovnic o} n \textbf{neznámých nad} T (S). Každá n-tice $(x_1, \dots, x_n)$ splňující (S) se nazývá řešení této soustavy. Pokud $b_1 = b_2 = \dots = b_m = 0$, soustava (S) se nazývá \textbf{homogenní}, Není-li (S) homogenní, nazývá se \textbf{nehomogenní}.
+\end{definition}
+
+\paragraph{Poznámka.} Soustavu můžeme zkráceně zapisovat $$\sum_{i=1}^n a_{ji} x_i = b_j, \quad j = 1, \dots m.$$
+
+\begin{definition}
+	Nechť je dána soustava (S) lineárních rovnic. Pak matici 
+	\begin{displaymath}
+		\left( \begin{array}{cccc}
+		a_{11} & a_{12} & \dots & a_{1n} \\
+		a_{21} & a_{22} & \dots & a_{2n} \\
+		\vdots & \vdots & \vdots &\vdots \\
+		a_{m1} & a_{m2} & \dots & a_{mn} \\
+		\end{array}\right) \text{ resp. }
+		\left( \begin{array}{ccccc}
+		a_{11} & a_{12} & \dots & a_{1n} & b_1 \\
+		a_{21} & a_{22} & \dots & a_{2n}  & b_2\\
+		\vdots & \vdots & \vdots &\vdots  & \vdots\\
+		a_{m1} & a_{m2} & \dots & a_{mn} & b_m\\
+		\end{array}\right)		
+	\end{displaymath}
+	nazýváme \textbf{matice soustavy (S)} resp. \textbf{rozšířená matice soustavy (S)}. 
+\end{definition}
+
+\paragraph{Poznámka.} Buď (S) soustava lineárních rovnic, A její matice typu $m \times n$. Označíme-li sloupcové vektory $x = \left( \begin{array}{c}
+							x_1\\
+							x_2\\
+							\vdots \\
+							x_n
+						\end{array} \right),
+						b = \left( \begin{array}{c}
+							b_1\\
+							b_2\\
+							\vdots \\
+							b_m
+						\end{array} \right),$
+	pak \textbf{x} je matice typu $n \times 1$, \textbf{b} je matice typu $m \times 1$; lze tedy soustavu (S) psát v tzv. maticovém tvaru $$A \cdot x = b.$$ Řešením této soustavy je pak každý vektor $u \in T^n$, pro který platí rovnost $A \cdot u = b$. Rozšířenou matici soustavy (S) budeme také zapisovat symbolem $(A, b)$.
+	
+\begin{definition}
+	Soustava lineárních rovnic $Ax = b$ se nazývá řešitelná, má-li aspoň jedno řešení. Dvě soustavy $Ax = b$ a $By = c$ se nazývají ekvivalentní, mají-li stejné množiny řešení.
+\end{definition}
+
+\begin{definition}
+	Nehomogenní soustava lineárních rovnic $Ax = b$ je řešitelná právě tehdy, je.li vektor b lineární kombinací sloupců matice A.
+\end{definition}
+\begin{sentence}[\textbf{Frobeniova}]
+	Nehomogenní soustava lineárních rovnic $Ax = b$ je řešitelná tehdy a jen tehdy, je-li $h(A) = h(A, b))$.
+\end{sentence}
+\begin{definition}[\textbf{Frobeniova}]
+	Nechť $Ax = b$ je soustava m rovnic o n neznámých nad tělesem T. Tato soustava má řešení právě když $h(A) = h(A,b)$, Je-li $h(A) = n$, soustava má jediné řešení. Je-li $h(A) = h < n$, soustava má nekonečně mnoho řešení závislých na $n - h$ parametrech.
+\end{definition}
+\includegraphics[scale=0.5]{img/LinSoust1}
+
+\includegraphics[scale=0.5]{img/LinSoust2}
+
+\begin{sentence}[Cramerovo pravidlo]
+	Nechť $Ax = b$ je soustava n lineárních rovnic o n neznámých $(n \geq 1)$ nad T taková, že $detA \not= 0$. Pak pro $j = 1, \dots,n$ platí $x_j = \frac{detA_j}{detA}$, kde $A_j$ je matice která vznikne z A tak, že j-tý sloupec nahradíme vektorem b.
+\end{sentence}
+
+\begin{definition}
+	Fundamentálním systémem řešení homogenní soustavy lineárních rovnic rozumíme libovolnou bázi řešení této soustavy.
+\end{definition}
+\includegraphics[scale=0.5]{img/LinSoust3}
+
+\includegraphics[scale=0.5]{img/LinSoust4}
+
+\section{Okruh čtvercových matic}
+\begin{definition}
+	Matice $A \in \mathscr{M}_n(T)$ se nazývá regulární, je-li  $detA \not= 0$. Matice A je singulární, je-li $detA = 0$. 
+\end{definition}
+
+\begin{definition}
+	Jestliže $A \in \mathscr{M}_n(T)$ a existuje $B \in \mathscr{M}_n(T)$, tak, že $AB = E = BA$, pak se B nazývá inverzní matice k A a značí se $B = A^{-1}$.	
+\end{definition}
+
+\begin{sentence}
+	K matici $A \in \mathscr{M}_n(T)$ existuje matice inverzní právě když je A regulární
+\end{sentence}
+
+\begin{sentence}
+	Množina všech regulárních čtvercových matic stupně n tvoří grupu vzhledem k násobení.
+\end{sentence}
+
+\includegraphics[scale=0.55]{img/InverzniMatice}
+\newpage
+\section{Svazy}
 \end{document}
