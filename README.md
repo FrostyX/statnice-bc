@@ -12,8 +12,7 @@ Vypracované otázky na státnice UPOL Bc 2015 | [Seznam pojmů](http://www.inf.
 |                  | 1. okruh - druhý odstavec                             |
 | Lukáš Vrajík     | x                                                     |
 | Tomáš Beznoska   | 1. okruh - čtvrtý odstavec                            |
-|                  | 2. okruh - první odstavec                             |
-| Lukáš Oščádal    | 2. okruh - druhý, třetí a čtvrtý odstavec             |
+| Lukáš Oščádal    | 2. okruh - první, druhý, třetí a čtvrtý odstavec      |
 | Lukáš Medelský   | 1. okruh - pátý, šestý                                |
 | Ondřej Kašpar    | 4. okruh - druhý odstavec         			   |
 
