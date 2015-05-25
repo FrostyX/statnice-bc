@@ -136,7 +136,7 @@ Další operací je tzv. skládání Je-li $R$ relací mezi množinami $X$ a $Y$
 Binární relace lze znázorňovat tabulkami. Například relace \\$R = \{ \langle 1, \alpha \rangle, \langle 2, \gamma \rangle, \langle 1, \delta \rangle, \langle 2, \beta \rangle, \langle 3, \alpha \rangle\}$ mezi množinami \\$X = \{1,2,3\}$ a $Y = \{\alpha, \beta, \gamma, \delta, \epsilon\}$ je znázorněna následující tabulkou.
 
 \begin{center}
-	\includegraphics[scale=0.5]{images/1/RelationTable}
+	\includegraphics[scale=0.5]{img/RelationTable}
 \end{center}
 
 Tedy je-li $\langle x, y \rangle \in R$, je v průsečíku řádku $x$ a sloupce $y$ symbol $\times$, jinak tam není nic.
@@ -171,14 +171,14 @@ Pro binární relace můžeme zavést operace, které odpovídají operacím s r
 Grafy představují další způsob reprezentace binárních relací, který je názorný. Graf binární relace $R$ na množině $X$ dostaneme tak, že každý prvek $x \in X$ znázorníme v rovině jako kroužek s označením daného prvku. Pokud $\langle x,y \rangle \in R$, nakreslíme z uzlu $x$ do uzlu $y$ orientovanou hranu.
 
 \begin{center}
-	\includegraphics[scale=0.6]{images/1/RelationGraph}
+	\includegraphics[scale=0.6]{img/RelationGraph}
 \end{center}
 
 \subsubsection{Seznamem seznamů}
 Další způsob reprezentace pro uložení binární relace $R$ na množině $X$ (pro uložení binární relace v paměti počítače) je reprezentace seznamem seznamů. Tuto reprezentaci tvoří hlavní (spojový) seznam, ve kterém jsou uloženy všechny prvky množiny $X$. Z každého prcku $x \in X$ hlavního seznamu vede seznam obsahující právě ty $y \in X$, pro které platí $\langle x, y \rangle \in R$. Mějme relaci $R = \{\langle a, b\rangle,\langle a, d\rangle,\langle c, a\rangle,\langle b, d\rangle\}$ na množině $X = \{a,b,c,d\}$ potom reprezentace seznamem seznamů vypadá následovně.
 
 \begin{center}
-	\includegraphics[scale=0.6]{images/1/RelationList}
+	\includegraphics[scale=0.6]{img/RelationList}
 \end{center}
 
 \subsection{Zobrazení (funkce)}
@@ -325,7 +325,7 @@ $$\text{pokud} y \leq z \leq y, \text{ pak } z \in \{ x, y\}$$
 Relaci $\prec$ nazýváme pokrytí příslušné $\leq$ , a výraz $x \prec y$ čteme \uv{x je pokryt y} nebo \uv{x pokrývá y}. Na relaci pokrytí je založena jedna z metod jak znázornit konečnou uspořádanou množinu, tak zvané \textbf{Hasseovy diagramy} uspořádaných množin.
 
 \begin{center}
-	\includegraphics[scale=0.9]{images/1/HasseDiagrams}
+	\includegraphics[scale=0.9]{img/HasseDiagrams}
 \end{center}
 
 \begin{definition}
