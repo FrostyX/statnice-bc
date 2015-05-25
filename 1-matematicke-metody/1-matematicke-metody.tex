@@ -1,5 +1,5 @@
 \documentclass[12pt,a4paper]{article}
-\usepackage[utf8]{inputenc}
+\usepackage[utf8x]{inputenc}
 \usepackage[czech]{babel}
 \usepackage[T1]{fontenc}
 \setlength{\parskip}{12pt}
@@ -325,7 +325,15 @@ $$\text{pokud} y \leq z \leq y, \text{ pak } z \in \{ x, y\}$$
 Relaci $\prec$ nazýváme pokrytí příslušné $\leq$ , a výraz $x \prec y$ čteme \uv{x je pokryt y} nebo \uv{x pokrývá y}. Na relaci pokrytí je založena jedna z metod jak znázornit konečnou uspořádanou množinu, tak zvané \textbf{Hasseovy diagramy} uspořádaných množin.
 
 \begin{center}
+<<<<<<< Updated upstream
 	\includegraphics[scale=0.9]{img/HasseDiagrams}
+=======
+<<<<<<< HEAD
+	\includegraphics[scale=0.6]{img/HasseDiagrams}
+=======
+	\includegraphics[scale=0.9]{img/HasseDiagrams}
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 \end{center}
 
 \begin{definition}
@@ -659,6 +667,66 @@ se nazývá matice typu $m \times n$ nad T. Číslo $a_{ij}$ se nazývá prvek m
 
 \section{Determinanty}
 
+\subsection{Permutace}
+\begin{definition}
+Nechť $A = \{a_1,a_2, \dots, a_n\}$ konečná (n-prvková) množina. Pořadím $\pi$ množiny A nazveme libovolnou posloupnost $\pi = (a_{k_1},a_{k_2}, \dots, a_{k_n})$ prvků z A takovou, že každý prvek z A se v $\pi$ vyskytuje právě jedenkrát. Permutací na A rozumíme každou bijekci A na A. Permutaci P množiny A lze zapisovat ve tvaru 
+\begin{displaymath}
+{\bf A} =
+\left( \begin{array}{cccc}
+a_{1} & a_{2} & \dots & a_{n} \\
+a_{\pi (1)} & a_{\pi (2)} & \dots & a_{\pi (n)} \\
+
+\end{array} \right)
+\end{displaymath}
+kde $\pi$ je některé pořadí množiny indexů.
+\end{definition}
+
+\begin{definition}
+	Pro každou n-prvkovou množinu $(n \geq 1)$ je počet pořadí roven počtu permutací, tj. n!.
+\end{definition}
+
+
+\begin{definition}
+	Nechť $\pi = \{k_1,k_2, \dots, k_n\}$ je pořadím množiny $A = \{ 1,2,\dots, n\}$. Prvky $k_i,k_j$ tvoří inverzi v $\pi$, jestliže $i < j$ a  $k_i > k_j$. Označme $[\pi]$ počet všech inverzí v $\pi$. Znaménkem pořadí $\pi$ nazveme číslo $sgn\pi = (-1)^{[\pi]}$. Je-li $sgn\pi = 1$, pořadí se nazývá sudé, je-li $sgn\pi = -1$,  $\pi$ se nazývá liché. Nechť $P = { \pi_1 \choose \pi_2}$ je permutace množiny A. Znaménkem permutace P rozumíme číslo sgnP, kde $sgnP = 1$ je-li $sgn\pi_1 = sgn\pi_2$, $sgnP = -1$, je-li $sgn\pi_1 = - sgn\pi_2$. Je-li $sgnP = 1$, P je sudá, je-li $sgnP = -1$, je P lichá.
+\end{definition}
+
+\begin{example}
+	Nechť $\pi = (2,4,3,5,1)$. Pak všechny jeho inverze jsou: 2,1; 4,3; 4,1; 3,1; 5,1. Tedy $[\pi] = 5$ tj. $sgn\pi = (-1)^5 = -1$, $\pi$ je liché.
+	Nechť ${\bf A} =
+\left( \begin{array}{ccccc}
+2 & 1 & 4 & 5 & 3 \\
+4 & 3 & 1 & 2 & 5 \\
+\end{array} \right) = \left( \begin{array}{c}
+\pi_1 \\
+\pi_2 \\
+\end{array} \right) $. Ověříme $[\pi_1] = 3, [\pi_2] = 5$, tedy $sgn\pi_1 = -1 = sgn\pi_2$, odkud $sgnP = 1$, tj. P je sudá permutace.
+\end{example}
+
+\paragraph{Poznámka.} Je-li $P = \left( \begin{array}{c} \pi_0 \\ \pi_1 \\ \end{array} \right)$, kde $\pi_0$ je základní pořadí, pak zřejmě $sgnP = sgn\pi_1$
+
+\paragraph{Označení.} Symbolem $P_0$ značíme \textbf{identickou permutaci}, tj. $P_0 = \left( \begin{array}{c} \pi_0 \\ \pi_0 \\ \end{array} \right)$. Je-li $P = \left( \begin{array}{c} \pi_1 \\ \pi_2 \\ \end{array} \right)$, symbolem $P^{-1}$ označíme \textbf{inverzní permutaci}, tj. $P^{-1} = \left( \begin{array}{c} \pi_2 \\ \pi_1 \\ \end{array} \right)$,
+
+\begin{definition}
+	\textbf{Transpozicí} na $A = \{1, \dots, n\}$ rozumíme permutaci P takovou, že existují $i,j \in A, i \not= j$ tak, že $P(i) = j, P(j) = i$ a $P(k) = k$ pro každé $i \not= k \not= j$.
+\end{definition}
+
+\begin{example}
+	$P = \left( \begin{array}{cccccc} 1 & 2 & 3 & 4 & 5\\ 1 & 4 & 3 & 2 & 5 \\ \end{array} \right)$ je transpozice, zaměňuje 2 a 4.
+\end{example}
+
+\paragraph{Označení.} Transpozici $P$ zaměňující $i$ a $j$ budeme zapisovat $P(i,j)$.
+
+
+\begin{sentence}
+	Každou permutaci je možné vyjádřit jako složení konečného počtu transpozic. Permutace P je sudá (resp. lichá), je-li tento počet transpozic sudý (resp. lichý).	
+\end{sentence}
+
+\subsection{Konečně co je to determinant}
+\begin{definition}
+	Nechť $A = \| a_{ij} \|$ je čtvercová matice stupně n nad číselným tělesem 
+\end{definition}
+
+\begin{definition}\end{definition}
 \begin{definition}\end{definition}
 \begin{definition}\end{definition}
 \begin{definition}\end{definition}
