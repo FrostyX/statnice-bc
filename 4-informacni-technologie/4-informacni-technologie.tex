@@ -442,4 +442,34 @@ Při ztrátě segmntu:
 	\item po neobdržení potvrzení znovu pomalý start (okno = MSS, SSTRESH = 2xMSS)
 \end{itemize}
 
+\subsubsection{User Datagram Protocol (UDP)}
+Poskytuje nespojovou nespolehlivou službu: nezaručuje se doručení ani znovuzasílání ztracených nebo poškozených dat. Vyšší výkon a rychlost než u TCP za cenu nespolehlivosti. Využití u streamování multimediálního obsahu.\\
+Vlastní číslování portů (nezávisle na TCP). Velikost datagramu menží, než MTU aby se zamezilo fragmentaci. Oproti TCP může mýt příjemcem skupina uzlů (všesměrová či multicast=skupinová). Záhlaví obsahuje informaci o délce dat a kontrolní součet. Protože UDP je bezestavový a odesilatel nemusí vyžadovat odpověď, zdrojový port je volitelný. Pokud není použit, zdrojový port by měl být nastaven na nulu. \\
+Kvůli chybějícím zárukám se UDP aplikace musí smířit s nějakými ztrátami, chybami nebo duplikacemi. Některé aplikace mohou podle potřeby přidávat jednoduchý mechanismus spolehlivosti do aplikační vrstvy. Aplikace používající UDP nejčastěji opravný mechanismus nepotřebují, a dokonce jím mohou být zdržovány. Pokud aplikace vyžaduje vysoký stupeň spolehlivosti, může se místo něj použít TCP nebo opravné kódy. \\
+Protože UDP postrádá mechanizmus předcházení a regulace zahlcení sítě, je nutné nadbytečné UDP datagramy na routerech zahazovat. Ačkoliv je celkové množství UDP provozu na typické síti jen v řádu procent, je UDP používán řadou klíčových služeb včetně DNS, SNMP, DHCP a RIP (směrovací protokol). \\
+\paragraph{Rozdíl mezi TCP a UDP}
+\begin{itemize}
+	\item TCP je spojově orientovaný protokol což znamená, že k navázání "end-to-end" komunikace potřebuje, aby proběhl mezi klientem a serverem tzv. "handshaking". Poté, co bylo spojení navázáno, data mohou být posíláná oběma směry.\\
+	Charakteristické vlastnosti TCP:
+	\begin{itemize}
+		\item spolehlivost – TCP používá potvrzování o přijetí, opětovné posílání a překročení časového limitu. Pokud se jakákoliv data ztratí po cestě, server si je opětovně vyžádá. U TCP nejsou žádná ztracená data, jen pokud několikrát po sobě vyprší časový limit, tak je celé spojení ukončeno.
+		\item zachování pořadí – Pokud pakety dorazí ve špatném pořadí, TCP vrstva příjemce se postará o to, aby se některá data pozdržela a finálně je předala správně seřazená.
+		\item vyšší režie – TCP protokol potřebuje např. tři pakety pro otevření spojení, umožňuje to však zaručit spolehlivost celého spojení.
+	\end{itemize}
+	\item UDP je jednodušší protokol založený na odesílání nezávislých zpráv. \\
+	Charakteristika:
+	\begin{itemize}
+		\item bez záruky – Protokol neumožňuje ověřit, jestli data došla zamýšlenému příjemci. Datagram se může po cestě ztratit. UDP nemá žádné potvrzování, přeposílání ani časové limity. V případě potřeby musí uvedené problémy řešit vyšší vrstva.
+		\item nezachovává pořadí – Při odeslání dvou zpráv jednomu příjemci nelze předvídat, v jakém pořadí budou doručeny.
+		\item jednoduchost – Nižší režie než u TCP (není zde řazení, žádné sledování spojení atd.).
+	\end{itemize}
+\end{itemize}
+\subsubsection{Bezpečnost TCP a UDP}
+\paragraph{TCP} Útoky: převzetí spojení (connection hijacking, autentizováno a dále nezabezpečeno), odepření služby (Denial of Service - vyčerpání zdrojů systému pro spojení), port scanning (zjišťování otevřených portů), aj. \\
+Řešení: šifrování, vytvoření tunelů na jiných portech, omezení počtu spojení za daný čas, sledování skenování portů, aj.
+\paragraph{UDP} na směrovačích povolený porty 53/udp a 53/tcp pro DNS, vyplnění kontrolního součtu je nepovinné, jinak lze přepočítat.
+\paragraph{firewall} = filtrace packetů a segmentů/datagramů na základě TCP/UDP záhlaví.
+\paragraph{překlad adres (NAT)} překlad IP adresy z vnitřní sítě na IP adresu hraničního směrovače vnější sítě. \textbf{maškaráda} = překlad adresy a zdrojového portu spojení/přenosu na zdrojový port nového spojení/přenosu ze směrovače. Zasahuje i do aplikační vrstvy.
+
+
 \end{document}
