@@ -9,8 +9,8 @@ Vypracované otázky na státnice UPOL Bc 2015 | [Seznam pojmů](http://www.inf.
 | Jakub Kadlčík    | 3. okruh - poslední odstavec (OOP)                    |
 | Milan Vojáček    | 3. okruh - třetí odstavec                             |
 | Roman Vyjídáček  | 1. okruh - první odstavec                             |
+|                  | 1. okruh - druhý odstavec                             |
 | Lukáš Vrajík     | x                                                     |
-| Roman Vyjídáček  | 1. okruh - druhý odstavec                             |
 | Tomáš Beznoska   | 1. okruh - čtvrtý odstavec                            |
 |                  | 2. okruh - první odstavec                             |
 | Lukáš Oščádal    | 2. okruh - druhý, třetí a čtvrtý odstavec             |
