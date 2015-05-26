@@ -7,6 +7,31 @@
 \usepackage{ amssymb }
 \usepackage{float}
 \usepackage{fullpage}
+\usepackage{color}
+\usepackage{amsthm}
+\usepackage{vaucanson-g}				% makro pro kreslení grafů a automatů
+\usepackage{alltt}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+
+\newtheoremstyle{note}
+{15pt}
+{15pt}
+{}
+{}
+{\bfseries}
+{:}
+{.5em}
+{}
+\theoremstyle{note}
+\newtheorem{veta}{Věta}
+\newtheorem{definice}{Definice}
+\newtheorem{priklad}{Příklad}
+\newtheorem{poznamka}{Poznámka}
+\newtheorem{dusledek}{Důsledek}
+
 
 
 \title{Teoretické základy informatiky}
@@ -14,6 +39,8 @@
 \begin{document}
 \maketitle
 
+\newpage
+\tableofcontents
 
 
 \newpage
@@ -25,6 +52,358 @@ a nedeterministické. Regulární výrazy, automaty s epsilon-přechody. Minimal
 automatu. Pumping lemma. Bezkontextové jazyky a jejich vlastnosti (uzávěrové vlastnosti, jednoznačnost).
 Zásobníkové automaty a jejich modifikace. Deterministické zásobníkové automaty. Deterministické
 bezkontextové jazyky.
+
+	\subsection{Formální jazyky a jejich hierarchie}
+
+		Zaveďme si pojem \textit{formální jazyk nad množinou všech řetězců} $\Sigma^{*}$. Označme tento jazyk jako $L$. 				Pak platí tato tvrzení:
+		\begin{eqnarray*}
+			L &\subseteq& \Sigma^{*} \text{ (každá podmnožina abecedy je jazykem)} \\
+			L &=& \emptyset \text{ (prázdný jazyk)} \\
+			L &=& \lbrace \varepsilon \rbrace \text{ (jazyk s prázdným řetězcem)} \\
+			&\vdots&
+		\end{eqnarray*}
+		\textit{Pozor, obecně platí že prázdný jazyk $\neq$ jazyk s prázdným řetězcem.}
+
+		Formálním jazykem obecně myslíme nějakou množinu \textit{řetězců}, které navíc většinou mají určitou
+		společnou vlastnost, jak uvidíme později.
+
+		\subsubsection{Operace nad jazyky}
+
+		\subsubsection{Množinové}
+		Množinové operace nad jazyky jsou prakticky totožné operacím na kterýchkoliv jiných množinách.
+		Můžeme tedy použít množinový průnik, sjednocení, komplement (doplněk) nebo rozdíl.
+
+		\subsubsection{Ostatní}
+		\begin{itemize}
+		\item
+		\textit{Zřetězení} (produkt) množin. Vyjádřeme produkt takto:
+		$$
+		L_{1}L_{2} = \lbrace xy | x \in L_{1}, y \in L_{2} \rbrace
+		$$
+		Produkt množin není obecně komutativní, ale je asociativní, přičemž prázdná množina tuto operaci anihiluje.
+		Uveďme si rovněž monoid $\langle 2^{\Sigma^{*}}, \circ, \lbrace \varepsilon \rbrace \rangle$.
+
+		\item
+		\textit{}{Mocnina} jazyka. Mocninu vyjádříme takto:
+		$$
+		L^{n} = \left \lbrace
+		\begin{array}{l l}
+		\lbrace \varepsilon \rbrace & \text{ pro } n = 0 \\
+		LL^{n-1} & \text{ pro } n \geq 1 \\
+		\end{array}
+		\right.
+		$$
+
+		\item
+		\textit{Kleeneho} uzávěr neboli 	\textit{iterace}. Tento uzávěr vyjádříme takto:
+		$$
+		L^{*} = \bigcup_{i = 0}^{\infty} L^{i}
+		$$
+
+		\item
+		\textit{Pozitivní} uzávěr neboli pozitivní iterace. Tento uzávěr vyjádříme takto:
+		$$
+		L^{+} = \bigcup_{i = 1}^{\infty} L^{i}
+		$$
+		Všimněte si podobností mezi těmito dvěma uzávěry. Pozitivní uzávěr vynechává prázdný řetězec.
+
+		\end{itemize}
+
+		\textbf{GRAMATIKY}\\
+
+		\vspace{3mm}
+Jak víme, tak jazyky mohou být \textit{nekonečné} ve smyslu, že obsahují nekonečný počet slov.
+Nabízí se tedy otázka, jak tyto jazyky rozumně popsat, jak je reprezentovat resp. jak vytvořit \textit{konečnou}
+sadu pravidel, jejichž aplikace by vedla k opětovné generaci původního jazyka.
+
+
+		\textbf{Přepisovací pravidla}\\
+
+		\vspace{3mm}
+Pravidlem rozumíme zpravidla každou dvojici:
+$$
+\langle x,y \rangle \in \Sigma^{*} \times \Sigma^{*}
+$$
+Pak neformálně tvrdíme, že $x$ \textit{se přepisuje} na $y$.
+Nutno dodat, že předchozí zápis lze zapsat i například takto.
+$$
+x \rightarrow y\text{, kde symbol } \rightarrow \notin \Sigma \text{ můžeme prohlásit za tzv. metasymbol.}
+$$
+		\textbf{Vlastnosti pravidel}\\
+
+		\vspace{3mm}
+\begin{itemize}
+\item \textit{Nezkracující} pravidlo je pravidlo, o kterém platí, že $|x| \leq |y|$. Tedy aplikaci tohoto pravidla na vstupní řetězec určitě nevznikne řetězec kratší, než-li jeho předloha.
+
+\item $\varepsilon$ - pravidlo je pravidlo tvaru $x \rightarrow \varepsilon$.
+\end{itemize}
+
+
+		\textbf{Příklady pravidel}\\
+
+		\vspace{3mm}
+\begin{priklad}
+Mějme zadání abecedy $\Sigma = \lbrace a,b,c \rbrace$. Pravidla s využitím této abecedy by mohla být například tato.
+\begin{eqnarray*}
+aa &\rightarrow& bc \\
+bb &\rightarrow& abba \\
+c &\rightarrow& \varepsilon
+\end{eqnarray*}
+\end{priklad}
+
+\begin{priklad}
+Mějme další zadání abecedy $\Sigma = \lbrace expr, +, \times \rbrace$. Pravidla s využitím této abecedy by mohla být například takto.
+\begin{eqnarray*}
+\textit{expr} &\rightarrow& \textit{expr} + \textit{expr} \\
+\textit{expr} &\rightarrow& \textit{expr} \times \textit{expr}
+\end{eqnarray*}
+\end{priklad}
+
+
+		\textbf{Přímé odvozování řetězců pomocí pravidel}\\
+
+		\vspace{3mm}
+Uvažujme odvozovací pravidlo $ x \rightarrow y \text{ nad abecedou } \Sigma$, pak řekneme, že řetězec \textit{v} \textit{je přímo odvozen}
+z řetězce \textit{u} pomocí pravidla $ x \rightarrow y $, pokud $\exists p, q \in \Sigma^{*}$ tak, že
+\begin{gather*}
+u = p x q \\
+v = p y q
+\end{gather*}
+
+Značení předchozí operace je následující:
+$$
+u \Rightarrow_{x \rightarrow y} v
+$$
+Slovně bychom tento zápis vystihli jako \uv{přímý přepis dle pravidla $x \rightarrow y$.}
+
+Řetězec $v$ vznikne přímým přepisem z $u$ pomocí pravidel $P \subseteq  \Sigma^{*} \times \Sigma^{*}$, pokud
+$\exists \pi \in P \text{ tak, že } u \Rightarrow_{\pi} v$.
+
+Značme $u \Rightarrow_{P} v$. $P$ je množinou užitých pravidel. $P$ i $\Rightarrow_{p}$ jsou binární relace na $\Sigma^{*}$ a
+$P \subseteq  \Rightarrow_{p}$, tedy \uv{P je podmnožinou šipky p.} Platí, že $x \rightarrow y \in P$ a $x \Rightarrow_{x \rightarrow y} y$.
+Můžeme tedy poněkud nadneseně říci, že množina pravidel $P$ obsahuje jen podmnožinu všech možných pravidel, který je možno sestrojit
+nad danými terminálními a neterminálními symboly (o těch se dozvíme více informaci později).
+
+\begin{priklad}
+Mějme abecedu $\Sigma = \lbrace a, b, c \rbrace$ a soubor pravidel $P = \lbrace aa \rightarrow bc, a \rightarrow cab, bb \rightarrow \varepsilon \rbrace$\label{priklad-1}.
+Pak by odvození v jednom kroku mohla vypadat například takto:
+\begin{gather*}
+baaa \rightarrow bbca \\
+bac \rightarrow bcabc
+\end{gather*}
+\end{priklad}
+
+\begin{definice}
+Definujme pojem \textit{derivace}. Jedná se o posloupnost řetězců ve tvaru:
+$$
+x_{0}, \ldots, x_{k},\text{ kde } k \geq 0\text{ a kde } \lbrace x_{0}, \ldots, x_{k} \rbrace \in \Sigma^{*}
+$$
+se nazývá \textit{P-derivace délky k}, pokud $x_{i-1} \Rightarrow_{p} x_{i}, \forall 1 \leq i \leq k $.
+Symbolicky totéž $x_{0} \Rightarrow_{p} x_{1} \Rightarrow_{p} \ldots \Rightarrow_{p} x_{k}$. Počet odvození tedy značí \textit{délku} derivace.
+\end{definice}
+
+Pokud pro $u, v \in \Sigma^{*} \quad \exists \text{ P-derivace } u = x_{0} \ldots x_{k} = v$, pak říkáme, že $v$ je odvozeno z $u$ pomocí pravidel z $P$, což značíme
+například $u \Rightarrow_{P}^{*} v$, tímto je pochopitelně myšleno odvození ve více krocích. Platí, že $P \subseteq \Rightarrow_{P} \subseteq \Rightarrow_{P}^{+}$.
+
+\begin{priklad}
+Mějme abecedu $\Sigma = \lbrace a, \ldots, z \rbrace$ a pravidla stejná jako v příkladu \ref{priklad-1}.
+Nyní odvozujeme například takto:
+$$
+b\underline{aa}a, \underline{bb}ca, c\underline{a}, c\underline{cab}
+$$
+\end{priklad}
+
+\textbf{Formální gramatiky}\\
+
+		\vspace{3mm}
+Mějme následující entity:
+\begin{itemize}
+\item $\Sigma$ - abeceda terminálních symbolů (tyto symboly tvoří řetězce daného jazyka).
+\item $N$ - abeceda neterminálních symbolů (tyto symboly se užívají k řízení průběhu odvozování).
+\end{itemize}
+
+Dodejme, že obě množiny by měly být neprázdné a konečné.
+
+\begin{definice}
+Odvozovací pravidlo $x \rightarrow y$ se nazývá \textit{generativní}, pokud \textit{x} obsahuje alespoň jeden neterminální symbol.
+\end{definice}
+
+\begin{definice}
+Mějme strukturu $G = \langle N, \Sigma, P, S \rangle$, kde $N$ je abecedou neterminálních symbolů, $\Sigma$ je abecedou terminálních symbolů,
+$P$ je množinou odvozovacích pravidel a $S \in N$ je tzv. \textit{počátečním} resp. \textit{startovním} neterminálem. Pak tuto čtveřici nazveme \textit{gramatikou}.
+\end{definice}
+
+\begin{poznamka}
+Pokud chceme vyjádřit, že z jednoho symbolu odvozujeme několik možných alternativ, tak to zapíšeme místo klasického dlouhé zápisu
+$y \rightarrow x_{1}, y \rightarrow x_{2}, \ldots$ pomocí zkrácené notace např. $y \rightarrow x_{1}|x_{2}|\ldots$
+\end{poznamka}
+
+\begin{priklad}
+Gramatika může vypadat třeba takto:
+\begin{eqnarray*}
+N &=& \lbrace \varepsilon, S, D, I \rbrace \\
+\Sigma &=& \lbrace 0, \ldots, 9, +, - \rbrace \\
+P &=& \lbrace S \rightarrow -I|+I|I, I \rightarrow DI|D, D \rightarrow 0|1|\ldots |9 \rbrace \\
+G &=& \langle N, \Sigma, P, S \rangle
+\end{eqnarray*}
+\end{priklad}
+
+\begin{priklad}\label{priklad-2}
+Nebo takto:
+\begin{eqnarray*}
+N &=& \lbrace S, X, Y \rbrace \\
+\Sigma &=& \lbrace a, b, c \rbrace \\
+P &=& \lbrace S \rightarrow XcYcX, X \rightarrow aX, X \rightarrow bX, X \rightarrow cX, X \rightarrow \varepsilon,
+Y \rightarrow abY, Y \rightarrow ab \rbrace \\
+G &=& \langle N, \Sigma, P, S \rangle
+\end{eqnarray*}
+\end{priklad}
+
+\begin{definice}
+Každý řetězec $x \in (N \cup\Sigma)^{*}$, pro který platí $S \rightarrow^{*} x$, je \textit{větná forma} gramatiky $G = \langle N, \Sigma, P, S \rangle$.
+Větná forma se nazývá \textit{větou}, pokud $x \in \Sigma^{*}$.
+\end{definice}
+
+\begin{definice}
+Jazyk generovaný gramatikou definujme jako:
+$$
+L(G) = \lbrace x \in \Sigma^{*} | S \Rightarrow_{G}^{*} x \rbrace
+$$
+Vidíme tedy, že takový jazyk obsahuje \textit{věty}, které lze odvodit ze startovacího neterminálu pomocí pravidel této gramatiky.
+\end{definice}
+
+\begin{priklad}
+Tento příklad čerpá gramatiku z příkladu \ref{priklad-2}.
+\begin{eqnarray*}
+S &\Rightarrow_{G}^{*}& abbccYcX \\
+S &\Rightarrow_{G}^{*}& Xcababababc \\
+S &\Rightarrow_{G}^{*}& cYcbaX \\
+S &\Rightarrow_{G}^{*}& abbccabca \\
+S &\Rightarrow_{G}^{*}& cabababc
+\end{eqnarray*}
+\end{priklad}
+
+\begin{definice}
+Gramatiky $G_{1}$ a $G_{2}$ jsou \textit{ekvivalentní}, pokud generují stejný jazyk.
+\end{definice}
+
+\subsubsection{Hierarchie gramatik}
+\begin{itemize}
+\item
+\textit{Gramatiky typu 0} -- jedná se o gramatiky bez omezení.
+
+\item
+\textit{Gramatiky typu 1\label{gram-1}} -- jedná se o tzv. \textit{kontextové} nebo \textit{kontextově závislé} gramatiky.
+Ty splňují následující omezení na tvar pravidel. Pro každé pravidlo gramatik tohoto typu platí, že:
+\begin{enumerate}
+\item
+Buď je (pravidlo) ve tvaru $pAq \rightarrow p x q, \text{ kde } p, q \in (\Sigma \cup N)^{*}, A \in N, x \in (\Sigma \cup N)^{+}$, kde \textit{p} a \textit{q}
+se nazývají levým resp. pravým \textit{kontextem}.
+
+\item
+Nebo je (pravidlo) ve tvaru $S \rightarrow \varepsilon$, kde $S$ je startovní terminál gramatiky, ale pouze
+za předpokladu, že $S$ se nevyskytuje na pravé straně žádného pravidla.
+\end{enumerate}
+
+Zároveň platí pro každé pravidlo (s výjimkou pravidla $S \rightarrow \varepsilon$), že délka odvozeného řetězce je minimálně stejně velká jako délka vstupního řetězce. Gramatika tedy zároveň obsahuje pouze tzv. \textit{nezkracující} pravidla.
+
+\item
+\textit{Gramatiky typu 2} -- jedná se o tzv. \textit{bezkontextové} gramatiky, jenž obsahují pravidla ve tvaru:
+$$
+A \rightarrow x, \text{ kde } A \in N, x \in (\Sigma \cup N)^{+}
+$$
+Na levých stranách pravidel tedy očekáváme pouze neterminální symbol a na pravé straně očekáváme minimálně jeden symbol (s výjimkou $\varepsilon$-pravidla).
+
+Očividně platí, že je-li gramatika bezkontextová, pak je i kontextová, nebo $p=\varepsilon, q=\varepsilon$ jsou také kontexty, byť jsou \uv{prázdné}.
+
+\begin{priklad}
+Mějme tuto gramatiku:
+\begin{eqnarray*}
+G &=& \langle N, \Sigma, P, S \rangle \\
+N &=& \lbrace A, S \rbrace \\
+\Sigma &=& \lbrace 0, 1 \rbrace \\
+P &=& \lbrace S \rightarrow 0A, A \rightarrow \varepsilon \rbrace
+\end{eqnarray*}
+\end{priklad}
+
+\item
+\textit{Gramatiky typu 3\label{gram-3}} -- jedná se o tzv. \textit{regulární} resp. \textit{pravolineární} gramatiky, které obsahují pravidla ve třech následujících tvarech:
+
+\begin{enumerate}
+\item
+$A \rightarrow bB, \text{ kde } A,B \in N, b \in \Sigma$
+
+\item
+$A \rightarrow a$
+
+\item
+$S \rightarrow \varepsilon$ (přičemž platí stejné podmínky, jako u gramatik typu 1)
+\end{enumerate}
+
+\end{itemize}
+
+\begin{veta}
+Každý konečný jazyk je regulární.
+\end{veta}
+
+
+\begin{figure}[ht]
+\centering\includegraphics[width=8cm]{img/vychodilovoVajicko.png}
+\caption{Vychodilovo \uv{vajíčko.}}\label{obr-2}
+\end{figure}
+
+\vspace{30px}
+
+\begin{priklad}
+\begin{eqnarray*}
+N &=& \lbrace S \rbrace \\
+\Sigma &=& \lbrace a, b \rbrace \\
+P &=& \lbrace S \rightarrow aSb | \varepsilon \rbrace \\
+L(G) &=& \lbrace a^{n}b^{n} | \quad n \geq 0 \rbrace
+\end{eqnarray*}
+Máme tedy \textit{bezkontextový} jazyk.
+\end{priklad}
+
+\begin{priklad}
+\begin{eqnarray*}
+N &=& \lbrace S \rbrace \\
+\Sigma &=& \lbrace a, b \rbrace \\
+P &=& \lbrace S \rightarrow SS|aSb|bSa| \varepsilon \rbrace
+\end{eqnarray*}
+$L(G)$ je \textit{bezkontextový} jazyk.
+\end{priklad}
+
+\begin{priklad}
+\begin{eqnarray*}
+N &=& \lbrace S, V \rbrace \\
+\Sigma &=& \lbrace p,),(, \Rightarrow, ! \rbrace \\
+P &=& \lbrace S \rightarrow V|(S \Rightarrow S)|!S, V \Rightarrow pV|p \rbrace
+\end{eqnarray*}
+$L(G)$ je jazyk všech výrokových formulí.
+\end{priklad}
+
+
+
+	\subsection{Regulární jazyky (definice, uzávěrové vlastnosti)}
+
+	\subsection{Konečné automaty deterministické a nedeterministické}
+
+	\subsection{Regulární výrazy}
+
+	\subsection{Automaty s epsilon-přechody}
+
+	\subsection{Minimalizace konečného deterministického automatu}
+
+	\subsection{Pumping lemma}
+
+	\subsection{Bezkontextové jazyky a jejich vlastnosti (uzávěrové vlastnosti, jednoznačnost)}
+
+	\subsection{Zásobníkové automaty a jejich modifikace}
+
+	\subsection{Deterministické zásobníkové automaty}
+
+	\subsection{Deterministické bezkontextové jazyky}
+
 
 %============================================================================
 %                                                                             DRUHÝ ODSTAVEC
@@ -38,11 +417,11 @@ a částečně rekurzivních jazyků. Uzávěrové vlastnosti jazyků TS. Riceov
 Chomského hierarchie. Věta o rekurzi.
 
 	\subsection{Turingův stroj (TS)}
-		
+
 		\begin{itemize}
 			\item Alan Turing, 1936
 			\item účel: porozumět omezením mechanického výpočtu
-		\end{itemize}		
+		\end{itemize}
 		\textbf{TS se skládá z}
 		\begin{itemize}
 			\item řídící jednotky, která se vždy nachází v jednom z konečného množství stavů
@@ -59,7 +438,7 @@ Chomského hierarchie. Věta o rekurzi.
 			\item počátečním stavem $q_{start} \in Q$
 			\item přijímacím stavem $q_{+} \in Q $ a zamítacím stavem $q_{-} \in Q.$ $q_{+} \neq q_{-}$
 		\end{itemize}
-		Program TS lze chápat jako množinu elementárních instrukcí ve tvaru: 
+		Program TS lze chápat jako množinu elementárních instrukcí ve tvaru:
 
 		\textit{\uv{Pokud je řídící jednotka ve stavu $q$ a čtecí/zapisovací hlava čte symbol $a$, tak změň stav řídící jednotky
 		na $q'$, na pásku zapiš $a'$ a posuň
@@ -68,7 +447,7 @@ Chomského hierarchie. Věta o rekurzi.
 		Takováto instrukce se zapisuje jako $\delta (q,a) = (q', a', d)$ a nazýváme ji přechod. Celý program, tedy množinu 				takovýchto instrukcí, pak nazýváme přechodovou funkcí TS
 
 		\textbf{Konfigurace} TS je uspořádaná trojice $(q, \alpha, n) \in Q \times \Gamma^{*} \times N_{0}$ , která zachycuje
-		aktuální status všech tří komponent. 
+		aktuální status všech tří komponent.
 		\begin{itemize}
 			\item $q$ je aktuální stav řídící jednotky
 			\item $\alpha$ je obsah pásky
@@ -85,8 +464,8 @@ Chomského hierarchie. Věta o rekurzi.
 			\item Je-li $\delta(q,a_{i}) = (q', b, R), pak$
 				$$(q,a_{0} \dots a_{n}, i) \vdash (q', a_{0} \dots a_{i-1}ba_{i+1} \dots a_{n}, i+1) $$
 		\end{itemize}
-	
-	
+
+
 
 	\subsection{Nedeterministický TS}
 
@@ -104,7 +483,7 @@ Chomského hierarchie. Věta o rekurzi.
 			\item přijímacím stavem $q_{+} \in Q $ a zamítacím stavem $q_{-} \in Q.$ $q_{+} \neq q_{-}$
 		\end{itemize}
 
-		Ke každému deterministickému existuje ekvivalentní nedeterministický automat a ke každému 
+		Ke každému deterministickému existuje ekvivalentní nedeterministický automat a ke každému
 		nedeterministickému existuje ekvivalentní deterministický automat.
 
 	\subsection{Jazyk přijímaný TS}
@@ -112,18 +491,18 @@ Chomského hierarchie. Věta o rekurzi.
 		Množinu všech slov $\omega \in \Sigma^{*}$, které TS \textit{T} Přijímá značíme \textit{L(T)} a nazýváme 					\textit{\textbf{jazykem Turingova stroje}}, t.j.
 		 $$L(T) = \{ \omega | \omega \in \Sigma^{*}, (\omega, q_{0},0) \vdash^{*} C_{+}\} $$
 		Jazyk $L(T)$ nazýváme \textit{jazyk přijímaný TS} $T$.\\
-		Říkáme, že TS $T$ \textit{přijímá jazyk}$ L(T)$.\\		 
-	
+		Říkáme, že TS $T$ \textit{přijímá jazyk}$ L(T)$.\\
+
 		Jazyk $L \subseteq \Sigma^{*} $ nazveme\textit{ jazyk přijímaný TS}, pokud existuje TS $T$ který jej přijímá.
 
 	\subsection{Jazyk rozhodovaný TS}
 
-		Pokud navíc platí, že TS $T$ zamítá každé $\omega \notin L(T)$, nazýváme jazyk L(T) 
+		Pokud navíc platí, že TS $T$ zamítá každé $\omega \notin L(T)$, nazýváme jazyk L(T)
 		\textit{jazyk~rozhodovaný} TS $T$.\\
 		Říkáme, že TS $T$ \textit{rozhoduje jazyk} $L(T)$. (to znamená že nikdy necyklí)
 
 		Jazyk $L \subseteq \Sigma^{*} $ nazveme\textit{ jazyk rozhodovaný TS}, pokud existuje TS $T$ který jej rozhoduje.
-	
+
 
 	\subsection{Churg-Turingova teze}
 
@@ -133,7 +512,7 @@ Chomského hierarchie. Věta o rekurzi.
 		\begin{itemize}
 			\item TS, který se nikdy nepokusí přejet levý okraj pásky
 				\begin{itemize}
-					\item Rozumíme TS, u kterého při výpočtu nad jakým koli slovem nedojde k tomu že, je v konfiguraci 
+					\item Rozumíme TS, u kterého při výpočtu nad jakým koli slovem nedojde k tomu že, je v konfiguraci
 						$(q,a\omega,0)$ a existuje přechod $\delta(q,a) = (q',b,L).$  Tedy nikdy nenastane situace
 						že by byla hlava nad nejlevějším políčkem pásky a přechodová funkce by určovala pohyb 								vlevo.
 				\end{itemize}
@@ -146,7 +525,7 @@ Chomského hierarchie. Věta o rekurzi.
 					\item Roziníme TS, který zastaví pouze v konfiguraci $\langle q_{+}, \epsilon, 0 \rangle$
 						nebo $\langle q_{-}, \epsilon, 0 \rangle$. Tzn. smaže obsah pásky.
 				\end{itemize}
-			\item ( předchozí 3 se nejspíš nepočítají mezi varianty TS) 
+			\item ( předchozí 3 se nejspíš nepočítají mezi varianty TS)
 			\item \textbf{TS s instrukcí stop} --- struktura  $\langle Q, \Sigma, \Gamma, \delta, q_{start}, q_{+}, q_{-} \rangle $
 								dána:
 				\begin{itemize}
@@ -157,110 +536,110 @@ Chomského hierarchie. Věta o rekurzi.
 					\item počátečním stavem $q_{start} \in Q$
 					\item přijímacím stavem $q_{+} \in Q $ a zamítacím stavem $q_{-} \in Q.$ $q_{+} \neq q_{-}$
 				\end{itemize}
-				Odpovídajícím způsobem se upraví definice kroku výpočtu, vlatně se přidá bod: 
+				Odpovídajícím způsobem se upraví definice kroku výpočtu, vlatně se přidá bod:
 
-				-- Je-li $\delta(q, a_{i}) = (q', b, S)$, pak 
+				-- Je-li $\delta(q, a_{i}) = (q', b, S)$, pak
 					$$(q,a_{0} \dots a_{n}, i) \vdash (q', a_{0} \dots a_{i-1}ba_{i+1} \dots a_{n},i) $$
 			\item \textbf{TS s oboustranně nekonečnou páskou} --- definice je totožná jako u klasického TS; rozdíl je v definici
 			 konfigurace (nevystačíme si s $\langle q, \omega, i \rangle \in Q \times \Gamma^{*} \times N_{0}$)a výpočtu
 			(není zarážení o levý okraj)
 				\begin{itemize}
 					\item \textbf{Konfigurace:} Alternativně zapisujeme jako řetězec
-					 	$\alpha q\beta \in \Gamma^{*}Q\Gamma^{*}.$ 
+					 	$\alpha q\beta \in \Gamma^{*}Q\Gamma^{*}.$
 						Konfigurace $\alpha q\beta$ představuje status stroje, který má na pásce zapsán řetězec
 						$ \alpha\beta$,
 						hlava	je nad prvním symbolem řetězce $\beta$, řídící jednotka je ve stavu q.
 
-						U TS s oboustranně nekonečnou páskou považujeme $\alpha q\beta$ za totožnou s  
+						U TS s oboustranně nekonečnou páskou považujeme $\alpha q\beta$ za totožnou s
 						$\alpha q\beta$\textvisiblespace a s \textvisiblespace$\alpha q\beta$.
-					\item \textbf{Krok výpočtu TS (s oboustranně nekonečnou páskou)} je definován jako binární 
-						relace na množině konfigurací: Nechť $\alpha aqB\beta$ je taková konfigurace $T$, kde 
+					\item \textbf{Krok výpočtu TS (s oboustranně nekonečnou páskou)} je definován jako binární
+						relace na množině konfigurací: Nechť $\alpha aqB\beta$ je taková konfigurace $T$, kde
 						$q \neq q, \alpha, \beta \in \Gamma^{*}, a,b \in \Gamma.$
 						\begin{itemize}
 							\item Je-li $\delta(q,a) = (q', x, L) $, pak  $$\alpha aqb\beta \vdash \alpha q'ax\beta$$.
-							\item Je-li $\delta(q,a_{1}) = (q', x, R) $, pak 
+							\item Je-li $\delta(q,a_{1}) = (q', x, R) $, pak
 									$$\alpha aqb\beta \vdash \alpha axq'\beta$$.
 						\end{itemize}
 				\end{itemize}
-					\item \textbf{TS s více páskami} --- je struktura $\langle Q, \Sigma, \Gamma, \delta, q_{0}, q_{+}, 
+					\item \textbf{TS s více páskami} --- je struktura $\langle Q, \Sigma, \Gamma, \delta, q_{0}, q_{+},
 						q_{-} \rangle $ dána:
 						\begin{itemize}
 							\item Neprázdnou konečnou množinou stavů $Q$
 							\item Vstupní abecedou  $\Sigma$ t.ž. \textvisiblespace $ \notin \Sigma$
-							\item páskovou abecedou $\Gamma$ t.ž. $\Sigma \subset \Gamma,$ \textvisiblespace 
+							\item páskovou abecedou $\Gamma$ t.ž. $\Sigma \subset \Gamma,$ \textvisiblespace
 								$\in  \Gamma $
-							\item přechodovou funkcí $\delta : Q \times  \Gamma^{k} \rightarrow Q \times [ \Gamma 
+							\item přechodovou funkcí $\delta : Q \times  \Gamma^{k} \rightarrow Q \times [ \Gamma
 								\times \{L, S, R \} ]^{k}$
 							\item počátečním stavem $q_{start} \in Q$
-							\item přijímacím stavem $q_{+} \in Q $ a zamítacím stavem $q_{-} 
+							\item přijímacím stavem $q_{+} \in Q $ a zamítacím stavem $q_{-}
 								\in Q.$ $q_{+} \neq q_{-}$
-						\end{itemize}		
-			
+						\end{itemize}
+
 		\end{itemize}
 		Ke každé variantě TS vždy existuje ekvilalentní klasický TS a obráceně.
 
-	
+
 
 	\subsection{Částečně rekurzivní a rekurzivní jazyky, Jazyky a rozhodovací problémy, Vztah rekurzivních a částečne rekurzivních jazyků }
-	
+
 		\begin{itemize}
 			\item Jazykům rozhodovaným TS říkáme \textbf{rekurzivní jazyky (R)}
 			\item Jazykům přijímaným TS říkáme \textbf{ částečně rekurzivní jazyky (ČR)}
 			\item R $\subseteq$ ČR
 		\end{itemize}
-		
-		
+
+
 		\begin{figure}[!h]
 		\centering
-		\includegraphics[width=12cm]{jazykyAJejichDoplnky.png}	
-		\caption{Jiné stavy nastat nemůžou !!!}	
+		\includegraphics[width=12cm]{img/jazykyAJejichDoplnky.png}
+		\caption{Jiné stavy nastat nemůžou !!!}
 		\end{figure}
 
 		\vspace{1cm}
 		\textbf{Jazyky, které jsou částečně rekurzivní ale nejdou rekurzivní:}
-		
+
 		\begin{itemize}
 			\item Univezální jazyl $L_{U}$ definován takto : $$L_{U} = \{ [T,w]| T \text{ je } TS \text{, který přijímá } w\}$$
-			\item Jazyk $L_{\text{HALT}}$ definován takto:  
+			\item Jazyk $L_{\text{HALT}}$ definován takto:
 						$$L_{\text{HALT}} = \{ [T,w]| T \text{ je } TS \text{, který zastaví pro } w\}$$
-			\item Jazyk  $L_{\text{NE}}$ definován takto: 
+			\item Jazyk  $L_{\text{NE}}$ definován takto:
 					$$L_{\text{NE}} = \{ [ T ] |  L(T)  \neq  \emptyset\} \text{\dots (zastaví alespoň pro jedno slovo)} $$
-	
+
 		\end{itemize}
-		
+
 		\textbf{Jazyky, které nejsou částečně rekurzivní:}
-		
+
 		\begin{itemize}
 			\item Diagonální jazyk $L_{d}$ $$L_{d} = \{[T]| T \text{ je } TS \text{, který nepřijímá svůj kód} \}$$
-			\item Jazyk strojů přijímajících prázdný jazyk 
-				$$L_{\emptyset} = \{[T]| T \text{ je } TS \text{ a } L(T) = 
+			\item Jazyk strojů přijímajících prázdný jazyk
+				$$L_{\emptyset} = \{[T]| T \text{ je } TS \text{ a } L(T) =
 						\emptyset \} \text{\dots(všechny slova zamítne?)}$$
 			\item Jazyk strojů, které se nezacyklí
 				$$L_{noncycle} = \{ [T]| T \text{ je } TS \text{ a necyklí pro žádné slovo } w\}$$
 		\end{itemize}
-		
+
 		\vspace{1cm}
 		JAZYK $\approx$ PROBLÉM
-	
+
 		\begin{itemize}
 			\item $L_{U} \rightarrow$ problém přijetí
 			\item $L_{HALT} \rightarrow$ problém zastavení
-			\item $L_{NE} \rightarrow$ problém neprázdnosti jazyka			
+			\item $L_{NE} \rightarrow$ problém neprázdnosti jazyka
 		\end{itemize}
 		\vspace{1cm}
-		
+
 
 	\subsection{Uzávěrové vlastnosti jazyků TS}
-	
+
 	\textbf{Věty:}
 		\begin{itemize}
-			\item Pokud $L$ je rekurzivní pak, $\Sigma^{*} \setminus  L$ je rekurzivní (staší sestrojit TS který rozhoduje L 
+			\item Pokud $L$ je rekurzivní pak, $\Sigma^{*} \setminus  L$ je rekurzivní (staší sestrojit TS který rozhoduje L
 				a prohodit přijímací a zamítací stavy).
 			\item Nechť $L_{1}, L_{2} \in R$ jsou rekurzuvní jazyky, pak $L_{1} \cup L_{2} \in R$  a  $L_{1} \cap L_{2} \in R$.
 			\item Nechť $L_{1},L_{2} \in R$, pak $L_{1} \circ  L_{2}\in R$
 			\item Pokud $L \in R$, pak $L^{*} \in R$ \dots($L^{*}$ je kleenyho uzávěr- zřetězení slov z L)
 
-						
+
 
 			\item Nechť $L_{1}, L_{2} \in ČR$ pak:
 				\begin{itemize}
@@ -269,8 +648,8 @@ Chomského hierarchie. Věta o rekurzi.
 					\item $L_{1} \circ L_{2} \in ČR$
 					\item $L^{*} \in ČR$
 				\end{itemize}
-			\item Pokud $L \in ČR$ a  $\Sigma^{*} \setminus  L \in ČR$, pak $L \in R$ 
-			
+			\item Pokud $L \in ČR$ a  $\Sigma^{*} \setminus  L \in ČR$, pak $L \in R$
+
 		\end{itemize}
 
 	\subsection{Riceova věta :}
@@ -283,19 +662,19 @@ Chomského hierarchie. Věta o rekurzi.
 	pak L není rekurzivní.\\
 	\vspace{0,5cm}
 
-	\textit{\textbf{Věta slovně:} Pokud se rovnají jazyky strojů, pak jejich kódydo jazyku buďto oba 
+	\textit{\textbf{Věta slovně:} Pokud se rovnají jazyky strojů, pak jejich kódydo jazyku buďto oba
 				patří nebo oba nepatří a dále existuje alespoň jeden stoj jehož kód do tohoto jazyka nepatří a
 				 alespoň jeden který do něj patří, pak není rekurzivní. (zjevně vyplývá třetí podmínka že slova
 				 těchto jazyků musí být kódy TS)}\\
 
-	\vspace{0,5cm}	
+	\vspace{0,5cm}
 
 	Tvzdení ve tvaru implikace né ekvilalence! Tzn. že lze použít pouze k důkazu, že nějaký jazyk není rekurzivní a nelze použít
 	k důkazu že nějaký jazyk je rekurzivní.
-		
+
 
 	\subsection{Vztah jazyků TS k jazykům Chomského hierarchie}
-	
+
 		\vspace{5mm}
 		$$\text{Typ 3} \subset \text{Typ 2} \subset \text{Typ 1} \subset \text{R} \subset \text{Typ 0} = \text{ČR} $$
 		\begin{itemize}
@@ -304,7 +683,7 @@ Chomského hierarchie. Věta o rekurzi.
 		\item kontextové jazyky = jazyky LBA
 		\item jazyky gen. gramatikami bez omezení = jazyky přijímané TS
 		\end{itemize}
-		
+
 
 		\textbf{Věty: }
 		\begin{itemize}
@@ -312,21 +691,21 @@ Chomského hierarchie. Věta o rekurzi.
 		\item Jazyky generované kontextově závislými gramatikamy = jazyky přijímané LBA
 		\item Existuje rekurzivní jazyk, který není generovaný kontextovou gramatikou.
 		\end{itemize}
-		
+
 		\begin{figure}[!h]
 		\centering
-		\includegraphics[width=8cm]{chomskyVSts.png}			
+		\includegraphics[width=8cm]{img/chomskyVSts.png}
 		\end{figure}
-	
+
 	\subsection{Věta o rekurzi}
 
 		TS \textit{vyčísluje funkci $f$}, pokud pro každé slovo $w \in \Sigma^{*}$ zapíše na pásku $f(w)$ a skončí.
 		\vspace{5mm}
-	
-		\textbf{Věta o rekurzi: }Nechť $T$ je TS, který vyčísluje 
+
+		\textbf{Věta o rekurzi: }Nechť $T$ je TS, který vyčísluje
 			$t : \Sigma^{*} \times \Sigma^{*} \rightarrow \Sigma^{*}$. Existuje TS $R$, který
 		počítá funkci $ r : \Sigma^{*} \rightarrow \Sigma^{*}$, kde pro každé $w$ platí $$r(w) = t(\langle R \rangle,w)$$
-		
+
 		\textit{Tvrzení věty říká, že abychom vytvořili TS $R$, který pracuje s vlastním kódem, stačí umět udělat
 			 TS $T$, který pracuje stejně, ale dostává kód [R] na vstup. }\\
 
@@ -347,7 +726,7 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 
 	\subsection{Složitost algoritmu(časová a paměťová)}
 
-		\textbf{Časová složitost} = funkce $f : N \rightarrow N_{0}$, kde $f(n)$ je maximální 
+		\textbf{Časová složitost} = funkce $f : N \rightarrow N_{0}$, kde $f(n)$ je maximální
 		počet kroků při výpočtu nad jakýmkoli vstupem délky $n$.\\
 		\vspace{3mm}
 
@@ -359,11 +738,11 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 		$g(n)$ je \textbf{asymptotická hosní hranice} $f(n)$, když existují $c, n_{0} \in N$, t.ž. pro každé $n~\geq~n_{0}$:
 		$$f(n) \leq c \cdot g(n)$$
 		Notace: $f(n) = O(g(n))$
-		
+
 
 	\subsection{Třída P, NP, důvody jejich zavedení, vzájemný vztah}
 
-		\textbf{turingův stroj}	
+		\textbf{turingův stroj}
 		$$TIME(t(n)) = \{ L | L \text{rozhodovaný TS v čase} O(t(n))\}$$
 		$$SPACE(s(n)) = \{ L | L \text{rozhodovaný TS v paměti} O(s(n))\}$$
 		\vspace{3mm}
@@ -372,7 +751,7 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 		NTS časová složitost t(n) \dots TS časová složitost $2^{O(t(n))}$\\
 
 		NTS paměťová složitost t(n) \dots TS časová složitost $O(t^{2} (n))$
-			
+
 		$$NTIME(t(n)) = \{ L | L \text{rozhodovaný NTS v čase} O(t(n))\}$$
 		$$NSPACE(s(n)) = \{ L | L \text{rozhodovaný NTS v paměti} O(s(n))\}$$\\
 
@@ -382,26 +761,26 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 		$$NP = \bigcup\{NTIME(n^k) | k \in N\}$$
 	\vspace{3mm}
 
-	Víme že $$P\subseteq NP$$ 
+	Víme že $$P\subseteq NP$$
 
-	co ale nevíme je jestli $$NP\subseteq P \text{ tzn. (P=NP) nebo jestli } NP\nsubseteq P$$		
-		
+	co ale nevíme je jestli $$NP\subseteq P \text{ tzn. (P=NP) nebo jestli } NP\nsubseteq P$$
+
 
 	\subsection{NP--úplné problémy}
 
 		Funkce $f :  \Sigma^{*} \rightarrow \Sigma^{*}$ je \textbf{funkce vyčíslitelná v polynomiálním čase}, pokud existuje TS
 		pracující v polynomiálním čase, který pro každé $w \in  \Sigma^{*}$ zastaví a na pásce má zapsáno $w$.
 
-		Jazyk A je \textbf{redukovatelný v polynomiálním čase} na jazyk B, načeno $A \leq_P B$, pokud existuje redukce 
+		Jazyk A je \textbf{redukovatelný v polynomiálním čase} na jazyk B, načeno $A \leq_P B$, pokud existuje redukce
 		v polynomiálním čase, tj. $r :  \Sigma^{*} \rightarrow \Sigma^{*}$, t.ž. $$w \in A \text{ p. k. } f(w) \in B$$
-		
+
 		\vspace{3mm}
 		Jazyk B je \textbf{NP-úplný}, pokud
 		\begin{itemize}
 			\item B je v NP
 			\item B je NP-těžký. Tj. pro každý $A\in NP$ platí $A\leq_P B$
 		\end{itemize}
-		
+
 		\vspace{3mm}
 		\textbf{Věty:}
 		\begin{itemize}
@@ -412,11 +791,11 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 		\end{itemize}
 
 		Hlavní důvod, proč jsou NP-úplné úlohy tak zajímavé, je právě jejich velmi obtížná řešitelnost. Díky ní nacházejí uplatnění v
- 		moderní kryptografii, kde musíme být schopni rychle ověřovat správnost řešení, ale jeho nalezení musí trvat dlouho. Obtížnost 
-		výpočtu ovšem záleží i na konkrétních datech, pro speciální množinu vstupů může být úloha polynomiální, například řešíme-li 
+ 		moderní kryptografii, kde musíme být schopni rychle ověřovat správnost řešení, ale jeho nalezení musí trvat dlouho. Obtížnost
+		výpočtu ovšem záleží i na konkrétních datech, pro speciální množinu vstupů může být úloha polynomiální, například řešíme-li
 		obarvení třemi barvami pro jednoduché grafy (cesty).
-		 
-	
+
+
 
 	\subsection{Cook--Levinova věta}
 		\textbf{Věta:} SAT je NP-úplný \dots (vic k tomu nemáme a důkaz psat nebudu stejně byste
@@ -427,8 +806,8 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 			\item SAT je NP-úplný
 			\item 3SAT je NP-úplný
 			\item  hledání  hamiltonovské kružnice v grafu
-			\item vrcholové pokrytí	
-			\item trojrozměrné párování 	
+			\item vrcholové pokrytí
+			\item trojrozměrné párování
 		\end{itemize}
 
 	\subsection{Dokazování NP--úplnosti}
@@ -436,19 +815,19 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 		\textbf{Věta:} Pokud B je NP-úplný a $B \leq_P C$ pro $C \in $ NP, pak $C$ je NP-úplný
 
 	\subsection{Třída PSPACE, její vztah k třídám P a NP}
-		
-		PSPACE je třída jazyku, které jsou rozhodnutelné v polynomickém čase na (deterministickém) TS, tedy 
-		$$\text{PSPACE} = \bigcup_k \text{SPACE}(n^k)$$	
+
+		PSPACE je třída jazyku, které jsou rozhodnutelné v polynomickém čase na (deterministickém) TS, tedy
+		$$\text{PSPACE} = \bigcup_k \text{SPACE}(n^k)$$
 		Ze Savitchovy věty plyne že $$\text{PSPACE} = \text{NPSPACE}$$
 		Celkově tedy máme:
 		$$\text{ P } \subseteq \text{ NP } \subseteq \text{ PSPACE } \subseteq \text{ EXPTIME } $$  kde
 		$\text{EXPTIME} = \bigcup_k \text{TIME}(2^n)$\\
 		Alespoň jedna z těchto inkluzí je vlastní: ví se, že P~$\neq$~EXPTIME.\\
 		Věří se, že všechny ty jsou vlastní.
-		
+
 
 	\subsection{PSPACE--úplné problémy}
-		
+
 		Jazyk $B$ je \textbf{PSPACE-úplný problém}, pokud
 		\begin{itemize}
 			\item $B \in$ PSPACE
@@ -458,10 +837,10 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 		\begin{itemize}
 			\item Aktuální uzel je na začátku $u_1$
 			\item Hráči se střídají v tazích
-			\item Hráč na tahu zvolí souseda $u_1$, ten se stává aktuálním uzlem, nelze vybrat uzel, který už byl předtím 
+			\item Hráč na tahu zvolí souseda $u_1$, ten se stává aktuálním uzlem, nelze vybrat uzel, který už byl předtím
 				navštíven
 			\item Hráč, který uvízne prohrává
-		\end{itemize} 
+		\end{itemize}
 		$$GG = \{[G,b] | \text{ hráč 1 má vítěznou strategii pro G a poč. b } \}$$\\
 
 		GG je PSPACE-úplný.
@@ -478,12 +857,12 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 
 		\begin{figure}[!h]
 		\centering
-		\includegraphics[width=13cm]{prepisovac.png}			
+		\includegraphics[width=13cm]{img/prepisovac.png}
 		\end{figure}
 
 		\begin{figure}[!h]
 		\centering
-		\includegraphics[width=13cm]{NLuplny.png}			
+		\includegraphics[width=13cm]{img/NLuplny.png}
 		\end{figure}
 
 
@@ -506,76 +885,76 @@ do Prologu.
 		\subsubsection{jazyk}
 			\begin{figure}[!h]
 			\centering
-			\includegraphics[width=13cm]{jazykVL.png}			
+			\includegraphics[width=13cm]{img/jazykVL.png}
 			\end{figure}
 
 			\begin{figure}[!h]
 			\centering
-			\includegraphics[width=13cm]{formuleVL.png}			
+			\includegraphics[width=13cm]{img/formuleVL.png}
 			\end{figure}
  		\newpage
 		\subsubsection{pravdivostní ohodnocení}
 
 			\begin{figure}[!h]
 			\centering
-			\includegraphics[width=13cm]{pravdivostniOhodnoceniVL.png}			
+			\includegraphics[width=13cm]{img/pravdivostniOhodnoceniVL.png}
 			\end{figure}
 
 			\begin{figure}[!h]
 			\centering
-			\includegraphics[width=13cm]{ohodnoceniFormule.png}			
+			\includegraphics[width=13cm]{img/ohodnoceniFormule.png}
 			\end{figure}
- 		
+
 		\newpage
 		\subsubsection{tautologie}
 
 		\begin{figure}[!h]
 			\centering
-			\includegraphics[width=13cm]{tautologie.png}			
+			\includegraphics[width=13cm]{img/tautologie.png}
 			\end{figure}
- 
+
 		\subsubsection{tabulková metoda}
 			\begin{figure}[!h]
 			\centering
-			\includegraphics[width=13cm]{tabulkovaMetoda.png}			
+			\includegraphics[width=13cm]{img/tabulkovaMetoda.png}
 			\end{figure}
- 
+
 		\newpage
 		\subsubsection{sémantické vyplývání}
 
 			\begin{figure}[!h]
 			\centering
-			\includegraphics[width=13cm]{semantickeVyplyvani.png}			
+			\includegraphics[width=13cm]{img/semantickeVyplyvani.png}
 			\end{figure}
- 
+
 		\subsubsection{normální formy formulí}
 
 			\begin{figure}[!h]
 			\centering
-			\includegraphics[width=13cm]{UKNF.png}			
+			\includegraphics[width=13cm]{img/UKNF.png}
 			\end{figure}
 
 			\begin{figure}[!h]
 			\centering
-			\includegraphics[width=13cm]{vetaUKNF.png}			
+			\includegraphics[width=13cm]{img/vetaUKNF.png}
 			\end{figure}
 
 			\begin{figure}[!h]
 			\centering
-			\includegraphics[width=13cm]{prikladUKNF.png}			
+			\includegraphics[width=13cm]{img/prikladUKNF.png}
 			\end{figure}
 
- 		
+
 		\subsubsection{úplné systémy spojek}
-			
+
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{uplneSystemySpojek.png}			
+			\includegraphics[width=13cm]{img/uplneSystemySpojek.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{uplneSystemySpojek2.png}			
+			\includegraphics[width=13cm]{img/uplneSystemySpojek2.png}
 			\end{figure}
 
 			Existují pouze 2 jednoprvkové báze (Sheffer a Nicod)
@@ -584,48 +963,48 @@ do Prologu.
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=12cm]{MP.png}			
+			\includegraphics[width=12cm]{img/MP.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=12cm]{axiomy.png}			
+			\includegraphics[width=12cm]{img/axiomy.png}
 			\end{figure}
 
 		\subsubsection{syntaktické výplývání}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=12cm]{dukaz.png}			
+			\includegraphics[width=12cm]{img/dukaz.png}
 			\end{figure}
 
 		\subsubsection{Věta o dedukci}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{VoD.png}			
+			\includegraphics[width=13cm]{img/VoD.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{VoDpriklad.png}			
+			\includegraphics[width=13cm]{img/VoDpriklad.png}
 			\end{figure}
 
 		\subsubsection{Věty o korektnosti a úplnosti výrokové logiky}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{VoK.png}			
+			\includegraphics[width=13cm]{img/VoK.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{VoKpoznamka.png}			
+			\includegraphics[width=13cm]{img/VoKpoznamka.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{VoU.png}			
+			\includegraphics[width=13cm]{img/VoU.png}
 			\end{figure}
 
 	\subsection{Predikátová logika}
@@ -634,87 +1013,87 @@ do Prologu.
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{JazykPL.png}			
+			\includegraphics[width=13cm]{img/JazykPL.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{JazykPL2.png}			
+			\includegraphics[width=13cm]{img/JazykPL2.png}
 			\end{figure}
 
 		\subsubsection{termy a formule}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{termy.png}			
+			\includegraphics[width=13cm]{img/termy.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{formulePL.png}			
+			\includegraphics[width=13cm]{img/formulePL.png}
 			\end{figure}
 
 		\subsubsection{struktury pro jazyk}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{stukturaProJazyk.png}			
+			\includegraphics[width=13cm]{img/stukturaProJazyk.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{strukturaProJazyk.png}			
+			\includegraphics[width=13cm]{img/strukturaProJazyk.png}
 			\end{figure}
 
 		\subsubsection{ohodnocení termu a formulí}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{ohodnoceniPL.png}			
+			\includegraphics[width=13cm]{img/ohodnoceniPL.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{mOhodnoceni.png}			
+			\includegraphics[width=13cm]{img/mOhodnoceni.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{ohodnoceniFormuliPL.png}			
+			\includegraphics[width=13cm]{img/ohodnoceniFormuliPL.png}
 			\end{figure}
 
 		\subsubsection{axiomatický systém predikátové logiky}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{axiomyPL.png}			
+			\includegraphics[width=13cm]{img/axiomyPL.png}
 			\end{figure}
 
 		\subsubsection{syntaktické vyplývání}
-		
+
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{semantickeVyplyvaniPL.png}			
+			\includegraphics[width=13cm]{img/semantickeVyplyvaniPL.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{syntaktickeVyplyvaniPL.png}			
+			\includegraphics[width=13cm]{img/syntaktickeVyplyvaniPL.png}
 			\end{figure}
 
 			Formule je dokazatelná z T = formule syntakticky plyne z T.
-		
+
 
 		\subsubsection{věty o korektnosti a úplnosti predikátové logiky}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{VoKPL.png}			
+			\includegraphics[width=13cm]{img/VoKPL.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{VoUPL.png}			
+			\includegraphics[width=13cm]{img/VoUPL.png}
 			\end{figure}
 
 	\subsection{Neklasické logiky}
@@ -729,22 +1108,22 @@ do Prologu.
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{fuzzy1.png}			
+			\includegraphics[width=13cm]{img/fuzzy1.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{fuzzy2.png}			
+			\includegraphics[width=13cm]{img/fuzzy2.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{fuzzy3.png}			
+			\includegraphics[width=13cm]{img/fuzzy3.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{fuzzy4.png}			
+			\includegraphics[width=13cm]{img/fuzzy4.png}
 			\end{figure}
 
 
@@ -752,50 +1131,50 @@ do Prologu.
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{prolog1.png}			
+			\includegraphics[width=13cm]{img/prolog1.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{prolog2.png}			
+			\includegraphics[width=13cm]{img/prolog2.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{prolog3.png}			
+			\includegraphics[width=13cm]{img/prolog3.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{prolog4.png}			
+			\includegraphics[width=13cm]{img/prolog4.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{prolog5.png}			
+			\includegraphics[width=13cm]{img/prolog5.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{prolog6.png}			
+			\includegraphics[width=13cm]{img/prolog6.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{prolog7.png}			
+			\includegraphics[width=13cm]{img/prolog7.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{prolog8.png}			
+			\includegraphics[width=13cm]{img/prolog8.png}
 			\end{figure}
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{prolog9.png}			
+			\includegraphics[width=13cm]{img/prolog9.png}
 			\end{figure}
 
 	Zbytek prologu už je nechutně hnusnej a radši chcípnu než abych se to zas učil.
-			
+
 
 \end{document}

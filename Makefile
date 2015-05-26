@@ -7,15 +7,15 @@ help:
 	@echo "    4          pro vytvoření PDF k otázce Informační technologie"
 
 1:
-	pdflatex -output-directory=pdf 1-matematicke-metody/1-matematicke-metody.tex
+	make -C 1-matematicke-metody pdf
 
 2:
-	pdflatex -output-directory=pdf 2-teoreticke-zaklady-informatiky/2-teoreticke-zaklady-informatiky.tex
+	make -C 2-teoreticke-zaklady-informatiky pdf
 
 3:
-	pdflatex -output-directory=pdf 3-algoritmizace-a-programovani/3-algoritmizace-a-programovani.tex
+	make -C 3-algoritmizace-a-programovani pdf
 
 4:
-	pdflatex -output-directory=pdf 4-informacni-technologie/4-informacni-technologie.tex
+	make -C 4-informacni-technologie pdf
 
 all: 1 2 3 4

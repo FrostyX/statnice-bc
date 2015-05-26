@@ -166,6 +166,7 @@ Komunikace ve stejných vrstvách mezi entitami (zařízeními) pomocí \textbf{
 \paragraph{Síťová (protokolová) architektura} = definice vrstev, služeb funkcí, protokolů a forem komunikace. Normalizované (OSI, TCP/IP) a firemní proprietární (Novell NetWare, SMB, Apple Appletalk aj.)
 \paragraph{Abstraktní referenční síťový model} Abstrakce konkrétních síťových architektur - nemusí podporovat všechny funkce modelu (např. průmyslové sítě nepodporují směrování, propojení pomocí mostů a bran).
 \subsubsection{Referenční model ISO/OSI}
+\includegraphics[width=8cm]{img/modely.png} \\
 Propojení otevřených systémů = zařízení podporující příslušné normy. Deinovány koncové uzly (koncová datová zařízení) a mezilehlé uzly (propojovací prvky). \\
 Každá ze sedmi vrstev vykonává skupinu jasně definovaných funkcí potřebných pro komunikaci. Pro svou činnost využívá služeb své sousední nižší vrstvy. Své služby pak poskytuje sousední vyšší vrstvě. Podle referenčního modelu není dovoleno vynechávat vrstvy, ale některá vrstva nemusí být aktivní. Takové vrstvě se říká nulová, nebo transparentní. \\
 Na počátku vznikne požadavek některého procesu v aplikační vrstvě. Příslušný podsystém požádá o vytvoření spojení prezentační vrstvu. V rámci aplikační vrstvy je komunikace s protějším systémem řízena aplikačním protokolem. Podsystémy v prezentační vrstvě se dorozumívají prezentačním protokolem. Takto se postupuje stále níže až k fyzické vrstvě, kde se použije pro spojení přenosové prostředí. Současně se při přechodu z vyšší vrstvy k nižší přidávají k uživatelským (aplikačním) datům záhlaví jednotlivých vrstev. Tak dochází k postupnému zapouzdřování původní informace. U příjemce se postupně zpracovávají řídící informace jednotlivých vrstev a vykonávají jejich funkce.
@@ -440,5 +441,64 @@ Při ztrátě segmntu:
 	\item po potvrzení ztraceného segmentu se nastaví okno na původní SSTHRESH a opět probíhá pomalé zvětšování
 	\item po neobdržení potvrzení znovu pomalý start (okno = MSS, SSTRESH = 2xMSS)
 \end{itemize}
+
+\subsubsection{User Datagram Protocol (UDP)}
+Poskytuje nespojovou nespolehlivou službu: nezaručuje se doručení ani znovuzasílání ztracených nebo poškozených dat. Vyšší výkon a rychlost než u TCP za cenu nespolehlivosti. Využití u streamování multimediálního obsahu.\\
+Vlastní číslování portů (nezávisle na TCP). Velikost datagramu menží, než MTU aby se zamezilo fragmentaci. Oproti TCP může mýt příjemcem skupina uzlů (všesměrová či multicast=skupinová). Záhlaví obsahuje informaci o délce dat a kontrolní součet. Protože UDP je bezestavový a odesilatel nemusí vyžadovat odpověď, zdrojový port je volitelný. Pokud není použit, zdrojový port by měl být nastaven na nulu. \\
+Kvůli chybějícím zárukám se UDP aplikace musí smířit s nějakými ztrátami, chybami nebo duplikacemi. Některé aplikace mohou podle potřeby přidávat jednoduchý mechanismus spolehlivosti do aplikační vrstvy. Aplikace používající UDP nejčastěji opravný mechanismus nepotřebují, a dokonce jím mohou být zdržovány. Pokud aplikace vyžaduje vysoký stupeň spolehlivosti, může se místo něj použít TCP nebo opravné kódy. \\
+Protože UDP postrádá mechanizmus předcházení a regulace zahlcení sítě, je nutné nadbytečné UDP datagramy na routerech zahazovat. Ačkoliv je celkové množství UDP provozu na typické síti jen v řádu procent, je UDP používán řadou klíčových služeb včetně DNS, SNMP, DHCP a RIP (směrovací protokol). \\
+\paragraph{Rozdíl mezi TCP a UDP}
+\begin{itemize}
+	\item TCP je spojově orientovaný protokol což znamená, že k navázání "end-to-end" komunikace potřebuje, aby proběhl mezi klientem a serverem tzv. "handshaking". Poté, co bylo spojení navázáno, data mohou být posíláná oběma směry.\\
+	Charakteristické vlastnosti TCP:
+	\begin{itemize}
+		\item spolehlivost – TCP používá potvrzování o přijetí, opětovné posílání a překročení časového limitu. Pokud se jakákoliv data ztratí po cestě, server si je opětovně vyžádá. U TCP nejsou žádná ztracená data, jen pokud několikrát po sobě vyprší časový limit, tak je celé spojení ukončeno.
+		\item zachování pořadí – Pokud pakety dorazí ve špatném pořadí, TCP vrstva příjemce se postará o to, aby se některá data pozdržela a finálně je předala správně seřazená.
+		\item vyšší režie – TCP protokol potřebuje např. tři pakety pro otevření spojení, umožňuje to však zaručit spolehlivost celého spojení.
+	\end{itemize}
+	\item UDP je jednodušší protokol založený na odesílání nezávislých zpráv. \\
+	Charakteristika:
+	\begin{itemize}
+		\item bez záruky – Protokol neumožňuje ověřit, jestli data došla zamýšlenému příjemci. Datagram se může po cestě ztratit. UDP nemá žádné potvrzování, přeposílání ani časové limity. V případě potřeby musí uvedené problémy řešit vyšší vrstva.
+		\item nezachovává pořadí – Při odeslání dvou zpráv jednomu příjemci nelze předvídat, v jakém pořadí budou doručeny.
+		\item jednoduchost – Nižší režie než u TCP (není zde řazení, žádné sledování spojení atd.).
+	\end{itemize}
+\end{itemize}
+\subsubsection{Bezpečnost TCP a UDP}
+\paragraph{TCP} Útoky: převzetí spojení (connection hijacking, autentizováno a dále nezabezpečeno), odepření služby (Denial of Service - vyčerpání zdrojů systému pro spojení), port scanning (zjišťování otevřených portů), aj. \\
+Řešení: šifrování, vytvoření tunelů na jiných portech, omezení počtu spojení za daný čas, sledování skenování portů, aj.
+\paragraph{UDP} na směrovačích povolený porty 53/udp a 53/tcp pro DNS, vyplnění kontrolního součtu je nepovinné, jinak lze přepočítat.
+\paragraph{firewall} = filtrace packetů a segmentů/datagramů na základě TCP/UDP záhlaví.
+\paragraph{překlad adres (NAT)} překlad IP adresy z vnitřní sítě na IP adresu hraničního směrovače vnější sítě. \textbf{maškaráda} = překlad adresy a zdrojového portu spojení/přenosu na zdrojový port nového spojení/přenosu ze směrovače. Zasahuje i do aplikační vrstvy.
+
+
+
+
+\subsection{Systém DNS, překlad jména, protokol}
+\subsubsection{Domain Name System (DNS)}
+hlavním úkolem a příčinou vzniku jsou vzájemné převody doménových jmen a IP adres uzlů sítě. Později ale přibral další funkce (např. pro elektronickou poštu či IP telefonii) a slouží dnes de fakto jako distribuovaná databáze síťových informací. Protokol používá porty TCP/53 i UDP/53. Servery DNS jsou organizovány hierarchicky, stejně jako jsou hierarchicky tvořeny názvy domén. Systém DNS umožňuje efektivně udržovat decentralizované databáze doménových jmen a jejich překlad na IP adresy. Stejně tak zajišťuje zpětný překlad IP adresy na doménové jméno. \\
+Protože je používání názvů pro člověka daleko příjemnější než používání číselných adres, vznikla už v dobách ARPANETu potřeba takový převod realizovat. Původně byl na všechny počítače distribuován jediný soubor (v Unixu /etc/hosts). Tato koncepce přestala velmi rychle vyhovovat potřebám a především nárokům na rychlou aktualizaci. Přesto se tento soubor dodnes používá, v závislosti na konfiguraci systému je možné jej použít buď prioritně před dotazem na DNS nebo v případě, že DNS neodpovídá. Je možné jej také použít k uložení vlastních přezdívek pro často navštěvované servery, případně také pro blokování reklam a podobně. \\
+Prostor doménových jmen tvoří strom s jedním kořenem. Každý uzel tohoto stromu obsahuje informace o části jména (doméně), které je mu přiděleno a odkazy na své podřízené domény. Kořenem stromu je tzv. kořenová doména, která se zapisuje jako samotná tečka. Pod ní se v hierarchii nacházejí tzv. domény nejvyšší úrovně (Top-Level Domain, TLD). Ty jsou buď tematické (com pro komerci, edu pro vzdělávací instituce atd.) nebo státní (cz pro Českou republiku, sk pro Slovensko, jo pro Jordánsko atd.). \\
+Strom lze administrativně rozdělit do zón, které spravují jednotliví správci (organizace nebo i soukromé osoby), přičemž taková zóna obsahuje autoritativní informace o spravovaných doménách. Tyto informace jsou poskytovány autoritativním DNS serverem. \\
+Výhoda tohoto uspořádání spočívá v možnosti zónu rozdělit a správu její části svěřit někomu dalšímu. Nově vzniklá zóna se tak stane autoritativní pro přidělený jmenný prostor. Právě možnost delegování pravomocí a distribuovaná správa tvoří klíčové vlastnosti DNS a jsou velmi podstatné pro jeho úspěch. Ve vyšších patrech doménové hierarchie platí, že zóna typicky obsahuje jednu doménu. Koncové zóny přidělené organizacím připojeným k Internetu pak někdy obsahují několik domén – například doména kdesi.cz a její poddomény vyroba.kdesi.cz, marketing.kdesi.cz a obchod.kdesi.cz mohou být obsaženy v jedné zóně a obhospodařovány stejným serverem. \\
+\paragraph{Složení doménového jména} Celé jméno se skládá z několika částí oddělených tečkami. Na jeho konci se nacházejí domény nejobecnější, směrem doleva se postupně konkretizuje.
+\begin{itemize}
+	\item část nejvíce vpravo je doména nejvyšší úrovně, např. wikipedia.org má TLD org.
+	\item jednotlivé části (subdomény) mohou mít až 63 znaků a skládat se mohou až do celkové délky doménového jména 255 znaků. Doména může mít až 127 úrovní.
+\end{itemize}
+\paragraph{DNS servery} DNS server může hrát vůči doméně (přesněji zóně, ale ve většině případů jsou tyto pojmy zaměnitelné) jednu ze dvou rolí:
+\begin{itemize}
+	\item \textbf{Autoritativní server} je ten, na němž jsou trvale uloženy záznamy k dané doméně/zóně. Autoritativních serverů je obvykle více (minimálně dva - primární a sekundární, ale běžně i více) a až na velmi speciální případy se na všech udržují totožné záznamy, tzn. každou změnu v záznamech je potřeba propagovat na všechny autoritativní servery. Autoritativní DNS servery jsou obvykle provozovány registrátorem domény nebo poskytovatelem webhostingu.
+	\item \textbf{Rekurzivní (caching only) server} je server, na který se se svými dotazy obracejí klientská zařízení (počítač, mobil aj.). Server pro ně příslušný záznam získá rekurzivními dotazy u autoritativních DNS serverů a po stanovenou dobu (definovanou pomocí parametru TTL) je má uloženy v cache, aby mohl odpovídat klientům rychleji a šetřil zatížení serverů autoritativních. Na tomto serveru nejsou žádné zóny uloženy trvale. Informaci o DNS serverech na dané síti klient zjišťuje nejčastěji přes protokol DHCP, na IPv6 přes NDP (DHCPv6 tuto informaci neposkytuje).
+\end{itemize}
+\paragraph{Roote servery} Kořenové jmenné servery (root name servers) představují zásadní část technické infrastruktury Internetu, na které závisí spolehlivost, správnost a bezpečnost operací na internetu. Tyto servery poskytují kořenový zónový soubor (root zone file) ostatním DNS serverům. Jsou součástí DNS, celosvětově distribuované databáze, která slouží k překladu unikátních doménových jmen na ostatní identifikátory. Kořenový zónový soubor popisuje, kde se nacházejí autoritativní servery pro domény nejvyšší úrovně. Tento kořenový zónový soubor je relativně velmi malý a často se nemění – operátoři root serverů ho pouze zpřístupňují, samotný soubor je vytvářen a měněn organizací IANA. Pojem root server je všeobecně používán pro 13 kořenových jmenných serverů. Root servery se nacházejí ve 34 zemích světa, na více než 80 místech. Root servery jsou spravovány organizacemi, které vybírá IANA.
+
+\subsubsection{Překlad jména}
+
+
+
+
+
+
 
 \end{document}
