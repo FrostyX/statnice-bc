@@ -5,7 +5,7 @@ Vypracované otázky na státnice UPOL Bc 2015 | [Seznam pojmů](http://www.inf.
 
 | Člověk           | Otázky                                                |
 | ---------------- | ----------------------------------------------------- |
-| Antonín Haas     | 4. okruh - třetí odstavec, 3. okruh - první odstavec  |
+| Antonín Haas     | 3. okruh - první odstavec                             |
 | Jakub Kadlčík    | 3. okruh - poslední odstavec (OOP)                    |
 | Milan Vojáček    | 3. okruh - třetí odstavec                             |
 | Roman Vyjídáček  | 4. okruh - třetí odstavec                             |
@@ -19,7 +19,7 @@ Vypracované otázky na státnice UPOL Bc 2015 | [Seznam pojmů](http://www.inf.
 1. okruh - první + druhý + třetí + pátý odstavec <br />
 2. okruh - celý <br />
 3. okruh - druhý odstavec <br />
-4. okruh - X <br />
+4. okruh - třetí odstavec <br />
 
 
 ## Build
