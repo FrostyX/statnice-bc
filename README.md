@@ -16,11 +16,10 @@ Vypracované otázky na státnice UPOL Bc 2015 | [Seznam pojmů](http://www.inf.
 | Ondřej Kašpar    | 4. okruh - druhý odstavec         			   |
 
 ## Zpracované otázky
-první okruh - první odstavec <br />
-druhý okruh - druhý odstavec <br />
-druhý okruh - třetí odstavec <br />
-druhý okruh - čtvrtý odstavec <br />
-třetí okruh - druhý odstavec <br />
+1. okruh - první + pátý odstavec <br />
+2. okruh - druhý + třetí + čtvrtý odstavec <br />
+3. okruh - druhý odstavec <br />
+4. okruh - X <br />
 
 ## Build
 
