@@ -525,7 +525,7 @@ Pro každý konečný deterministický automat \textit{A} existuje zleva regulá
 
 
 \begin{priklad}
-Vezmeme KDA z příkladu \ref{priklad-4}.
+Vezmeme KDA z příkladu 
 Odvozovací pravidla budou vypadat takto:
 
 \begin{eqnarray*}
@@ -545,6 +545,170 @@ Regulární jazyky jsou jazyky, generované zprava (zleva) regulárními gramati
 \begin{poznamka}
 Pravidla zprava a zleva nelze míchat.
 \end{poznamka}
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{Uzávěrové vlastnosti regulárních jazyků}
+
+\paragraph{Základní uzávěrové vlastnosti}
+
+\begin{itemize}
+\item
+\textit{Komplement}
+
+Pokud je $L$ regulární, pak je $\Sigma^* \backslash L$ regulární.
+
+
+\item
+\textit{Sjednocení} 
+
+Jsou-li $L_1$ a $L_2$ regulární, pak je $L_1 \cup L_2$ regulární.
+
+
+\begin{priklad}
+Nyní si uvedeme protipříklad, co by se stalo, kdyby množiny stavů nebyly disjunktní.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{img/reg5.png}
+\end{figure}
+
+První automat přijímá řetězec $ab$, druhý automat přijímá řetězec $ba$, čili od jejich sjednocení očekáváme, že bude přijímat $ab$ i $ba$. Jelikož množiny stavů nejsou disjunktní ($q_1$ je společný pro oba), sjednocení těchto automatů může stejně dobře přijímat i řetězce $aa$ nebo $bb$, což je nežádoucí.
+\end{priklad}
+
+\item
+\textit{Průnik} 
+
+S použitím De Morganových zákonů, dostáváme:
+$$L_1 \cap L_2 = \Sigma^* \backslash (\Sigma^* \backslash L_1 \cup \Sigma^* \backslash L_2 )$$
+tj. $L_1 \cap L_2$ je regulární.
+
+
+\item
+\textit{Produkt (zřetězení)} 
+
+$L_1 \cdot L_2$
+
+Předpokládáme existenci automatů $A_1$ a $A_2$ takových, že $L_1 = L(A_1)$ a $L_2 = L(A_2) $.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{img/reg6.png}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{img/reg7.png}
+\end{figure}
+
+Sestavíme $\varepsilon$-KNA
+$$A= \langle \Sigma,Q_1  \cup Q_2,\delta,\lbrace q_{01} \rbrace,F_2 \rangle$$
+s přechodovou funkcí $\delta : (Q_1 \cup Q_2) \times (\Sigma \cup \lbrace \varepsilon \rbrace ) \rightarrow 2^{Q_1 \times Q_2}$
+$$
+\delta(q,a)=\left\{
+\begin{array}{l@{\quad\mbox{}\quad}l}
+\lbrace \delta_1(q,a) \rbrace & \text{pokud}\quad q \in Q_1\\
+\lbrace \delta_2(q,a) \rbrace & \text{pokud}\quad q \in Q_2\\
+\end{array}
+\right.
+$$
+$$
+\delta(q,\varepsilon)=\left\{
+\begin{array}{l@{\quad\mbox{}\quad}l}
+\lbrace q_{02} \rbrace & \text{pokud}\quad q \in F_1\\
+\emptyset & \text{pokud}\quad q \notin F_1\\
+\end{array}
+\right.
+$$
+
+\item
+\textit{Kleeneho uzávěr}
+
+Pokud je $L$ regulární, pak je $L^*$ regulární.
+
+Předpokládáme, že existuje automat $A$ tak, že $L = L(A)$
+\begin{poznamka}
+Automat rozpoznávající $L^*$ musí mít možnost dostat se z koncového stavu zpět na začátek.
+\end{poznamka}
+Pro automat $A = \langle \Sigma, Q, \delta, q_0, F \rangle$ je potřeba zavést nový počáteční stav $q_T \notin Q$. Konstruovaný  $\varepsilon$-KNA bude vypadat následovně:
+$$A' = \langle \Sigma, Q \cup \lbrace q_T \rbrace, \delta ', \lbrace q_T \rbrace, F \cup \lbrace q_T \rbrace \rangle$$
+s přechodovou funkcí $\delta '$:
+$$
+\begin{array}{l@{\quad\mbox{}\quad}l}
+\delta ' (q,a) = \lbrace \delta (q,a) \rbrace & \text{pokud}\quad q \in Q\\
+\delta ' (q,\varepsilon) = \emptyset & \text{pokud}\quad q \in Q \backslash F\\
+\delta ' (q,\varepsilon) = \lbrace q_T \rbrace & \text{pokud}\quad q \in F\\
+\delta ' (q_T,\varepsilon) = \lbrace q_0 \rbrace & \\
+\delta ' (q_T,a) = \emptyset & a \in \Sigma \\
+
+\end{array}
+$$
+\end{itemize}
+
+
+
+\subsection{Další uzávěrové vlastnosti}
+
+\begin{itemize}
+
+\item
+\textit{Množinový rozdíl}
+
+Jsou-li $L_1$ a $L_2$ regulární, pak $L_1 \backslash L_2 = L_1 \cap (\Sigma^* \backslash L_2)$ je regulární.
+
+\item
+\textit{Kleeneho pozitivní uzávěr}
+
+Je-li $L$ regulární, pak $L^+ = (L^* \backslash \lbrace \varepsilon \rbrace) \cup L$ je regulární.
+
+\item
+\textit{N-tá mocnina jazyka}
+
+$L^n$ \ldots plyne z uzavření na produkt
+
+\item
+\textit{Jazyk reverzních řetězců}
+
+$L^R = \lbrace w^R \ |\ w \in L \rbrace$
+
+Zdůvodníme pomocí konstrukce automatu rozpoznávající $L^R$ (viz cvičení 6) 
+
+\item
+\textit{Jazyk sufixů}
+
+$Sfx(L) = \bigcup_{w \in L} Sfx(w)$
+
+
+\begin{poznamka}
+Všechny stavy jsou označeny za počáteční, aby měl automat možnost skočit do libovolné fáze výpočtu a tím "uhádnout" vynechané znaky řetězce, jehož sufix zkoumáme.
+\end{poznamka}
+
+\item
+\textit{Jazyk prefixů}
+\begin{eqnarray*}
+Pfx(L) &=& \bigcup_{w \in L} Pfx(w) \\
+Pfx(L) &=& (Sfx(L^R))^R
+\end{eqnarray*}
+Důkaz plyne z uzavření na Sfx a reverzní řetězec.
+
+\item
+\textit{Jazyk infixů}
+$$
+Ifx(L) = Pfx(Sfx(L))
+$$
+Důkaz je taktéž zřejmý.
+\end{itemize}
+
+
 
 %----------------------------------------------------------------------------------------------------------------------
 	\subsection{Konečné automaty deterministické a nedeterministické}
@@ -946,19 +1110,688 @@ Platí, že $w \in L(a)$ právě tehdy, když KNA $A$ má přijímací výpočet
 
 	\subsection{Regulární výrazy}
 
+\begin{definice}
+Nechť je dána $\Sigma = \lbrace a_{1}, \ldots, a_{k} \rbrace$. Pak regulární výraz na $\Sigma$ je:
+\begin{enumerate}
+\item
+$\emptyset$
+
+\item
+$\varepsilon$
+
+\item
+symboly $a_{1}, \ldots, a_{k}$
+
+\item
+pokud $R_{1}, R_{2}$ jsou RV, pak $(R_{1}|R_{2})$ je RV
+
+\item
+pokud $R_{1}, R_{2}$ jsou RV, pak $(R_{1}R_{2})$ je RV
+
+\item
+pokud $R$ je RV, pak $R^{*}$ je RV
+\end{enumerate}
+\end{definice}
+
+\begin{priklad}
+Podívejme se na následující výrazy a rozhodněme, zda-li jsou regulární:
+
+\begin{itemize}
+\item
+$((ab)c)^{*}$, $((a|b)c)^{*}$ -- jsou RV
+
+\item
+$a^{*}b)$, $a||b$ -- nejsou RV
+\end{itemize}
+\end{priklad}
+\begin{poznamka}
+Priorita $| , \circ , *$ je stejná jako (po řadě) $+ , \cdot , ^{-1}$ v aritmetických výrazech.
+\end{poznamka}
+\section{Jazyky generované regulárními výrazy}
+
+\begin{definice}
+Nechť \textit{R} je RV nad $\Sigma$. Pak $L(R) \subseteq \Sigma^{*}$. Pak také platí:
+
+\begin{enumerate}
+\item\label{jazyky-1}
+$L(R) = \emptyset$, pokud $R = \emptyset$.
+
+\item
+$L(R) = \lbrace \varepsilon \rbrace$, pokud $R = \varepsilon$.
+
+\item\label{jazyky-3}
+$L(R) = \lbrace a_{i} | \quad \text{pokud } R=a_{i} \rbrace$.
+
+\item\label{jazyky-4}
+$L(R) = L(R_{1}) \cup L(R_{2})$, pokud $R=\lbrace R_{1} | R_{2} \rbrace$. 
+
+\item\label{jazyky-5}
+$L(R) = L(R_{1}) \circ L(R_{2})$, pokud $R=\lbrace R_{1}\circ R_{2} \rbrace$.
+
+\item\label{jazyky-6}
+$L(R) = L(R_{1})^{*} $, pokud $R = R_{1}^{*}$.
+\end{enumerate}
+\end{definice}
+
+\begin{veta}
+Každý regulární výraz lze převést na konečný automat.
+\end{veta}
+
+\begin{veta}
+Každý jazyk generovaný regulárním výrazem je regulární.
+\end{veta}
+
+
+
+\begin{veta}
+Každý regulární jazyk lze generovat regulárním výrazem.
+\end{veta}
+
 	\subsection{Automaty s epsilon-přechody}
 
 	\subsection{Minimalizace konečného deterministického automatu}
 
 	\subsection{Pumping lemma}
 
+
+
+\begin{poznamka}
+Jen drobné upozornění na začátek: jedná se o tvrzení ve tvaru když $\rightarrow$ pak, tj. "Pokud je $L$ regulární, pak $\ldots$"
+\end{poznamka}
+
+\begin{veta}
+Nechť $L$ je regulární jazyk nad $\Sigma$. Pak existuje $n \in \mathbb{N}$ tak, že pro každý řetězec $w \in L$ délky alespoň $n$ platí, že existují $x,y,z \in \Sigma^*$ tak, že jsou splněny podmínky:
+\begin{enumerate}
+\item
+$w = xyz$
+\item
+$|xy| \le n$
+\item
+$y \neq \varepsilon$
+\item
+pro každé $i \ge 0$ platí, že $xy^iz \in L$
+\end{enumerate}
+\end{veta}
+
+
+\begin{priklad}\label{priklad-reg}
+ Jazyk $L = \lbrace a^{n}b^{n} | \quad \text{ kde } n \in N \rbrace$ není regulární.
+\end{priklad}
+
+
 	\subsection{Bezkontextové jazyky a jejich vlastnosti (uzávěrové vlastnosti, jednoznačnost)}
+
+V této části se vrátíme k problematice bezkontextových gramatik. Před dalším čtením je potřeba ovládat základní pojmy, zejména
+\begin{itemize}
+
+\item
+Bezkontextové gramatiky
+\item
+Bezkontextové jazyky
+\item
+P-derivace
+\item
+Odvozování řetězců
+\item
+Věty a větné formy
+
+\end{itemize}
+
+Navíc si zavedeme duální pojem k derivaci - \textit{redukci}.
+\begin{definice}
+Řetězec $v$ lze redukovat na řetězec $u$, pokud $u \Rightarrow_G^* v$. Značíme
+$v \Leftarrow_G^* u$. 
+\end{definice}
+V následujícím příkladě si ukážeme problém nejednoznačnosti bezkontextových gramatik.
+\begin{priklad}\label{priklad-6}
+Mějme gramatiku:
+
+$\begin{array}{l}
+G=\langle N,\Sigma,P,S \rangle \\
+\Sigma = \lbrace a,b,c,0,1,+,-,*,/,(,) \rbrace \\
+N = \lbrace S,E,C,V \rbrace \\
+\end{array}\\
+\begin{array}{l l}
+P= \lbrace &S \rightarrow E, \\
+& E \rightarrow E*E|E/E|E+E|E-E|-E|C|V|(E), \\
+& C \rightarrow 0C|1C|0|1, \\
+& V \rightarrow aV|bV|cV|a|b|c \quad \rbrace
+\end{array}
+$
+
+Uvažujme větu $w=ac*1-c$. K ní se lze dostat buď:
+
+$
+S \Rightarrow_G E \Rightarrow_G E*E \Rightarrow_G V*E \Rightarrow_G V*E-E \Rightarrow_G V*E-V \Rightarrow_G aV*E-V \Rightarrow_G ac*E-V \Rightarrow_G ac*C-V \Rightarrow_G ac*C-c \Rightarrow_G \textit{ac*1-c}
+$
+
+nebo
+
+$
+S \Rightarrow_G E \Rightarrow_G E*E \Rightarrow_G V*E \Rightarrow_G aV*E \Rightarrow_G ac*E \Rightarrow_G ac*E-E \Rightarrow_G ac*C-E \Rightarrow_G ac*1-E \Rightarrow_G ac*1-V \Rightarrow_G \textit{ac*1-c}
+$
+
+Ačkoliv odvozujeme stejnou větu, můžeme zde pozorovat jakousi nejednoznačnost, způsobenou tím, že neterminály derivujeme v libovolném pořadí.
+\end{priklad}
+Tento problém bychom mohli vyřešit použitím tzv. lineární bezkontextové gramatiky, tedy takové, jejíž odvozovací pravidla obsahují pouze jeden neterminální symbol na pravé straně.
+\begin{priklad}Lineární gramatika může vypadat např. takto: \\
+$\begin{array}{l}
+G=\langle N,\Sigma,P,S \rangle \\
+\end{array}\\
+\begin{array}{l l}
+P= \lbrace &S \rightarrow abB, \\
+& A \rightarrow aaBb|\varepsilon, \\
+& B \rightarrow bbAa \quad \rbrace
+\end{array}
+$
+
+$\ L(G) = \lbrace ab(bbaa)^nbba(ba)^n\ |\ n \ge0 \rbrace$
+\end{priklad}
+
+Ovšem k nejednoznačnosti může stejně dojít, pokud by se z různých neterminálních symbolů daly odvodit stejná slova.
+
+\begin{priklad}
+Příklad nejednoznačné lineární gramatiky: \\
+$\begin{array}{l}
+G=\langle N,\Sigma,P,S \rangle \\
+\end{array}\\
+\begin{array}{l l}
+P= \lbrace &S \rightarrow aA\ |\ aB, \\
+& A \rightarrow bA|a, \\
+& B \rightarrow bB|a \quad \rbrace
+\end{array}
+$
+
+Uvažujme slovo $w=abba$, ke kterému lze dojít buď:
+
+$S \Rightarrow_G aA \Rightarrow_G abA \Rightarrow_G abbA \Rightarrow_G abba$
+
+nebo:
+
+$S \Rightarrow_G aB \Rightarrow_G abB \Rightarrow_G abbB \Rightarrow_G abba$
+\end{priklad}
+
+Mějme bezkontextovou gramatiku $G = \langle N,\Sigma,P,S \rangle$.
+
+\begin{definice}
+P-derivace $x_0,\ldots,x_k$ se nazývá \textit{nejlevější} P-derivace, pokud pro každé $i \in \lbrace 1,\ldots,k \rbrace$ platí, že $x_{i-1}$ je ve tvaru $uAv$, kde $u \in \Sigma^*,A\in N,v \in (\Sigma \cup N)^*$ a $x_i$ je ve tvaru $uyv$, kde $A \rightarrow y \in P$.
+\end{definice}
+
+\begin{poznamka}
+Řetězci $u$ se říká uzavřená forma a řetězci $Av$ otevřená forma (větné formy $uAv$).\\
+Odvození pomocí nejlevější derivace značíme $u \Rightarrow_{G,l} v$.
+\end{poznamka}
+
+\begin{veta}
+Mějme $v \in \Sigma^*$ a $X \in N$. Pokud existuje P-derivace $X,\ldots,v$, pak existuje nejlevější P-derivace $X,\ldots,v$ používající stejnou množinu pravidel jako výchozí P-derivace.
+\end{veta}
+
+\begin{priklad}
+Uvažujme gramatiku z příkladu \ref{priklad-6}
+
+$S \Rightarrow_G^* E+C$ tady problém není\\
+$S \Rightarrow_{G,l}^* E+C$ tento výraz už smysl nedává. Pomocí nejlevější derivace bychom zákonitě museli nejdříve derivovat $E$ na levé straně výrazu $E+E$
+\end{priklad}
+
+\begin{poznamka}
+Lze zavést duálně nejpravější derivaci.
+\end{poznamka}
+
+\begin{priklad}
+Zase se odkážeme na příklad \ref{priklad-6}.
+
+Výraz $10+(ca*110)$ má jedinou nejlevější derivaci
+
+Naopak $a+10*c$ jich má několik:
+
+$S \Rightarrow_{G,l} E \Rightarrow_{G,l} E+E \Rightarrow_{G,l} V+E \Rightarrow_{G,l} a+E \Rightarrow_{G,l} a+E*E \Rightarrow_{G,l} a+C*E \Rightarrow_{G,l} a+1C*E \Rightarrow_{G,l} a+10*E \Rightarrow_{G,l} a+10*V \Rightarrow_{G,l} a+10*c$
+
+nebo:
+
+$S \Rightarrow_{G,l} E \Rightarrow_{G,l} E*E \Rightarrow_{G,l} \ldots \Rightarrow_{G,l} a+10*c$ (už ve druhém odvození můžeme pozorovat rozdíl)
+
+Je to způsobeno jinou nejednoznačností než tou, kterou jsme eliminovali pomocí nejlevější derivace.
+\end{priklad}
+
+\subsection{Derivační stromy}
+
+Slouží ke grafickému znázornění nejlevějších derivací. Mějme gramatiku $G = \langle N,\Sigma,P,S \rangle$.
+
+\begin{definice}
+Derivačním stromem slova $x \in (\Sigma \cup N)^*$ z $X \in N$ podle pravidel z $G$ je každý strom splňující:
+\begin{enumerate}
+\item 
+každý vnitřní uzel je ohodnocen neterminálem
+\item
+kořen je ohodnocen $X$
+\item
+pokud je vnitřní uzel označený $A\in N $ a jeho potomci jsou zleva doprava označeni $X_1,\ldots,X_k \in N\cup \Sigma$ pak existuje pravidlo $A \rightarrow X_1 \cdots X_k \in P$
+\item
+zřetězením hodnot v listech při průchodu stromu do hloubky a zleva doprava získáme řetězec $x$
+\end{enumerate}
+\end{definice}
+
+\begin{priklad}
+Opět pracujeme s gramatikou z příkladu \ref{priklad-6}.
+
+$S \Rightarrow_{G,l}^* a+10*c$ \quad Derivační strom bude vypadat následovně:
+
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=13cm]{img/bez1.png}
+			\end{figure}
+\end{priklad}
+
+\begin{veta}
+Pokud $X \Rightarrow_{G,l}^* x$ pak existuje derivační strom $x$ z $X$ podle $G$.
+\end{veta}
+
+
+\begin{veta}
+Pokud existuje derivační strom $x$ z $X$ podle $G$, pak $X \Rightarrow_{G,l}^* x$
+\end{veta}
+
+
+\begin{veta}
+$S\Rightarrow_{G,l}^* u$ právě když existuje derivační strom $u$ z $S$ podle $G$.
+\end{veta}
+
+\subsubsection{Jednoznačné a nejednoznačné bezkontextové gramatiky}
+
+\begin{definice}
+Bezkontextová gramatika $G = \langle N,\Sigma,P,S \rangle$ se nazývá nejednoznačná, pokud existuje věta $x \in L(G)$, která má více než jeden derivační strom z $S$ podle $G$. V opačném případě se nazývá jednoznačná bezkontextová gramatika.
+\end{definice}
+
+\begin{definice}
+Bezkontextový jazyk $L$ se nazývá jednoznačný pokud existuje jednoznačná gramatika $G$ tak, že $L=L(G)$.
+\end{definice}
+
+\begin{definice}
+Bezkontextový jazyk $L$ se nazývá \textit{inherentně} nejednoznačný, pokud neexistuje žádná jednoznačná gramatika $G$ taková, že $L=L(G)$.
+\end{definice}
+
+\begin{veta}
+Každý regulární jazyk je jednoznačný.
+\end{veta}
+
+
+
+
+
+\begin{priklad}
+$L=\lbrace a^nb^nc^pd^p\ |\ n,p\ge 0\rbrace$ je inherentně nejednoznačný.
+\end{priklad}
+
+\subsection{Uzávěrové vlastnosti bezkontextových jazyků}
+
+\begin{itemize}
+\item
+\textit{Sjednocení}
+
+Mějme dány bezkontextové jazyky $L_1$, $L_2$ a korespondující bezkontexotvé gramatiky $G_1$ a $G_2$. Lze předpokládat, že množiny stavů obou gramatik jsou disjunktní (tj. $N_1 \cap N_2 = \emptyset$).
+
+Dále uvažujeme gramatiku $G = \langle N,\Sigma,P,S \rangle$, kde \\
+$N=N_1 \cup N_2 \cup \lbrace S \rbrace \\
+\Sigma = \Sigma_1 \cup \Sigma_2 \\
+P = P_1 \cup P_2 \cup \lbrace S \rightarrow S_1\ |\ S_2 \rbrace$
+
+Platí, že $L(G)=L(G_1) \cup L(G_2)$.
+
+\item
+\textit{Produkt}
+
+$L_1$ a $L_2$ jsou bezkontextové jazyky, $G_1$ a $G_2$ jsou odpovídající bezkontextové gramatiky.
+
+Zavedeme gramatiku $G = \langle N,\Sigma,P,S \rangle$, kde \\
+$N=N_1 \cup N_2 \cup \lbrace S \rbrace \\
+\Sigma = \Sigma_1 \cup \Sigma_2 \\
+P = P_1 \cup P_2 \cup \lbrace S \rightarrow S_1S_2 \rbrace$
+
+Platí, že $L(G) = L(G_1) \cdot L(G_2)$.
+
+\item
+\textit{Kleeneho uzávěr}
+
+Mějme bezkontextový jazyk $L$ a k němu odpovídající gramatiku $G$.
+
+Vytvoříme novou gramatiku $G' = \langle N \cup \lbrace S' \rbrace,\Sigma,P \cup \lbrace S' \rightarrow \varepsilon\ |\ SS'\rbrace,S' \rangle$.
+
+\item
+\textit{Pozitivní uzávěr}
+
+Podobné jako u Kleeneho uzávěru, akorát výsledná gramatika se bude lišit v množině pravidel.
+
+$G' = \langle N \cup \lbrace S' \rbrace,\Sigma,P \cup \lbrace S' \rightarrow S\ |\ SS'\rbrace,S' \rangle$
+
+\item
+\textit{Průnik}
+
+$\mathcal{L}_2$ není uzavřená na průnik.
+
+\begin{priklad}
+Uvedeme si příklad, který nám tvrzení potvrdí.\\
+$\Sigma = \lbrace a,b,c \rbrace \\
+L_1 = \lbrace a^nb^nc^*\ |\ n \ge 0 \rbrace \\
+L_2 = \lbrace a^*b^nc^n\ |\ n \ge 0 \rbrace \\
+\\
+L_1 \cap L_2 = \lbrace a^nb^nc^n\ |\ n \ge 0 \rbrace$
+\end{priklad}
+Z toho také plyne, že není uzavřená ani na Komplement či Množinový rozdíl (De Morganovy zákony).
+\end{itemize}
+
+\paragraph{Bezkontextové gramatiky v programátorské praxi}
+
+\textit{BNF}(Backus-Naurova forma):
+Vytvořili ji John Backus a Peter Naur. Zápis se řidí několika pravidly:
+\begin{itemize}
+\item
+neterminální symboly se zapisují do $\langle \ldots \rangle$
+\item
+používá se $::=$ místo $\rightarrow$
+\item
+terminální symboly se píší do uvozovek ($"*"$)
+\item
+pravidla se oddělují pomocí $|$
+\end{itemize}
+
+\begin{priklad}
+Uvedeme si příklad zápisu gramatiky pomocí BNF.
+
+$\langle expr \rangle ::= "(" \langle expr \rangle ")"\ |\ \langle expr \rangle\langle op \rangle\langle expr \rangle\ |\ \langle number \rangle \\
+\langle op \rangle ::= "+"\ |\ "-"\ |\ "*"\ |\ "/" \\
+\langle number \rangle ::= \langle digit \rangle \langle number \rangle\ |\ \langle digit \rangle \\
+\langle digit \rangle ::= "0"\ |\ \ldots\ |\ "9"$
+\end{priklad}
+
+\textit{Extended BNF}: Zavedl Niklaus Wirth v roce 1977. Odpovídá BNF, pouze zjednodušuje její notaci a to tak že:
+\begin{itemize}
+\item
+každé pravidlo je ukončeno znakem $";"$
+\item
+terminální symboly se píší do uvozovek, neterminální ne
+\item
+$[,]$ značí volitelnou část výrazu
+\item
+$\lbrace,\rbrace$ indukují možnost opakování
+\item
+$(,)$ jsou použity pro shlukování výrazů
+\item
+místo $::=$ se používá $=$
+\item
+terminální a neterminální symboly se oddělují čárkou
+\end{itemize}
+
+\begin{priklad}
+Gramatiku z předchozího příkladu můžeme zapsat pomocí EBNF takto:
+
+$expr="(",expr,")"\ |\ expr,op,expr\ |\ number;\\
+op="+"\ |\ "+"\ |\ "-"\ |\ "*"\ |\ "/";\\
+number=[signum],digit,\lbrace digit \rbrace;\\
+digit="0"\ |\ \ldots \ |\ "9";\\
+signum="+"\ |\ "-";$
+\end{priklad}
 
 	\subsection{Zásobníkové automaty a jejich modifikace}
 
-	\subsection{Deterministické zásobníkové automaty}
+\subsubsection{Nedeterministický zásobníkový automat}
+Hledáme silnější analytický aparát, než jsou KDA, protože ty v určitých situacích selhávají.
 
-	\subsection{Deterministické bezkontextové jazyky}
+\begin{priklad}
+Mějme jazyk
+$$L = \lbrace x \in \Sigma^{*}| \quad x \text{ je korektně uzávorkovaný výraz} \rbrace$$
+Následně podrobněji
+$$L = \lbrace x \in \Sigma^{*}| \Sigma = \lbrace (,),[,] \rbrace \quad x \text{ je korektně uzávorkovaný výraz} \rbrace$$
+Do tohoto jazyka patří například řetězce $()[], ([]), \ldots$, ale nepatří do něj řetězce $()), ][][, \ldots$
+\end{priklad}
+
+\begin{figure}[H]
+\centering\includegraphics[width=7cm]{img/ZA.png}
+\caption{Náčrt zásobníkového automatu.}
+\end{figure}
+
+\begin{definice}
+Jako \textit{nedeterministický zásobníkový automat} označme následující strukturu:
+$$
+A = \langle \Sigma, \Gamma, Q, \delta, q_0, z_0, F \rangle
+$$
+Nyní si popišme význam nám dosud neznámých prvků tohoto automatu:
+\begin{eqnarray*}
+\Gamma &-& \text{ abeceda zásobnákových symbolů.} \\
+z_0 &-& \text{ počáteční zásobníkový symbol.} \\
+Q &-& \text{ konečná množina stavů.} \\
+\delta &-& \text{ přechodová funkce ve tvaru } \delta : Q \times (\Sigma \cup \lbrace \varepsilon \rbrace) \times \Gamma \rightarrow 2^{Q \times \Gamma^{*}}
+\end{eqnarray*}
+Navíc $\langle \sigma, abc \rangle \in \delta(q, a, d)$ znamená slovně: \uv{Ze stavu $q$ po přečtení $a$ ze vstupu a symbolu $d$ ze zásobníku
+ přejde automat $A$ do stavu $\sigma$ a na zásobník zapíše řetězec $"abc"$.} Mějme na paměti, že tento řetězec je na zásobník zapsán \uv{obráceně}.
+\end{definice}
+
+\begin{figure}[ht]
+\centering\includegraphics[width=7cm]{img/ZA2.png}
+\caption{Vkládání hodnot na zásobník u NZA.}
+\end{figure}
+
+\subsubsection{Reprezentace NZA}
+
+\paragraph{Přechodová tabulka}
+V přechodové tabulce řádky odpovídají stavům a sloupce odpovídají prvkům $(\Sigma \cup \lbrace \varepsilon \rbrace \times \Gamma$.
+\begin{priklad}
+\begin{eqnarray*}
+Q &=& \lbrace q_0, q_1 \rbrace \\
+\Sigma &=& \lbrace a, b \rbrace \\
+\Gamma &=& \lbrace 0, 1 \rbrace
+\end{eqnarray*}
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ r || c | c | c | c | c | c}                   
+ & $\langle a, 0 \rangle$ & $\langle b, 0 \rangle$ & $\langle c, 0 \rangle$ & $\langle a, 1 \rangle$ & $\langle b, 1 \rangle$ & $\langle c, 1 \rangle$ \\
+\hline
+$\rightarrow q_0^{\cdot}$ & $\cdots$ & $\cdots$ & $\cdots$ & $\cdots$ & $\cdots$ & $\cdots$ \\
+$q_1^{\cdot}$ & $\cdots$ & $\lbrace \langle r, w \rangle \rbrace$ & $\cdots$ & $\cdots$ & $\cdots$ & $\cdots$
+\end{tabular}
+\end{center}
+\caption{Ukázka přechodové tabulky pro NZA}
+\end{table}
+\end{priklad}
+
+\paragraph{Přechodový diagram}
+Přechodov\'e diagramy NZA jsou velmi podobn\'e diagramům KA.
+\begin{center}
+\begin{figure}[H]
+\includegraphics[width=7cm]{img/ZA3.png}
+\end{figure}
+\end{center}
+
+\begin{definice}
+Konfigurac\'i NZA je každ\'y prvek z množiny $Q \times \Sigma^* \times \Gamma^*$, tedy
+$\langle q, abc, 001 \rangle \in Q \times \Sigma^* \times \Gamma^*$ znamená, že NZA je ve stavu $q$, na vstupu
+zbývá přečíst řetězec \uv{abc} a na zásobníku je řetězec \uv{001}.
+
+Pro konfigurace $\langle q_i, w_i, x_i \rangle \text{ a } \langle q_j, w_j, x_j \rangle$ klademe 
+$\langle q_i, w_i, x_i \rangle \vdash \langle q_j, w_j, x_j \rangle$ právě, když platí:
+\begin{itemize}
+\item
+$x_i = zy \text{ ,kde } z \in \Gamma, y \in \Gamma^*$
+
+\item
+$w_i = aw_j \text{ ,kde } a \in (\Sigma \cup \lbrace \varepsilon \rbrace), w_j \in \Sigma^*$
+
+\item
+$\langle q_j, x \rangle \in \delta(q_i, a, z)$
+\end{itemize}
+Přičemž $x_j = xy$.
+\end{definice}
+
+Reflexivní a tranzitivní uzávěr $\vdash$ označíme $\vdash^*$ a platí:
+\begin{gather*}
+\langle q_i, w_i, x_i \rangle \vdash^* \langle q_j, w_j, x_j \rangle \text{ právě, když} \\
+\langle q_i, w_i, x_i \rangle \vdash \cdots \vdash \langle q_j, w_j, x_j \rangle
+\end{gather*}
+Pokud $\langle q_i, w_i, x_i \rangle \vdash^* \langle q_j, w_j, x_j \rangle$ tak říkáme, že existuje výpočet
+NZA, kterým přejde tento NZA z $\langle q_i, w_i, x_i \rangle \text{ do } \langle q_j, w_j, x_j \rangle$.
+
+\subsubsection{Jazyky rozpoznávané NZA}
+\begin{enumerate}
+\item
+Jazyk rozpoznávaný pomocí koncových stavů automatu, tedy:
+$$
+L(A) = \lbrace w \in \Sigma^* | \quad \langle q_0, w, z_0 \rangle \vdash^* \langle q, \varepsilon, x \rangle, q \in F, x \in \Gamma^* \rbrace
+$$
+
+\item
+Jazyk rozpoznávaný vyprazdňováním zásobníků, tedy:
+$$
+N(A) = \lbrace w \in \Sigma^* | \quad \langle q_0, w, z_0 \rangle \vdash^* \langle q, \varepsilon, \varepsilon \rangle, q \in Q \rbrace
+$$
+\end{enumerate}
+
+\subsubsection{Rozpoznání jazyk způsobem přechodu od koncových stavů k vyprázdnění zásobníku}
+\begin{veta}
+Ke každému NZA $A$ existuje NZA $A'$, pro který platí $L(A) = N(A') = L(A')$
+\end{veta}
+
+
+Uvažujme
+$$
+A' = \langle \Sigma, \Gamma \cup \lbrace z_{0}' \rbrace, Q \cup \lbrace q_{0}', q_{\#}' \rbrace, \delta',
+q_0', z_0', \lbrace q_{\#}' \rbrace \rangle
+$$
+kde $\delta'$ je přechodová funkce, jež vznikne rozšířením původní přechodové funkce o následující přechody:
+\begin{gather*}
+\delta'(q_0', \varepsilon, z_0') = \lbrace \langle q_0, z_0, z_0' \rangle \rbrace \\
+\delta'(q, \varepsilon, z) = \delta(q, \varepsilon, z) \cup \lbrace \langle q_{\#}', \varepsilon \rangle \rbrace \text { pokud }
+q \in F, a \in \Gamma \cup \lbrace z_0' \rbrace \\
+\delta'(q_{\#}', \varepsilon, z) = \lbrace \rangle q_{\#}', \varepsilon \langle \rbrace \text{ pro } z \in \Gamma \cup \lbrace z_0' \rbrace
+\end{gather*}
+
+\subsubsection{Rozpoznání jazyk způsobem přechodu od vyprázdnění zásobníku k přijímání koncovými stavy}
+\begin{veta}
+Ke každému NZA $A = \langle \Sigma, \Gamma, Q, \delta, q_0, z_0, F \rangle$ existuje NZA $A'$ tak, že $N(A) = L(A') = N(A')$.
+\end{veta}
+
+
+\subsection{Automaty pracující s celým zásobníkem}
+Pro automat pracující s celým zásobníkem má platit, že $\delta : Q \times (\Sigma \cup \lbrace \varepsilon \rbrace) \times \Gamma^*
+ \rightarrow 2^{Q \times \Gamma^*}$ s omezením, že přechodová funkce je pro každé $q \in Q, a \in (\Sigma \cup \lbrace \varepsilon \rbrace)$ definována
+pouze pro konečně mnoho řetězců $z \in \Gamma^*$ a navíc musí platit, že pro každý z konečně mnoha řetězců je $\delta(q, a, z)$ konečná.
+
+Platí také:
+$$
+\langle q_i, w_i, z_i \rangle \vdash \langle q_j, w_j, z_j \rangle
+$$
+\begin{enumerate}
+\item
+$z_i = zy, z \in \Gamma^*, y \in \Gamma^*$
+
+\item
+$w_i = aw_j, a \in (\Sigma \cup \lbrace \varepsilon \rbrace)$
+
+\item
+$\langle q_j, x \rangle \in \delta(q_i, a, z)$
+
+\item
+$z_j = xy$
+\end{enumerate}
+
+\begin{veta}
+Pro každý NZA $A$ pracující s celým zásobníkem existuje NZA $A'$ pracující pouze s vrcholem zásobníku.
+\end{veta}
+
+\begin{dusledek}
+Třídy automatu jsou ekvivalentní.
+\end{dusledek}
+
+\subsection{Poznámky o vlastnostech NZA}
+
+\begin{enumerate}
+\item 
+Pokud $\langle q,u,x \rangle \vdash^* \langle p,v,y \rangle$ pak $\langle q,uw,x \rangle \vdash^* \langle p,vw,y \rangle$ pro libovolný řetězec $w \in \Sigma^*$.
+
+\item
+Pokud $\langle q,u,x \rangle \vdash^* \langle p,v,y \rangle$ pak $\langle q,u,xz \rangle \vdash^* \langle p,v,yz \rangle$ pro libovolný řetězec $w \in \Gamma^*$.
+
+\item
+Pokud $\langle q,uw,x \rangle \vdash^* \langle p,vw,y \rangle$ pak $\langle q,u,x \rangle \vdash^* \langle p,v,y \rangle$.
+
+\item[1.+2.]
+Pokud $\langle q,u,x \rangle \vdash^* \langle p,v,y \rangle$ pak $\langle q,uw,xz \rangle \vdash^* \langle p,vw,yz \rangle$ pro všechny řetězce $w \in \Sigma^* $ a $z \in \Gamma^*$.
+
+\item[1.+3.]
+$\langle q,u,x \rangle \vdash^* \langle p,v,y \rangle$ právě když $\langle q,uw,x \rangle \vdash^* \langle p,vw,y \rangle$.
+\end{enumerate}
+
+\begin{poznamka}
+Opak 2. vlastnosti neplatí: Pokud $\langle q,u,xz \rangle \vdash^* \langle p,v,yz \rangle$ pak obecně nelze odvodit, že $\langle q,u,x \rangle \vdash^* \langle p,v,y \rangle$.\\
+Speciálně: $x=y=\varepsilon$
+\end{poznamka}
+
+\begin{poznamka}
+$\langle q,u,z \rangle \vdash^* \langle p,\varepsilon,\varepsilon \rangle$: automat je schopen přejít ze stavu $q$ do $p$, přitom zkonzumuje řetězec $u$ ze vstupu a řetězec $z$ ze zásobníku, ale bez toho, aniž by se někdy během činnosti dostal pod úroveň řetězce $z$ na zásobníku.
+\end{poznamka}
+
+	\subsection{Deterministické zásobníkové automaty, Deterministické bezkontextové jazyky}
+
+	
+\begin{definice}
+Řekneme, že zásobníkový automat $A = \langle \Sigma,\Gamma,Q,\delta,q_0,z_0,F \rangle$ je \textit{deterministický} (DZA), pokud jsou pro každé $q \in Q$ a $z \in \Gamma$ splněny následující podmínky:
+\begin{enumerate}
+\item
+pro všechny $a \in \Sigma \cup \lbrace \varepsilon \rbrace$ platí $|\delta (q,a,z)| \le 1$
+\item
+pokud $\delta (q,\varepsilon,z) \neq \emptyset$ pak $\delta (q,a,z) = \emptyset$ pro každé $a \in \Sigma$
+\end{enumerate}
+\end{definice}
+
+Nabízí se otázka, jaké třídy jazyků, jsou vlastně rozpoznatelné deterministickým zásobníkový automatem pomocí buď koncových stavů, nebo vyprázdněním zásobníku.
+
+\begin{definice}
+Bezkontextový jazyk $L$ se nazývá \textit{deterministický}, pokud existuje deterministický zásobníkový automat $A$ tak, že $L = L(A)$.
+\end{definice}
+
+\begin{definice}
+Bezkontextový jazyk $L$ má \textit{prefixovou vlastnost}, pokud $L$ neobsahuje dva různé řetězce $x,y$ tak, že $x$ je prefixem $y$.
+\end{definice}
+
+\begin{veta}
+Pro libovolný bezkontextový jazyk $L$ jsou následující tvrzení ekvivalentní:
+\begin{enumerate}
+\item
+$L = N(A)$ pro nějaký DZA $A$
+\item
+$L = L(A')$ pro nějaký DZA $A'$ a $L$ má prefixovou vlastnost
+\end{enumerate}
+\end{veta}
+
+
+
+\begin{dusledek}
+Deterministický bezkontextový jazyk má prefixovou vlastnost, právě když je přijímán nějakým DZA pomocí vyprázdnění zásobníku.
+\end{dusledek}
+
+\begin{veta}
+Každý regulární jazyk je deterministický.
+\end{veta}
+
+
+\begin{priklad}
+Následující jazyk je deterministický:
+$$
+L = \lbrace a^nb^n\ |\ n\ge1 \rbrace
+$$
+\end{priklad}
+
+\begin{poznamka}
+Mnoho regulárních jazyků \textit{nemá} prefixovou vlastnost.
+\end{poznamka}
+
+\begin{veta}
+Pokud $L=N(A)$ pro DZA $A$, pak je $L$ jednoznačný.
+\end{veta}
+
+
+
+\begin{veta}
+Pokud $L=L(A)$ pro DZA $A$, pak je $L$ jednoznačný. Deterministické bezkontextové jazyky jsou jednoznačné.
+\end{veta}
 
 
 %============================================================================
