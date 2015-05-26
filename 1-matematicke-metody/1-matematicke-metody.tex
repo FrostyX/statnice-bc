@@ -1078,7 +1078,7 @@ Jinak řečeno pokud matici A zredukujeme tak její hodnost je rovna počtu nenu
 
 \begin{definition}
 	Nechť $(L, \wedge, \vee)$ je svaz, nechť $\emptyset \not= A \subseteq L$ se nazývá podsvaz svazu 
-	$(L, \wedge, \vee)$, jestliže $\forall a,b \in A$ platí $a \vee b \in A,\ a \wedge b \in A$.
+	$(L, \wedge, \vee)$, jestliže $\forall a,b \in A$ platí $a \vee b \in A,\ a \wedge b \in A$.
 \end{definition}
 
 \begin{sentence}
@@ -1092,7 +1092,7 @@ Na obrázku 6. je znázorněn svaz $N_5$ tzv. pentagon. Obrázek 7. ukazuje svaz
 
 \begin{definition}
 	Svaz L se nazývá distributivní, jestliže pro každé $a,b,c \in L$ platí $$(D)\qquad a \wedge (b \vee c) = (a \wedge b) \vee (a \wedge c).$$
-	Svaz L se nazývá modulární, jestliže pro každé $a,b,c \in L$ splňující $a \leq c$ platí $$(M) \qquad a \vee (b \wedge c) = (a \vee b) \wedge (a \vee b).$$
+	Svaz L se nazývá modulární, jestliže pro každé $a,b,c \in L$ splňující $a \leq c$ platí $$(M) \qquad a \vee (b \wedge c) = (a \vee b) \wedge (a \vee b).$$
 \end{definition}
 
 \begin{definition}
@@ -1253,6 +1253,93 @@ Pro reálné číslo $x$ a nezáporné celé $n$ je $$(1 + x)^n = \sum\limits_{k
 \textbf{Náhodné jevy, pravděpodobnostní míra. Podmíněná pravděpodobnost, nezávislost jevů. Náhodná veličina, distribuční
 funkce. Příklady rozdělení diskrétních a spojitých náhodných veličin. Náhodné vektory: sdružené a
 marginální rozdělení. Bodové odhady. Základy testování hypotéz.}
+
+\section{Pravděpodobnost}
+\subsection{Náhodné jevy}
+\begin{center}
+	\includegraphics[scale=0.32]{img/nahodny_jev}
+	\includegraphics[scale=0.32]{img/nahodny_jev_vztahy}
+	\includegraphics[scale=0.32]{img/nahodny_jev_operace}
+\end{center}
+\newpage
+\subsection{Pravděpodobnostní míra}
+\begin{center}
+	\includegraphics[scale=0.32]{img/pravdepod_mira}
+\end{center}
+
+\subsection{Podmíněná pravděpodobnost}
+\begin{center}
+	\includegraphics[scale=0.32]{img/podminena_pravdepod}
+	\includegraphics[scale=0.32]{img/podminena_pravdepod_properties}
+\end{center}
+
+\subsection{Nezávislost jevů}
+\begin{center}
+	\includegraphics[scale=0.32]{img/nezavisle_nahod_jevy}
+	\includegraphics[scale=0.32]{img/nezavisle_nahod_jevy_properties}
+	\includegraphics[scale=0.32]{img/nezavisle_nahod_jevy_trivialni}
+\end{center}
+\newpage
+\subsection{Náhodná veličina}
+\begin{center}
+	\includegraphics[scale=0.32]{img/nahod_velicina}
+\end{center}
+
+\subsection{Distribuční funkce}
+\begin{center}
+	\includegraphics[scale=0.32]{img/distribucni_fce}
+\end{center}
+
+\subsection{Rozdělení diskrétních náhodných veličin}
+\subsubsection{Alternativní rozdělení}
+\begin{center}
+	\includegraphics[scale=0.32]{img/diskretni_rozdeleni_alternativni}
+\end{center}
+\newpage
+\subsubsection{Binomické rozdělení}
+\begin{center}
+	\includegraphics[scale=0.32]{img/diskretni_rozdeleni_binomicke}
+\end{center}
+\paragraph{} Budeme uvažovat náhodný pokus, ve kterém určitý náhodný jev nastane s pravděpodobností $p$. Tento pokus opakujeme nezávisle $n$-krát a sledujeme výskyt sledovaného náhodného jevu v těchto $n$ nezávislých opakováních téhož náhodného pokusu, přičemž pravděpodobnost, že v každém jednotlivém opakování náhodného pokusu je sledovaný náhodný jev, je rovna $p$.
+\paragraph{} Náhodná veličina X představující počet opakování daného náhodného pokusu z celkového počtu $n$ nezávislých opakování, ve kterých sledovaný náhodný jev nastane, má binomické rozdělení $b(n, p)$.
+\paragraph{Poznámka.} Typickým příkladem je výběr prvku s vracením, vícenásobný hod kostkou.
+\newpage
+\subsubsection{Poissonovo rozdělení}
+\begin{center}
+	\includegraphics[scale=0.32]{img/diskretni_rozdeleni_poissonovo}
+\end{center}
+\paragraph{Poznámka.} Tímto rozdělením se řídí počet nějakých událostí během určitého časového intervalu. (Počet zákazníků za 1 hodinu, počet poruch za 100 hodin...)
+\newpage
+\subsubsection{Geometrické rozdělení}
+\begin{center}
+	\includegraphics[scale=0.32]{img/diskretni_rozdeleni_geometricke}
+\end{center}
+\paragraph{} Geometrickým rozdělením se řídí počet neúspěšných opakování náhodného pokusu předcházejících prvnímu úspěšnému opakování při nezávislých opakováních téhož náhodného pokusu, kde úspěšnost každého pokusu je $p$
+\paragraph{} Počet pokusů nutných k dosažení 1. úspěchu je $x + 1$. $f_x(x)$ udává pravděpodobnost, že prvních x pokusů bude neúspěšných a $x + 1$ skončí úspěchem.
+\newpage
+\subsection{Rozdělení spojitých náhodných veličin}
+\subsubsection{Rovnoměrné (uniformní) rozdělení}
+\begin{center}
+	\includegraphics[scale=0.30]{img/spojite_rozdeleni_uniformni}
+	\includegraphics[scale=0.30]{img/spojite_rozdeleni_uniformni_priklad}
+\end{center}
+\paragraph{} Náhodné veličiny řídící se rovnoměrným rozdělením: \begin{itemize}
+	\item chyba při zaokrouhlení čísla
+	\item doba čekání na uskutečnění jevu, který se vyskytuje v pravidelných intervalech
+\end{itemize}
+\subsubsection{Normální rozdělení}
+\begin{center}
+	\includegraphics[scale=0.32]{img/spojite_rozdeleni_normalni}
+\end{center}
+\paragraph{} Normální rozdělení má zásadní význam v teorii pravděpodobnosti a v matematické statistice. Má význam tam kde je kolísání náhodné veličiny způsobeno součtem velkého počtu nepatrných vzájemně nezávislých vlivů.
+
+\subsubsection{Exponenciální rozdělení}
+\begin{center}
+	\includegraphics[scale=0.32]{img/spojite_rozdeleni_exponencialni}
+\end{center}
+\paragraph{} Využívá se k popisu reálných dějů - životnost součástí strojů, dobu bezporuchové činnosti ...
+
+
 
 
 \end{document}
