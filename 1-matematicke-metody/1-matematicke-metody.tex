@@ -16,6 +16,7 @@
 \newtheorem{result}{Důsledek}
 \usepackage{graphicx}
 \usepackage{ dsfont }
+\usepackage{color}
 
 \begin{document}
 
@@ -1139,7 +1140,7 @@ Vektor $u$ z 2. bodu definice afinního prostoru se označuje $b - a$. Vzhledem 
 	\includegraphics[scale=0.4]{img/definiceAfProst}
 \end{center}
 
-Je-li vektorový prostor $U$ konečné dimenze $\Rightarrow$ afinní prostor je také konečné dimenze. Dimenzí AP $A$ nazýváme dimenzi vektorového prostoru $V$. Afinní prostor dimenze 1 se nazývá afinní přímka, afinní prostor dimenze 2 afinní rovina.
+Je-li vektorový prostor $U$ konečné dimenze $\Rightarrow$ afinní prostor je také konečné dimenze. Dimenzí AP $A$ nazýváme dimenzi vektorového prostoru $V$. Afinní prostor dimenze 1 se nazývá afinní přímka, afinní prostor dimenze 2 afinní rovina.
 
 \subsection{Afinní kombinace a afinní obal}
 \begin{center}
@@ -1338,9 +1339,194 @@ Mějme afinní bázi $\varphi = (\alpha, a_0),\ \alpha = (u_1, \dots, u_m)$ afin
 % ---------------------------------------------------------------------------------------------------------
 % --------------------------------------------- čtvrty  odstavec ---------------------------------------------
 % ---------------------------------------------------------------------------------------------------------
-\textbf{Posloupnosti a jejich limity. Funkce jedné reálné proměnné a jejich vlastnosti. Limita a spojitost funkce. Derivace
-funkce, geometrický význam. Základní věty diferenciálního počtu a jejich aplikace. Vyšetřování průběhu funkce.
-Neurčitý integrál, určitý Riemannův integrál. Číselné řady, konvergence a součty, kriteria konvergence.}
+\textbf{Posloupnosti a jejich limity. Funkce jedné reálné proměnné a jejich vlastnosti. Limita a spojitost funkce. Derivace funkce, geometrický význam. Základní věty diferenciálního počtu a jejich aplikace. Vyšetřování průběhu funkce. Neurčitý integrál, určitý Riemannův integrál. Číselné řady, konvergence a součty, kriteria konvergence}
+
+\section{Funkcia jednej reálnej premennej a jej vlastnosti}
+\textbf{Funkciou reálnej premennej} rozumieme lubovolné zobrazenie $f : X \rightarrow \mathds{R}$, kde $X \subseteq \mathds{R}$. ($f: X \subseteq \mathds{R} \rightarrow \mathds{R}$)
+
+\subsection{Vlastnosti}
+\begin{definition}
+	Funckia $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ sa nazýva \textbf{ohraničená} (zhora, zdola alebo len ohraničená) na množine $X'\subseteq X$, ak je taká množina $f(X')\subseteq \mathds{R}$.
+\end{definition}
+
+\begin{definition}
+	\textbf{Maximom} funkcie $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ na množine $X'\subseteq X$ nazývame číslo \textbf{max}$f(X')$ (značenie: $max_{x\in X'}f(X)$). Povieme že funkcia $f$ tejto hodnoty nabýva v bode $x\in X'$, ak $f(x)=max f(X')$.
+\end{definition}
+
+\begin{definition}
+	\textbf{Minimom} funkcie $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ na množine $X'\subseteq X$ nazývame číslo \textbf{min}$f(X')$ (značenie: $min_{x\in X'}f(X)$). Povieme že funkcia $f$ tejto hodnoty nabýva v bode $x\in X'$, ak $f(x)=min f(X')$.
+\end{definition}
+
+\paragraph{} 
+O maxime (poprípade minime) funkcie $f$ na množine $X'\subseteq X$ je \textbf{ostré}, ak existuje práve jeden bod tejto množiny, v ktorej funkcia $f$ maxima (poprípade minima) nabýva. Ak je takých bodov viac, hovoríme že maximum (poprípade minimum) je \textbf{neostré}. Maximum a minimum sa súhrne nezývajú \textbf{extrémy}. Bod, v ktorom funkcia nabýva maxima (poprípade minima) na danej množine vždy existuje. To ale nemusí platiť o supréme a infime (definície nasledujú). Majme množiny $B \subseteq A$ (na množine $A$ je zavedené usporiadanie) pričom platí $A, B \subseteq \mathds{R}$, potom \textbf{hornou závorou} množiny $B$ rozumieme taký prvok $a\in A$, že $\forall b\subseteq B$ platí, $b\leq a$. Analogicky \textbf{dolnou závorou} množiny $B$ rozumieme taký prvok $a\in A$, že $\forall b\subseteq B$ platí, $a\leq b$. \vspace{0.5cm}
+
+\begin{definition}
+	\textbf{Supremom funkcie} $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ na množine $X'\subseteq X$ nazývame číslo \textbf{sup}$f(X')$ (značenie: $sup_{x\in X'}f(X)$). (Sedlácky povedané, supremum je najmenší prvok z množiny všetkých horných závor oboru hodnot funkcie na danom intervale.)
+\end{definition}
+
+\begin{definition}
+	\textbf{Infimom funkcie} $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ na množine $X'\subseteq X$ nazývame číslo \textbf{inf}$f(X')$ (značenie: $inf_{x\in X'}f(X)$). (Sedlácky povedané, infimum je najvačší prvok z množiny všetkých dolných závor oboru hodnot funkcie na danom intervale.)
+\end{definition}
+
+\begin{definition}
+	Povieme že funkcia $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ je na množine $X'\subseteq X$ \textbf{rastúca (nerastúca, klesajúca, neklesajúca)}, ak pre každé 2 body $x, y \in X', x<y$, platí $f(x)<f(y) (f(x) \geq f(y), f(x)>f(y), f(x)\leq f(y))$. Ak je funkcia $f$ rastúca (nerastúca, klesajúca, neklesajúca) na celej množine $X$, nazýva sa proste rastúca (nerastúca, klesajúca, neklesajúca). Súhrne sa taká funkcia nazýva \textbf{monotónnou}.
+\end{definition}
+
+\begin{definition}
+	Povieme že funkcia $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ je \textbf{konvexná} na intervale $I\subseteq X$, ak pre každé tri body $x, y, z\in I, x<y<z$, platí $f(x)(z-y)+f(y)(x-z)+f(z)(y-x)\geq 0$.
+\end{definition}
+
+\begin{definition}
+	Povieme že funkcia $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ je \textbf{konkávna} na intervale $I\subseteq X$, ak pre každé tri body $x, y, z\in I, x<y<z$, platí $f(x)(z-y)+f(y)(x-z)+f(z)(y-x)\leq 0$.
+\end{definition}
+
+\begin{figure}[ht]
+	\includegraphics[scale=0.53]{img/konvexna_konkavna}
+	\caption{\textbf{Hint:} Do konkávnej kávu nenaleješ!}
+\end{figure}
+
+\begin{definition}
+	Funkcia $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ sa nazýva \textbf{sudá (lichá)}, ak pre každý bod $x\in X$ platí $-x\in X$ a $f(-x) = f(x) (f(-x) = -f(x))$ (Príklad lichej: $f(x)=x^{3}$).
+\end{definition}
+
+\begin{definition}
+	Funkcia $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ sa nazýva \textbf{periodická}, ak existuje číslo $p>0$ také, že $x\in X$, práve vtedy keď $x+p \in X$ a ak $x\in X$, potom $f(x+p)=f(x)$. Číslo $p$ na nazýva \textbf{perióda funkcie} $f$. (Príklad: $f(x)=sin(x)$ s periódou $p=2\pi$) 
+\end{definition}
+
+\begin{definition}
+	Funkcia $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ taká, že jej obor hodnot je jednoprvková množina, sa nazýva \textbf{konštantná funkcia}
+\end{definition}
+
+\begin{definition}
+	Funkcia $f: \mathds{R} \rightarrow \mathds{R}$ sa nazýva \textbf{afinná}, ak existujú čísla $p,q \in \mathds{R}$ také, že pre každé $x \in \mathds{R}$ platí $f(x)=px+q$. Množina $Y\subseteq\mathds{R}^{2}$ sa nazýva \textbf{priamka}, ak existujú čísla $a, b \in \mathds{R}$ ktoré niesú súčastne rovné 0, také, že $Y=\{(x, y)\in\mathds{R}^{2}|ax+by=0\}$. (Veta: Funkcia $f: \mathds{R} \rightarrow \mathds{R}$ je afinná, práve vtedy keď je jej grafom priamka. Dokaz si podľa \\doc. Krupku urobíme s radosťou sami.)
+\end{definition}
+
+\subsection{Operácie s funkciami}
+\paragraph{}
+Majme funkcie $f, g: X\subseteq\mathds{R}\rightarrow\mathds{R}$. Funkciu $(f+g):X\rightarrow\mathds{R}$, definovanú pre každé $x\in X$ prepisom $(f + g)(x)=f(x)+g(x)$ nazveme \textbf{súčtom fumkcií} $f$ a $g$. \textbf{Súčinom týchto funkcií} nazývame funkciu $(f\cdot g):X\rightarrow\mathds{R}$, definovanú pre každé $x\in X$ predpisom $(f \cdot g)(x)=f(x)\cdot g(x)$
+
+
+\subsection{Príklady špeciálnych funkcií}
+\paragraph{}
+\textbf{Absolútnou hodnotou} reálneho čísla $x$ nazývame číslo $|x|$, ktoré je rovné $x$, ak je $x\leq 0$ a rovné $-x$, ak je $x<0$. Tým dostávame funkciu $[\cdot]:\mathds{R}\rightarrow\mathds{R}$ \\ \vspace{-1cm}
+\paragraph{}
+\textbf{Celou časťou} reálneho čísla $x$ nazývame najvačšie celé číslo, ktoré je menšie alebo rovné $x$. Dostávame funkciu $[x]:\mathds{R}\rightarrow\mathds{R}$ \\ \vspace{-1cm}
+\paragraph{}
+Pre reálne číslo $x$ kladieme $\chi(x)=0$, ak $x\in \mathds{I}$, a $\chi(x)=1$, ak $x\in \mathds{Q}$. Dostávame \textbf{Dirichletovu funkciu} $\chi:\mathds{R}\rightarrow\mathds{R}$
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics{img/dirichletova_funkce}
+	\end{center}
+	\caption{Dirichletova funkcia}
+\end{figure}
+
+\section{Limita a spojitosť funkcie}
+
+\subsection{Opakovanie základov topológie}
+\textcolor{red}{Z topológie sú tu len pojmy potrebné na definíciu spojitosti funkcie.}
+\begin{definition}
+	\textbf{Topologický priestor:} Na množine $X$ je zadaná topólogia, ak je určrný systém $\tau$(Tau) podmnožín $X$ splňujúci podmienky(axiómy topológie):
+	\begin{enumerate}
+		\item $\emptyset, X \in \tau$
+		\item ak sú $Y, Z \in \tau$, potom $Y \cap Z \in \tau$
+		\item ak je $S \subseteq \tau$ potom $\cup S \in \tau$ 
+	\end{enumerate}
+	\paragraph{}
+	Prvkom $\tau$ hovoríme \textbf{otvorené množiny}, množine $X$ hovoríme \textbf{topologický priestor}. Otvorenej množine obsahujúcej bod $x \in X$ budeme hovoriť \textbf{okolie bodu} $x$. Množina $Y \subseteq X$ sa nazýva \textbf{uzavretá}, ak $X\backslash Y$ je otvorená. Topologický priestor $X$ nazveme \textbf{Hausdorfov}, ak pre každé dva body $x, y \in X, x\neq y$ existuje okolie $U$ bodu $x$ a okolie $V$ bodu $y$ také, že $U\cap V = \emptyset$. \textbf{Hromadným bodom} množiny $X$ nazveme taký bod množiny, v ktorého okolí je nekonečne veľa bodov množiny X.
+\end{definition}
+
+\subsection{Spojitosť funkcie cez topológiu}
+\paragraph{}
+Majme $X, Y$ topologické priestory. Povedzme, že zobrazenie $f:X\rightarrow Y$ je \textbf{spojité v bode} $x\in X$ ak pre každé okolie $U$ bodu $f(x)$ existuje okolie $V$ bodu $x$ také, že $f(V)\subseteq U$. Zobrazenie $f$ je spojité, ak je spojité v každom bode $x \in X$. Zobrazenie $f$ je \textbf{nespojité v bode} $x \in X$ ak v ňom nieje spojité (definícia ako ju máme radi). Zobrazenie $f$ je nespojité, ak nieje spojité v každom bode $x \in X$. Bijektívne zobrazenie $f: X\rightarrow Y$ nazveme \textbf{homeomorfizmus}, ak $f$ a $f^{-1}$ sú spojité zobrazenia.
+
+\subsection{Prirodzená topológia na $\mathds{R}$}
+\textcolor{red}{Iba nutné pojmy na definíciu spojitosti funkcie v $\mathds{R}$.}
+\begin{definition}
+	\textbf{Prirodzená topológia na $\mathds{R}$}: Množina $U\subseteq\mathds{R}$ sa nazýva \textbf{otvorená}, ak ku každému bodu $x \in U$ existuje otvorený interval $I$ taký, že $x\in I \subseteq U$. Nech $X \subseteq \mathds{R}$ je množina taká, že pre každé $x, y \in X,x<y $, platí $[x, y] \subseteq X$. Potom je X \textbf{interval}.
+\end{definition}
+
+\subsection{Spojité funkcie na $\mathds{R}$}
+\begin{result}
+	(Bolzano) Ak je $I\subseteq\mathds{R}$ interval a $f:I\rightarrow\mathds{R}$ spojitá funkcia, potom je $f(I)$ interval.
+\end{result}
+
+\begin{result}
+	(Darbouxova vlastnosť) Nech $f:[a,b]\rightarrow\mathds{R}$ je spojitá funkcia, $c$ také, že $f(a)<c<f(b)$(poprípade $f(a)>c>f(b)$), potom existuje $x\in (a, b)$ také, že $f(x)=c$.
+\end{result}
+
+\begin{definition}
+	\textbf{Vlastnosti spojitých funkcií v $\mathds{R}$}: Funkcia $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ sa nazýva \textbf{spojitá zľava(poprípade zprava)} v bode $x_{0} \in X$, ak je v tomto bode spojité jej zúženie na množinu $X \cap (-\infty, x_{0}]$(poprípade $[x_{0}, \infty)$). Nasleduje pár tvrdení.
+\end{definition}
+
+\begin{sentence}
+	Funkcia $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ je spojitá v bode $x_{0} \in X$, práve keď je v tomto bode spojitá zľava aj zprava.
+\end{sentence}
+
+\begin{sentence}
+	Funkcia $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ je spojitá v bode $x_{0} \in X$, práve keď ku každému otvorenému intervalu $J$ so stredom v bode $f(x_{0})$ existuje otvorený interval $I$ so stredom v bode $x_{0}$ tak, že $f(I\cap X)\subseteq J$.
+\end{sentence}
+
+\begin{result}
+	(\textbf{$\epsilon -\delta$ kritérium spojitosti}) Funkcia $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ je spojitá v bode $x_{0}$, práve keď ku každému číslu $\epsilon>0$ existuje číslo $\delta>0$, že pre každé $x \in X$, ktoré splňuje $|x-x_{0}|<\delta$, platí $|f(x)-f(x_{0})|<\epsilon$
+\end{result}
+
+\begin{example}
+	Definujme si funkciu signum(sgn) a dokážeme na nej nespojitosť v bode 0 nasledovne: $sgn(x): \mathds{R} \rightarrow \mathds{R}$ s predpisom:
+	\begin{center}
+		$sgn(x) = \left\{ \begin{array}{ll} -1, ak\hspace{0.35cm} x<0 \\ \hspace{0.35cm}0, ak \hspace{0.35cm}x=0 \\ \hspace{0.35cm}1, ak\hspace{0.35cm} x>0 \\ \end{array} \right.$
+	\end{center}
+	Musíme nájsť okolie $U$ bodu $sgn(0)=0$ tak že pre každé okolie $V$ bodu 0 neplatí $f(V)\subseteq U$. Položíme $U=(-\frac{1}{2}, \frac{1}{2})$ a zvolíme ľubovolné okolie $V$ bodu 0 a ukážme, že $V$ obsahuje bod $x$ taký, že $f(x)\notin (-\frac{1}{2}, \frac{1}{2})$. Pretože $V$ je otvorená množina, obsahuje interval $I$ so stredom v 0. Zvolme $x \in I, x>0$. Platí $sgn(x)=1 \notin (-\frac{1}{2}, \frac{1}{2})$.
+\end{example}
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[scale=0.2]{img/sgn}
+	\end{center}
+	\caption{Príklad nespojitosti sgn v bode 0}
+\end{figure}
+
+\subsection{Limita funkcie}
+\paragraph{}
+Majme topologický priestor $X$, Hausdorfov topologický priestor $Y$, zobrazenie $f:A \subseteq X \rightarrow Y$ a bod $x_{0}$ ktorý je hromadným bodom množiny $A$. \textbf{Limitou zobrazenia} $f$ v bode $x_{0}$ nazývame prvok $y_{0} \in Y$ taký, že zobrazenie: 
+\begin{center}
+	$f'(x) = \left\{ \begin{array}{ll} f(x), ak\hspace{0.35cm} x \neq x_{0} \\ \hspace{0.45cm} y_{0}, ak \hspace{0.35cm}x = x_{0} \\ \end{array} \right.$
+\end{center}
+je spojité v bode $x_{0}$. Ak je $y_{0}$ limitou zobrazenia $f$ v bode $x_{0}$, píšeme $y_{0}=\lim_{x \to x_{0}} f(x)$. Dalo by sa povedať že limita je taký prvok priestoru $Y$, ktorý je treba funkcii $f$ v bode $x_{0}$ dodefinovať(predefinovať), aby bola v $x_{0}$ spojitá.
+
+\begin{result}
+	(\textbf{$\epsilon -\delta$ kritérium limity po prvé}) Funkcia $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ má v hromadnom bode $x_{0}$ množiny $X$ limitu $y_{0}$, práve vtedy keď ku každému číslu $\epsilon>0$ existuje číslo $\delta>0$ také, že pre každé $x \in X, x\neq x_{0}$, ktoré splňuje $|x-x_{0}|<\delta$, platí $|f(x)-y_{0}|<\epsilon$.
+\end{result}
+
+\begin{sentence}
+	Každé zobrazenie má v dannom bode najviac jednu limitu. (Dokaz sporom, predpokladáme že funkcia má v nejakom bode 2 limity a na základe definície prídeme ku sporu).
+\end{sentence}
+\vspace{-0.8cm}
+\paragraph{}
+Teraz si zavedieme \textbf{rozšírenú množinu reálnych čísel}. Nazývame ňou množinu \\ $\mathds{R}' = R \cup \{-\infty, \infty\}$, kde $-\infty $ a $ \infty$ sú ľubovolné dva rozličné prvky, takzvané \textbf{nevlastné body}, ktoré niesú reálne čísla.
+\vspace{-0.5cm}
+\paragraph{}
+Limity funkcií reálnej premennej vždy uvažujeme na množine $\mathds{R}'$. V limite $\lim_{x \to x_{0}} f(x)$ teda može byť $x_{0}=-\infty $ alebo $ x_{0}=\infty$(ak sú $-\infty$ alebo $\infty$ hromadným bodom definičného oboru funkcie $f$) a može nám tiež vyjsť že $\lim_{x \to x_{0}} f(x) = -\infty$ alebo $\lim_{x \to x_{0}} f(x) = \infty$. V prvom prípade hovoríme o \textbf{limite v nevlastnom bode}, v druhom o \textbf{nevlastnej limite}.
+
+\begin{result}
+	(\textbf{$\epsilon -\delta$ kritérium limity po druhé}) Nech je $X \subseteq \mathds{R}$ taká, že $\infty$ je jej hromadný bod, $f: X \subseteq \mathds{R} \rightarrow \mathds{R}$ funkcia. Prvok $y_{0} \in \mathds{R}'$ je limitou $f$ v bode $\infty$, práve vtedy keď ku každému číslu $\epsilon>0$ existuje číslo $\delta>0$ také, že pre každé $x \in X$, ktoré splňuje $x>\delta$, platí $|f(x)-y_{0}|<\epsilon$, ak je $y_{0}\in \mathds{R}$; poprípade $f(x)>\epsilon$, ak je $y_{0}=\infty$; poprípade $f(x)<-\epsilon$, ak je $y_{0}=-\infty$. Podbne pre limitu v bode $-\infty$.
+\end{result}
+\vspace{-0.8cm}
+\paragraph{\textbf{Majme limity:}}
+
+\begin{enumerate}
+	\item $\lim_{x \to x_{0}} f(x)$ pre $x<x_{0}$
+	\item $\lim_{x \to x_{0}} f(x)$ pre $x>x_{0}$
+\end{enumerate}
+
+Limitu 1 nazývame \textbf{limitou zľava} (značíme: $\lim_{x \to x_{0}^{-}} f(x)$) a limitu 2 nazývame \textbf{limitou zprava} (značíme: $\lim_{x \to x_{0}^{+}} f(x)$).
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[scale=0.148]{img/limits}
+	\end{center}
+	\caption{Príklady limít}
+\end{figure}
 
 
 %---------------------------------------------------------------------------------------------------------
