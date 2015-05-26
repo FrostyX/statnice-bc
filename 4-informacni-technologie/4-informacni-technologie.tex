@@ -1643,10 +1643,7 @@ Funkce cookies je definována v RFC 2965 pomocí HTTP hlaviček Set-Cookie (nebo
 Pokud má prohlížeč alespoň jednu cookie pro daný server (a daný adresář na něm), posílá s každým dotazem danému serveru i hlavičku Cookie, která obsahuje stejná data, která server původně poslal. Cookie lze nastavovat taktéž na straně serveru (podle možností skriptovacího jazyka) – nastavení hodnoty cookie představuje v podstatě přidání HTTP hlavičky do odpovědi serveru (z toho důvodu musí nastavení proběhnout před vypsání čehokoli na výstup). \\
 Cookies neznamenají žádné nebezpečí pro počítač jako takový. Přesto cookies mohou být nebezpečné pro ochranu soukromí. Navštívený web si totiž může ukládat do cookies jakékoliv informace, které o návštěvníkovi zjistí a může tak postupně zjišťovat zájmy konkrétního návštěvníka. Které stránky navštěvuje, jaké informace vyhledává, jak často daný web navštěvuje apod. Těchto informací se dá posléze i bez vědomí návštěvníka využívat pro cílenou reklamu, statistické vyhodnocování chování návštěvníků, apod. Tyto informace však lze získávat i bez cookies, proto toto jejich využití nemůže být považováno za zvlášť nebezpečné. Cookies lze zneužít zejména tehdy, pokud získá útočník přístup k počítači uživatele, neboť cookies na počítači nejsou nijak chráněny. Pak lze předstírat např. cizí identitu.
 
-
-
-
-\subsection{FTP - přenos dat}
+\subsubsection{FTP - přenos dat}
 FTP (File Transfer Protocol) je protokol pro přenos souborů mezi počítači pomocí počítačové sítě. Využívá protokol TCP z rodiny TCP/IP a může být používán nezávisle na použitém operačním systému (je platformně nezávislý). Jeho podpora je součástí webových prohlížečů nebo specializovaných programů (tzv. FTP klientů). FTP je jeden z nejstarších protokolů, využívá porty TCP/21 a TCP/20. Port 21 slouží k řízení a jsou jím také přenášeny příkazy FTP. Port 20 slouží k vlastnímu přenosu dat, který je 8bitový. Přenos může být binární nebo ascii (textový). Při textovém přenosu dochází ke konverzi konců řádků – CR/LF (DOS, Microsoft Windows) nebo jen LF (unixové systémy), pokud jsou koncové systémy rozdílné. Při binárním přenosu není do dat nijak zasahováno. Protokol je interaktivní a umožňuje řízení přístupu (přihlašování login/heslo), specifikaci formátu přenášeného souboru (znakově – binárně), výpis vzdáleného adresáře atd. V současné době už není považován za bezpečný a z tohoto důvodu pro něj byla definována některá rozšíření. V protokolu je použit model klient-server. FTP server poskytuje data pro ostatní počítače. Klient se k serveru připojí a může provádět různé operace (výpis adresáře, změna adresáře, přenos dat atd.). Operace jsou řízeny sadou příkazů, které jsou definovány v rámci FTP protokolu, proto kdokoliv může vytvořit klienta pro jakékoliv prostředí nebo operační systém. Existuje mnoho programů pro FTP servery i klienty a mnoho je jich volně dostupných. \\
 Tři způsoby přenosu:
 \begin{itemize}
@@ -1669,10 +1666,6 @@ FTP používá obvyklý koncept uživatelů, hesel a přístupových práv (hesl
 \paragraph{TFTP} TFTP je určen pro přenos souborů v případech, kdy je běžný protokol FTP nevhodný pro svou komplikovanost. Typickým případem je bootování bezdiskových počítačů ze sítě, kdy se celý přenosový protokol musí vejít do omezeného množství paměti, která je k dispozici na bezdiskovém stroji. \textbf{Funguje na portu UDP}.
 \paragraph{Příkazy}
 Příkazy řídícího jazyka FTP lze rozdělit do tří skupin:
-
-    Access Control Commands (příkazy řízení přístupu)
-    Transfer Parameter Commands (příkazy nastavující parametry přenosu)
-    FTP Service Commands (obsluhující příkazy)
 \begin{itemize}
 	\item Access Control Commands (příkazy řízení přístupu)
 	\begin{itemize}
@@ -1715,8 +1708,9 @@ Příkazy řídícího jazyka se přenášejí po řídícím spojení od FTP kl
 \paragraph{Aktivní režim} Na portu TCP/20 jsou přenášena data (data connection). V aktivním režimu navazuje připojení pro přenos dat server, klient naslouchá. Problém zpravidla nastává v případě, kdy se klient připojuje z privátní sítě a jeho IP adresa je překládána (NAT).
 \paragraph{Pasivní režim} V pasivním režimu navazuje data connection klient, kterému při sestavování připojení poslal server svou IP adresu a TCP port, na kterém naslouchá.
 \paragraph{FTP server, port forward (PF) a pasivní připojení} Pokud je připojení k FTP serveru realizováno prostřednictvím PF (nejčastěji se jedná o router s NAT a PF), tak router musí mít následující vlastnost - čte datovou část paketů FTP připojení, zjistí na jakém portu server naslouchá pro navázání data connection klientem a tento port začne forwardovat směrem k serveru. Po ukončení relace je ukončen i popsaný PF. Routery mají zpravidla tuto vlastnost již vestavěnou.
+ \paragraph{SCP} slouží k bezpečnému přenosu souborů mezi dvěma počítači propojenými počítačovou sítí pomocí protokolu Secure Shell (SSH). SCP má omezené možnosti, a proto je nahrazován komplexnějším protokolem SFTP.
 
-\subsection{vzdálené přihlášení - Telnet}
+\subsubsection{vzdálené přihlášení - Telnet}
 Protokol telnet pracuje na aplikační vrstvě používaný TCP/IP. Používá se v Internetu pro realizaci spojení typu klient-server protokolem TCP, přičemž přenáší osmibitové znaky oběma směry (duplexní spojení). Serverová část standardně naslouchá na portu číslo 23. Součástí protokolu je vyjednání nastavení určitých voleb důležitých pro vzájemnou komunikaci. \\
 \paragraph{Program Telnet} Telnet je též označení pro program, který realizoval komunikaci mezi dvěma počítači pomocí telnet protokolu. Program je dodnes součástí Microsoft Windows a unixových systémů. Dříve se používal (spolu s protokolem telnet) pro připojení ke vzdálenému počítači prostřednictvím počítačové sítě jako emulace terminálu, která poskytovala možnost práce uživatele na vzdáleném počítači v příkazovém řádku. Telnet tak byl nástupcem terminálů, ze kterých se uživatelé připojovali ke vzdálenému počítači pomocí sériové linky. Hlavní nevýhodou telnetu je \textbf{absence šifrování přenášených dat}, a proto dnes uživatelé místo telnetu používají protokol SSH. \\
 Tři základní služby:
@@ -1735,8 +1729,29 @@ Existují čtyři možné požadavky:
 	\item DONT - odesílatel chce, aby příjemce danou volbu vypnul
 \end{itemize}
 
-\subsection{vzdálené přihlášení - SSH}
-
-
-
+\subsubsection{vzdálené přihlášení - SSH}
+Označení pro program a zároveň pro zabezpečený komunikační protokol v počítačových sítích, které používají TCP/IP. SSH byl navržen jako náhrada za telnet a další nezabezpečené vzdálené shelly (rlogin, rsh apod.), které posílají heslo v nezabezpečené formě a umožňují tak jeho odposlechnutí při přenosu pomocí počítačové sítě. Šifrování přenášených dat, které SSH poskytuje, slouží k zabezpečení dat při přenosu přes nedůvěryhodnou síť. \\
+SSH umožňuje bezpečnou komunikaci mezi dvěma počítači, která se využívá pro zprostředkování přístupu k příkazovému řádku, kopírování souborů a též jakýkoliv obecný přenos dat (s využitím síťového tunelování). Zabezpečuje autentizaci obou účastníků komunikace, transparentní šifrování přenášených dat, zajištění jejich integrity a volitelnou bezeztrátovou kompresi. Server standardně naslouchá na portu TCP/22. \\
+Protokol SSH-2 má dobře navrženou vnitřní architekturu rozdělenou na oddělené vrstvy. Otevřená architektura nabízí významnou flexibilitu umožňující použití SSH nejen pro zabezpečený shell. Funkce transportní vrstvy samotné je srovnatelná s TLS. Vrstva autentizace uživatele je navržena pro snadné rozšíření vlastními autentizačními metodami. Vrstva spojení nabízí použití více podružných relací přenášených jedním SSH spojením.
+\paragraph{Transportní vrstva} zajišťuje počáteční výměnu klíčů, serverovou autentizaci, kompresi a ověření integrity. Poskytuje vyšší vrstvě prostředí pro posílání a přijímání nešifrovaných paketů dat. Transportní vrstva také zajišťuje opětovnou výměnu klíčů – obvykle po 1 GB přenesených dat nebo po uplynutí 1 hodiny, podle toho, co nastane dříve.
+\paragraph{Vrstva autentizace uživatele} zajišťuje autentizaci klientů, která může být provedena mnoha způsoby. Samotná autentizace je řízena SSH klientem, server pouze reaguje na autorizační požadavky od SSH klienta.
+\begin{itemize}
+	\item password - metoda pro přímou výměnu hesla, zahrnující možnost změny hesla. Tato metoda není implementována ve všech programech.
+	\item publickey - metoda přihlášení pomocí veřejného klíče, obvykle podporuje alespoň DSA nebo RSA klíče. Tato metoda může zabránit útokům hrubou silou (když je vypnuta metoda "password").
+	\item keyboard-interactive - univerzální metoda, při které server pošle klientovi jednu nebo více výzev, na které uživatel odpovídá pomocí klávesnice. Nejčastěji se používá pro jednorázovou autentizaci jako je S/Key nebo SecurID.
+	\item GSSAPI - metody poskytují rozšiřitelné rozhraní pro autentizaci pomocí externích mechanizmů jako je Kerberos 5 nebo NTLM, poskytujících možnost centrální autentizace pro přihlášení pomocí SSH relace. Tyto metody jsou obvykle používány v komerčních SSH implementacích.
+\end{itemize}
+\paragraph{Vrstva spojení} definuje koncept kanálů, požadavků kanálů a globálních požadavků skrze které jsou poskytovány SSH služby. Jedno SSH spojení může hostovat více kanálů zároveň, kdy každý může přenášet data v obou směrech. Požadavky kanálů jsou použity pro přenos mimopásmových dat, jako jsou např. změna velikosti terminálového okna nebo návratový kód procesu na straně serveru. SSH klient si může pomocí globálního požadavku vyžádat forwardování (tunelování) portu na straně serveru.
+\paragraph{Autentizace pomocí veřejného klíče} Pro autentizaci uživatele je možné v SSH použít veřejný klíč. Nejprve je vygenerován pár šifrovacích klíčů – privátní (soukromý) klíč a veřejný klíč. Privátní je bezpečně uložen u uživatele a je chráněn heslovou frází. Veřejný klíč je uložen na cílový server (typicky do domácího adresáře uživatele, v unixových systémech do souboru ~/.ssh/authorized\_keys). Při pokusu o přihlášení server veřejným klíčem, který má k dispozici, zašifruje blok náhodných dat (tzv. výzvu typu challenge-response), kterou nelze snadno odvodit nebo uhádnout a pošle ji klientovi. Klient výzvu pomocí privátního klíče dešifruje a dešifrovanou ji pošle zpět serveru. Pokud je výzva správně rozšifrována, má tím server ověřeno, že klient má k dispozici privátní klíč, který odpovídá veřejnému klíči, který má server dispozici, a tudíž může přístup schválit (autorizovat). Pokud výzva nebude správně rozšifrována, bude přístup pro klienta zamítnut. Z toho plyne, že privátní klíč neopustí klientův počítač, tudíž se nemůže stát, že by ho někdo odcizil při přenosu po síti, a přesto může dojít k ověření autenticity klienta a umožnění přístupu.
+\paragraph{Příklady použití z wiki}
+\begin{itemize}
+	\item \textbf{běžné přihlášení} \\
+	Uživatel Bob se přihlašuje na alicePC pod jejím jménem v rámci lokální sítě, nebo má-li alicePC veřejnou IP adresu (zda na alicePC běží ssh démon/server lze ověřit výpisem \# netstat -nltp): \\
+	Bob: \$ ssh alice@alicePC.cz
+	\item \textbf{port forwarding} \\
+	V případě, kdy alicePC ani bobPC veřejnou IP adresu nemá, je potřeba využít zařízení, které ji má - walterPC. Oba se tedy přihlásí na Walterův stroj a Bob se z něj dostane na alicePC. Neboť běžný uživatel nemůže manipulovat s porty nižšími než 1024 a z bezpečnostních důvodů root přihlášení pomocí ssh nemívá povoleno, je třeba, aby ssh server Alice naslouchal např. na portu 6262. Do souboru /etc/ssh/sshd\_config stačí přidat řádek Port 6262 (po změně nastavení je třeba službu restartovat). Nyní:\\
+	Alice: \$ ssh walter@walterPC.cz -p 20085 -R 6262:localhost:6262 \\
+	Bob: \$ ssh walter@walterPC.cz -p 20085 \\
+	Bob již z walterPC: \$ ssh alice@localhost -p 6262
+\end{itemize}
 \end{document}
