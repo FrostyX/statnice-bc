@@ -550,13 +550,6 @@ Pravidla zprava a zleva nelze míchat.
 
 
 
-
-
-
-
-
-
-
 \subsubsection{Uzávěrové vlastnosti regulárních jazyků}
 
 \paragraph{Základní uzávěrové vlastnosti}
@@ -1147,7 +1140,7 @@ $a^{*}b)$, $a||b$ -- nejsou RV
 \begin{poznamka}
 Priorita $| , \circ , *$ je stejná jako (po řadě) $+ , \cdot , ^{-1}$ v aritmetických výrazech.
 \end{poznamka}
-\section{Jazyky generované regulárními výrazy}
+\subsubsection{Jazyky generované regulárními výrazy}
 
 \begin{definice}
 Nechť \textit{R} je RV nad $\Sigma$. Pak $L(R) \subseteq \Sigma^{*}$. Pak také platí:
@@ -1186,11 +1179,384 @@ Každý jazyk generovaný regulárním výrazem je regulární.
 \begin{veta}
 Každý regulární jazyk lze generovat regulárním výrazem.
 \end{veta}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\subsection{Automaty s epsilon-přechody}
+Značíme $\varepsilon$-KNA.
+\begin{priklad}\label{priklad-5}
+Zde je jeden motivační příklad na úvod.
 
+\begin{figure}[H]
+			\centering
+			\includegraphics[width=8cm]{img/e.png}
+			\end{figure}
+
+\end{priklad}
+
+\begin{definice}
+Nedeterministický konečný automat s $\varepsilon$-přechody je struktura $ \langle \Sigma,Q,\delta,I,F \rangle $,
+kde $\Sigma,Q,\delta,I,F$ mají stejný význam jako u KNA. $\delta$ je přechodová funkce $\delta : Q \times (\Sigma \cup \lbrace \varepsilon \rbrace ) \rightarrow 2^Q$.
+\end{definice}
+
+Fakt $\delta (q,a) = \lbrace r_1,\ldots,r_k \rbrace $ čteme: \uv{automat \textit{A} při čtení symbolu \textit{a} přejde ze stavu \textit{q} do některého ze stavů $r_1,\ldots,r_k$.}
+
+Fakt $\delta (q,\varepsilon) = \lbrace r_1,\ldots,r_k \rbrace $ čteme: \uv{automat \textit{A} přejde samovolně ze stavu \textit{q} do některého ze stavů $r_1,\ldots,r_k$.}
+
+\subsection{Reprezentace $\varepsilon$-KNA}
+
+\begin{enumerate}
+
+\item
+\textit{Přechodová tabulka}, vypadá stejně jako u KNA s tím, že přidáme jeden sloupec, ve kterém budeme zaznamenávat $\varepsilon$-přechody.
+
+Takto bude vypadat předchozí př\'iklad číslo \ref{priklad-5}, reprezentovaný pomocí tabulky.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ r || c | c | c | c }                   
+   & +,- & . & $0,\ldots,9$ & $\varepsilon$ \\
+   \hline
+   $ \rightarrow q_{0} $ & $ \lbrace q_{1} \rbrace $ & $ \emptyset $ & $ \emptyset $ & $ \lbrace q_{1} \rbrace $\\
+   $ q_{1} $ & $ \lbrace q_{2} \rbrace $ & $ \emptyset $ & $ \lbrace q_{1},q_{2} \rbrace $ & $\emptyset$ \\
+   $ q_{2} $ & $ \emptyset $ & $ \emptyset $ & $\lbrace q_{3} \rbrace$ & $ \emptyset $ \\
+   $ q_{3} $ & $ \emptyset $ & $ \emptyset $ & $\lbrace q_{3} \rbrace$ & $\lbrace q_{5} \rbrace$ \\
+   $ q_{4} $ & $ \emptyset $ & $\lbrace q_{3} \rbrace$ & $\emptyset$ & $ \emptyset $ \\
+   $ q_{5} $ & $ \emptyset $ &  $ \emptyset $ & $\emptyset$ & $ \emptyset $ 
+\end{tabular}
+\end{center}
+\caption{Přechodov\'a tabulka pro \ref{priklad-5}. přiklad}
+\end{table}
+
+\item
+\textit{Přechodový diagram}, u kterého mohou být některé hrany ohodnoceny $\varepsilon$. Viz příklad \ref{priklad-5}.
+
+\end{enumerate}
+
+\subsubsection{Nedeterministický výpočet}
+Pojem \textit{konfigurace} pro nás zůstává stejný, jedná se stále o dvojici $\langle \textit{stav,řetězec} \rangle$.
+
+\begin{definice}
+Mějme automat $A = \langle \Sigma,Q,\delta,I,F \rangle$ a řetězec $w \in \Sigma^*$. Posloupnost konfigurací $\langle r_i,w_i \rangle$ pro $i=0,\ldots,n$ splňující podmínky:
+\begin{enumerate}
+\item
+$r_{0} \in I, w_0=w$
+\item
+$w_{n} = \varepsilon$
+\item
+pro každé $i=0,\ldots,n$
+\begin{enumerate}
+\item
+$w_i = aw_{i+1}, r_{i+1} \in \delta(r_i,a)$
+\item
+$w_i=w_{i+1} , r_{i+i} \in \delta(r_i,\varepsilon)$
+\end{enumerate}
+\end{enumerate}
+
+\end{definice}
+
+\subsubsection{$\varepsilon$-uzávěry množin stavů}
+
+Je dána množina stavů $R \subseteq Q$, jež se nazývá $\varepsilon$-uzavřená,
+pokud $ \delta (q,\varepsilon) \subseteq R$ pro každý stav $ q \in R$.
+
+\begin{priklad}
+Lze ukázat na našem příkladě \ref{priklad-5}.
+
+$\lbrace q_0 \rbrace $ není $\varepsilon$-uzavřená protože $\delta(q_0,\varepsilon) = \lbrace q_1 \rbrace \nsubseteq \lbrace q_0 \rbrace$
+
+$\lbrace q_0,q_1 \rbrace$ je $\varepsilon$-uzavřená
+\end{priklad}
+
+\subsubsection{Tvorba $\varepsilon$-uzávěru}
+
+\begin{enumerate}
+\item
+Mějme $\varepsilon$-uzávěr $R$.
+
+\item
+Prohlašme, že $E_0=R$ a následně pro $i \geq 1$ tvrďme, že:
+
+\begin{itemize}
+\item
+$E_i=E_{i-1} \cup \lbrace \delta (q,\varepsilon) | q \in E_{i-1}\rbrace$
+
+\item
+$E_A(R)=\bigcup_{i=0}^\infty E_i$
+
+\item
+$E_0 \subseteq E_1 \subseteq E_2 \subseteq \ldots \subseteq E_A(R)$
+\end{itemize}
+\end{enumerate}
+
+\begin{poznamka}
+Vzhledem ke konečnosti množiny $E_A(R)$ musí existovat index $k$, pro který platí $E_k = E_{k+1} = \ldots = E_A(R)$
+\end{poznamka}
+
+Můžeme pozorovat, že $E_A(R)$ není jen $\varepsilon$-uzavřená, ale je také \textit{nejmenší} $\varepsilon$-uzavřená. Z toho můžeme vyvodit, že 
+
+$$E_A:2^Q \rightarrow 2^Q$$
+
+je \textit{uzávěrový} operátor.
+
+\subsubsection{Rozšířená přechodová funkce}
+
+Pro automat $A = \langle \Sigma,Q,\delta,I,F \rangle$ je rozšířená přechodová funkce definovaná jako
+
+$\delta^*:2^Q \times \Sigma^* \rightarrow 2^Q$
+
+$$
+\delta^*(R,w)=\left\{
+\begin{array}{l@{\quad\mbox{}\quad}l}
+E_A(R) & \text{pokud}\quad w=\varepsilon\\
+\delta^*(E_A(\bigcup_{q \in E_A(R)}\delta(q,a),u))& \text{pokud}\quad w=au,a\in\Sigma,u\in\Sigma^*\\
+\end{array}
+\right.
+$$
+
+\begin{veta}
+Pro libovolné množiny $R_i \subseteq Q \quad (i=1,\ldots,k)$ platí:
+
+$\bigcup_{i=1}^k E_A(R_i)=E_A(\bigcup_{i=1}^kR_i)$
+\end{veta}
+
+
+
+\subsubsection{Přijímaný řetězec $\varepsilon$-KNA}
+
+Nechť $A=\langle\Sigma,Q,\delta,I,F\rangle$ je $\varepsilon$-KNA. Řetězec $w \in \Sigma^*$ nazýváme řetězec \textit{přijímaný} $A$, pokud
+
+$\delta^*(I,w) \cap F \neq \emptyset$
+
+jinak $w$ nazýváme řetězec \textit{zamítaný} $A$.
+
+Jazyk přijímaný A: $L(A) = \lbrace w \in \Sigma^{*} | \delta^{*}(I, w) \cap F \neq \emptyset \rbrace$ 
+\paragraph{Ekvivalence s KDA}
+
+\begin{veta}
+Ke každému $\varepsilon$-KNA  $A=\langle\Sigma,Q,\delta,I,F\rangle$ existuje KNA $A^S=\langle\Sigma,Q,\delta^S,I^S,F\rangle$ takový, že $L(A)=L(A^S)$.
+\end{veta}
+ 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\subsection{Minimalizace konečného deterministického automatu}
 
+
+\begin{poznamka}
+Pro regulární jazyk $L$ existuje více, než jeden automat $A$ tak, že $L = L(A)$ a navíc můžeme mít $A_{1}, A_{2}$ tak, že
+$L(A_{1}) = L(A_{2})$, ale $|Q_{1}| < |Q_{2}|$.
+\end{poznamka}
+
+\subsubsection{Zprava invariantní ekvivalence}
+
+\begin{definice}
+Předpokládejme, že máme $A = \langle \Sigma, Q, \delta, q_{0}, F \rangle$ a relaci ekvivalence $\Theta \subseteq Q \times Q$ nazveme
+\textit{zprava invariantní ekvivalencí} vzhledem k $\delta$, pokud platí, že $\langle q,r  \rangle \in \Theta \text{ a } a \in \Sigma$,
+pak $\langle  \delta(q, a), \delta(r, a) \rangle \in \Theta$.
+\end{definice}
+
+Pravá invariance reprezentuje přirozenou vlastnost, kterou musí mít relace nerozlišitelnosti stavů.
+
+Mezními případy invariantních relací zprava jsou:
+\begin{enumerate}
+\item 
+identita $\Theta = \lbrace \langle q,q \rangle | \quad q \in Q \rbrace$
+\item
+$\Theta = Q \times Q$
+\end{enumerate}
+
+\subsubsection{Faktorizace automatu}
+
+\begin{definice}
+Mějme KDA $A = \langle \Sigma, Q, \delta, q_{0}, F \rangle$ a zprava invariantní ekvivalenci $\Theta$ vzhledem k
+$\delta$, pak zavedeme $A/\theta = \langle \Sigma, Q/\Theta, \delta^{A/\Theta}, [q_{0}]_{\Theta}, F^{A/\Theta} \rangle$, kde
+$$\delta^{A/\Theta} = ([q]_{\Theta}, a) = [\delta(q, a)]_{\Theta} \text{ a } F^{A/\Theta} = \lbrace [q]_{\Theta} | \quad q \in F \rbrace$$
+\end{definice}
+
+\begin{veta}\label{veta-aut}
+Automat $A$ je dobře definovaný KDA.
+\end{veta}
+
+
+
+Obecně $L(A/\Theta) \neq L(A)$. Snažíme se najít co největší $\Theta$, tak aby tato rovnost platila.
+
+\begin{priklad}
+$\Theta = Q \times Q$
+
+\begin{figure}[H]
+			\centering
+			\includegraphics[width=5cm]{img/min1.png}
+			\end{figure}
+
+\end{priklad}
+
+\begin{veta}\label{veta-x2}
+Platí, že $(\delta^{A/\Theta})^*([q]_\Theta,x)=[\delta^*(q,x)]_\Theta$ pro každý $x \in \Sigma^*$.
+\end{veta}
+
+\begin{definice}
+Mějme KDA $A = \langle \Sigma, Q, \delta, q_{0}, F \rangle$ s úplnou přechodovou funkcí.
+Pro stavy $q, r \in Q$ položme $q \equiv_{A} r$, pokud pro každ\'y řetězec $x \in \Sigma{*}$ plat\'i, že $\delta^{*}(q,x) \in F$,
+právě když $\delta^{*}(r,x) \in F$.
+\end{definice}
+
+\begin{veta}\label{veta-zprava}
+$\equiv_{A}$ je zprava invariantní operace.
+\end{veta}
+
+\begin{veta}\label{veta-4}
+Pro $A/ \equiv_{A}$ a stav $q \in Q$ plat\'i, že $q \in F$ pr\'avě, když $[q]_{\equiv_{A}} \in F^{A/ \equiv_{A}}$.
+\end{veta}
+
+\begin{dusledek}
+KDA $A$ nazveme redukovan\'y, pokud je $\equiv_{A}$ identita.
+\end{dusledek}
+
+\begin{veta}
+KDA $A/ \equiv_{A}$ je redukovaný.
+\end{veta}
+
+\begin{veta}
+$L(A) = L(A/ \equiv_{A})$, což plyne užit\'im vět \ref{veta-4} a \ref{veta-x2}.
+\end{veta}
+
+\begin{dusledek}
+Obecně plat\'i, že $L(A) \subseteq L(A/ \Theta)$.
+\end{dusledek}
+
+\begin{veta}
+Pokud je každ\'y stav automatu $A$ dosažiteln\'y, pak m\'a $A/ \equiv_{A}$ tak\'e každ\'y stav dosažiteln\'y.
+\end{veta}
+
+\subsubsection{Algoritmus pro hled\'an\'i redukovan\'eho automatu}
+
+\begin{enumerate}
+\item
+Označ\'ime $A/ \equiv_{A} \text{jako } A^{R}$, konstruujeme posloupnost rozkladů na $Q$ tak, že $\varphi_{1}, \varphi_{2}, \ldots, \varphi_{i} = \varphi_{i+1}$,
+kde $\varphi_{1} = \lbrace F, Q \setminus F \rbrace$
+
+\item
+Při odvozen\'i rozkladů $\varphi_{i}$ z $\varphi_{i-1}$ postupujeme n\'asledovně:
+
+Pro $\forall R \in \varphi_{i-1}$ provedeme:
+\begin{enumerate}
+\item
+Vezmeme libovoln\'y stav $r \in R$.
+
+\item
+Polož\'ime $S = \lbrace s \in R | \text{ pro každ\'e } a \in \Sigma \text{ plat\'i tak\'e, že }\delta(S, a) \in [\delta(R, a)] \rbrace$.
+
+\item
+Pokud $S = R$, pak vlož\'ime $R$ do $\varphi_{i}$, pokud $S \subseteq R$, pak vlož\'ime $S$ a $R \setminus S$ do $\varphi_{i}$.
+\end{enumerate}
+\end{enumerate}
+
+\begin{veta}
+Korektnost algoritmu pro nalezen\'i $\equiv_{A}$: pokud $\varphi_{i} = \varphi_{i+1}$, pak $\varphi_{i} = Q/ \equiv_{A}$.
+\end{veta}
+
+
+\begin{priklad}
+Mějme v\'yraz $b(ab)^{*}ba^{*}$. D\'ale
+\begin{eqnarray*}
+\varphi_{1} &=& \lbrace \lbrace q_{0},q_{1},q_{2},q_{3},q_{5} \rbrace, \lbrace q_{4}, q_{6} \rbrace \rbrace \\
+\varphi_{2} &=& \lbrace \lbrace q_{0},q_{1},q_{3} \rbrace, \lbrace q_{2}.q_{5} \rbrace, \lbrace q_{4}, q_{6} \rbrace \rbrace \\
+\varphi_{3} &=& \lbrace \lbrace q_{0},q_{3} \rbrace, \lbrace q_{1} \rbrace, \lbrace q_{2}.q_{5} \rbrace, \lbrace q_{4}, q_{6} \rbrace \rbrace \\
+\end{eqnarray*}
+\begin{figure}[H]
+			\centering
+			\includegraphics[width=8cm]{img/min2.png}
+			\end{figure}
+
+N\'asledně rozklady:
+\begin{figure}[H]
+			\centering
+			\includegraphics[width=8cm]{img/min3.png}
+			\end{figure}
+
+\vspace*{30px}
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{c||c|c|c|c|c|c|c}
+& $q_0$ & $q_1$ & $q_2$ & $q_3$ & $q_4$ & $q_5$ & $q_6$ \\
+\hline
+$q_0$ & * & X & X & * & X & X & X \\
+\hline
+$q_1$ & - & * & X & X & X & X & X \\
+\hline
+$q_2$ & - & - & * & X & X & * & X \\
+\hline
+$q_3$ & - & - & - & * & X & X & X \\
+\hline
+$q_4$ & - & - & - & - & * & X & * \\
+\hline
+$q_5$ & - & - & - & - & - & * & X \\
+\hline
+$q_6$ & - & - & - & - & - & - & * \\
+\end{tabular}
+\end{center}
+\caption{Tabulkový popis rozkladů stavů}\label{tabulka-x}
+\end{table}
+%\end{center}
+V tabulce \ref{tabulka-x} se objevují znaky \textit{X} na pozicích, pro které platí, že:
+\begin{eqnarray*}
+T[q,x] &\text{ kde platí }& q \in F, x \notin F \\
+&\text{ nebo }& q \notin F, x \in F
+\end{eqnarray*}
+Projdeme pr\'azdn\'a m\'ista, $T[q,r] = \text{\uv{pr\'azdno, pokud} } \exists a \in \Sigma \text{ tak, že:}$
+\begin{itemize}
+\item
+buď $T[\delta(q,a),\delta(r,a)] = X$
+\item
+nebo $T[\delta(r,a),\delta(q,a)] = X$
+\end{itemize}
+Pokud ano, tak \uv{X} na pozici $[q,r]$.
+\end{priklad}
+
+\subsubsection{Izomorfismus automatů}
+Pro KDA $A_1$ a $A_2$ mějme zobrazen\'i
+$$
+h: \quad Q_1 \rightarrow Q_2
+$$
+a toto zobrazení označme jako \textit{izomorfismus}, pokud platí:
+\begin{enumerate}
+\item
+Zobrazení $h$ je bijektivní.
+\item
+Počáteční stav automatu $A_1$ e zobrazí na počáteční stav automatu $A_2$.
+\item
+Pro všechna $q \in Q$ platí, že $Q \in F_1$ právě, pokud $q \in F_2$.
+\item
+Zobrazení $h$ je kompatibilní s přechodovou funkcí.
+\end{enumerate}
+
+
+\begin{veta}
+Jsou-li dva automaty izomorfní, pak $L(A_1) = L(A_2)$.
+\end{veta}
+
+\begin{definice}
+Mějme regulární jazyk L, pak KDA s úplnou přechodovou funkcí je \textit{minimálním automatem} pro $L$,
+pokud $L(A) = L$ a pro každý KDA $B$ takový, že $L(B) = L$ platí, že $B$ má tolik stavů jako $A$.
+\end{definice}
+
+\begin{veta}
+Je-li automat $A$ minimální pro jazyk $L$, pak je \textit{redukovaný}a nemá nedosažitelné stavy.
+\end{veta}
+
+\begin{veta}
+Pokud jsou automaty $A, B$ KDA bez nedosažitelných stavů a pokud jsou tyto automaty navíc redukované a
+existuje stejný jazyk, který generují, pak jsou izomorfní.
+\end{veta}
+
+\begin{veta}
+$A$ je minimální automat pro jazyk $L$ právě tehdy, když $A$ neobsahuje nedosažitelné stavy a je redukovaný.
+\end{veta}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\subsection{Pumping lemma}
 
 
@@ -1353,7 +1719,7 @@ $S \Rightarrow_{G,l} E \Rightarrow_{G,l} E*E \Rightarrow_{G,l} \ldots \Rightarro
 Je to způsobeno jinou nejednoznačností než tou, kterou jsme eliminovali pomocí nejlevější derivace.
 \end{priklad}
 
-\subsection{Derivační stromy}
+\subsubsection{Derivační stromy}
 
 Slouží ke grafickému znázornění nejlevějších derivací. Mějme gramatiku $G = \langle N,\Sigma,P,S \rangle$.
 
@@ -1378,7 +1744,7 @@ $S \Rightarrow_{G,l}^* a+10*c$ \quad Derivační strom bude vypadat následovně
 
 			\begin{figure}[H]
 			\centering
-			\includegraphics[width=13cm]{img/bez1.png}
+			\includegraphics[width=7cm]{img/bez1.png}
 			\end{figure}
 \end{priklad}
 
@@ -1669,7 +2035,7 @@ Ke každému NZA $A = \langle \Sigma, \Gamma, Q, \delta, q_0, z_0, F \rangle$ ex
 \end{veta}
 
 
-\subsection{Automaty pracující s celým zásobníkem}
+\subsubsection{Automaty pracující s celým zásobníkem}
 Pro automat pracující s celým zásobníkem má platit, že $\delta : Q \times (\Sigma \cup \lbrace \varepsilon \rbrace) \times \Gamma^*
  \rightarrow 2^{Q \times \Gamma^*}$ s omezením, že přechodová funkce je pro každé $q \in Q, a \in (\Sigma \cup \lbrace \varepsilon \rbrace)$ definována
 pouze pro konečně mnoho řetězců $z \in \Gamma^*$ a navíc musí platit, že pro každý z konečně mnoha řetězců je $\delta(q, a, z)$ konečná.
@@ -1700,7 +2066,7 @@ Pro každý NZA $A$ pracující s celým zásobníkem existuje NZA $A'$ pracují
 Třídy automatu jsou ekvivalentní.
 \end{dusledek}
 
-\subsection{Poznámky o vlastnostech NZA}
+\subsubsection{Poznámky o vlastnostech NZA}
 
 \begin{enumerate}
 \item 
