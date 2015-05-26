@@ -1716,7 +1716,26 @@ Příkazy řídícího jazyka se přenášejí po řídícím spojení od FTP kl
 \paragraph{Pasivní režim} V pasivním režimu navazuje data connection klient, kterému při sestavování připojení poslal server svou IP adresu a TCP port, na kterém naslouchá.
 \paragraph{FTP server, port forward (PF) a pasivní připojení} Pokud je připojení k FTP serveru realizováno prostřednictvím PF (nejčastěji se jedná o router s NAT a PF), tak router musí mít následující vlastnost - čte datovou část paketů FTP připojení, zjistí na jakém portu server naslouchá pro navázání data connection klientem a tento port začne forwardovat směrem k serveru. Po ukončení relace je ukončen i popsaný PF. Routery mají zpravidla tuto vlastnost již vestavěnou.
 
-\subsection{vzdálené přihlášení - Telnet, SSH}
+\subsection{vzdálené přihlášení - Telnet}
+Protokol telnet pracuje na aplikační vrstvě používaný TCP/IP. Používá se v Internetu pro realizaci spojení typu klient-server protokolem TCP, přičemž přenáší osmibitové znaky oběma směry (duplexní spojení). Serverová část standardně naslouchá na portu číslo 23. Součástí protokolu je vyjednání nastavení určitých voleb důležitých pro vzájemnou komunikaci. \\
+\paragraph{Program Telnet} Telnet je též označení pro program, který realizoval komunikaci mezi dvěma počítači pomocí telnet protokolu. Program je dodnes součástí Microsoft Windows a unixových systémů. Dříve se používal (spolu s protokolem telnet) pro připojení ke vzdálenému počítači prostřednictvím počítačové sítě jako emulace terminálu, která poskytovala možnost práce uživatele na vzdáleném počítači v příkazovém řádku. Telnet tak byl nástupcem terminálů, ze kterých se uživatelé připojovali ke vzdálenému počítači pomocí sériové linky. Hlavní nevýhodou telnetu je \textbf{absence šifrování přenášených dat}, a proto dnes uživatelé místo telnetu používají protokol SSH. \\
+Tři základní služby:
+\begin{itemize}
+	\item Síťový virtuální terminál (NVT – Network Virtual Terminal), který poskytuje standardní rozhraní.
+	\item Vyjednávání klienta/serveru o nastavení určitých voleb
+	\item Symetrické zobrazení terminálu a procesů.
+\end{itemize}
+Síťový virtuální terminál zajišťuje průhlednost všech operací vůči uživateli. Nejsou zde rozdíly mezi jednotlivými komunikujícími zařízeními. Virtuální terminál poskytuje obecnou sadu příkazů pro všechny typy zařízení. Pro přenos využívá spolehlivé přenosové služby TCP, ale jen poloduplexním způsobem. Definovaný formát NVT používá sedmibitový kód ASCII pro znaky a zobrazení. Díky tomu může Telnet operovat na různých operačních systémech. Klávesnice NVT generuje všech 128 kódů ASCII pomocí kláves, klávesových kombinací. \\
+Přestože obě komunikující strany předpokládají, že je protější strana vybavena NVT, proběhne nejdříve výměna údajů, ve které se obě strany dohodnou na určitých parametrech a volbách komunikace. Pokud jedna strana neumí použít danou volbu, požadavek zamítne. Strany však musí dodržet minimální standard NVT. \\
+Existují čtyři možné požadavky:
+\begin{itemize}
+	\item WILL - odesílatel chce danou volbu zapnout
+	\item DO - odesílatel chce, aby příjemce danou volbu zapnul
+	\item WONT - odesílatel chce danou volbu vypnout
+	\item DONT - odesílatel chce, aby příjemce danou volbu vypnul
+\end{itemize}
+
+\subsection{vzdálené přihlášení - SSH}
 
 
 
