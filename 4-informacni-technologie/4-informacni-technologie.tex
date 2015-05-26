@@ -63,13 +63,13 @@ Očekáváme od něj:
 
 \begin{itemize}
 	\item Monolitické jádro
-	\begin{itemize}	
+	\begin{itemize}
 		\item všechny služby pohromadě - lepší výkon
 		\item problém s chybnými ovladači
 		\item Linux, *BSD
 	\end{itemize}
-	\item Mikrojádro 
-	\begin{itemize}	
+	\item Mikrojádro
+	\begin{itemize}
 		\item poskytuje správu adresního prostoru, procesů, IPC
 		\item oddělení serverů => bezpečnost
 		\item Minix, Mach
@@ -79,7 +79,7 @@ Očekáváme od něj:
 
 \begin{figure} [h]
 		\includegraphics[scale=0.8]{img/architektura_jadra.png}
-		\caption{architektura jádra}	
+		\caption{architektura jádra}
 \end{figure}
 
 \subsubsection{Poskytovaná rozhraní}
@@ -97,7 +97,7 @@ Očekáváme od něj:
 
 \begin{figure} [h]
 		\includegraphics[scale=1]{img/vrstvy_HW-SW.png}
-		\caption{vrstvy HW/SW}	
+		\caption{vrstvy HW/SW}
 \end{figure}
 
 \subsection{Správa procesoru: procesy a vlákna, plánování jejich běhu, komunikace a synchronizace}
@@ -133,7 +133,7 @@ Očekáváme od něj:
 
 \begin{figure} [h]
 		\includegraphics[scale=0.7]{img/pipelining.png}
-		\caption{pipelining}	
+		\caption{pipelining}
 \end{figure}
 
 \subsubsection{Procesy}
@@ -178,7 +178,7 @@ Očekáváme od něj:
 
 \begin{figure} [h]
 		\includegraphics[scale=0.85]{img/stavy_procesu.png}
-		\caption{stavy procesu}	
+		\caption{stavy procesu}
 \end{figure}
 
 \subsubsection{Plánování procesů}
@@ -265,7 +265,7 @@ Očekáváme od něj:
 \begin{itemize}
 	\item OS umožňují rozdělit procesy na víc vláken (je základní entitou)
 	\item Každé vlákno má svůj zásobník + registry (přepnutí vláken v rámci procesu je rychlejší)
-	\item vlákna v rámci procesu sdílí paměťový prostor, data a prostředky -> nové problémy se synchronizací 
+	\item vlákna v rámci procesu sdílí paměťový prostor, data a prostředky -> nové problémy se synchronizací
 \end{itemize}
 
 \textbf{IMPLEMENTACE VLÁKEN:}
@@ -323,7 +323,7 @@ Očekáváme od něj:
 			\item lze jeho pomocí implementovat vzájemné vyloužení (mutual excluion)
 		\end{itemize}
 		\item Synchronizace
-		\item Vzdálené volání procedur	
+		\item Vzdálené volání procedur
 	\end{itemize}
 \end{itemize}
 
@@ -379,44 +379,44 @@ Očekáváme od něj:
 	\item Řešení:
 	\begin{itemize}
 		\item Zablokování přerušení (použitelné v rámci jádra OS); více CPU -> neefektivní
-		\item Aktivní čekání - Spinlocks – testujeme pořád dokola jednu proměnou 
+		\item Aktivní čekání - Spinlocks – testujeme pořád dokola jednu proměnou
 		\begin{verbatim}
 			Př. 1) ŠPATNÉ - Vstup do kritické sekce a její uzamknutí
 			                není provedeno atomicky
-			while (lock); // čekej 
-			lock = 1; 
-			// kritická sekce 
+			while (lock); // čekej
+			lock = 1;
+			// kritická sekce
 			lock = 0;
-			
-			
+
+
 			Př. 2)
-			Uvažujeme následující atomickou operaci 
+			Uvažujeme následující atomickou operaci
 			bool test_and_set(bool * target) {
-				bool rv = *target; 
-				*target = true; 
-				return rv; 
+				bool rv = *target;
+				*target = true;
+				return rv;
 			}
-				
+
 			A kód:
 			while (test_and_set(&lock) == true);
-			// kritická sekce 
+			// kritická sekce
 			lock = false;
-			
-			
+
+
 			Př. 3)
-			Uvažujeme následující atomickou 
-			operaci, která prohodí dvě hodnoty 
+			Uvažujeme následující atomickou
+			operaci, která prohodí dvě hodnoty
 			void swap(bool *a, bool *b) {
-				bool tmp = *a; 
-				*a = *b; 
-				*b = tmp; 
+				bool tmp = *a;
+				*a = *b;
+				*b = tmp;
 			}
-			
-			A kód 
+
+			A kód
 			key = true;
-			while(key == true) 
-				swap(&lock, &key); 
-			// kritická sekce 
+			while(key == true)
+				swap(&lock, &key);
+			// kritická sekce
 			lock = false;
 		\end{verbatim}
 	\end{itemize}
@@ -447,7 +447,7 @@ Očekáváme od něj:
 			int value;
 			struct process * list;
 		};
-		
+
 		void P (struct sem * s) {
 			s -> value--;
 			if (s -> value < 0) {
@@ -455,7 +455,7 @@ Očekáváme od něj:
 				block(); // uspi aktuální proces
 			}
 		}
-		
+
 		void V(struct sem * s) {
 			s-> value++;
 			if (s -> value <= 0) {
@@ -526,7 +526,7 @@ Očekáváme od něj:
 		\item Ukázka alokačního grafu a grafu čekání:
 		\begin{figure} [h]
 			\includegraphics[scale=0.8]{img/alokacni_graf_a_graf_cekani.png}
-			\caption{alokacni graf a graf cekani}	
+			\caption{alokacni graf a graf cekani}
 		\end{figure}
 		\item Deadlock vznikne, pokud je v grafu čekání na cyklus
 	\end{itemize}
@@ -582,7 +582,7 @@ Očekáváme od něj:
 			\end{itemize}
 			\begin{figure} [h]
 				\includegraphics[scale=0.8]{img/bankeruv_algoritmus.png}
-			\caption{bankéřův algoritmus}	
+			\caption{bankéřův algoritmus}
 			\end{figure}
 			\begin{enumerate}
 				\item Najdi řádek i v needed takový, že needed[i] <= A, pokud takový není, systém není v bezpečném stavu
@@ -682,7 +682,7 @@ v množství použité paměti)
 	\item bezpečnost dat v sekundární paměti? (např.: po vypnuti počítače, řeší se např. kódováním)
 	\begin{figure} [h]
 		\includegraphics[scale=1]{img/virtualni_pamet.png}
-		\caption{virtuální paměť}	
+		\caption{virtuální paměť}
 	\end{figure}
 \end{itemize}
 
@@ -872,7 +872,7 @@ jeden svazek pro vše)
 		\item k evidenci volného místa a inod se používají bitmapy
 		\begin{figure} [h]
 			\includegraphics[scale=0.9]{img/inode.png}
-			\caption{inode}	
+			\caption{inode}
 		\end{figure}
 	\end{itemize}
 \end{itemize}
@@ -1000,7 +1000,7 @@ penalizace pokud stránky přepíšeme
 změněna metadata
 	\begin{figure} [h]
 		\includegraphics[scale=0.8]{img/konzistence.png}
-		\caption{zachování konzistence}	
+		\caption{zachování konzistence}
 	\end{figure}
 	\item infrastruktura pro vytváření snapshotů/klonů souborového systému
 	\item výhodné slučovat operace do transakcí
@@ -1594,7 +1594,54 @@ Oproti protokolu POP3 je IMAP4 velmi komplikovaný protokol. Jeho implementace j
 \paragraph{Poštovní klient} je program, který zajišťuje odesílání zpráv a vybírání schránek. Příkladem je např. Microsoft Outlook, Mozilla Thunderbird, Opera, Mutt, Pine a další. Je to v podstatě specializovaný editor, který umí kromě vytvoření zprávy také manipulovat se schránkami, odeslat zprávu nejbližšímu MTA a převzít zprávu ze serveru prostřednictvím POP3 nebo IMAP. Vlastním doručováním zprávy po síti až k adresátovi se klient nezabývá. Součástí klienta bývá také více či méně složitý adresář, který pomáhá uživateli udržet přehled o adresách.
 \paragraph{Poštovní server} (MTA) běží obvykle jako démon či Služba Windows a naslouchá na portu TCP/25. K tomuto portu se může připojit (navázat TCP spojení) buď poštovní klient, nebo jiný server, který předá zprávu k doručení. MTA zkontroluje, zda je zpráva určena pro systém, na kterém běží. Pokud ano, předá ji programu MDA (lokální doručení). Pokud je zpráva určena jinému počítači, naváže spojení s příslušným serverem a zprávu mu předá. Při vyhledávání vzdáleného serveru, kterému má předat zprávu, musí MTA spolupracovat se systémem DNS. Od serveru DNS si vyžádá tzv. MX záznam pro cílovou doménu, který obsahuje IP adresu počítače, který se stará o doručení pošty v této doméně. Pokud DNS tento záznam neobsahuje, pokusí se poštovní server doručit zprávu přímo na počítač uvedený v adrese za zavináčem. Poštovní server obsahuje v konfiguraci řadu parametrů, pomocí kterých můžeme mimo jiné nastavit, pro které domény MTA přijímá zprávy. Stejně tak je možné určit, od koho bude nebo nebude zprávy přijímat, což je velmi důležité z hlediska bezpečnosti a ochrany proti spamu.
 
-
+\subsubsection{HTTP}
+HTTP (Hypertext Transfer Protocol) je internetový protokol určený pro výměnu hypertextových dokumentů ve formátu HTML. Používá obvykle port TCP/80. Tento protokol je spolu s elektronickou poštou tím nejvíce používaným a zasloužil se o obrovský rozmach internetu. V současné době je používán i pro přenos dalších informací. Pomocí rozšíření MIME umí přenášet jakýkoli soubor (podobně jako e-mail), používá se společně s formátem XML pro tzv. webové služby (spouštění vzdálených aplikací) a pomocí aplikačních bran zpřístupňuje i další protokoly, jako je např. FTP nebo SMTP. HTTP používá jako některé další aplikace tzv. jednotný lokátor prostředků (URL, Uniform Resource Locator), který specifikuje jednoznačné umístění nějakého zdroje v Internetu. Samotný protokol HTTP neumožňuje šifrování ani zabezpečení integrity dat. Pro zabezpečení HTTP se často používá TLS spojení nad TCP. Toto použití je označováno jako HTTPS. \\
+Protokol funguje způsobem dotaz-odpověď. Uživatel (pomocí programu, obvykle internetového prohlížeče) pošle serveru dotaz ve formě čistého textu, obsahujícího označení požadovaného dokumentu, informace o schopnostech prohlížeče apod. Server poté odpoví pomocí několika řádků textu popisujících výsledek dotazu (zda se dokument podařilo najít, jakého typu dokument je atd.), za kterými následují data samotného požadovaného dokumentu. Pokud uživatel bude mít po chvíli další dotaz na stejný server (např. proto, že uživatel v dokumentu kliknul na hypertextový odkaz), bude se jednat o další, nezávislý dotaz a odpověď. Z hlediska serveru nelze poznat, jestli tento druhý dotaz jakkoli souvisí s předchozím. Kvůli této vlastnosti se protokolu HTTP říká bezestavový protokol – protokol neumí uchovávat stav komunikace, dotazy spolu nemají souvislost. Tato vlastnost je nepříjemná pro implementaci složitějších procesů přes HTTP (např. internetový obchod potřebuje uchovávat informaci o identitě zákazníka, o obsahu jeho „nákupního košíku“ apod.). K tomuto účelu byl protokol HTTP rozšířen o tzv. HTTP cookies, které umožňují serveru uchovávat si informace o stavu spojení na počítači uživatele. \\
+\paragraph{Dotazovací metody} HTTP definuje několik metod, které se mají provést nad uvedeným objektem (dokumentem). <metoda> <objekt> HTTP/<verze>
+\begin{itemize}
+	\item GET: Požadavek na uvedený objekt se zasláním případných dat (proměnné prohlížeče, session id, …). Výchozí metoda při požadavku na zobrazení hypertextových stránek, RSS feedů aj. Celkově nejpoužívanější.
+	\item HEAD: To samé jako metoda GET, ale už nepředává data. Poskytne pouze metadata o požadovaném cíli (velikost, typ, datum změny, …).
+	\item POST: Odesílá uživatelská data na server. Používá se například při odesílání formuláře na webu. S předaným objektem se pak zachází podobně jako při metodě GET. Data může odesílat i metoda GET, metoda POST se ale používá pro příliš velká data (víc než 512 bajtů, což je velikost požadavku GET) nebo pokud není vhodné přenášená data zobrazit jako součást URL (data předávaná metodou POST jsou obsažena v HTTP požadavku).
+	\item PUT: Nahraje data na server. Objekt je jméno vytvářeného souboru. Používá se velmi zřídka, pro nahrávání dat na server se běžně používá FTP nebo SCP/SSH.
+	\item DELETE: Smaže uvedený objekt ze serveru. Jsou na to potřeba jistá oprávnění stejně jako u metody PUT.
+	\item TRACE: Odešle kopii obdrženého požadavku zpět odesílateli, takže klient může zjistit, co na požadavku mění nebo přidávají servery, kterými požadavek prochází.
+	\item OPTIONS: Dotaz na server jaké podporuje metody.
+	\item CONNECT: Spojí se s uvedeným objektem přes uvedený port. Používá se při průchodu skrze proxy pro ustanovení kanálu SSL.
+\end{itemize}
+\paragraph{Bezpečné metody} Některé metody (například, HEAD, GET,OPTIONS a TRACE) jsou definovány jako bezpečné, což znamená, že jsou určeny pouze k získávání informací a neměly by změnit stav serveru. Tvorba libovolných GET požadavků bez ohledu na souvislost aplikace může být proto považována za bezpečnou. \\
+Naproti tomu metody jako POST, PUT a DELETE jsou určeny pro akce, které mohou způsobovat nežádoucí účinky třeba na serveru. Tyto metody jsou proto obvykle používány v souladu webových robotů nebo webového prohledávače, některé, které neodpovídají, obvykle podávají žádosti bez ohledu na kontext nebo důsledky. \\
+Kromě toho jsou metody, jako TRACE, TRACK a DEBUG považovány za potenciálně "nebezpečné" některými profesionály v oblasti bezpečnosti, protože mohou být použity útočníky k získání informací, nebo k obejítí bezpečnostní kontroly při útocích.
+\paragraph{URI (Uniform Resource Identifier)} je textový řetězec s definovanou strukturou, který slouží k přesné specifikaci zdroje informací (ve smyslu dokument nebo služba). \\
+URI je nejobecnější z několika příbuzných typů identifikátorů. URI může popisovat zdroj jak čistě z hlediska jeho identity (a neurčovat, kde je možno zdroj získat), tak čistě z hlediska toho, jak je možno zdroj nalézt (a nepopisovat jeho identitu), tak i obojí současně – přesnou identitu zdroje i jak je možno ho dosáhnout. Oproti URI popisuje URL primárně způsob, jakým se lze ke zdroji dostat, naopak URN specifikuje zdroj jako takový a nesnaží se o návod k jeho dosažení. Hranice mezi těmito typy je však mírně mlhavá a zejména místo URL se často uvádí obecnější termín URI. \\
+Jelikož je URI velmi obecný koncept, jeho základní formát je velmi volný: v principu se jedná o název takzvaného schématu, následovaný dvojtečkou a dále prakticky libovolným řetězcem, jehož význam a formátování už závisí právě na použitém schématu. Standard URI specifikuje pouze základní syntax, která popisuje, které znaky je dovoleno v URI použít apod. URI tedy má následující tvar: \textbf{schéma:hierarchická část?dotaz\#fragment}, kde části ?dotaz a \#fragment jsou nepovinné. \\
+\textbf{schéma} musí začínat písmenem a obsahovat jen písmena, číslice a znaky plus (+), mínus (-) a tečku (.). Určuje, o jaký druh URI se jedná a jaký význam a syntaxe platí pro zbytek URI. U schématu nezáleží na velikosti písmen, ale za základní se považuje podoba se všemi písmeny malými. \\
+\textbf{hiearchická část} obsahuje identifikátor zdroje v rámci nějaké hierarchické struktury. Standard URI dovoluje, aby tato část byla formátována prakticky libovolně, ale předepisuje také několik předdefinovaných syntaxí užitečných pro obvyklé situace. Jednou z nich je formát, kde po dvojtečce oddělující název schématu následují dvě lomítka (//), po kterých následuje označení tzv. autority, které je tvořeno jménem či IP adresou počítače, před kterým smí být informace o uživateli oddělená zavináčem (@), za ním smí být číslo portu oddělené dvojtečkou. Za označením autority následuje cesta: posloupnost segmentů oddělených lomítky (/) – značení obdobné adresářům, ale nemusí se jednat přímo o ně, ale obecně o jakýkoli hierarchický systém. \\
+\textbf{dotaz} popisuje nehierarchickou část identifikátoru, která slouží k bližšímu určení požadovaného zdroje. Tato část nemá žádnou standardizovanou syntaxi, ovšem v praxi se velmi často používá posloupnost dvojic klíč=hodnota oddělená ampersandy (blah=foo\&bar=baz).
+\textbf{fragment} nepřímo popisuje sekundární zdroj na základě primárního zdroje určeného předešlými částmi URI. Může popisovat nějakou konkrétní část (např. kapitolu knihy) tohoto zdroje, nějaký jinou reprezentaci příslušného zdroje apod.
+\paragraph{Zabezpečení HTTP}
+Existují dvě metody zabezpečeného http připojení: HTTPS URI a nadstavba HTTP 1.1. Druhou metodu ovšem zatím prohlížeče moc nepodporují, takže HTTPS se k vytvoření zabezpečené komunikace používá nejčastěji.
+\paragraph{HTTPS URI} Je syntakticky identické jako http, pouze přidává signalizaci prohlížeči, aby použil šifrovací metodu SSL/TLS k přenosu dat. SSL je vhodné pro HTTP, protože dokáže poskytnout ochranu přenosu, i když je pouze jedna strana komunikace ověřená. Typicky je ověřen pouze server (např. uživatel potvrdí certifikát). Aby pomocí HTTPS bylo možné rozlišovat virtuální servery, existuje rozšíření SNI (metoda, jak obejít nedostatek v protokolu SSL v2, který neumožňuje při přístupu přes HTTPS vytvářet virtuální webové servery – tj. více různých doménových jmen umístěných na jedné IP adrese (využívá se při webhostingu). Pomocí SNI může klient před výměnou šifrovacích klíčů nejprve sdělit jméno požadovaného webového serveru a server tak může vybrat příslušný šifrovací klíč požadovaného virtuálního serveru.)
+\paragraph{HTTPS} Protokol HTTPS využívá asymetrické šifrování. Obě strany si před zahájením komunikace vygenerují pár klíčů (privátní a veřejný). Při zahájení komunikace si vymění veřejné klíče, které by obě strany měly ověřit pomocí jiného komunikačního kanálu. Ověření může proběhnout kontrolou výtahu (otisk, miniatura, hash) veřejného klíče u protistrany například pomocí telefonu nebo lze použít princip přenosu důvěry, kdy nám protistrana předá veřejný klíč, který je digitálně podepsaný (nejlépe certifikační autoritou, které důvěřujeme a jejíž veřejný klíč máme v důvěryhodném úložišti, např. THAWTE, VeriSign, RapidSSL, GeoTrust, ...). Digitální certifikáty jsou základním kamenem zabezpečení poskytovaného protokoly SSL/TLS. \\
+Jedním z (menších) limitů je mírné zpomalení oproti protokolu HTTP. Toto zpomalení je způsobeno právě výše zmíněným šifrováním daným informací.
+\paragraph {Proxy server} funguje jako prostředník mezi klientem a cílovým počítačem (serverem), překládá klientské požadavky a vůči cílovému počítači vystupuje sám jako klient. Přijatou odpověď následně odesílá zpět na klienta. Může se jednat jak o specializovaný hardware, tak o software provozovaný na běžném počítači. Proxy server odděluje lokální počítačovou síť (intranet) od Internetu. \\
+\textbf{Aplikační proxy} je server speciálně určený pro určitý protokol nebo aplikaci. Proxy server může analyzovat obsah komunikace, případně ji pozměňovat (např. odstraňování reklam z http požadavků, blokování webových stránek podle obsahu a podobně) nebo ukládat požadavky do vyrovnávací paměti (cache), ze které mohou být při opakovaném požadavku odpovědi poskytnuty rychleji.
+\paragraph{HTTP session} Session v protokolu HTTP dává webovému serveru možnost uložit si libovolné (většinou však ne příliš obsáhlé) informace o uživatelích, kteří k němu přistupují, a to o každém zvlášť. Protokol HTTP ze svého principu (a způsobu komunikace stylem požadavek - odpověď) postrádá kontext o jednotlivých klientech, a právě session ho webovým aplikacím dokáže dát. \\
+Session je v HTTP předáváno dvěma nejrozšířenějšími způsoby: v URL cílové stránky – jako její proměnná nebo jako HTTP cookie \\
+To, jakým způsobem se session bude přenášet a pod jakým názvem, nastavuje webový server. Nevýhodou přenosu přes cookies je to, že některé archaické internetové prohlížeče je nepodporují (těch je ovšem mizivé procento) a ty soudobé dovolují cookies vypnout (opět, podíl uživatelů s vypnutými cookies je zanedbatelný). Jinou potenciální nevýhodou může být to, že pokud by potenciální útočník získal přístup k adresáři na serveru, do kterého se cookies ukládají, dostal by se i k session. Naopak, session v URL danou adresu znepřehledňují, činí ji příliš dlouhou, nezapamatovatelnou a působí proti principům SEO (mohou dokonce „rozmělňovat“ odkazovatelnost toho kterého odkazu). Při práci s aplikací s tímto způsobem předávání se jednotlivá session navíc ukládají i do historie prohlížeče a záložek. Je-li například (proti bezpečnostním zásadám) hodnota session generovaná na základě přístupových údajů uživatele, může se k nim útočník dostat snadněji než v případě ukládání do cookies. Některé webové aplikace (např. phpMyAdmin) proto při přihlašování vyžadují možnost ukládat cookies. \\
+ypickým příkladem je použití HTTP cookie k uložení jednoznačného identifikátoru (pojmenovaného SESSIONID, SESSID, SID apod., jehož hodnota je při startu session náhodně vygenerována). Podle takto uloženého HTTP cookie pak server ve své paměti najde potřebné informace, například o přihlášeném uživateli, jeho úrovni přístupu a podobně. Podstatné je, že samotná data se již nepřenášejí (ani v URL, ani v samotném požadavku). Pokud se klient může připojit k libovolnému serveru z clusteru, je třeba mezi jednotlivými servery informace o sessions buď sdílet, nebo zajistit, že se stejný klient vždy připojí ke stejnému uzlu. V opačném případě by se klient mohl spojit se serverem, který o zahájené session neví, a tak přijít o přihlášení, stav nákupního košíku a podobně. \\
+Z hlediska skriptovacích jazyků pro programování intranetových/internetových aplikací, session představuje množinu proměnných (někde přístupnou přes sadu funkcí, jinde přes globální proměnnou), které dovolují uchovávat hodnoty, které jim byly nastaveny, po dobu připojení (tj. se znovunačtením stránky se neztratí). Například, v jazycích ASP a ASP.NET jsou přístupné automaticky jako jednotlivé prvky pole Session("klíč"), v PHP pak pod tzv. superglobálním polem \$\_SESSION["klíč"]. V obou příkladech lze do session ukládat „jednoduché“ typy (celá čísla, racionální čísla, řetězce, null) i z nich složená pole (teoreticky libovolné složitosti). Hodnoty se ukládají tzv. serializované (převedené na řetězec podle formátu, ze kterého jej lze zpětně načíst (přibližně jako třeba JSON)). \\
+Zabezpečení session funguje na tom principu, že přístup k proměnným konkrétního uživatele je možný přes jeho identifikátor v podobě dostatečně dlouhého, náhodně generovaného, a tedy neuhádnutelného klíče. Druhé specifikum je to, že session má poměrně krátkou dobu platnosti (implicitně bývá 24 minut, není-li nastaveno jinak).
+\paragraph{HTTP cookie} Cookies běžně slouží k rozlišování jednotlivých uživatelů, ukládají se do nich uživatelské předvolby apod. \\
+Funkce cookies je definována v RFC 2965 pomocí HTTP hlaviček Set-Cookie (nebo její novější varianty Set-Cookie2) a Cookie. Hlavička Set-Cookie je poslána v odpovědi serveru a obsahuje:
+\begin{itemize}
+	\item název (identifikátor) cookie
+	\item data cookie (omezená prohlížečem, vyžadována je podpora alespoň pro 4096 byte),
+	\item dobu platnosti cookie (resp. čas, kdy hodnota vyprší),
+	\item doména, pro kterou cookie platí,
+	\item adresář na serveru, pro který cookie platí.
+\end{itemize}
+Pokud má prohlížeč alespoň jednu cookie pro daný server (a daný adresář na něm), posílá s každým dotazem danému serveru i hlavičku Cookie, která obsahuje stejná data, která server původně poslal. Cookie lze nastavovat taktéž na straně serveru (podle možností skriptovacího jazyka) – nastavení hodnoty cookie představuje v podstatě přidání HTTP hlavičky do odpovědi serveru (z toho důvodu musí nastavení proběhnout před vypsání čehokoli na výstup). \\
+Cookies neznamenají žádné nebezpečí pro počítač jako takový. Přesto cookies mohou být nebezpečné pro ochranu soukromí. Navštívený web si totiž může ukládat do cookies jakékoliv informace, které o návštěvníkovi zjistí a může tak postupně zjišťovat zájmy konkrétního návštěvníka. Které stránky navštěvuje, jaké informace vyhledává, jak často daný web navštěvuje apod. Těchto informací se dá posléze i bez vědomí návštěvníka využívat pro cílenou reklamu, statistické vyhodnocování chování návštěvníků, apod. Tyto informace však lze získávat i bez cookies, proto toto jejich využití nemůže být považováno za zvlášť nebezpečné. Cookies lze zneužít zejména tehdy, pokud získá útočník přístup k počítači uživatele, neboť cookies na počítači nejsou nijak chráněny. Pak lze předstírat např. cizí identitu.
 
 
 
