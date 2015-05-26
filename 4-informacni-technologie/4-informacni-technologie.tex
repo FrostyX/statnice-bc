@@ -41,6 +41,969 @@ běhu, komunikace a synchronizace. Problém uváznutí, jeho detekce a metody p�
 měti: segmentace, stránkování, virtuální paměť. Správa diskového prostoru: oddíly, souborové systémy, zajištění
 konzistence dat.}
 
+\subsection{Operační systém, architektura, poskytovaná rozhraní}
+
+\subsubsection{Operační systém}
+\begin{itemize}
+	\item Základní softwarové (programové) vybavení počítače
+	\item Rozhraní mezi hardware a ostatním software (knihovny, systémové služby, aplikace)
+	\item Rozhraní mezi uživatelem a aplikacemi
+	\item Běží v privilegovaném režimu (jeho funkce jsou upřednostněné)
+\end{itemize}
+
+\subsubsection{Architektura OS}
+Očekáváme od něj:
+\begin{itemize}
+	\item správu a sdílení procesoru (možnost spouštět více procesů "současně")
+	\item správu paměti (procesy jsou v paměti odděleny)
+	\item komunikaci mezi procesy (IPC - Inter-Process Communication)
+	\item obsluhu zařízení a organizaci dat (souborový systém, síťové rozhraní, uživatelské rozhraní)
+\end{itemize}
+
+\begin{itemize}
+	\item Monolitické jádro
+	\begin{itemize}	
+		\item všechny služby pohromadě - lepší výkon
+		\item problém s chybnými ovladači
+		\item Linux, *BSD
+	\end{itemize}
+	\item Mikrojádro 
+	\begin{itemize}	
+		\item poskytuje správu adresního prostoru, procesů, IPC
+		\item oddělení serverů => bezpečnost
+		\item Minix, Mach
+	\end{itemize}
+	\item Hybridní jádro - Windows NT, MacOS X
+\end{itemize}
+
+\begin{figure} [h]
+		\includegraphics[scale=0.6]{architektura_jadra.png}
+		\caption{architektura jádra}	
+\end{figure}
+
+\subsubsection{Poskytovaná rozhraní}
+\begin{enumerate}
+	\item Hardware - přístup pouze k OS
+	\item Operační systém - privilegovaný režim, přístup z vyšších vrstev pouze skrze \textbf{SYSTÉMOVÉ VOLÁNÍ}
+	\item Standardní knihovna (libc, CRT) - alokace paměti, stará se o přidělování kousků paměti (malloc)
+	\item Systémové nástroje - logování, ls, dir atd
+	\item Aplikace
+\end{enumerate}
+\begin{itemize}
+	\item Každá vrstva může volat nižší vrstvu, může přeskočit vrstvu
+	\item Hranice mezi vrstvami nemusí být ostré
+\end{itemize}
+
+\begin{figure} [h]
+		\includegraphics[scale=0.8]{vrstvy_HW-SW.png}
+		\caption{vrstvy HW/SW}	
+\end{figure}
+
+\subsection{Správa procesoru: procesy a vlákna, plánování jejich běhu, komunikace a synchronizace}
+
+\subsubsection{Procesor}
+\textbf{OBECNÁ STRUKTURA CPU}
+\begin{itemize}
+	\item Je to jednotka, která zpracovává instrukce
+	\item Aritmeticko-logická jednotka (ALU) - provádí výpočty
+	\item Řídící jednotka - řídí chod CPU
+	\item Registry - slouží k uchování právě zpracovávaných dat (násobně rychlejší přístup než do paměti)
+\end{itemize}
+
+\textbf{INSTRUKČNÍ SADA}
+\begin{itemize}
+	\item Sada ovládající procesor (specifikovaná pro daný CPU/rodinu CPU)
+	\item Instrukce a jejich operandy jsou reprezentovány jako čísla - strojový kód
+	\item Každá instrukce má obvykle 0 až 3 operandy (může to být registr, konstantu nebo místo v paměti)
+	\item Pro snazší porozumění, se instrukce CPU zapisují v jazyce symbolických adres (též vulgárně označován jako Assembler)
+	\item Instrukce jsou zpracovávány (z důvodu větší efektivity) v několika krocích:
+	\begin{enumerate}
+		\item načtení instrukce do CPU (Fetch)
+		\item dekódování instrukce (decode)
+		\item výpočet adres operandů
+		\item přesun operandů do CPU
+		\item provedení operace (Execute)
+		\item uložení výsledku (Write-back)
+	\end{enumerate}
+	\item Pipelining - umožňuje zvýšit efektivitu CPU (díky rozdělení do jednotlivých kroků je možné provádět více instrukcí zároveň)
+	\item Superskalární procesor - procesor může mít víc jednotek např. pro výpočty (FPU, ALU), musíme se postarat o správnou synchronizaci
+	\item Problém s podmíněnými skoky (branch prediction) - jakmile se má provést nějaký podmíněný, nevíme, která instrukce bude následovat -> může se stát, že se musí vyprázdnit instrukci z pipeline -> zpomalení
+\end{itemize}
+
+\begin{figure} [h]
+		\includegraphics[scale=0.6]{pipelining.png}
+		\caption{pipelining}	
+\end{figure}
+
+\subsubsection{Procesy}
+\begin{itemize}
+	\item Neformálně: proces = běžící program (vykonává činnost)
+	\item Proces charakterizuje:
+	\begin{itemize}
+		\item Kód programu
+		\item Paměťový prostor
+		\item Data – statická a dynamická (halda – jsou tam uložená data, které se alokují při běhu procesu, typicky objekty alokované malloc nebo volané přes new)
+		\item Zásobník
+		\item Registry
+	\end{itemize}
+	\item Oddělení jednotlivých úloh (abstrakce)
+	\item Multiprogramování: (zdánlivě) souběžný běh více procesů
+	\begin{itemize}
+		\item kooperativní - proces si sám odebere procesor
+		\item preemtivní - OS sám určuje, kdy odebere procesu procesor (velikost časového kvanta)
+	\end{itemize}
+	\item Komunikace mezi procesy, sdílení zdrojů - synchronizace
+	\item Informace o procesu má OS uloženy v Process  Control Block (PCB)
+	\begin{itemize}
+		\item identifikace procesu
+		\item informace o stavu
+		\item adresu instrukce, kterou bude program pokračovat
+		\item stav registrů
+		\item informace k plánování procesů
+		\item informace o přidělené paměti
+		\item informace o používaných I/O zařízeních, otevřených souborech, atd.
+	\end{itemize}
+	\item potřeba plánování
+\end{itemize}
+
+\textbf{OBECNÝ ŽIVOTNÍ CYKLUS PROCESU}
+\begin{itemize}
+	\item Nový (new) – proces byl vytvořen
+	\item Připravený (ready)- proces čeká, až mu bude přidělen CPU
+	\item Běžící (running) – CPU byl přidělen a právě provádí činnost
+	\item Čekající (waiting/blocked) – proces čeká na vnější událost (např. na vyřízení I/O požadavku, synchronizační primitiva)
+	\item Ukončený (terminated) – proces skončil svou činnost (dobrovolně x nedobrovolně)
+\end{itemize}
+
+\begin{figure} [h]
+		\includegraphics[scale=0.8]{stavy_procesu.png}
+		\caption{stavy procesu}	
+\end{figure}
+
+\subsubsection{Plánování procesů}
+\begin{itemize}
+	\item Potřeba efektivně plánovat procesorový čas
+	\item Časové kvantum: maximální čas přidělený procesu
+	\item Samotné přepnutí procesu má režii (uložení kontextu, vyprázdnění cache) -> latence
+	\item Symmetric Multi-Processing - přibývá problém, jak vybrat procesor
+	\begin{itemize}
+		\item oddělené plánování pro každý procesor
+		\item maska affinity (definuje procesor, na kterém může proces běžet)
+	\end{itemize}
+\end{itemize}
+
+\textbf{TYPY PLÁNOVÁNÍ:}
+\begin{itemize}
+	\item Dlouhodobé – rozhoduje, zda bude přijat k běhu (změna stavu z NEW na READY)
+	\item Střednědobě – načtení/odložení procesu do sekundární paměti
+	\item Krátkodobé – rozhoduje dostupné procesy ke spuštění na CPU
+\end{itemize}
+
+\textbf{RŮZNÉ TYPY ÚLOH/SYSTÉMŮ:}
+\begin{itemize}
+	\item Iterativní
+	\item Dávkové zpracování
+	\item Pracují v reálném čase
+\end{itemize}
+
+\textbf{OBECNÉ POŽADAVKY NA PLÁNOVÁNÍ PROCESŮ:}
+\begin{itemize}
+	\item Spravedlnost – každému procesu by v rozumné době měl být přidělen CPU
+	\item Vyváženost – celý systém běží
+	\item Efektivita – maximální využití CPU
+	\item Maximalizace odvedené práce (throughput)
+	\item Minimalizace doby odezvy
+	\item Minimalizace doby průchodu systémem (turnaround) – od spuštění do konce procesu, aby byl co nejmenší časový úsek
+\end{itemize}
+
+\textbf{ALGORITMY PRO PLÁNOVÁNÍ PROCESŮ}
+\begin{itemize}
+	\item FIRST-COME-FIRST-SERVED
+	\begin{itemize}
+		\item První proces získává procesor
+		\item Jednoduchý, neefektivní
+		\item Nepreemptivní
+	\end{itemize}
+	\item SHORTEST JOB FIRST
+	\begin{itemize}
+		\item Vybere se takový proces, který poběží nejkratší dobu
+		\item Je potřeba znát (odhadnout) čas, který proces potřebuje
+		\item Nepreemptivní
+	\end{itemize}
+	\item SHORTEST REMAINING TIME NEXT
+	\begin{itemize}
+		\item Pokud aktivní proces potřebuje k dokončení činnosti méně času než aktuální, je spuštěn
+		\item Preemptivní
+	\end{itemize}
+	\item ROUND ROBIN (CHODÍ PEŠEK OKOLO)
+	\begin{itemize}
+		\item Každý proces má pevně stanovené kvantum
+		\item Připravené procesy jsou zařazeny ve frontě a postupně dostávají CPU
+		\item Nevýhoda: přiděluje stejný čas jak systémovým, tak uživatelským procesům
+	\end{itemize}
+	\item VÍCEÚROŇOVÁ FRONTA
+	\begin{itemize}
+		\item Každý proces má definovanou prioritu
+		\item Statické x dynamické nastavení priority (např. vyšší priorita pro I/O)
+		\item Systém eviduje pro každou frontu (čekající procesy)
+		\item Riziko vyhladovění procesů s nízkou prioritou (Rozšíření: nastavení různých velikostí kvant pro jednotlivé priority)
+		\item Používán Windows NT, staršími Linuxovými jádry
+	\end{itemize}
+	\item SHORTEST PROCESS NEXT - Používá se odhad, podle předchozí aktivity procesu
+	\item GUARANTEED SCHEDULING
+	\begin{itemize}
+		\item Máme-li n procesů, každý proces má získat 1/n CPU
+		\item Volí se proces s nejmenším poměrem
+		\item Používají novější Linuxové jádra
+	\end{itemize}
+	\item LOTTERY SCHEDULING - Proces dostane příděl "losů"
+	\item FAIR-SHARE SCHEDULING - Plánování podle skupin procesů (např. podle uživatelů)
+\end{itemize}
+
+\subsubsection{Vlákna}
+\begin{itemize}
+	\item OS umožňují rozdělit procesy na víc vláken (je základní entitou)
+	\item Každé vlákno má svůj zásobník + registry (přepnutí vláken v rámci procesu je rychlejší)
+	\item vlákna v rámci procesu sdílí paměťový prostor, data a prostředky -> nové problémy se synchronizací 
+\end{itemize}
+
+\textbf{IMPLEMENTACE VLÁKEN:}
+\begin{itemize}
+	\item Jako knihovna v uživatelském prostoru (první Linuxové systémy)
+	\item Součást jádra operačního systému (Windows a další Linuxové systémy)
+	\item Kombinované řešení
+\end{itemize}
+
+\textbf{PROCESY A VLÁKNA V UNIXECH}
+\begin{itemize}
+	\item Původně základní entitou byl proces
+	\item Procesy tvoří hierarchii rodič-potomek (na vrcholu je proces init)
+	\item Vytvoření procesu pomocí volaní fork(), který vytvoří klon procesu
+	\item Přepsání procesu pomocí exec
+	\item Komunikace mezi procesy: zasílání signálů, roury, ...
+	\item Možnost nastavit niceness procesu (prioritu od -20 do 20)
+	\item Vlákna do Unixu přidána až později (implementace se v rámci různých OS liší)
+	\item V Linuxu (pthreads) vnitřně implementovány stejně jako procesy (task), ale sdílí paměťový prostor
+\end{itemize}
+
+\textbf{PROCESY A VLÁKNA VE WINDOWS:}
+\begin{itemize}
+	\item Windows NT navrženy s vlákny jako základní entitou pro běh aplikace
+	\item Proces sdružuje vlákna, plánování se účastní vlákno
+	\item Sofistikovaný systém priorit při plánování vláken
+	\item Priorita vláken je odvozena od třídy priority procesu
+	\item Proměnlivá velikost kvant
+	\item Priority boost - dochází k dočasnému navýšení priority
+	\begin{itemize}
+		\item po dokončení I/O operace
+		\item po dokončení čekání na semafor
+		\item vlákno již dlouho neběželo
+	\end{itemize}
+\end{itemize}
+
+\subsubsection{Komunikace}
+\begin{itemize}
+	\item IPC – Inter-process communication
+	\item Procesy oddělené, potřeba kooperace
+	\item Základní kategorie
+	\begin{itemize}
+		\item Sdílená paměť
+		\begin{itemize}
+			\item Procesy sdílejí kousek paměti - nutná spolupráce se správou paměti
+			\item Čtení i zápis, náhodný přístup
+			\item Deklarace, že paměť je sdílená + namapování do adresního prostoru
+			\item SIGNÁLY - Mechanizmus podobný přerušení (asynchronní volání)
+			\item ROURY - Mechanizmus umožňující jednosměrnou komunikace mezi procesy
+		\end{itemize}
+		\item Zasílání zpráv
+		\begin{itemize}
+			\item obecný mechanizmus komunikace mezi procesy
+			\item vhodný pro počítače se sdílenou paměti i pro distribuované systémy
+			\item lze jeho pomocí implementovat vzájemné vyloužení (mutual excluion)
+		\end{itemize}
+		\item Synchronizace
+		\item Vzdálené volání procedur	
+	\end{itemize}
+\end{itemize}
+
+\subsubsection{Synchronizace}
+\begin{itemize}
+	\item procesy a vlákna přistupují ke sdíleným zdrojům (paměť, souborový systém)
+	\item příklad: současné zvýšení hodnoty proměnné o 1 (díky preemtivnímu plánování tohle opravdu může nastat)
+	\begin{enumerate}
+		\item A: načte hodnotu proměnné X z paměti do registru (X = 1)
+		\item A: zvýšení hodnotu v registru o jedna
+		\item B: načte hodnotu proměnné X z paměti do registru (X = 1)
+		\item A: uloží hodnotu zpět do paměti (X = 2)
+		\item B: zvýší hodnotu v registru o jedna
+		\item B: uloží hodnotu zpět do paměti (X = 2)
+	\end{enumerate}
+	\item řešení - atomické operace nebo synchronizace
+	\item je potřeba zajistit, aby v průběhu manipulace s určitými zdroji nemohl manipulovat někdo jiný (vzájemné vyloužení)
+\end{itemize}
+
+\textbf{ATOMICKÝ PŘÍSTUP DO PAMĚTI}
+\begin{itemize}
+	\item Obecné přístupy do paměti nemusí být atomické (záležitosti CPU, překladače)
+	\item Lze vynutit určité chování -> klíčové slovo volatile – často záleží na překladači
+	\item Memory barriers umožňují vynutit si synchronizaci (záležitost CPU)
+\end{itemize}
+
+\textbf{ATOMICKÉ OPERACE:}
+\begin{itemize}
+	\item Test-and-Set (TAS): nastav proměnnou a vrať její původní hodnotu
+	\item Compare-and-Swap (CAS): ověří, jestli se daná hodnota rovná požadované a pokud ano, přiřadí ji novou (CMPXCHG)
+	\item Fetch-and-Add: vrátí hodnotu místa v paměti a zvýší jeho hodnotu o jedna (XADD)
+	\item Load-link/Store-Conditional (LL/SS): načte hodnotu a pokud během čtení nebyla změněna, uloží do ní novou hodnotu
+\end{itemize}
+
+\textbf{SYNCHRONIZAČNÍ PRIMITIVA}
+\begin{itemize}
+	\item slouží k řízení přístupu ke sdíleným zdrojům
+	\item Petersonův algoritmus - umožňuje implementovat vzájemné vyloučení dvou procesů pomocí běžných operací
+\end{itemize}
+
+\textbf{KRITICKÁ SEKCE}
+\begin{itemize}
+	\item Obecně třeba zajistit, aby se sdílenými zdroji pracoval jen jeden proces
+	\item Část kódu, kdy program pracuje se sdílenými zdroji (např. pamětí)
+	\item Pokud jeden proces je v kritické sekci, další proces nesmí vstoupit do své kritické sekce
+	\item Každý proces před vstupem žádá o povolení vstoupit do kritické sekce
+	\item Poadavky na kritickou sekci:
+	\begin{itemize}
+		\item Vzájemné vyloučení – maximálně jeden proces je v daný okamžik v KS
+		\item Absence zbytečného čekání – není-li žádný proces v kritické sekci a proces do ní chce vstoupit, není mu bráněno
+		\item Zaručený vstup – proces snažící se vstoupit do KS, do ní v konečném čase vstoupí
+	\end{itemize}
+	\item Řešení:
+	\begin{itemize}
+		\item Zablokování přerušení (použitelné v rámci jádra OS); více CPU -> neefektivní
+		\item Aktivní čekání - Spinlocks – testujeme pořád dokola jednu proměnou 
+		\begin{verbatim}
+			Př. 1) ŠPATNÉ - Vstup do kritické sekce a její uzamknutí
+			                není provedeno atomicky
+			while (lock); // čekej 
+			lock = 1; 
+			// kritická sekce 
+			lock = 0;
+			
+			
+			Př. 2)
+			Uvažujeme následující atomickou operaci 
+			bool test_and_set(bool * target) {
+				bool rv = *target; 
+				*target = true; 
+				return rv; 
+			}
+				
+			A kód:
+			while (test_and_set(&lock) == true);
+			// kritická sekce 
+			lock = false;
+			
+			
+			Př. 3)
+			Uvažujeme následující atomickou 
+			operaci, která prohodí dvě hodnoty 
+			void swap(bool *a, bool *b) {
+				bool tmp = *a; 
+				*a = *b; 
+				*b = tmp; 
+			}
+			
+			A kód 
+			key = true;
+			while(key == true) 
+				swap(&lock, &key); 
+			// kritická sekce 
+			lock = false;
+		\end{verbatim}
+	\end{itemize}
+\end{itemize}
+
+\textbf{SEMAFOR}
+\begin{itemize}
+	\item Chráněná proměnná obsahující počítadlo s nezápornými celými čísly
+	\item Operace P (proberem – zkusit): pokud je hodnota čísla nenulová sníží hodnotu o jedna, jinak čeká, až bude hodnota zvýšena (operace někdy označena i jako wait)
+	\begin{verbatim}
+		void P (Semaphore s) {
+			while (s <= 0) { }
+			s--;
+		}
+	\end{verbatim}
+	\item Operace V (verhogen – zvýšit): zvýší hodnotu o jedna (operace označování jako signal, post)
+	\begin{verbatim}
+		void V (Semaphore s) {
+			s++;
+		}
+	\end{verbatim}
+	\item perace P a V se provádí atomicky - operace jsou na začátku a na konci zamykané pomocí spinlocku, protože je kód relativně krátký, tak se nečeká moc dlouho na čekání
+	\item Binární semafor – může nabývat hodnot 0, 1 (mutex, implementace kritické sekce)
+	\item Obecný semafor – slouží k řízení přístupu ke zdrojům, kterých je končené množství
+	\item Implementace s pomocí aktivního čekání nebo OS (pasivní čekání)
+	\begin{verbatim}
+		struct sem {
+			int value;
+			struct process * list;
+		};
+		
+		void P (struct sem * s) {
+			s -> value--;
+			if (s -> value < 0) {
+				// přidej proces s->list;
+				block(); // uspi aktuální proces
+			}
+		}
+		
+		void V(struct sem * s) {
+			s-> value++;
+			if (s -> value <= 0) {
+				// odeber proces P z s s-> list
+				wakeup(P);
+			}
+		}
+	\end{verbatim}
+	\item Operace musí být provedeny atomicky
+\end{itemize}
+
+\textbf{DALŠÍ SYNCHRONIZAČNÍ NÁSTROJE:}
+\begin{itemize}
+	\item Bariéry - Synchronizačních metod vyžadujících, aby se proces zastavil v daném bodě, dokud všechny procesy nedosáhnout daného bodu
+	\item Read-Write zámky
+	\begin{itemize}
+		\item Vhodné pro situace, které čtou i zapisují do sdíleného prostředku
+		\item Čtecí a zapisovací režim zámku
+		\item Vhodný pokud jde rozlišit čtenáře a písaře (písařů je víc)
+	\end{itemize}
+	\item Monitor
+	\begin{itemize}
+		\item Modul nebo objekt
+		\item V jeden okamžik může kteroukoliv metodu používat pouze jeden proces/vlákno
+		\item Nutná podpora programovacího jazyka
+		\item Java (synchronized), .NET (lock)
+	\end{itemize}
+\end{itemize}
+
+\subsection{Problém uváznutí, jeho detekce a metody předcházení}
+
+\subsubsection{Deadlock}
+\begin{itemize}
+	\item Uváznutí – systém se dostal do stavu, kdy nemůže dál pokračovat
+	\item U množiny procesů došlo k uváznutí (deadlocku), pokud každý proces z této množiny čeká na událost, kterou pouze proces z této množiny může vyvolat.
+\end{itemize}
+
+\textbf{UŽÍVÁNÍ PROSTŘEDKŮ:}
+\begin{itemize}
+	\item Request – požadavek na prostředek, není-li k dispozici, proces čeká
+	\item Use – vlákno s prostředkem pracuje
+	\item Release – uvolnění prostředku pro další použití
+\end{itemize}
+
+\textbf{UŽÍVÁNÍ PROSTŘEDKŮ}
+\begin{itemize}
+	\item Mutual exclusion – alespoň jeden prostředek je výlučně užíván jedním procesem
+	\item Hold and wait – proces vlastní alespoň jeden prostředek a čeká na další
+	\item No preemption – prostředek nelze násilně odebrat
+	\item Circular wait – cyklické čekání (proces A vlastní prostředek 1, chce prostředek 2, který drží B a současně žádá o 1)
+\end{itemize}
+
+\subsubsection{Řešení deadlocku}
+\begin{itemize}
+	\item IGNORACE - "neřešení", v praxi často používané tzv. pštrosí algoritmus – strčí se hlava do písku a dělá se, že žádný problém není
+	\item DETEKCE
+	\begin{itemize}
+		\item Pokud vznikne deadlock, je detekován a některý proces odstraněn
+		\item K detekci se používá alokační graf prostředků a graf čekání
+		\item Alokační graf:
+		\begin{itemize}
+			\item Orientovaný graf
+			\item Dva typy uzlů – prostředek, proces
+			\item Hrana proces-prostředek – proces čeká na prostředek
+			\item Hrana prostředek-proces – prostředek je vlastněn procesem
+		\end{itemize}
+		\item Graf čekání vznikne vynecháním uzlů prostředků a přidáním hran Pn -> Pm pokud existovaly hrany Pn -> R a R ->Pm, kde Pn a Pm jsou procesy a R je prostředek
+		\item Ukázka alokačního grafu a grafu čekání:
+		\begin{figure} [h]
+			\includegraphics[scale=0.6]{alokacni_graf_a_graf_cekani.png}
+			\caption{alokacni graf a graf cekani}	
+		\end{figure}
+		\item Deadlock vznikne, pokud je v grafu čekání na cyklus
+	\end{itemize}
+	\item ZAMEZENÍ VZNIKU (PREVENCE)
+	\begin{itemize}
+		\item Snažíme se zajistit, že některá z podmínek není splněna
+		\item Zamezení výlučnému vlastnění prostředků (často nelze z povahy zařízení)
+		\item Zamezení držení a čekání
+		\begin{itemize}
+			\item Proces zažádá o všechny prostředky hned na začátku
+			\item Problém s odhadem
+			\item Plýtvání a hladovění
+			\item Množství prostředků nemusí být známé předem
+			\item Jde použít i v průběhu procesu (ale proces se musí vzdát všech prostředků)
+		\end{itemize}
+		\item Zavedení možnosti odejmout prostředek – vhodné tam, kde nelze odejmout prostředky tak, aby nešlo poznat, že byly odebrány
+		\item Zamezení cyklickému čekání – zavedení globálního číslování prostředků a možnost žádat prostředky jen v daném pořadí
+	\end{itemize}
+	\item VYHÝBÁNÍ SE UVÁZNUTÍ
+	\begin{itemize}
+		\item Procesy žádají prostředky libovolně
+		\item Systém se snaží vyhovět těm požadavkům, které nemohou vést k uváznutí
+		\item Je potřeba znát předem, kolik prostředků bude vyžádáno
+		\item Tomu je přizpůsobeno plánování procesů
+		\item Bezpečný stav – existuje pořadí procesů, ve kterém jejich požadavky budou vyřízeny bez vzniku deadlocku
+		\item Systém, který není v bezpečném stavu, nemusí být v deadlocku
+		\item Systém odmítne přidělení prostředků, pokud by to znamenalo přechod do bezpečného stavu (proces musí čekat)
+		\item ALGORITMUS NA BÁZI ALOKAČNÍHO GRAFU
+		\begin{itemize}
+			\item Vhodný, pokud existuje jen jedna instance každého prostředku
+			\item Do alokačního grafu přidáme hrany (proces-prostředek) označující potenciální žádosti procesu a prostředky
+			\item Žádosti a prostředek se vyhoví pouze tehdy, pokud konverze hrany na hranu typu (prostředek-je vlastněn-procesem) nepovede ke vzniku cyklu
+		\end{itemize}
+		\item BANKÉŘŮV ALGORITMUS
+		\begin{itemize}
+			\item Vhodný tam, kde je větší počet prostředků daného typu
+			\item Na začátku každý proces oznámí, kolik prostředků jakého typu bude maximálně potřebovat
+			\item Při žádosti o prostředky systém ověří, jestli se nedostane do nebezpečného stavu
+			\item Pokud nelze vyhovět, je proces pozdržen
+			\item Porovnávají se volné prostředky, s aktuálně přidělenými a maximálními
+			\item Uvažujme m prostředků a n procesů
+			\item Matice m x n
+			\begin{itemize}
+				\item Max – počet prostředků, které bude každý proces žádat
+				\item Assigned – počet přiřazených prostředků jednotlivým procesům
+				\item Needed – počet prostředků, které bude proces ještě potřebovat (evidentně needed = max – assigned)
+			\end{itemize}
+			\item Vektory velikosti m
+			\begin{itemize}
+				\item E – počet existujících prostředků
+				\item P – počet aktuálně držených prostředků
+				\item A – počet zdrojů
+			\end{itemize}
+			\begin{figure} [h]
+				\includegraphics[scale=0.6]{bankeruv_algoritmus.png}
+			\caption{bankéřův algoritmus}	
+			\end{figure}
+			\begin{enumerate}
+				\item Najdi řádek i v needed takový, že needed[i] <= A, pokud takový není, systém není v bezpečném stavu
+				\item Předpokládej, že proces skončil a uvolnil své zdroje; A <- A + assigned[i] a odstraň řádný i ze všech matic
+				\item Opakuj body 1 a 2 dokud nejsou odstraněny všechny procesy nebo není jasné, že systém není v bezpečném stavu
+			\end{enumerate}
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+
+
+\subsection{ Správa operační paměti: segmentace, stránkování, virtuální paměť.}
+
+\subsubsection{Operační paměť}
+\begin{itemize}
+	\item zásadní část počítače
+	\item uložení kódu a dat běžících v OS
+	\item přístup k zařízením (DMA) - Direct Memory Access - přístup zařízení se namapuje do
+operační paměti a dá se poté přistupovat k zařízení přes operační paměť
+	\item virtualní paměť umožňuje například přístup k souborovému systému
+	\item z HW pohledu může byt operační paměť realizovaná různými způsoby (DRAM, SRAM,
+(EEP)ROM, ale i HDD, SSD, flash paměti)
+	\item přístup k CPU k paměti nemusí být přímočarý (L1, L2 a L3 cache)
+	\item pro jednoduchost budeme HW stránku věci zanedbávat
+\end{itemize}
+
+\textbf{POŽADAVKY NA OPERAČNÍ PAMĚŤ}
+\begin{itemize}
+	\item evidence prostoru volného a přiděleného procesům
+	\item přidělování a uvolňování paměti procesů
+	\item přesunutí (přiděleného prostoru) - program by neměl být závislý na místě, kde se v paměti
+nachází (nutně k umožňování swapování)
+	\item ochrana (přiděleného prostoru) - jednotlivé procesy by měly být izolovány
+	\item sdílení - pokud je to žádoucí, mělo by být možné sdílet některé části paměti mezi procesy
+(2x spouštěný stejný program nebo knihovny, které jsou nahrané pouze jednou a poté jsou
+používány několika procesy)
+	\item logická organizace - paměť počítače (spojitý prostor, "sekvence bytů") vs. typický program
+skládající se z modulů (navíc některých jen pro čtení nebo ke spouštění)
+	\item fyzická organizace - paměť může mít více částí/úrovní (RAM? disk); program jako takový
+se nemusí vlézt do dostupné paměti RAM
+\end{itemize}
+
+\textbf{ADRESNÍ PROSTORY (LOGICKÁ ORGANIZACE)}
+\begin{itemize}
+	\item v současných OS existuje několik různých nezávislých adresních prostorů, způsobů číslování
+paměťových buněk
+	\item každý proces by měl mít vlastní paměťový prostor (izolace)
+	\item různá zařízení mají odlišné adresní prostory
+	\item ve spolupráci s hardwarem dochází k mapování fyzické paměti do adresního prostoru procesu
+	\item např. grafická paměť může být namapována od adresy 0xD0000000
+\end{itemize}
+
+\subsubsection{Stránkování}
+\begin{itemize}
+	\item adresní (logický) prostor procesu je rozdělen na menši úseky - stránky (pages)
+	\item fyzická paměť je rozdělena na úseky stejné délky - rámce (frame, page frames)
+	\item provádí se mapování logický adres -> na fyzické
+	\item procesy už nemusí být umístěny v souvislých blocích paměti
+	\item výpočet fyzické adresy musí byt implementovaný HW (efektivita) - pokud by implementoval
+OS, nemohl by ho používat
+	\item CPU si udržuje stránkovací tabulku
+	\item logická adresa má dvě části: pd, kde p je číslo stránky a d je offset
+	\item fyzická adresa vznikne jako fd, kde f je číslo rámce v tabulce stránek příslušného stránce p
+\end{itemize}
+
+\subsubsection{Segmentace}
+\begin{itemize}
+	\item paměť je rozdělena na několik segmentů (například kód, data, zásobník)
+	\item speciální případ přidělování souvislých bloků paměti
+	\item stránkování je obvykle pro programátora nerozeznatelné
+	\item naproti tomu segmentace umožňuje rozdělit program do logických
+celků (kód, data)
+	\item při použití segmentace a stránkování programy nepracují přímo s
+lineární adresou
+	\item používají adresu ve tvaru segment + offset a ta se až převádí na
+fyzickou adresu pomocí stránkování
+	\item ochrana paměti přes začátek a délku segmentu + oprávnění
+\end{itemize}
+
+\subsubsection{Virtuální paměť}
+\textbf{MOTIVACE}
+\begin{itemize}
+	\item paměť RAM je relativně drahá -> nemusí vždy dostačovat
+	\item aktualně používaná data (například instrukce) musí byt v RAM, nepoužívaná data nemusí (velké
+programy -> nepoužívané funkce)
+	\item je vhodné rozšířit primární paměť (RAM) o sekundární (např.: HDD)
+	\item zvětšením dostupné paměti je možné zjednodušit vývoj aplikací (není potřeba se omezovat
+v množství použité paměti)
+	\item sekundární paměť bývá řádově pomalejší
+	\item k efektivní implementaci je potřeba spolupráce HW (MMU) a OS
+	\item z pohledu aplikace musí být přístup k paměti transparentní
+	\item virtuální paměť (VM) je součástí soudobých OS (swapování)
+	\begin{itemize}
+		\item Windows NT - stránkovací soubor (pagefile.sys)
+		\item Linux - swap partition (ale může být i soubor)
+	\end{itemize}
+	\item bezpečnost dat v sekundární paměti? (např.: po vypnuti počítače, řeší se např. kódováním)
+	\begin{figure} [h]
+		\includegraphics[scale=1]{virtualni_pamet.png}
+		\caption{virtuální paměť}	
+	\end{figure}
+\end{itemize}
+
+\textbf{VIRTUÁLNÍ PAMĚŤ}
+\begin{itemize}
+	\item způsob správy operační paměti počítače
+	\item umožňuje předložit běžícímu procesu adresní prostor paměti, který je uspořádán jinak nebo je dokonce větší, než je fyzicky připojená operační paměť RAM
+	\item virtuální adresy - pracují s nimi strojové instrukce, resp. běžící proces
+	\item fyzické adresy - odkazují na konkrétní adresové buňky paměti RAM
+	\item převod mezi virtuální a fyzickou adresou je zajišťován samotným procesorem
+	\item virtuální paměť je implementována pomocí stránkování paměti spolu se stránkováním na disk, které rozšiřuje operační paměť o prostor na pevném disku
+\end{itemize}
+
+
+\subsection{ Správa diskového prostoru: oddíly, souborové systémy, zajištění konzistence dat}
+
+\subsubsection{Souborové systémy}
+\begin{itemize}
+	\item způsob organizace dat ve formě souborů (a většinou i adresářů) tak, aby k nim bylo možné snadno přistupovat
+	\item souborové systémy jsou uloženy na vhodném typu elektronické paměti, která je umístěna přímo v počítači (pevný disk nebo CD,…)
+\end{itemize}
+
+\textbf{MOTIVACE}
+\begin{itemize}
+	\item potřeba uchovávat větší množství dat (primární paměť nemusí dostačovat)
+	\item data musí být perzistentní (musí přežít ukončení procesu)
+	\item k souborům musí být umožněn souběžný přístup
+	\item řešení v podobě ukládání dat na vnější paměť (např.: disk)
+	\item data ukládána do souborů tvořících souborový systém (File System/FS)
+	\item soubor jako proud bytů (doprovázen doplňujícími informacemi)
+	\item souborový systém jako abstrakce (odstínění od implementačních detailů)
+	\item zajímavý problém: pojmenování objektů (souborů) a jejich organizace
+\end{itemize}
+
+\textbf{OPERACE SE SOUBORY}
+\begin{itemize}
+	\item create - vytvoření souboru
+	\item write/append - zápis do souboru (na konec, popř. přepis); souvislý blok vs. postupný zápis
+	\item read - čtení ze souboru (do přichystaného bufferu)
+	\item seek - změna pozice
+	\item erase - odstranění souboru (uvolnění místa); link a unlink
+	\item truncate - zkrátí daný soubor na požadovanou velikost
+	\item open - otevře soubor, aby s nim šlo manipulovat přes popisovač (file descriptor, file handle)
+	\item close - uzavře soubor
+	\item "soubory" nemusí mít jméno
+	\item jeden soubor může byt otevřen vícekrát (vice ukazatelů na pozici v souboru)
+\end{itemize}
+
+\textbf{ORGANIZACE SOUBORŮ}
+\begin{itemize}
+	\item soubory jsou rozlišované podle názvů (často specifikované pro daný OS nebo FS)
+	\item rozlišování velkých a malých písmen (Unix vs. MS-DOS a Windows)
+	\item MS-DOS: požadavek na jméno souboru ve tvaru 8+3: jméno + přípona (zůstalo zachováno
+ve FAT)
+	\item typicky se soubory organizuji do adresáře (složek)
+	\item každý adresář může obsahovat běžné (popř. speciální) soubory i další adresáře -> stromová
+struktura
+	\item k přístupu k souboru se používají:
+	\begin{itemize}
+		\item absolutní cesty: /foo/bar/baz.dat
+		\item relativní cesty: foo/bar.dat -> každý proces má aktuální adresář
+	\end{itemize}
+	\item operace s adresáři: Create, Delete, OpenDir, CloseDir, ReadDir, Rename
+	\item struktura nemusí být hierarchická -> obecný graf (acyklický, cyklický)
+	\begin{itemize}
+		\item hardlink - ukazatel na soubor (jeho tělo/obsah) (výhoda - transparentnos, nevýhoda
+- odkaz pouze v jednom FS)
+		\item symlink - soubor jako ukazatel na jiný soubor (specifikovaný cestou) (lze používat
+odkaz na jiný FS, ale nejsou plně transparentní - může vzniknout odkaz na neexistující
+soubor)
+	\end{itemize}
+\end{itemize}
+
+\subsubsection{Oddíly}
+\textbf{DĚLENÍ DISKU}
+\begin{itemize}
+	\item každý fyzický disk se skládá z jedné nebo více logických částí (partition, oddíl); popsané
+pomocí partition table daného disku
+	\item v každém partition může existovat souborový system (označovaný jako svazek)
+	\item v Unixech je každý svazek připojen (mounted) jako adresář (samostatný svaze pro /, /home,
+/usr)
+	\item ve Windows jednotlivé svazky označeny (a:, b:, c:, . . . ); ale funguje i mountovani (preferovaný
+jeden svazek pro vše)
+	\item Virtual File System (VFS)
+	\begin{itemize}
+		\item využití abstrakce =) umožňující kombinovat různé FS do jednoho VFS
+		\item možnost připojit běžný soubor jako svazek (i svazek jako soubor)
+		\item síťové disky (NFS, CIFS)
+	\end{itemize}
+\end{itemize}
+
+\textbf{STRUKTURA SOUBORŮ}
+\begin{itemize}
+	\item často je soubor chápán jako proud bytů
+	\item sekvenční vs. náhodný přístup
+	\item společně s daty jsou k souboru připojena metadata (atributy)
+	\begin{itemize}
+		\item vlastník souboru
+		\item přístupová práva
+		\item velikost souboru
+		\item příznaky (skrytý, archivace, spustitelný, systémový)
+	\end{itemize}
+\end{itemize}
+
+
+\subsubsection{Souborové systémy - implementace}
+\textbf{OČEKÁVÁME:}
+\begin{itemize}
+	\item (budeme předpokládat souborové systémy pro práci s disky s rotujícími částmi)
+	\item schopnost pracovat se soubory a disky adekvátní velikosti
+	\item efektivní práce s místem (evidence volného místa, nízká fragmentace)
+	\item rychlý přístup k datům
+	\item eliminace roztroušení dat na disku
+	\item odolnost proti poškození při pádu systému (výpadku napájení) -> rychlé zotavení
+	\item snapshoty - obraz disku v jednom okamžiku ke kterému jsme schopni se vrátit
+	\item komprese dat
+	\item možnost zvětšovat/zmenšovat FS za běhu
+	\item kontrolní součty
+	\item defragmentace za běhu
+	\item správa oprávnění
+\end{itemize}
+
+\textbf{STRUKTURA DISKU}
+\begin{itemize}
+	\item pro jednoduchost předpokládáme, že struktura disku je lineární
+	\item MBR - master boot record: informace o rozdělení disku na svazky + zavaděč
+	\item sektor disku - obvykle velikost 512 B
+	\item pracuje se s většími bloky 1 - 32 kB (často 4 kB nebo 8 kB)
+	\item jednotlivé svazky obsahují souborový systém (vlastní organizace dat)
+\end{itemize}
+
+\textbf{FAT}
+\begin{itemize}
+	\item souborový system pro MS-DOS (přežil až do Windows ME)
+	\item jednoduchý design
+	\item soubory se jmény ve tvaru 8+3, nepodporuje oprávnění
+	\item nemá metody proti poškození dat
+	\item disk rozdělený na bloky (clustery)
+	\item soubory popsány pomocí File Allocation Table (FAT) - spojový seznam
+	\item disk (oddíl) rozdělen na 4 části:
+	\begin{itemize}
+		\item bootsector (rezervovaná oblast) + informace o svazku
+		\item 2x FAT
+		\item kořenový adresář
+		\item data
+	\end{itemize}
+	\item adresáře jako soubory, kořenový svazek je vytvořen hned na začátku
+	\item původní FAT nepodporoval adresáře
+	\item FAT12, 16, 32: podle velikosti clusteru (max. kapacity - 32 MB, 2 GB, 8 TB)
+	\item Virtual FAT
+	\begin{itemize}
+		\item s Windows 95
+		\item podpora dlouhých jmen (LFN)
+		\item až 256 znaků
+		\item soubor má dvě jména - dlouhé a ve tvaru 8+3
+	\end{itemize}
+	\item exFAT
+	\begin{itemize}
+		\item určen pro flash paměti
+		\item podpora větších disků (512 TB, 64 ZB)
+		\item podpora v novějších Windows (původně Windows CE 6)
+	\end{itemize}
+\end{itemize}
+
+\textbf{UFS: UNIX FILE SYSTEM}
+\begin{itemize}
+	\item v různých variantách přítomných v unixových OS - BSD, Solaris, System V, Linux (ext[2,3,4])
+	\item disk se skládá:
+	\begin{itemize}
+		\item bootblock - místo pro zavaděč OS
+		\item superblock - informace o souborovém systému
+		\item místo pro inody
+		\item místo pro data
+	\end{itemize}
+	\textbf{INODY}
+	\begin{itemize}
+		\item struktura popisující soubor
+		\item informace o souboru
+		\begin{itemize}
+			\item typ souboru, vlastníka (UID, GID), oprávnění (rwx)
+			\item časy (vytvoření, přístup)
+			\item počet ukazatelů, počet otevřených popisovačů
+		\end{itemize}
+		\item informace o uložení dat
+		\item struktura inody umožňuje mít řídké soubory
+		\item adresář je soubor obsahující sekvenci dvojic (jméno souboru, číslo inody)
+		\item k evidenci volného místa a inod se používají bitmapy
+		\begin{figure} [h]
+			\includegraphics[scale=0.8]{inode.png}
+			\caption{inode}	
+		\end{figure}
+	\end{itemize}
+\end{itemize}
+
+\textbf{FS V LINUXU}
+\begin{itemize}
+	\item Linux nemá jeden hlavní FS
+	\item nejčastěji se používá: Ext2/3/4
+	\item název souboru může mít až 256 znaků
+	\item vychází z UFS
+	\item ext2: maximální velikost souboru 16 GB - 2 TB, disku: 2 TB - 16 TB
+	\item ext3: přidává žurnál (3. úrovně - journal, ordered, unordered), binárně kompatibilní s ext2
+	\item ext4: maximální velikost souboru 16 GB - 2 TB, disku 1 EB; optimalizace alokací
+\end{itemize}
+
+\textbf{NTFS}
+\begin{itemize}
+	\item hlavní souborový systém Windows NT
+	\item kořeny v OS/2 a jeho HPFS (vyvíjen od roku 1993)
+	\item velikost clusteru podle velikosti svazku (512 B - 4 KB) <- max. velikost disku 256 TB, max.
+velikost souboru 16 TB
+	\item oproti FAT (souborovému systému W9x) ochrana před poškozením + práva
+	\item žurnálování a transakce
+	\item dlouhé názvy (255 znaků) + unicode
+	\item podpora standartu POSIX; hardlinky, symlinky
+	\item adresáře
+	\begin{itemize}
+		\item opět technicky soubory
+		\item jména v B+ stromech
+		\item části metadat jsou součástí adresáře, část metadat je součástí souborů
+	\end{itemize}
+	\item \textbf{STRUKTURA DISKU}
+	\begin{itemize}
+		\item na začátku disku: boot sector
+		\item 12\% MFT (Maste File Table), 88\% data souborů
+		\item MFT je soubor popisující všechny soubory na FS (MFT je taky soubor)
+		\item MFT se skládá ze záznamů o velikosti 1 KB
+		\item každý soubor je popsán tímto záznamem
+		\item informace o souborech včetně jména, časů, atd. uloženy jako záznam v MFT jako dvojice
+atribut-hodnota
+		\item tělo souboru je taky atribut ( uniformní přístup, možnost uložit malé soubory přímo do
+MFT
+		\item v případě potřeby může jeden soubor zabrat vice záznamů v MFT
+		\item případně lze použít místo mimo MFT (rezidentní a nerezidentní atributy)
+	\end{itemize}
+\end{itemize}
+
+
+\subsubsection{Zajištění konzistence dat}
+
+\textbf{TRANSAKČNÍ PAMĚŤ}
+\begin{itemize}
+	\item rozdělení programu na části, které jsou provedeny "atomicky" (ACI)
+	\begin{verbatim}
+		void transfer(Account a1, Account a2, int amount) {
+			atomic {
+				a1.balance += amount;
+				a2.balance -= amount;
+			}
+		}
+	\end{verbatim}
+	\item změny se neprovádí přímo, ale ukládají se do logu, v případě "commitu" se ověří, jestli došlo
+ke kolizi
+	\item zjednodušení vývoje - na úkor režie
+	\item omezení: transakci musí být možné provést vícekrát
+	\begin{verbatim}
+		void transfer(Account a1, Account a2, int amount) {
+			atomic {
+				a1.balance += amount;
+				a2.balance -= amount;
+				launchTheMissiles();
+			}
+		}
+	\end{verbatim}
+	\item podpora jako knihovny /rozšíření Javy/C#/C++
+\end{itemize}
+
+\textbf{ŽURNÁLOVÁNÍ}
+\begin{itemize}
+	\item data se zapisují v transakcích (přsun FS z jednoho konzistentního stavu do druhého)
+	\item nejdříve se transakce zapíše do žurnálu (logu)
+	\item po zapsání do žurnálu je záznam označen speciální značkou a data se můžou zapsat na disk
+	\item po zapsání na disk je zápis z žurnálu odstraněn
+	\item při připojení FS se kontroluje stavu žurnálu
+	\begin{itemize}
+		\item zápis záznamu do žurnálu nebyl dokončen (transakce se neprovede)
+		\item případně, transakce se provede podle informací ze žurnálu
+	\end{itemize}
+	\item často se žurnálují jen metada - v případu výpadku můžeme ztratit data, ale není narušena
+bezpečnost a není potřeba obnovovat strukturu FS
+	\item žurnál je cyklický; při zaplnění se zapíší/uvolní ty na začátku
+	\item pro transakce je potřeba atomických zápisů na disk
+	\item cache & buffery komplikují implementaci atomických zápisů na disk
+\end{itemize}
+
+\textbf{Copy-on-Write (COW)}
+\begin{itemize}
+	\item může být užitečné sdílet paměť (komunikace, úspora místa)
+	\item dva stejné programy/knihovny v paměti
+	\item stránky více procesů jsou navázány na jeden rámec
+	\item daná stránka má nastavený příznak CoW
+	\item dojde-li k pokusu o zápis, vznikne výjimka a procesu je vytvořena kopie rámce
+	\item bude-li na rámec s příznakem CoW odkazovat jenom jedna stránka, příznak se odstraní
+	\item fork() - vytvoří identickou kopii procesu; data jsou sice izolovaná, ale je možné sdílet kód
+	\item úspora místa; úspora strojového času (není potřeba vytvářet kopie stránek/rámců); nízká
+penalizace pokud stránky přepíšeme
+	\item virtuální paměť umožňuje další optimalizace (mapování souborů do paměti, atd.)
+\end{itemize}
+
+\textbf{ZAJIŠTĚNÍ KONZISTENCE DAT}
+\begin{itemize}
+	\item používání blokového zařízení: RAID (Redundant Array of Independent Disk)
+	\begin{itemize}
+		\item RAID-0 (stripping) - nepomůže konzistenci
+		\item RAID-1 (mirroring)
+		\item RAID-2 Hammingův kód - dělí data po bitech, disk pro paritu
+		\item RAID-3 dělí data po bytech, XOR, disk pro paritu
+		\item RAID-4 podobné jako RAID-3, používá paritní bloky
+		\item RAID-5 podobné jako RAID-4, paritní bloky jsou distribuovány
+		\item RAID-6 podobné jako RAID-5, Reed-Solomon kód, dva paritní bloky
+	\end{itemize}
+	\item u dat jsou evidovány kontrolní součty ( ochrana proti tichému poškození (chyba HW i SW)
+	\item konzistence založena na metodě Copy-on-Write
+	\item používaná data nikdy nejsou přepsána ( nejdřív jsou zapsána data a pak jsou (automaticky)
+změněna metadata
+	\begin{figure} [h]
+		\includegraphics[scale=0.7]{konzistence.png}
+		\caption{zachování konzistence}	
+	\end{figure}
+	\item infrastruktura pro vytváření snapshotů/klonů souborového systému
+	\item výhodné slučovat operace do transakcí
+\end{itemize}
 
 
 
