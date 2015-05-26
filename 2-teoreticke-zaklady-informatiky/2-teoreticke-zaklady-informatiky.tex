@@ -392,6 +392,160 @@ $L(G)$ je jazyk všech výrokových formulí.
 
 %----------------------------------------------------------------------------------------------------------------------
 	\subsection{Regulární jazyky (definice, uzávěrové vlastnosti)}
+
+		\textit{Gramatiky typu 3} -- jedná se o tzv. \textit{regulární} resp. \textit{pravolineární} gramatiky, které obsahují pravidla ve třech následujících tvarech:
+
+\begin{enumerate}
+\item
+$A \rightarrow bB, \text{ kde } A,B \in N, b \in \Sigma$
+
+\item
+$A \rightarrow a$
+
+\item
+$S \rightarrow \varepsilon$ (přičemž platí stejné podmínky, jako u gramatik typu 1)
+\end{enumerate}
+
+
+\begin{veta}
+Každý konečný jazyk je regulární.
+\end{veta}
+
+\subsubsection{Vztah regulárních jazyků a konečných automatů}
+
+\paragraph{Regulární jazyky jsou rozpoznatelné KDA (implikace zleva)}
+
+\begin{veta}
+Pro každou regulární gramatiku $G=\langle N,\Sigma,P,S \rangle$ existuje konečný deterministický automat $A$ tak, že jazyk generovaný gramatikou je totéž, jako jazyk rozpoznatelný automatem, tj. $L(G)=L(A)$
+\end{veta} 
+
+
+
+V případě, že $\varepsilon \in L(G)$, rozšíříme automat následovně, jednou ze tří možností:
+\begin{enumerate}
+\item
+Přidáme $S$ do množiny koncových stavů.
+
+\item
+Přidáme $\#$ mezi počáteční stavy.\footnote{Též nazývána jako \uv{Konyho finta}.}
+
+\item
+Zavedeme nový stav, který bude počáteční a zároveň koncový a nevedou z něj žádné přechody jinam.
+\end{enumerate}
+
+\begin{poznamka}
+Nyní zbývá automat pouze determinizovat.
+\end{poznamka}
+
+\begin{priklad}
+Máme gramatiku $G$.
+\begin{eqnarray*}
+G &=& \langle N,\Sigma,P,S \rangle \\
+\Sigma &=& \lbrace e,d,. \rbrace \\
+P &=& \lbrace S \rightarrow .F | dT , T \rightarrow .E|.F|dT|. , D \rightarrow dD|d , E \rightarrow eD , F \rightarrow dE|dF|d \rbrace
+\end{eqnarray*}
+
+Automat rozpoznávající jazyk, generovaný gramatikou G, bude vypadat následovně:
+
+\begin{center}
+\centering\includegraphics[width=8cm]{img/reg1.png}
+\end{center}
+
+Když tento automat zdeterminizujeme, dostaneme následující automat:
+
+\begin{center}
+\centering\includegraphics[width=8cm]{img/reg2.png}
+\end{center}
+
+\end{priklad}
+
+\subsection{Jazyky rozpoznatelné KDA jsou regulární (implikace zprava)}
+
+\begin{veta} 
+Pro každý konečný deterministický automat $A = \langle \Sigma,Q,\delta,q_0,F \rangle$ existuje regulární gramatika $G$ tak, že $L(A)=L(G)$.
+\end{veta}
+
+
+\begin{priklad}\label{priklad-4}
+
+Mějme abecedu $\Sigma = \lbrace a,b \rbrace$ a automat zadaný diagramem:
+\begin{center}
+\centering\includegraphics[width=8cm]{img/reg3.png}
+\end{center}
+
+Odvozovací pravidla gramatiky, generující tento jazyk budou:
+
+\begin{eqnarray*}
+q_0 &\rightarrow& aq_1\ |\ bq_0 \\
+q_1 &\rightarrow& aq_2\ |\ a\ |\ bq_3\ |\  b \\
+q_2 &\rightarrow& aq_2\ |\ a\ |\ bq_3\ |\  b \\
+q_3 &\rightarrow& aq_1\ |\ bq_0
+\end{eqnarray*}
+
+\end{priklad}
+
+\subsubsection{Regulární gramatiky}
+
+Co jsou to regulární gramatiky a jaké podmínky jejich odvozovací pravidla splňují již víme, ale můžeme si je ještě rozdělit na dva druhy, právě podle tvaru odvozovacích pravidel.
+
+\begin{enumerate}
+
+\item
+\textit{Zprava regulární gramatiky:}
+Obsahují pravidla ve tvaru $ A \rightarrow bB $, tedy neterminál je napravo od terminálního symbolu.
+\item
+\textit{Zleva regulární gramatiky:}
+Obsahují pravidla ve tvaru $ A \rightarrow Bb $. Analogicky se neterminál nachází vlevo od terminálního symbolu.
+\end{enumerate}
+
+\begin{veta}
+Pro každou zleva regulární gramatiku $ G = \langle N,\Sigma,P,S \rangle $ existuje konečný deterministický automat \textit{A} tak, že \textit{L(A)=L(G)}.
+\end{veta}
+
+
+\begin{priklad}
+Máme gramatiku $G$ s následovně definovanými pravidly.
+\begin{eqnarray*}
+S &\rightarrow& Aa|Ba|Bb|a \\
+A &\rightarrow& Aa|Bb \\
+B &\rightarrow& Ab|Ba|b
+\end{eqnarray*}
+
+Automat rozpoznávající jazyk generovaný touto gramatikou bude vypadat následovně:
+
+\begin{center}
+\centering\includegraphics[width=8cm]{img/reg4.png}
+\end{center}
+
+\end{priklad}
+
+\begin{veta}
+Pro každý konečný deterministický automat \textit{A} existuje zleva regulární gramatika taková, že \textit{L(A)=L(G)}
+\end{veta}
+
+
+\begin{priklad}
+Vezmeme KDA z příkladu \ref{priklad-4}.
+Odvozovací pravidla budou vypadat takto:
+
+\begin{eqnarray*}
+q_0 &\rightarrow& q_{0}b\ |\ b\ |\ q_{3}b \\
+q_1 &\rightarrow& q_{0}a\ |\ a\ |\ q_{3}a \\
+q_2 &\rightarrow& q_{1}a\ |\ q_{2}a \\
+q_3 &\rightarrow& q_{1}b\ |\ q_{2}b \\
+S &\rightarrow& q_{1}a\ |\ q_{1}b\ |\ q_{2}a\ |\ q_{2}b \\
+\end{eqnarray*}
+
+\end{priklad}
+
+\begin{definice}
+Regulární jazyky jsou jazyky, generované zprava (zleva) regulárními gramatikami, tj. jsou rozpoznatelné konečnými ne/deterministickými automaty.
+\end{definice}
+
+\begin{poznamka}
+Pravidla zprava a zleva nelze míchat.
+\end{poznamka}
+
 %----------------------------------------------------------------------------------------------------------------------
 	\subsection{Konečné automaty deterministické a nedeterministické}
 
