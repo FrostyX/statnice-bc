@@ -1646,4 +1646,78 @@ Cookies neznamenají žádné nebezpečí pro počítač jako takový. Přesto c
 
 
 
+\subsection{FTP - přenos dat}
+FTP (File Transfer Protocol) je protokol pro přenos souborů mezi počítači pomocí počítačové sítě. Využívá protokol TCP z rodiny TCP/IP a může být používán nezávisle na použitém operačním systému (je platformně nezávislý). Jeho podpora je součástí webových prohlížečů nebo specializovaných programů (tzv. FTP klientů). FTP je jeden z nejstarších protokolů, využívá porty TCP/21 a TCP/20. Port 21 slouží k řízení a jsou jím také přenášeny příkazy FTP. Port 20 slouží k vlastnímu přenosu dat, který je 8bitový. Přenos může být binární nebo ascii (textový). Při textovém přenosu dochází ke konverzi konců řádků – CR/LF (DOS, Microsoft Windows) nebo jen LF (unixové systémy), pokud jsou koncové systémy rozdílné. Při binárním přenosu není do dat nijak zasahováno. Protokol je interaktivní a umožňuje řízení přístupu (přihlašování login/heslo), specifikaci formátu přenášeného souboru (znakově – binárně), výpis vzdáleného adresáře atd. V současné době už není považován za bezpečný a z tohoto důvodu pro něj byla definována některá rozšíření. V protokolu je použit model klient-server. FTP server poskytuje data pro ostatní počítače. Klient se k serveru připojí a může provádět různé operace (výpis adresáře, změna adresáře, přenos dat atd.). Operace jsou řízeny sadou příkazů, které jsou definovány v rámci FTP protokolu, proto kdokoliv může vytvořit klienta pro jakékoliv prostředí nebo operační systém. Existuje mnoho programů pro FTP servery i klienty a mnoho je jich volně dostupných. \\
+Tři způsoby přenosu:
+\begin{itemize}
+	\item Stream mode: spojitý proud dat, nejrychlejší, nejmenší nároky na klienta i server
+	\item Block mode: data rozdělena do bloků, po přerušení lze navázat a pokračovat, cenou je vyšší režie
+	\item Compressed mode: jednoduchá komprese – nahrazuje opakující se hodnoty
+\end{itemize}
+FTP používá obvyklý koncept uživatelů, hesel a přístupových práv (hesla posílá otevřeně!)
+\begin{itemize}
+	\item anonymní přístup \\
+	uživatel: ftp nebo anonymous \\
+	heslo: e-mailová adresa \\
+	nejčastěji pro distribuci volného software
+	\item autentizovaný přístup \\
+	uživatelské jméno a heslo definuje správce serveru, např. pro správu WWW stránek
+\end{itemize}
+\paragraph{Bezpečnostní problémy} Při běžném připojování pomocí protokolu FTP jsou přihlašovací údaje (jméno a heslo) přenášeny v textové podobě a je technicky možné je odchytit. Následně mohou být data zcizena nebo upravena.
+\paragraph{SFTP} Protokol SFTP sám o sobě nezajišťuje ani autentizaci ani zabezpečení přenášených dat a obvykle k zajištění těchto služeb využívá protokol SSH-2.
+\paragraph{FTPS} je rozšíření protokolu FTP, která zajišťují zabezpečený přenos citlivých informací. AUTH TLS definuje příkaz, který určuje, že bude použito TLS zabezpečení přenosu. Klient se připojuje na port 21, zahajuje nešifrovanou komunikaci a žádá o aktivaci TLS před tím, než budou posílána citlivá data.
+\paragraph{TFTP} TFTP je určen pro přenos souborů v případech, kdy je běžný protokol FTP nevhodný pro svou komplikovanost. Typickým případem je bootování bezdiskových počítačů ze sítě, kdy se celý přenosový protokol musí vejít do omezeného množství paměti, která je k dispozici na bezdiskovém stroji. \textbf{Funguje na portu UDP}.
+\paragraph{Příkazy}
+Příkazy řídícího jazyka FTP lze rozdělit do tří skupin:
+
+    Access Control Commands (příkazy řízení přístupu)
+    Transfer Parameter Commands (příkazy nastavující parametry přenosu)
+    FTP Service Commands (obsluhující příkazy)
+\begin{itemize}
+	\item Access Control Commands (příkazy řízení přístupu)
+	\begin{itemize}
+		\item USER – zadání uživatelského jména
+		\item PASS – zadání uživatelského hesla
+		\item ACCT – zadání uživatelského účtu (téměř se nepoužívá)
+		\item CWD – změna aktuálního adresáře
+		\item CDUP – změna aktuálního adresáře na nadřazený adresář
+		\item QUIT – ukončení spojení
+	\end{itemize}
+	\item Transfer Parameter Commands (příkazy nastavující parametry přenosu)
+	\begin{itemize}
+		\item PORT – specifikuje počítač a port pro datové spojení. Klient pošle tento příkaz a bude na daném portu čekat na datové spojení.
+		\item PASV – žádá server o pasivní mód, tzn. že server bude poslouchat a klient bude iniciovat datové spojení.
+		\item TYPE – určuje typ reprezentace dat, např. text nebo binární
+	\end{itemize}
+	\item FTP Service Commands (obsluhující příkazy)
+	\begin{itemize}
+		\item RETR – slouží k přenosu souboru ze serveru
+		\begin{itemize}
+			\item GET – přenos jednoho souboru ze serveru (příkaz klientského software ftp)
+			\item MGET – přenos více souborů ze serveru (příkaz klientského software ftp)
+		\end{itemize}
+		\item STOR – přenos souboru na server
+		\begin{itemize}
+			\item PUT – přenos jednoho souboru na server (příkaz klientského software ftp)
+			\item MPUT – přenos více souborů na server (příkaz klientského software ftp)
+		\end{itemize}
+		\item RNFR, RNTO – přejmenování souboru
+		\item DELE – smazání souboru
+		\item MKD – vytvoření nového adresáře
+		\item RMD – smazání adresáře (adresář musí být prázdný)
+		\item ABOR – zrušení předchozího příkazu
+		\item PWD – zjištění aktuálního pracovního adresáře
+		\item LIST – získání seznamu souborů. K získání tohoto seznamu se musí otevřít datové spojení. Pokud parametr tohoto příkazu je adresář, získá se výpis tohoto adresáře, pokud je to soubor, získají se informace o tomto souboru a pokud příkaz nemá parametr, je vrácen výpis aktuálního adresáře. Výpis příkazu list však závisí na systému a je určen především pro člověka.
+		\item SYST – slouží k zjištění typu systému, na kterém běží FTP server.
+	\end{itemize}
+\end{itemize}
+Příkazy řídícího jazyka se přenášejí po řídícím spojení od FTP klienta na server.
+\paragraph{Aktivní režim} Na portu TCP/20 jsou přenášena data (data connection). V aktivním režimu navazuje připojení pro přenos dat server, klient naslouchá. Problém zpravidla nastává v případě, kdy se klient připojuje z privátní sítě a jeho IP adresa je překládána (NAT).
+\paragraph{Pasivní režim} V pasivním režimu navazuje data connection klient, kterému při sestavování připojení poslal server svou IP adresu a TCP port, na kterém naslouchá.
+\paragraph{FTP server, port forward (PF) a pasivní připojení} Pokud je připojení k FTP serveru realizováno prostřednictvím PF (nejčastěji se jedná o router s NAT a PF), tak router musí mít následující vlastnost - čte datovou část paketů FTP připojení, zjistí na jakém portu server naslouchá pro navázání data connection klientem a tento port začne forwardovat směrem k serveru. Po ukončení relace je ukončen i popsaný PF. Routery mají zpravidla tuto vlastnost již vestavěnou.
+
+\subsection{vzdálené přihlášení - Telnet, SSH}
+
+
+
 \end{document}
