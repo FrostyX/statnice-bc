@@ -527,6 +527,7 @@ Zónový soubor vždy musí začínat záznamem typu SOA.\\
 	\item \textbf{AAAA} (IPv6 address record) obsahuje IPv6 adresu. Zmíněnému stroji bychom IPv6 adresu 2001:718:1c01:1:02e0:7dff:fe96:daa8 přiřadili záznamem \textbf{cosi IN AAAA 2001:718:1c01:1:02e0:7dff:fe96:daa8}
 	\item \textbf{CNAME} (canonical name record) je alias - jiné jméno pro jméno již zavedené. Typicky se používá pro servery známých služeb, jako je například WWW. Jeho definice pomocí přezdívky umožňuje jej později snadno přestěhovat na jiný počítač. Pokud náš cosi.kdesi.cz má sloužit zároveň jako www.kdesi.cz, vložíme do zónového souboru \textbf{www IN CNAME cosi}
 	\item \textbf{NS} (name server record) ohlašuje jméno autoritativního DNS serveru pro danou doménu. Bude-li mít doména kdesi.cz poddoménu obchod.kdesi.cz, jejímiž servery budou ns.kdesi.cz (primární) a ns.jinde.cz (sekundární), bude zónový soubor pro kdesi.cz obsahovat \textbf{obchod IN NS ns} a \textbf{IN NS ns.jinde.cz.}
+	\item \textbf{PTR} je speciální typ záznamu pro reverzní zóny. Obsahuje na pravé straně jméno počítače přidělené adrese na straně levé (adresa je transformována na doménu výše popsaným postupem). Držme se našeho příkladu pro záznam typu A - v souladu s ním by zónový soubor pro doménu 3.2.1.in-addr.arpa měl obsahovat (zónový soubor definuje reverzní doménu, proto je třeba psát na pravé straně kompletní jméno s tečkou, jinak by za ně připojil reverzní doménu) \textbf{4 IN PTR cosi.kdesi.cz.}
 	\item \textbf{SOA} (start of authority record) je zahajující záznam zónového souboru. Obsahuje jméno primárního serveru, adresu elektronické pošty jejího správce (zavináč je v ní ale nahrazen tečkou) a následující údaje:
 	\begin{itemize}
 		\item Serial — sériové číslo, které je třeba zvětšit s každou změnou v záznamu. Podle něj sekundární server pozná, že v doméně došlo ke změně. Pokud jej zapomenete zvětšit, rozejde se obsah sekundárních serverů s primárním, což rozhodně není dobré. Pro přehlednost často ve formátu YYYYMMDDHH.
@@ -539,9 +540,33 @@ Zónový soubor vždy musí začínat záznamem typu SOA.\\
 \end{itemize}
 
 \subsubsection{Protokol DNS}
+Aplikační protokol pracující na bázi dotaz-odpověď poskytující službu typu klient-server (klient pošle dotaz, server odpoví). Základní operace \textbf{DNS Query} pro získání informací z DNS databáze na serveru. Používá TCP i UDP, pro oba port 53 (stejný pro dotaz i odpověď). Pro běžné dotazy typu překlad adres používá UDP (kvůli režii TCP), odpověď případně zkrácena na 512B kvůli fragmentaci. Kompletní odpověď nebo zone transfer pomocí TCP. Protokol není zcela spolehlivý (kvůli využívání UDP). Pro různé DNS operace různé DNS packety (neobsahují kontrolní součet - přenechán na UDP datagram).
+\paragraph{DNS Query} = základní operace protokolu DNS: dotaz (klienta) a odpověď (serveru) s informacemi (záznamy) podle požadavků v dotazu nebo negativní (záznam podle požadavků neexistuje). Stejný formát DNS packetu pro žádost i odpověď. Packet obsahuje záhlaví (povinné), dotazy, odpovědi, autoritativní jmenné servery a doplňující informace.
+\begin{itemize}
+	\item \textbf{záhlaví (HEADER)} v dotazu i odpovědi
+	\begin{itemize}
+		\item ID - itentifikátor stejný v dotazu i odpovědi pro spárování
+		\item QR - 0 pro dotaz, 1 pro odpověď
+		\item Opcode - typ dotazu
+		\item AA - 1 pro autoritativní odpověď
+		\item TC - pro zkrácenou odpověď (na 512B)
+		\item RD, RA - možnosti rekurzivního překladu
+		\item AD - zabezpečená odpověď
+		\item Rcode - kód odpovědi (0 bez chyby, 1 chyba foprmátu dotazu, 2 neschopnost odpovědi, 3 negativní odpověď, 5 odmítnutí odpovědi, atd.)
+	\end{itemize}
+	\item \textbf{dotazy (QUESTION)} - většinou jeden záznam, v dotazu i odpovědi (zopakovaný)
+	\item \textbf{ANSWER} - odpověď s požadovanými záznamy
+	\item \textbf{AUTHORITY} - seznam autoritativních serverů
+	\item \textbf{ADDITIONAL}
+\end{itemize}
+\paragraph{Komprese DNS packetu} další výskyty (části) doménového jména v packetu jsou nahrazeny odkazem na první výskyt.
+\paragraph{Inverzní dotaz} (Opcode = 1): jako reverzní, ale pro odpověď se místo záznamu typu PTR používají záznamy typu A, nemusí být servery podporován.
 
-
-
+\subsubsection{Zabezpečení DNS}
+\paragraph{DNSsec} = zabezpečení záznamů na jmenných serverech a v DNS packetech, použití el. podpisu (soukromým klíčem subdomény/zóny podepsány všechny její záznamy), RRSIG pro ověření integrity DNS packetu. Ověření el. podpisů (veřejný klíč DNSKEY, podepsaný soukromým klíčem nadřízené domény). Možnost uložit certifikáty pro aplikace jako záznam CERT. \textbf{Nevýhody:} Je třeba podepsat každý packet.
+\paragraph{TSIG (Transaction Signatures)} = autorizace komunikace DNS serverů. MD5 hash přenášených záznamů a sdíleného tajemství v záznamu typu TSIG. Použití u DNS Update - může jen autorizovaný server.
+\paragraph{Registrace domény}
+Internet Corporation for Assigned Names and Numbers (ICANN) je organizace, která má na starost přidělování a správu doménových jmen a IP adres. Zastřešuje také další regionální organizace, které působí na jednotlivých kontinentech. Každý stát má potom určeného správce zóny, který se stará o příslušnou TLD. Správce buď může domény registrovat sám nebo prostřednictvím tzv. doménových registrátorů, kteří mají náležitá oprávnění. ICANN zveřejňuje kompletní seznam všech TLD správců. Informace o vlastnících domén jsou udržovány v online databázi, která je dostupná přes službu WHOIS. Doménové registry obsahují informace o více než 240 národních a generických doménách (ccTLD, gTLD). Např. v ČR se o doménu .cz stará CZ.NIC z.s.p.o.. \textbf{Doména musí být volná}.
 
 
 \end{document}
