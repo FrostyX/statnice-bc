@@ -13,13 +13,13 @@ Vypracované otázky na státnice UPOL Bc 2015 | [Seznam pojmů](http://www.inf.
 | Tomáš Beznoska   | 1. okruh - čtvrtý odstavec                            |
 | Lukáš Oščádal    | 2. okruh - první odstavec                             |
 | Lukáš Medelský   | 1. okruh - šestý odstavec                             |
-| Ondřej Kašpar    | 4. okruh - první, druhý odstavec         		   |
+| Ondřej Kašpar    | 4. okruh - první odstavec         		 	   |
 
 ## Zpracované otázky
 1. okruh - první + druhý + třetí + pátý odstavec <br />
 2. okruh - celý <br />
 3. okruh - druhý odstavec <br />
-4. okruh - třetí odstavec <br /> 
+4. okruh - druhý + třetí odstavec <br /> 
 
 
 ## Build
