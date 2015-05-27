@@ -31,6 +31,99 @@
 \section{}
 \paragraph{John von Neumannova a harvardská architektura počítače, princip jeho činnosti. Binární logika, logické operace a funkce, logické obvody. Reprezentace čísel a znaků v paměti počítače. Osobní počítač (PC), základní deska, chipset a sběrnice (interní, externí). Procesor (CPU), vykonávání instrukcí, podprogramy a zásobník, přerušení. Paměti počítače (RAM, cache, disk, diskové pole). Přídavné karty PC, datové mechaniky a média (CD, DVD, paměťové karty), periferie.}
 
+\subsection{John von Neumannova a harvardská architektura počítače, princip jeho činnosti}
+
+\subsection{Binární logika, logické operace a funkce, logické obvody}
+
+\subsection{Reprezentace čísel a znaků v paměti počítače}
+
+\subsection{Osobní počítač (PC), základní deska, chipset a sběrnice (interní, externí)}
+
+\subsection{Procesor (CPU), vykonávání instrukcí, podprogramy a zásobník, přerušení}
+
+\subsubsection{Procesor}
+\begin{itemize}
+	\item základní součást počítače (mozek počítače)
+	\item integrovaný obvod, provádějící strojové instrukce, ze kterých je složen počítačový program umístěný v operační paměti počítače
+\end{itemize}
+
+\textbf{OBECNÁ STRUKTURA CPU}
+\begin{itemize}
+	\item Je to jednotka, která zpracovává instrukce
+	\item Aritmeticko-logická jednotka (ALU) - provádí výpočty
+	\item Řídící jednotka - řídí chod CPU
+	\item Registry - slouží k uchování právě zpracovávaných dat (násobně rychlejší přístup než do paměti)
+\end{itemize}
+
+\textbf{INSTRUKČNÍ SADA}
+\begin{itemize}
+	\item Sada ovládající procesor (specifikovaná pro daný CPU/rodinu CPU)
+	\item Instrukce a jejich operandy jsou reprezentovány jako čísla - strojový kód
+	\item Každá instrukce má obvykle 0 až 3 operandy (může to být registr, konstantu nebo místo v paměti)
+	\item Pro snazší porozumění, se instrukce CPU zapisují v jazyce symbolických adres (též vulgárně označován jako Assembler)
+	\item Instrukce jsou zpracovávány (z důvodu větší efektivity) v několika krocích:
+	\begin{enumerate}
+		\item načtení instrukce do CPU (Fetch)
+		\item dekódování instrukce (decode)
+		\item výpočet adres operandů
+		\item přesun operandů do CPU
+		\item provedení operace (Execute)
+		\item uložení výsledku (Write-back)
+	\end{enumerate}
+	\item Pipelining - umožňuje zvýšit efektivitu CPU (díky rozdělení do jednotlivých kroků je možné provádět více instrukcí zároveň)
+	\item Superskalární procesor - procesor může mít víc jednotek např. pro výpočty (FPU, ALU), musíme se postarat o správnou synchronizaci
+	\item Problém s podmíněnými skoky (branch prediction) - jakmile se má provést nějaký podmíněný, nevíme, která instrukce bude následovat -> může se stát, že se musí vyprázdnit instrukci z pipeline -> zpomalení
+\end{itemize}
+
+\begin{figure} [h]
+		\includegraphics[scale=0.7]{img/pipelining.png}
+		\caption{pipelining}	
+\end{figure}
+
+
+
+\subsection{Paměti počítače (RAM, cache, disk, diskové pole)}
+
+\subsubsection{Operační paměť (RAM)}
+\begin{itemize}
+	\item zásadní část počítače
+	\item uložení kódu a dat běžících v OS
+	\item přístup k zařízením (DMA) - Direct Memory Access - přístup zařízení se namapuje do
+operační paměti a dá se poté přistupovat k zařízení přes operační paměť
+	\item virtualní paměť umožňuje například přístup k souborovému systému
+	\item z HW pohledu může byt operační paměť realizovaná různými způsoby (DRAM, SRAM,
+(EEP)ROM, ale i HDD, SSD, flash paměti)
+	\item přístup k CPU k paměti nemusí být přímočarý (L1, L2 a L3 cache)
+	\item pro jednoduchost budeme HW stránku věci zanedbávat
+\end{itemize}
+
+\textbf{POŽADAVKY NA OPERAČNÍ PAMĚŤ}
+\begin{itemize}
+	\item evidence prostoru volného a přiděleného procesům
+	\item přidělování a uvolňování paměti procesů
+	\item přesunutí (přiděleného prostoru) - program by neměl být závislý na místě, kde se v paměti
+nachází (nutně k umožňování swapování)
+	\item ochrana (přiděleného prostoru) - jednotlivé procesy by měly být izolovány
+	\item sdílení - pokud je to žádoucí, mělo by být možné sdílet některé části paměti mezi procesy
+(2x spouštěný stejný program nebo knihovny, které jsou nahrané pouze jednou a poté jsou
+používány několika procesy)
+	\item logická organizace - paměť počítače (spojitý prostor, "sekvence bytů") vs. typický program
+skládající se z modulů (navíc některých jen pro čtení nebo ke spouštění)
+	\item fyzická organizace - paměť může mít více částí/úrovní (RAM? disk); program jako takový
+se nemusí vlézt do dostupné paměti RAM
+\end{itemize}
+
+\textbf{ADRESNÍ PROSTORY (LOGICKÁ ORGANIZACE)}
+\begin{itemize}
+	\item v současných OS existuje několik různých nezávislých adresních prostorů, způsobů číslování
+paměťových buněk
+	\item každý proces by měl mít vlastní paměťový prostor (izolace)
+	\item různá zařízení mají odlišné adresní prostory
+	\item ve spolupráci s hardwarem dochází k mapování fyzické paměti do adresního prostoru procesu
+	\item např. grafická paměť může být namapována od adresy 0xD0000000
+\end{itemize}
+
+\subsection{Přídavné karty PC, datové mechaniky a média (CD, DVD, paměťové karty), periferie.}
 
 
 \newpage
@@ -63,13 +156,13 @@ Očekáváme od něj:
 
 \begin{itemize}
 	\item Monolitické jádro
-	\begin{itemize}
+	\begin{itemize}	
 		\item všechny služby pohromadě - lepší výkon
 		\item problém s chybnými ovladači
 		\item Linux, *BSD
 	\end{itemize}
-	\item Mikrojádro
-	\begin{itemize}
+	\item Mikrojádro 
+	\begin{itemize}	
 		\item poskytuje správu adresního prostoru, procesů, IPC
 		\item oddělení serverů => bezpečnost
 		\item Minix, Mach
@@ -79,7 +172,7 @@ Očekáváme od něj:
 
 \begin{figure} [h]
 		\includegraphics[scale=0.8]{img/architektura_jadra.png}
-		\caption{architektura jádra}
+		\caption{architektura jádra}	
 \end{figure}
 
 \subsubsection{Poskytovaná rozhraní}
@@ -97,44 +190,10 @@ Očekáváme od něj:
 
 \begin{figure} [h]
 		\includegraphics[scale=1]{img/vrstvy_HW-SW.png}
-		\caption{vrstvy HW/SW}
+		\caption{vrstvy HW/SW}	
 \end{figure}
 
 \subsection{Správa procesoru: procesy a vlákna, plánování jejich běhu, komunikace a synchronizace}
-
-\subsubsection{Procesor}
-\textbf{OBECNÁ STRUKTURA CPU}
-\begin{itemize}
-	\item Je to jednotka, která zpracovává instrukce
-	\item Aritmeticko-logická jednotka (ALU) - provádí výpočty
-	\item Řídící jednotka - řídí chod CPU
-	\item Registry - slouží k uchování právě zpracovávaných dat (násobně rychlejší přístup než do paměti)
-\end{itemize}
-
-\textbf{INSTRUKČNÍ SADA}
-\begin{itemize}
-	\item Sada ovládající procesor (specifikovaná pro daný CPU/rodinu CPU)
-	\item Instrukce a jejich operandy jsou reprezentovány jako čísla - strojový kód
-	\item Každá instrukce má obvykle 0 až 3 operandy (může to být registr, konstantu nebo místo v paměti)
-	\item Pro snazší porozumění, se instrukce CPU zapisují v jazyce symbolických adres (též vulgárně označován jako Assembler)
-	\item Instrukce jsou zpracovávány (z důvodu větší efektivity) v několika krocích:
-	\begin{enumerate}
-		\item načtení instrukce do CPU (Fetch)
-		\item dekódování instrukce (decode)
-		\item výpočet adres operandů
-		\item přesun operandů do CPU
-		\item provedení operace (Execute)
-		\item uložení výsledku (Write-back)
-	\end{enumerate}
-	\item Pipelining - umožňuje zvýšit efektivitu CPU (díky rozdělení do jednotlivých kroků je možné provádět více instrukcí zároveň)
-	\item Superskalární procesor - procesor může mít víc jednotek např. pro výpočty (FPU, ALU), musíme se postarat o správnou synchronizaci
-	\item Problém s podmíněnými skoky (branch prediction) - jakmile se má provést nějaký podmíněný, nevíme, která instrukce bude následovat -> může se stát, že se musí vyprázdnit instrukci z pipeline -> zpomalení
-\end{itemize}
-
-\begin{figure} [h]
-		\includegraphics[scale=0.7]{img/pipelining.png}
-		\caption{pipelining}
-\end{figure}
 
 \subsubsection{Procesy}
 \begin{itemize}
@@ -178,7 +237,7 @@ Očekáváme od něj:
 
 \begin{figure} [h]
 		\includegraphics[scale=0.85]{img/stavy_procesu.png}
-		\caption{stavy procesu}
+		\caption{stavy procesu}	
 \end{figure}
 
 \subsubsection{Plánování procesů}
@@ -265,7 +324,7 @@ Očekáváme od něj:
 \begin{itemize}
 	\item OS umožňují rozdělit procesy na víc vláken (je základní entitou)
 	\item Každé vlákno má svůj zásobník + registry (přepnutí vláken v rámci procesu je rychlejší)
-	\item vlákna v rámci procesu sdílí paměťový prostor, data a prostředky -> nové problémy se synchronizací
+	\item vlákna v rámci procesu sdílí paměťový prostor, data a prostředky -> nové problémy se synchronizací 
 \end{itemize}
 
 \textbf{IMPLEMENTACE VLÁKEN:}
@@ -323,7 +382,7 @@ Očekáváme od něj:
 			\item lze jeho pomocí implementovat vzájemné vyloužení (mutual excluion)
 		\end{itemize}
 		\item Synchronizace
-		\item Vzdálené volání procedur
+		\item Vzdálené volání procedur	
 	\end{itemize}
 \end{itemize}
 
@@ -379,44 +438,44 @@ Očekáváme od něj:
 	\item Řešení:
 	\begin{itemize}
 		\item Zablokování přerušení (použitelné v rámci jádra OS); více CPU -> neefektivní
-		\item Aktivní čekání - Spinlocks – testujeme pořád dokola jednu proměnou
+		\item Aktivní čekání - Spinlocks – testujeme pořád dokola jednu proměnou 
 		\begin{verbatim}
 			Př. 1) ŠPATNÉ - Vstup do kritické sekce a její uzamknutí
 			                není provedeno atomicky
-			while (lock); // čekej
-			lock = 1;
-			// kritická sekce
+			while (lock); // čekej 
+			lock = 1; 
+			// kritická sekce 
 			lock = 0;
-
-
+			
+			
 			Př. 2)
-			Uvažujeme následující atomickou operaci
+			Uvažujeme následující atomickou operaci 
 			bool test_and_set(bool * target) {
-				bool rv = *target;
-				*target = true;
-				return rv;
+				bool rv = *target; 
+				*target = true; 
+				return rv; 
 			}
-
+				
 			A kód:
 			while (test_and_set(&lock) == true);
-			// kritická sekce
+			// kritická sekce 
 			lock = false;
-
-
+			
+			
 			Př. 3)
-			Uvažujeme následující atomickou
-			operaci, která prohodí dvě hodnoty
+			Uvažujeme následující atomickou 
+			operaci, která prohodí dvě hodnoty 
 			void swap(bool *a, bool *b) {
-				bool tmp = *a;
-				*a = *b;
-				*b = tmp;
+				bool tmp = *a; 
+				*a = *b; 
+				*b = tmp; 
 			}
-
-			A kód
+			
+			A kód 
 			key = true;
-			while(key == true)
-				swap(&lock, &key);
-			// kritická sekce
+			while(key == true) 
+				swap(&lock, &key); 
+			// kritická sekce 
 			lock = false;
 		\end{verbatim}
 	\end{itemize}
@@ -447,7 +506,7 @@ Očekáváme od něj:
 			int value;
 			struct process * list;
 		};
-
+		
 		void P (struct sem * s) {
 			s -> value--;
 			if (s -> value < 0) {
@@ -455,7 +514,7 @@ Očekáváme od něj:
 				block(); // uspi aktuální proces
 			}
 		}
-
+		
 		void V(struct sem * s) {
 			s-> value++;
 			if (s -> value <= 0) {
@@ -500,7 +559,7 @@ Očekáváme od něj:
 	\item Release – uvolnění prostředku pro další použití
 \end{itemize}
 
-\textbf{UŽÍVÁNÍ PROSTŘEDKŮ}
+\textbf{PODMÍNKY VZNIKU:}
 \begin{itemize}
 	\item Mutual exclusion – alespoň jeden prostředek je výlučně užíván jedním procesem
 	\item Hold and wait – proces vlastní alespoň jeden prostředek a čeká na další
@@ -526,7 +585,7 @@ Očekáváme od něj:
 		\item Ukázka alokačního grafu a grafu čekání:
 		\begin{figure} [h]
 			\includegraphics[scale=0.8]{img/alokacni_graf_a_graf_cekani.png}
-			\caption{alokacni graf a graf cekani}
+			\caption{alokacni graf a graf cekani}	
 		\end{figure}
 		\item Deadlock vznikne, pokud je v grafu čekání na cyklus
 	\end{itemize}
@@ -582,7 +641,7 @@ Očekáváme od něj:
 			\end{itemize}
 			\begin{figure} [h]
 				\includegraphics[scale=0.8]{img/bankeruv_algoritmus.png}
-			\caption{bankéřův algoritmus}
+			\caption{bankéřův algoritmus}	
 			\end{figure}
 			\begin{enumerate}
 				\item Najdi řádek i v needed takový, že needed[i] <= A, pokud takový není, systém není v bezpečném stavu
@@ -596,45 +655,6 @@ Očekáváme od něj:
 
 \subsection{ Správa operační paměti: segmentace, stránkování, virtuální paměť.}
 
-\subsubsection{Operační paměť}
-\begin{itemize}
-	\item zásadní část počítače
-	\item uložení kódu a dat běžících v OS
-	\item přístup k zařízením (DMA) - Direct Memory Access - přístup zařízení se namapuje do
-operační paměti a dá se poté přistupovat k zařízení přes operační paměť
-	\item virtualní paměť umožňuje například přístup k souborovému systému
-	\item z HW pohledu může byt operační paměť realizovaná různými způsoby (DRAM, SRAM,
-(EEP)ROM, ale i HDD, SSD, flash paměti)
-	\item přístup k CPU k paměti nemusí být přímočarý (L1, L2 a L3 cache)
-	\item pro jednoduchost budeme HW stránku věci zanedbávat
-\end{itemize}
-
-\textbf{POŽADAVKY NA OPERAČNÍ PAMĚŤ}
-\begin{itemize}
-	\item evidence prostoru volného a přiděleného procesům
-	\item přidělování a uvolňování paměti procesů
-	\item přesunutí (přiděleného prostoru) - program by neměl být závislý na místě, kde se v paměti
-nachází (nutně k umožňování swapování)
-	\item ochrana (přiděleného prostoru) - jednotlivé procesy by měly být izolovány
-	\item sdílení - pokud je to žádoucí, mělo by být možné sdílet některé části paměti mezi procesy
-(2x spouštěný stejný program nebo knihovny, které jsou nahrané pouze jednou a poté jsou
-používány několika procesy)
-	\item logická organizace - paměť počítače (spojitý prostor, "sekvence bytů") vs. typický program
-skládající se z modulů (navíc některých jen pro čtení nebo ke spouštění)
-	\item fyzická organizace - paměť může mít více částí/úrovní (RAM? disk); program jako takový
-se nemusí vlézt do dostupné paměti RAM
-\end{itemize}
-
-\textbf{ADRESNÍ PROSTORY (LOGICKÁ ORGANIZACE)}
-\begin{itemize}
-	\item v současných OS existuje několik různých nezávislých adresních prostorů, způsobů číslování
-paměťových buněk
-	\item každý proces by měl mít vlastní paměťový prostor (izolace)
-	\item různá zařízení mají odlišné adresní prostory
-	\item ve spolupráci s hardwarem dochází k mapování fyzické paměti do adresního prostoru procesu
-	\item např. grafická paměť může být namapována od adresy 0xD0000000
-\end{itemize}
-
 \subsubsection{Stránkování}
 \begin{itemize}
 	\item adresní (logický) prostor procesu je rozdělen na menši úseky - stránky (pages)
@@ -646,6 +666,126 @@ OS, nemohl by ho používat
 	\item CPU si udržuje stránkovací tabulku
 	\item logická adresa má dvě části: pd, kde p je číslo stránky a d je offset
 	\item fyzická adresa vznikne jako fd, kde f je číslo rámce v tabulce stránek příslušného stránce p
+\end{itemize}
+
+\textbf{ADRESÁŘ STRÁNEK}
+\begin{itemize}
+	\item velikost stránek je většinou mocnina 2 (typicky 4 KB)
+	\item jednoduchý přesun na disk
+	\item uvažujeme-li velikost stránky 4 KB a velikost adresního prostoru 32 bitů -> velikost adresní
+tabulky je 1 milion záznamů
+	\item nepraktické udržovat tak velkou tabulku (obzvlášť pro každý proces)
+	\item používá se víceúrovňová tabulka
+	\item část logické adresy udává tabulku, další část index v tabulce a další část offset
+	\item např. pro 4 KB stránky může byt toto rozložení 10-10-12 bit.
+	\item tzn. systém k adresaci používá 1024 tabulek po 1024 záznamech
+	\item značnou výhodou: nevyužité tabulky mohou být prázdné -> nemusí se evidovat
+	\item v praxi se používají i tří a čtyřúrovňové tabulky
+\end{itemize}
+
+\textbf{Translation Lookaside Buffer (TLB)}
+\begin{itemize}
+	\item cache procesoru obsahující hodně používané části stránkovacích tabulek
+	\item pro danou stránku uchovává adresu rámce z důvodů efektivity
+	\item pokud je adresa v cache (cache hit) je hodnota vrácena velice rychle (cca 1 hodinový cyklus)
+	\item pokud hodnota není v cache (cache miss) načtení adresy trvá delší dobu (10 - 100 cykl.),
+typicky miss rate <1\% ! průměrný přístup k zjištěni rámce je 1.5 hodinového cyklu
+	\item princip lokality - je vhodné programovat tak, aby data ke kterému se přistupuje byly na
+jednom místě (lokální proměnné na zásobníku, ne globální, které jsou rozesety po paměti
+programu)
+\end{itemize}
+
+\textbf{VLASTNOSTI STRÁNEK}
+\begin{itemize}
+	\item Rezervovaná stránka
+	\begin{itemize}
+		\item existují v adresním prostoru, ale nezapisovalo se do ní
+		\item každá stránka je nejdřív rezervovaná
+		\item vhodná pro velké pole, ke kterým se přistupuje postupně
+	\end{itemize}
+	\item Komitovaná stránka (Commited)
+	\begin{itemize}
+		\item stránka má rámec v primární nebo sekundární paměti
+		\item musí řešit jádro
+		\item paměť je často současně komitovaná i rezervovaná
+	\end{itemize}
+	\item dirty bit - 0 pokud má stránka přesnou kopii v sekundární paměti; 1 nastaveno při změně
+(nutná podpora HW)
+\end{itemize}
+
+\textbf{VÝMĚNA STRÁNEK}
+\begin{itemize}
+	\item page fault
+	\item pokud není stránka v primární paměti, načte stránku do ní
+	\item není-li volný rámec v primární paměti, je potřeba odsunout nějakou stránku do sekundární
+paměti
+	\begin{itemize}
+		\item získáme volný rámec v sekundární paměti (pokud není volný rámec v sekundární paměti,
+najde se takový, který má kopii v primární paměti, nastaví se dirty bit a daný rámec
+se použije)
+		\item vybere se "oběť" - stránka v primární paměti, která bude uvolněna
+		\item pokud má stránka nastavený dirty bit, překopíruje se obsah rámce do sekundární paměti
+		\item načte se do primární paměti stránka ze sekundární
+	\end{itemize}
+	\item zopakuje instrukci, která vyvolala page fault
+	\item některé stránky je možné zamknout, aby nebyly odswapovány (nutné pro jádro, rámce sdílené
+s HW)
+\end{itemize}
+
+\textbf{VÝBĚR OBĚTI}
+\begin{itemize}
+	\item hledáme stránku, která nebude v budoucnu použitá (případně v co nejvzdálenější budouc-
+nosti)
+	\item FIFO
+	\begin{itemize}
+		\item velice jedodnoduchý algoritmus
+		\item stačí udržovat frontu stránek
+		\item při načtení nové stránky je stránka zařazena na konec fronty
+		\item pokud je potřeba uvolnit stránku bere se první z fronty
+		\item nevýhoda - odstraní i často užívané stránky
+	\end{itemize}
+	\item Lest Frequently Used (LFU)
+	\begin{itemize}
+		\item málo používané stránky -> nebudou potřeba
+		\item problém se stránkami, které byly nějaký čas intenzivně využívány (např. inicializace)
+	\end{itemize}
+	\item Most Frequently Used (MFU)
+	\begin{itemize}
+		\item práva načtené stránky mají malý počet přístupů
+	\end{itemize}
+	\item Least Recently Used (LRU)
+	\begin{itemize}
+		\item jako oběť je zvolená stránka, která nebyla nejdýl používaná
+		\item je potřeba evidovat, kdy bylo ke stránce naposledy přistoupeno
+		\item počítadlo v procesoru, inkrementované při každém přístupu a ukládané do tabulky
+stránek
+	\end{itemize}
+	\item LRU (přibližná varianta)
+	\begin{itemize}
+		\item každá stránka má přístupový bit (reference bit) nastavený na 1, pokud se ke stránce přistupovalo
+		\item na počátku se nastaví reference bit na 0
+		\item v případě hledání oběti je možné určit, které stránky se nepoužívaly
+	\end{itemize}
+\end{itemize}
+
+\textbf{TRASHING}
+\begin{itemize}
+	\item systém je ve stavu, kdy odvádí spoustu práce, ale bez rozumného efektu
+	\item ideální je, aby měl proces tolik rámců, kolik potřebuje
+	\item řešení:
+	\begin{itemize}
+		\item Pracovní množina rámců(working-set)
+		\begin{itemize}
+			\item má-li proces tolik rámců, kolik jich v nedávné době (lokalitě) použil -> OK
+			\item má-li jich více -> neefektivní využití
+			\item má-li jich méně ! hrozí trashing a je lepší celý proces odsunout z primární paměti
+		\end{itemize}
+		\item Frekvence výpadků stránek
+		\begin{itemize}
+			\item sledujeme, jak často dochází u procesu k výpadku stránky
+			\item pokud proces je mimo tyto meze -> přidat/ubrat rámce
+		\end{itemize}
+	\end{itemize}
 \end{itemize}
 
 \subsubsection{Segmentace}
@@ -661,6 +801,44 @@ lineární adresou
 fyzickou adresu pomocí stránkování
 	\item ochrana paměti přes začátek a délku segmentu + oprávnění
 \end{itemize}
+
+\textbf{i386: SEGMENTACE}
+\begin{itemize}
+	\item pro každý segment lze nastavit oprávnění (ochrana paměti)
+	\item segmenty jsou popsány pomocí deskriptorů 8 B záznam
+	\begin{itemize}
+		\item báze
+		\item limit (velikost segmentu)
+		\item požadované oprávnění (ring 0-4)
+	\end{itemize}
+	\item deskriptory segmentů uloženy v:
+	\begin{itemize}
+		\item Global Descriptor Table (GDT) - sdílená všemi procesy
+		\item Local Descriptor Table (LDT) - každý proces má vlastní
+	\end{itemize}
+	\item každá může mít až 8192 záznamů
+	\item přístupné přes registry GDTR, LDTR
+	\item první záznam v GDT "null" deskriptor
+\end{itemize}
+
+\textbf{i386: PŘEKLAD ADRES I. (SEGMENTACE)}
+\begin{itemize}
+	\item logická adresa -> lineární adresa (segmentace)
+	\item ověří se oprávnění a limit (přístup za hranici segmentu) -> neoprávněný přístup
+	\item báze segmentu je načtena s offsetem -> lineární
+	\item lineární adresa -> fyzická adresa
+	\item standardní stránka/rámec: 4 KB
+\end{itemize}
+\begin{figure} [h]
+	\includegraphics[scale=0.8]{img/segmentace.png}
+	\caption{segmentace}	
+\end{figure}
+
+\textbf{i386: PŘEKLAD ADRES II. (STRÁNKOVÁNÍ)}
+\begin{figure} [h]
+	\includegraphics[scale=0.8]{img/strankovani.png}
+	\caption{strankovaní}	
+\end{figure}
 
 \subsubsection{Virtuální paměť}
 \textbf{MOTIVACE}
@@ -682,7 +860,7 @@ v množství použité paměti)
 	\item bezpečnost dat v sekundární paměti? (např.: po vypnuti počítače, řeší se např. kódováním)
 	\begin{figure} [h]
 		\includegraphics[scale=1]{img/virtualni_pamet.png}
-		\caption{virtuální paměť}
+		\caption{virtuální paměť}	
 	\end{figure}
 \end{itemize}
 
@@ -872,7 +1050,7 @@ jeden svazek pro vše)
 		\item k evidenci volného místa a inod se používají bitmapy
 		\begin{figure} [h]
 			\includegraphics[scale=0.9]{img/inode.png}
-			\caption{inode}
+			\caption{inode}	
 		\end{figure}
 	\end{itemize}
 \end{itemize}
@@ -1000,7 +1178,7 @@ penalizace pokud stránky přepíšeme
 změněna metadata
 	\begin{figure} [h]
 		\includegraphics[scale=0.8]{img/konzistence.png}
-		\caption{zachování konzistence}
+		\caption{zachování konzistence}	
 	\end{figure}
 	\item infrastruktura pro vytváření snapshotů/klonů souborového systému
 	\item výhodné slučovat operace do transakcí
@@ -1594,164 +1772,9 @@ Oproti protokolu POP3 je IMAP4 velmi komplikovaný protokol. Jeho implementace j
 \paragraph{Poštovní klient} je program, který zajišťuje odesílání zpráv a vybírání schránek. Příkladem je např. Microsoft Outlook, Mozilla Thunderbird, Opera, Mutt, Pine a další. Je to v podstatě specializovaný editor, který umí kromě vytvoření zprávy také manipulovat se schránkami, odeslat zprávu nejbližšímu MTA a převzít zprávu ze serveru prostřednictvím POP3 nebo IMAP. Vlastním doručováním zprávy po síti až k adresátovi se klient nezabývá. Součástí klienta bývá také více či méně složitý adresář, který pomáhá uživateli udržet přehled o adresách.
 \paragraph{Poštovní server} (MTA) běží obvykle jako démon či Služba Windows a naslouchá na portu TCP/25. K tomuto portu se může připojit (navázat TCP spojení) buď poštovní klient, nebo jiný server, který předá zprávu k doručení. MTA zkontroluje, zda je zpráva určena pro systém, na kterém běží. Pokud ano, předá ji programu MDA (lokální doručení). Pokud je zpráva určena jinému počítači, naváže spojení s příslušným serverem a zprávu mu předá. Při vyhledávání vzdáleného serveru, kterému má předat zprávu, musí MTA spolupracovat se systémem DNS. Od serveru DNS si vyžádá tzv. MX záznam pro cílovou doménu, který obsahuje IP adresu počítače, který se stará o doručení pošty v této doméně. Pokud DNS tento záznam neobsahuje, pokusí se poštovní server doručit zprávu přímo na počítač uvedený v adrese za zavináčem. Poštovní server obsahuje v konfiguraci řadu parametrů, pomocí kterých můžeme mimo jiné nastavit, pro které domény MTA přijímá zprávy. Stejně tak je možné určit, od koho bude nebo nebude zprávy přijímat, což je velmi důležité z hlediska bezpečnosti a ochrany proti spamu.
 
-\subsubsection{HTTP}
-HTTP (Hypertext Transfer Protocol) je internetový protokol určený pro výměnu hypertextových dokumentů ve formátu HTML. Používá obvykle port TCP/80. Tento protokol je spolu s elektronickou poštou tím nejvíce používaným a zasloužil se o obrovský rozmach internetu. V současné době je používán i pro přenos dalších informací. Pomocí rozšíření MIME umí přenášet jakýkoli soubor (podobně jako e-mail), používá se společně s formátem XML pro tzv. webové služby (spouštění vzdálených aplikací) a pomocí aplikačních bran zpřístupňuje i další protokoly, jako je např. FTP nebo SMTP. HTTP používá jako některé další aplikace tzv. jednotný lokátor prostředků (URL, Uniform Resource Locator), který specifikuje jednoznačné umístění nějakého zdroje v Internetu. Samotný protokol HTTP neumožňuje šifrování ani zabezpečení integrity dat. Pro zabezpečení HTTP se často používá TLS spojení nad TCP. Toto použití je označováno jako HTTPS. \\
-Protokol funguje způsobem dotaz-odpověď. Uživatel (pomocí programu, obvykle internetového prohlížeče) pošle serveru dotaz ve formě čistého textu, obsahujícího označení požadovaného dokumentu, informace o schopnostech prohlížeče apod. Server poté odpoví pomocí několika řádků textu popisujících výsledek dotazu (zda se dokument podařilo najít, jakého typu dokument je atd.), za kterými následují data samotného požadovaného dokumentu. Pokud uživatel bude mít po chvíli další dotaz na stejný server (např. proto, že uživatel v dokumentu kliknul na hypertextový odkaz), bude se jednat o další, nezávislý dotaz a odpověď. Z hlediska serveru nelze poznat, jestli tento druhý dotaz jakkoli souvisí s předchozím. Kvůli této vlastnosti se protokolu HTTP říká bezestavový protokol – protokol neumí uchovávat stav komunikace, dotazy spolu nemají souvislost. Tato vlastnost je nepříjemná pro implementaci složitějších procesů přes HTTP (např. internetový obchod potřebuje uchovávat informaci o identitě zákazníka, o obsahu jeho „nákupního košíku“ apod.). K tomuto účelu byl protokol HTTP rozšířen o tzv. HTTP cookies, které umožňují serveru uchovávat si informace o stavu spojení na počítači uživatele. \\
-\paragraph{Dotazovací metody} HTTP definuje několik metod, které se mají provést nad uvedeným objektem (dokumentem). <metoda> <objekt> HTTP/<verze>
-\begin{itemize}
-	\item GET: Požadavek na uvedený objekt se zasláním případných dat (proměnné prohlížeče, session id, …). Výchozí metoda při požadavku na zobrazení hypertextových stránek, RSS feedů aj. Celkově nejpoužívanější.
-	\item HEAD: To samé jako metoda GET, ale už nepředává data. Poskytne pouze metadata o požadovaném cíli (velikost, typ, datum změny, …).
-	\item POST: Odesílá uživatelská data na server. Používá se například při odesílání formuláře na webu. S předaným objektem se pak zachází podobně jako při metodě GET. Data může odesílat i metoda GET, metoda POST se ale používá pro příliš velká data (víc než 512 bajtů, což je velikost požadavku GET) nebo pokud není vhodné přenášená data zobrazit jako součást URL (data předávaná metodou POST jsou obsažena v HTTP požadavku).
-	\item PUT: Nahraje data na server. Objekt je jméno vytvářeného souboru. Používá se velmi zřídka, pro nahrávání dat na server se běžně používá FTP nebo SCP/SSH.
-	\item DELETE: Smaže uvedený objekt ze serveru. Jsou na to potřeba jistá oprávnění stejně jako u metody PUT.
-	\item TRACE: Odešle kopii obdrženého požadavku zpět odesílateli, takže klient může zjistit, co na požadavku mění nebo přidávají servery, kterými požadavek prochází.
-	\item OPTIONS: Dotaz na server jaké podporuje metody.
-	\item CONNECT: Spojí se s uvedeným objektem přes uvedený port. Používá se při průchodu skrze proxy pro ustanovení kanálu SSL.
-\end{itemize}
-\paragraph{Bezpečné metody} Některé metody (například, HEAD, GET,OPTIONS a TRACE) jsou definovány jako bezpečné, což znamená, že jsou určeny pouze k získávání informací a neměly by změnit stav serveru. Tvorba libovolných GET požadavků bez ohledu na souvislost aplikace může být proto považována za bezpečnou. \\
-Naproti tomu metody jako POST, PUT a DELETE jsou určeny pro akce, které mohou způsobovat nežádoucí účinky třeba na serveru. Tyto metody jsou proto obvykle používány v souladu webových robotů nebo webového prohledávače, některé, které neodpovídají, obvykle podávají žádosti bez ohledu na kontext nebo důsledky. \\
-Kromě toho jsou metody, jako TRACE, TRACK a DEBUG považovány za potenciálně "nebezpečné" některými profesionály v oblasti bezpečnosti, protože mohou být použity útočníky k získání informací, nebo k obejítí bezpečnostní kontroly při útocích.
-\paragraph{URI (Uniform Resource Identifier)} je textový řetězec s definovanou strukturou, který slouží k přesné specifikaci zdroje informací (ve smyslu dokument nebo služba). \\
-URI je nejobecnější z několika příbuzných typů identifikátorů. URI může popisovat zdroj jak čistě z hlediska jeho identity (a neurčovat, kde je možno zdroj získat), tak čistě z hlediska toho, jak je možno zdroj nalézt (a nepopisovat jeho identitu), tak i obojí současně – přesnou identitu zdroje i jak je možno ho dosáhnout. Oproti URI popisuje URL primárně způsob, jakým se lze ke zdroji dostat, naopak URN specifikuje zdroj jako takový a nesnaží se o návod k jeho dosažení. Hranice mezi těmito typy je však mírně mlhavá a zejména místo URL se často uvádí obecnější termín URI. \\
-Jelikož je URI velmi obecný koncept, jeho základní formát je velmi volný: v principu se jedná o název takzvaného schématu, následovaný dvojtečkou a dále prakticky libovolným řetězcem, jehož význam a formátování už závisí právě na použitém schématu. Standard URI specifikuje pouze základní syntax, která popisuje, které znaky je dovoleno v URI použít apod. URI tedy má následující tvar: \textbf{schéma:hierarchická část?dotaz\#fragment}, kde části ?dotaz a \#fragment jsou nepovinné. \\
-\textbf{schéma} musí začínat písmenem a obsahovat jen písmena, číslice a znaky plus (+), mínus (-) a tečku (.). Určuje, o jaký druh URI se jedná a jaký význam a syntaxe platí pro zbytek URI. U schématu nezáleží na velikosti písmen, ale za základní se považuje podoba se všemi písmeny malými. \\
-\textbf{hiearchická část} obsahuje identifikátor zdroje v rámci nějaké hierarchické struktury. Standard URI dovoluje, aby tato část byla formátována prakticky libovolně, ale předepisuje také několik předdefinovaných syntaxí užitečných pro obvyklé situace. Jednou z nich je formát, kde po dvojtečce oddělující název schématu následují dvě lomítka (//), po kterých následuje označení tzv. autority, které je tvořeno jménem či IP adresou počítače, před kterým smí být informace o uživateli oddělená zavináčem (@), za ním smí být číslo portu oddělené dvojtečkou. Za označením autority následuje cesta: posloupnost segmentů oddělených lomítky (/) – značení obdobné adresářům, ale nemusí se jednat přímo o ně, ale obecně o jakýkoli hierarchický systém. \\
-\textbf{dotaz} popisuje nehierarchickou část identifikátoru, která slouží k bližšímu určení požadovaného zdroje. Tato část nemá žádnou standardizovanou syntaxi, ovšem v praxi se velmi často používá posloupnost dvojic klíč=hodnota oddělená ampersandy (blah=foo\&bar=baz).
-\textbf{fragment} nepřímo popisuje sekundární zdroj na základě primárního zdroje určeného předešlými částmi URI. Může popisovat nějakou konkrétní část (např. kapitolu knihy) tohoto zdroje, nějaký jinou reprezentaci příslušného zdroje apod.
-\paragraph{Zabezpečení HTTP}
-Existují dvě metody zabezpečeného http připojení: HTTPS URI a nadstavba HTTP 1.1. Druhou metodu ovšem zatím prohlížeče moc nepodporují, takže HTTPS se k vytvoření zabezpečené komunikace používá nejčastěji.
-\paragraph{HTTPS URI} Je syntakticky identické jako http, pouze přidává signalizaci prohlížeči, aby použil šifrovací metodu SSL/TLS k přenosu dat. SSL je vhodné pro HTTP, protože dokáže poskytnout ochranu přenosu, i když je pouze jedna strana komunikace ověřená. Typicky je ověřen pouze server (např. uživatel potvrdí certifikát). Aby pomocí HTTPS bylo možné rozlišovat virtuální servery, existuje rozšíření SNI (metoda, jak obejít nedostatek v protokolu SSL v2, který neumožňuje při přístupu přes HTTPS vytvářet virtuální webové servery – tj. více různých doménových jmen umístěných na jedné IP adrese (využívá se při webhostingu). Pomocí SNI může klient před výměnou šifrovacích klíčů nejprve sdělit jméno požadovaného webového serveru a server tak může vybrat příslušný šifrovací klíč požadovaného virtuálního serveru.)
-\paragraph{HTTPS} Protokol HTTPS využívá asymetrické šifrování. Obě strany si před zahájením komunikace vygenerují pár klíčů (privátní a veřejný). Při zahájení komunikace si vymění veřejné klíče, které by obě strany měly ověřit pomocí jiného komunikačního kanálu. Ověření může proběhnout kontrolou výtahu (otisk, miniatura, hash) veřejného klíče u protistrany například pomocí telefonu nebo lze použít princip přenosu důvěry, kdy nám protistrana předá veřejný klíč, který je digitálně podepsaný (nejlépe certifikační autoritou, které důvěřujeme a jejíž veřejný klíč máme v důvěryhodném úložišti, např. THAWTE, VeriSign, RapidSSL, GeoTrust, ...). Digitální certifikáty jsou základním kamenem zabezpečení poskytovaného protokoly SSL/TLS. \\
-Jedním z (menších) limitů je mírné zpomalení oproti protokolu HTTP. Toto zpomalení je způsobeno právě výše zmíněným šifrováním daným informací.
-\paragraph {Proxy server} funguje jako prostředník mezi klientem a cílovým počítačem (serverem), překládá klientské požadavky a vůči cílovému počítači vystupuje sám jako klient. Přijatou odpověď následně odesílá zpět na klienta. Může se jednat jak o specializovaný hardware, tak o software provozovaný na běžném počítači. Proxy server odděluje lokální počítačovou síť (intranet) od Internetu. \\
-\textbf{Aplikační proxy} je server speciálně určený pro určitý protokol nebo aplikaci. Proxy server může analyzovat obsah komunikace, případně ji pozměňovat (např. odstraňování reklam z http požadavků, blokování webových stránek podle obsahu a podobně) nebo ukládat požadavky do vyrovnávací paměti (cache), ze které mohou být při opakovaném požadavku odpovědi poskytnuty rychleji.
-\paragraph{HTTP session} Session v protokolu HTTP dává webovému serveru možnost uložit si libovolné (většinou však ne příliš obsáhlé) informace o uživatelích, kteří k němu přistupují, a to o každém zvlášť. Protokol HTTP ze svého principu (a způsobu komunikace stylem požadavek - odpověď) postrádá kontext o jednotlivých klientech, a právě session ho webovým aplikacím dokáže dát. \\
-Session je v HTTP předáváno dvěma nejrozšířenějšími způsoby: v URL cílové stránky – jako její proměnná nebo jako HTTP cookie \\
-To, jakým způsobem se session bude přenášet a pod jakým názvem, nastavuje webový server. Nevýhodou přenosu přes cookies je to, že některé archaické internetové prohlížeče je nepodporují (těch je ovšem mizivé procento) a ty soudobé dovolují cookies vypnout (opět, podíl uživatelů s vypnutými cookies je zanedbatelný). Jinou potenciální nevýhodou může být to, že pokud by potenciální útočník získal přístup k adresáři na serveru, do kterého se cookies ukládají, dostal by se i k session. Naopak, session v URL danou adresu znepřehledňují, činí ji příliš dlouhou, nezapamatovatelnou a působí proti principům SEO (mohou dokonce „rozmělňovat“ odkazovatelnost toho kterého odkazu). Při práci s aplikací s tímto způsobem předávání se jednotlivá session navíc ukládají i do historie prohlížeče a záložek. Je-li například (proti bezpečnostním zásadám) hodnota session generovaná na základě přístupových údajů uživatele, může se k nim útočník dostat snadněji než v případě ukládání do cookies. Některé webové aplikace (např. phpMyAdmin) proto při přihlašování vyžadují možnost ukládat cookies. \\
-ypickým příkladem je použití HTTP cookie k uložení jednoznačného identifikátoru (pojmenovaného SESSIONID, SESSID, SID apod., jehož hodnota je při startu session náhodně vygenerována). Podle takto uloženého HTTP cookie pak server ve své paměti najde potřebné informace, například o přihlášeném uživateli, jeho úrovni přístupu a podobně. Podstatné je, že samotná data se již nepřenášejí (ani v URL, ani v samotném požadavku). Pokud se klient může připojit k libovolnému serveru z clusteru, je třeba mezi jednotlivými servery informace o sessions buď sdílet, nebo zajistit, že se stejný klient vždy připojí ke stejnému uzlu. V opačném případě by se klient mohl spojit se serverem, který o zahájené session neví, a tak přijít o přihlášení, stav nákupního košíku a podobně. \\
-Z hlediska skriptovacích jazyků pro programování intranetových/internetových aplikací, session představuje množinu proměnných (někde přístupnou přes sadu funkcí, jinde přes globální proměnnou), které dovolují uchovávat hodnoty, které jim byly nastaveny, po dobu připojení (tj. se znovunačtením stránky se neztratí). Například, v jazycích ASP a ASP.NET jsou přístupné automaticky jako jednotlivé prvky pole Session("klíč"), v PHP pak pod tzv. superglobálním polem \$\_SESSION["klíč"]. V obou příkladech lze do session ukládat „jednoduché“ typy (celá čísla, racionální čísla, řetězce, null) i z nich složená pole (teoreticky libovolné složitosti). Hodnoty se ukládají tzv. serializované (převedené na řetězec podle formátu, ze kterého jej lze zpětně načíst (přibližně jako třeba JSON)). \\
-Zabezpečení session funguje na tom principu, že přístup k proměnným konkrétního uživatele je možný přes jeho identifikátor v podobě dostatečně dlouhého, náhodně generovaného, a tedy neuhádnutelného klíče. Druhé specifikum je to, že session má poměrně krátkou dobu platnosti (implicitně bývá 24 minut, není-li nastaveno jinak).
-\paragraph{HTTP cookie} Cookies běžně slouží k rozlišování jednotlivých uživatelů, ukládají se do nich uživatelské předvolby apod. \\
-Funkce cookies je definována v RFC 2965 pomocí HTTP hlaviček Set-Cookie (nebo její novější varianty Set-Cookie2) a Cookie. Hlavička Set-Cookie je poslána v odpovědi serveru a obsahuje:
-\begin{itemize}
-	\item název (identifikátor) cookie
-	\item data cookie (omezená prohlížečem, vyžadována je podpora alespoň pro 4096 byte),
-	\item dobu platnosti cookie (resp. čas, kdy hodnota vyprší),
-	\item doména, pro kterou cookie platí,
-	\item adresář na serveru, pro který cookie platí.
-\end{itemize}
-Pokud má prohlížeč alespoň jednu cookie pro daný server (a daný adresář na něm), posílá s každým dotazem danému serveru i hlavičku Cookie, která obsahuje stejná data, která server původně poslal. Cookie lze nastavovat taktéž na straně serveru (podle možností skriptovacího jazyka) – nastavení hodnoty cookie představuje v podstatě přidání HTTP hlavičky do odpovědi serveru (z toho důvodu musí nastavení proběhnout před vypsání čehokoli na výstup). \\
-Cookies neznamenají žádné nebezpečí pro počítač jako takový. Přesto cookies mohou být nebezpečné pro ochranu soukromí. Navštívený web si totiž může ukládat do cookies jakékoliv informace, které o návštěvníkovi zjistí a může tak postupně zjišťovat zájmy konkrétního návštěvníka. Které stránky navštěvuje, jaké informace vyhledává, jak často daný web navštěvuje apod. Těchto informací se dá posléze i bez vědomí návštěvníka využívat pro cílenou reklamu, statistické vyhodnocování chování návštěvníků, apod. Tyto informace však lze získávat i bez cookies, proto toto jejich využití nemůže být považováno za zvlášť nebezpečné. Cookies lze zneužít zejména tehdy, pokud získá útočník přístup k počítači uživatele, neboť cookies na počítači nejsou nijak chráněny. Pak lze předstírat např. cizí identitu.
 
-\subsubsection{FTP - přenos dat}
-FTP (File Transfer Protocol) je protokol pro přenos souborů mezi počítači pomocí počítačové sítě. Využívá protokol TCP z rodiny TCP/IP a může být používán nezávisle na použitém operačním systému (je platformně nezávislý). Jeho podpora je součástí webových prohlížečů nebo specializovaných programů (tzv. FTP klientů). FTP je jeden z nejstarších protokolů, využívá porty TCP/21 a TCP/20. Port 21 slouží k řízení a jsou jím také přenášeny příkazy FTP. Port 20 slouží k vlastnímu přenosu dat, který je 8bitový. Přenos může být binární nebo ascii (textový). Při textovém přenosu dochází ke konverzi konců řádků – CR/LF (DOS, Microsoft Windows) nebo jen LF (unixové systémy), pokud jsou koncové systémy rozdílné. Při binárním přenosu není do dat nijak zasahováno. Protokol je interaktivní a umožňuje řízení přístupu (přihlašování login/heslo), specifikaci formátu přenášeného souboru (znakově – binárně), výpis vzdáleného adresáře atd. V současné době už není považován za bezpečný a z tohoto důvodu pro něj byla definována některá rozšíření. V protokolu je použit model klient-server. FTP server poskytuje data pro ostatní počítače. Klient se k serveru připojí a může provádět různé operace (výpis adresáře, změna adresáře, přenos dat atd.). Operace jsou řízeny sadou příkazů, které jsou definovány v rámci FTP protokolu, proto kdokoliv může vytvořit klienta pro jakékoliv prostředí nebo operační systém. Existuje mnoho programů pro FTP servery i klienty a mnoho je jich volně dostupných. \\
-Tři způsoby přenosu:
-\begin{itemize}
-	\item Stream mode: spojitý proud dat, nejrychlejší, nejmenší nároky na klienta i server
-	\item Block mode: data rozdělena do bloků, po přerušení lze navázat a pokračovat, cenou je vyšší režie
-	\item Compressed mode: jednoduchá komprese – nahrazuje opakující se hodnoty
-\end{itemize}
-FTP používá obvyklý koncept uživatelů, hesel a přístupových práv (hesla posílá otevřeně!)
-\begin{itemize}
-	\item anonymní přístup \\
-	uživatel: ftp nebo anonymous \\
-	heslo: e-mailová adresa \\
-	nejčastěji pro distribuci volného software
-	\item autentizovaný přístup \\
-	uživatelské jméno a heslo definuje správce serveru, např. pro správu WWW stránek
-\end{itemize}
-\paragraph{Bezpečnostní problémy} Při běžném připojování pomocí protokolu FTP jsou přihlašovací údaje (jméno a heslo) přenášeny v textové podobě a je technicky možné je odchytit. Následně mohou být data zcizena nebo upravena.
-\paragraph{SFTP} Protokol SFTP sám o sobě nezajišťuje ani autentizaci ani zabezpečení přenášených dat a obvykle k zajištění těchto služeb využívá protokol SSH-2.
-\paragraph{FTPS} je rozšíření protokolu FTP, která zajišťují zabezpečený přenos citlivých informací. AUTH TLS definuje příkaz, který určuje, že bude použito TLS zabezpečení přenosu. Klient se připojuje na port 21, zahajuje nešifrovanou komunikaci a žádá o aktivaci TLS před tím, než budou posílána citlivá data.
-\paragraph{TFTP} TFTP je určen pro přenos souborů v případech, kdy je běžný protokol FTP nevhodný pro svou komplikovanost. Typickým případem je bootování bezdiskových počítačů ze sítě, kdy se celý přenosový protokol musí vejít do omezeného množství paměti, která je k dispozici na bezdiskovém stroji. \textbf{Funguje na portu UDP}.
-\paragraph{Příkazy}
-Příkazy řídícího jazyka FTP lze rozdělit do tří skupin:
-\begin{itemize}
-	\item Access Control Commands (příkazy řízení přístupu)
-	\begin{itemize}
-		\item USER – zadání uživatelského jména
-		\item PASS – zadání uživatelského hesla
-		\item ACCT – zadání uživatelského účtu (téměř se nepoužívá)
-		\item CWD – změna aktuálního adresáře
-		\item CDUP – změna aktuálního adresáře na nadřazený adresář
-		\item QUIT – ukončení spojení
-	\end{itemize}
-	\item Transfer Parameter Commands (příkazy nastavující parametry přenosu)
-	\begin{itemize}
-		\item PORT – specifikuje počítač a port pro datové spojení. Klient pošle tento příkaz a bude na daném portu čekat na datové spojení.
-		\item PASV – žádá server o pasivní mód, tzn. že server bude poslouchat a klient bude iniciovat datové spojení.
-		\item TYPE – určuje typ reprezentace dat, např. text nebo binární
-	\end{itemize}
-	\item FTP Service Commands (obsluhující příkazy)
-	\begin{itemize}
-		\item RETR – slouží k přenosu souboru ze serveru
-		\begin{itemize}
-			\item GET – přenos jednoho souboru ze serveru (příkaz klientského software ftp)
-			\item MGET – přenos více souborů ze serveru (příkaz klientského software ftp)
-		\end{itemize}
-		\item STOR – přenos souboru na server
-		\begin{itemize}
-			\item PUT – přenos jednoho souboru na server (příkaz klientského software ftp)
-			\item MPUT – přenos více souborů na server (příkaz klientského software ftp)
-		\end{itemize}
-		\item RNFR, RNTO – přejmenování souboru
-		\item DELE – smazání souboru
-		\item MKD – vytvoření nového adresáře
-		\item RMD – smazání adresáře (adresář musí být prázdný)
-		\item ABOR – zrušení předchozího příkazu
-		\item PWD – zjištění aktuálního pracovního adresáře
-		\item LIST – získání seznamu souborů. K získání tohoto seznamu se musí otevřít datové spojení. Pokud parametr tohoto příkazu je adresář, získá se výpis tohoto adresáře, pokud je to soubor, získají se informace o tomto souboru a pokud příkaz nemá parametr, je vrácen výpis aktuálního adresáře. Výpis příkazu list však závisí na systému a je určen především pro člověka.
-		\item SYST – slouží k zjištění typu systému, na kterém běží FTP server.
-	\end{itemize}
-\end{itemize}
-Příkazy řídícího jazyka se přenášejí po řídícím spojení od FTP klienta na server.
-\paragraph{Aktivní režim} Na portu TCP/20 jsou přenášena data (data connection). V aktivním režimu navazuje připojení pro přenos dat server, klient naslouchá. Problém zpravidla nastává v případě, kdy se klient připojuje z privátní sítě a jeho IP adresa je překládána (NAT).
-\paragraph{Pasivní režim} V pasivním režimu navazuje data connection klient, kterému při sestavování připojení poslal server svou IP adresu a TCP port, na kterém naslouchá.
-\paragraph{FTP server, port forward (PF) a pasivní připojení} Pokud je připojení k FTP serveru realizováno prostřednictvím PF (nejčastěji se jedná o router s NAT a PF), tak router musí mít následující vlastnost - čte datovou část paketů FTP připojení, zjistí na jakém portu server naslouchá pro navázání data connection klientem a tento port začne forwardovat směrem k serveru. Po ukončení relace je ukončen i popsaný PF. Routery mají zpravidla tuto vlastnost již vestavěnou.
- \paragraph{SCP} slouží k bezpečnému přenosu souborů mezi dvěma počítači propojenými počítačovou sítí pomocí protokolu Secure Shell (SSH). SCP má omezené možnosti, a proto je nahrazován komplexnějším protokolem SFTP.
 
-\subsubsection{vzdálené přihlášení - Telnet}
-Protokol telnet pracuje na aplikační vrstvě používaný TCP/IP. Používá se v Internetu pro realizaci spojení typu klient-server protokolem TCP, přičemž přenáší osmibitové znaky oběma směry (duplexní spojení). Serverová část standardně naslouchá na portu číslo 23. Součástí protokolu je vyjednání nastavení určitých voleb důležitých pro vzájemnou komunikaci. \\
-\paragraph{Program Telnet} Telnet je též označení pro program, který realizoval komunikaci mezi dvěma počítači pomocí telnet protokolu. Program je dodnes součástí Microsoft Windows a unixových systémů. Dříve se používal (spolu s protokolem telnet) pro připojení ke vzdálenému počítači prostřednictvím počítačové sítě jako emulace terminálu, která poskytovala možnost práce uživatele na vzdáleném počítači v příkazovém řádku. Telnet tak byl nástupcem terminálů, ze kterých se uživatelé připojovali ke vzdálenému počítači pomocí sériové linky. Hlavní nevýhodou telnetu je \textbf{absence šifrování přenášených dat}, a proto dnes uživatelé místo telnetu používají protokol SSH. \\
-Tři základní služby:
-\begin{itemize}
-	\item Síťový virtuální terminál (NVT – Network Virtual Terminal), který poskytuje standardní rozhraní.
-	\item Vyjednávání klienta/serveru o nastavení určitých voleb
-	\item Symetrické zobrazení terminálu a procesů.
-\end{itemize}
-Síťový virtuální terminál zajišťuje průhlednost všech operací vůči uživateli. Nejsou zde rozdíly mezi jednotlivými komunikujícími zařízeními. Virtuální terminál poskytuje obecnou sadu příkazů pro všechny typy zařízení. Pro přenos využívá spolehlivé přenosové služby TCP, ale jen poloduplexním způsobem. Definovaný formát NVT používá sedmibitový kód ASCII pro znaky a zobrazení. Díky tomu může Telnet operovat na různých operačních systémech. Klávesnice NVT generuje všech 128 kódů ASCII pomocí kláves, klávesových kombinací. \\
-Přestože obě komunikující strany předpokládají, že je protější strana vybavena NVT, proběhne nejdříve výměna údajů, ve které se obě strany dohodnou na určitých parametrech a volbách komunikace. Pokud jedna strana neumí použít danou volbu, požadavek zamítne. Strany však musí dodržet minimální standard NVT. \\
-Existují čtyři možné požadavky:
-\begin{itemize}
-	\item WILL - odesílatel chce danou volbu zapnout
-	\item DO - odesílatel chce, aby příjemce danou volbu zapnul
-	\item WONT - odesílatel chce danou volbu vypnout
-	\item DONT - odesílatel chce, aby příjemce danou volbu vypnul
-\end{itemize}
 
-\subsubsection{vzdálené přihlášení - SSH}
-Označení pro program a zároveň pro zabezpečený komunikační protokol v počítačových sítích, které používají TCP/IP. SSH byl navržen jako náhrada za telnet a další nezabezpečené vzdálené shelly (rlogin, rsh apod.), které posílají heslo v nezabezpečené formě a umožňují tak jeho odposlechnutí při přenosu pomocí počítačové sítě. Šifrování přenášených dat, které SSH poskytuje, slouží k zabezpečení dat při přenosu přes nedůvěryhodnou síť. \\
-SSH umožňuje bezpečnou komunikaci mezi dvěma počítači, která se využívá pro zprostředkování přístupu k příkazovému řádku, kopírování souborů a též jakýkoliv obecný přenos dat (s využitím síťového tunelování). Zabezpečuje autentizaci obou účastníků komunikace, transparentní šifrování přenášených dat, zajištění jejich integrity a volitelnou bezeztrátovou kompresi. Server standardně naslouchá na portu TCP/22. \\
-Protokol SSH-2 má dobře navrženou vnitřní architekturu rozdělenou na oddělené vrstvy. Otevřená architektura nabízí významnou flexibilitu umožňující použití SSH nejen pro zabezpečený shell. Funkce transportní vrstvy samotné je srovnatelná s TLS. Vrstva autentizace uživatele je navržena pro snadné rozšíření vlastními autentizačními metodami. Vrstva spojení nabízí použití více podružných relací přenášených jedním SSH spojením.
-\paragraph{Transportní vrstva} zajišťuje počáteční výměnu klíčů, serverovou autentizaci, kompresi a ověření integrity. Poskytuje vyšší vrstvě prostředí pro posílání a přijímání nešifrovaných paketů dat. Transportní vrstva také zajišťuje opětovnou výměnu klíčů – obvykle po 1 GB přenesených dat nebo po uplynutí 1 hodiny, podle toho, co nastane dříve.
-\paragraph{Vrstva autentizace uživatele} zajišťuje autentizaci klientů, která může být provedena mnoha způsoby. Samotná autentizace je řízena SSH klientem, server pouze reaguje na autorizační požadavky od SSH klienta.
-\begin{itemize}
-	\item password - metoda pro přímou výměnu hesla, zahrnující možnost změny hesla. Tato metoda není implementována ve všech programech.
-	\item publickey - metoda přihlášení pomocí veřejného klíče, obvykle podporuje alespoň DSA nebo RSA klíče. Tato metoda může zabránit útokům hrubou silou (když je vypnuta metoda "password").
-	\item keyboard-interactive - univerzální metoda, při které server pošle klientovi jednu nebo více výzev, na které uživatel odpovídá pomocí klávesnice. Nejčastěji se používá pro jednorázovou autentizaci jako je S/Key nebo SecurID.
-	\item GSSAPI - metody poskytují rozšiřitelné rozhraní pro autentizaci pomocí externích mechanizmů jako je Kerberos 5 nebo NTLM, poskytujících možnost centrální autentizace pro přihlášení pomocí SSH relace. Tyto metody jsou obvykle používány v komerčních SSH implementacích.
-\end{itemize}
-\paragraph{Vrstva spojení} definuje koncept kanálů, požadavků kanálů a globálních požadavků skrze které jsou poskytovány SSH služby. Jedno SSH spojení může hostovat více kanálů zároveň, kdy každý může přenášet data v obou směrech. Požadavky kanálů jsou použity pro přenos mimopásmových dat, jako jsou např. změna velikosti terminálového okna nebo návratový kód procesu na straně serveru. SSH klient si může pomocí globálního požadavku vyžádat forwardování (tunelování) portu na straně serveru.
-\paragraph{Autentizace pomocí veřejného klíče} Pro autentizaci uživatele je možné v SSH použít veřejný klíč. Nejprve je vygenerován pár šifrovacích klíčů – privátní (soukromý) klíč a veřejný klíč. Privátní je bezpečně uložen u uživatele a je chráněn heslovou frází. Veřejný klíč je uložen na cílový server (typicky do domácího adresáře uživatele, v unixových systémech do souboru ~/.ssh/authorized\_keys). Při pokusu o přihlášení server veřejným klíčem, který má k dispozici, zašifruje blok náhodných dat (tzv. výzvu typu challenge-response), kterou nelze snadno odvodit nebo uhádnout a pošle ji klientovi. Klient výzvu pomocí privátního klíče dešifruje a dešifrovanou ji pošle zpět serveru. Pokud je výzva správně rozšifrována, má tím server ověřeno, že klient má k dispozici privátní klíč, který odpovídá veřejnému klíči, který má server dispozici, a tudíž může přístup schválit (autorizovat). Pokud výzva nebude správně rozšifrována, bude přístup pro klienta zamítnut. Z toho plyne, že privátní klíč neopustí klientův počítač, tudíž se nemůže stát, že by ho někdo odcizil při přenosu po síti, a přesto může dojít k ověření autenticity klienta a umožnění přístupu.
-\paragraph{Příklady použití z wiki}
-\begin{itemize}
-	\item \textbf{běžné přihlášení} \\
-	Uživatel Bob se přihlašuje na alicePC pod jejím jménem v rámci lokální sítě, nebo má-li alicePC veřejnou IP adresu (zda na alicePC běží ssh démon/server lze ověřit výpisem \# netstat -nltp): \\
-	Bob: \$ ssh alice@alicePC.cz
-	\item \textbf{port forwarding} \\
-	V případě, kdy alicePC ani bobPC veřejnou IP adresu nemá, je potřeba využít zařízení, které ji má - walterPC. Oba se tedy přihlásí na Walterův stroj a Bob se z něj dostane na alicePC. Neboť běžný uživatel nemůže manipulovat s porty nižšími než 1024 a z bezpečnostních důvodů root přihlášení pomocí ssh nemívá povoleno, je třeba, aby ssh server Alice naslouchal např. na portu 6262. Do souboru /etc/ssh/sshd\_config stačí přidat řádek Port 6262 (po změně nastavení je třeba službu restartovat). Nyní:\\
-	Alice: \$ ssh walter@walterPC.cz -p 20085 -R 6262:localhost:6262 \\
-	Bob: \$ ssh walter@walterPC.cz -p 20085 \\
-	Bob již z walterPC: \$ ssh alice@localhost -p 6262
-\end{itemize}
+
+
 \end{document}
