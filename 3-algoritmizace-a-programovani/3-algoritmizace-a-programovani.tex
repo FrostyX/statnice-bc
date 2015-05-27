@@ -657,25 +657,126 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
 
 \newpage
 \section{Objektové programování}
-\paragraph{Objektové programování:} třídy a objekty, zprávy a metody. Zapouzdření, polymorfismus, dědičnost. Metody objektů, jejich typy, způsoby ochrany. Metody tříd, abstraktní třídy. Vícenásobná dědičnost, rozhraní. Příklady objektově orientovaných jazyků a jejich rysy.
+	\paragraph{Objektové programování:} třídy a objekty, zprávy a metody. Zapouzdření, polymorfismus, dědičnost. Metody objektů, jejich typy, způsoby ochrany. Metody tříd, abstraktní třídy. Vícenásobná dědičnost, rozhraní. Příklady objektově orientovaných jazyků a jejich rysy.
 
-\subsection{Třídy a objekty, zprávy a metody}
-@TODO Jakub Kadlčík
+	\subsection{Třídy a objekty, zprávy a metody}
+		\subsubsection{Třída}
+			Třída představuje předpis, na jehož základě budou vytvářeny objekty. Definuje vlastnosti a chování objektů dané třídy.
 
-\subsection{Zapouzdření, polymorfismus, dědičnost}
-@TODO Jakub Kadlčík
+		\subsubsection{Objekt}
+			Konkrétní instance dané třídy, nacházející se v daném stavu (nabývající konkrétní hodnoty) a poskytující rozhraní definované třídou.
 
-\subsection{Metody objektů, jejich typy, způsoby ochrany}
-@TODO Jakub Kadlčík
+		\subsubsection{Zprávy a metody}
+			Zprávy a metody spolu úzce souvisejí. Metody vykonávají v rámci třídy (objektu) určitou funkcionalitu. Zprávy slouží pro komunikaci mezi objekty. V různých programovacích jazycích je tato funkcionalita implementována různě. Například v Javě se posílají zprávy voláním veřejných metod, C\# či Common Lisp využívají svůj systém posílání zpráv.
 
-\subsection{Metody tříd, abstraktní třídy}
-@TODO Jakub Kadlčík
 
-\subsection{Vícenásobná dědičnost, rozhraní}
-@TODO Jakub Kadlčík
+	\subsection{Zapouzdření, polymorfismus, dědičnost}
+		\subsubsection{Zapouzdřední}
+		Zapouzdření v objektech znamená, že k obsahu objektu se nedostane nikdo jiný, než sám vlastník. K okolí je objekt přístupný pouze pomocí definovaného rozhraní (metody daným způsobem zprostředkovávající, či modifikující, data objektu).
 
-\subsection{Příklady objektově orientovaných jazyků a jejich rysy}
-@TODO Jakub Kadlčík
+		\subsubsection{Dědičnost}
+		Třídy jsou organizovány ve stromové hierarchii. Potomek třídy od svého rodičě přejímá (dědí) jeho metody a vlastnosti (public a protected). Zděděné metody lze překrýt vlastními implementacemi. Při tvorbě dědičnosti bychom se měli řídit pravidlem \textit{is-a}.
+
+		\paragraph{is-a:} Mějme entity A, B. Třída reprezentující entitu B může dědit z třídy A pouze pokud je tvrzení \uv{B je A} pravdivé (i.e. \uv{Pes je Zvíře}).
+
+		\paragraph{Vícenásobná dědičnost:} viz~\ref{vicenasobna-dedicnost} -- \nameref{vicenasobna-dedicnost}
+
+		\subsubsection{Polymorfismus}
+		Situace, kdy několik objektů poskytje stejné rozhraní a navenek se s nimi pracuje stejně, avšak jejich chování se liší dle implementace. Můžeme také hovořit o polymorfismu v souvislosti s dědičností -- jedná se o situaci, kdy je na nějakém místě očekáván objekt dané třídy, či libovolné třídy z ní odvozené. Rozhraní dané třídy je vždy podmnožinou rozhraní libovolné její potřídy.
+
+	\subsection{Metody objektů, jejich typy, způsoby ochrany}
+		\subsubsection{Metody}
+			Metoda je ve třídě předepsaná pomocí:
+			\begin{itemize}
+				\item{Názvu metody}
+				\item{Návratového typu -- u staticky typovaných jazyků}
+				\item{Argumentů}
+				\item{Modifikátoru přístupu -- \textbf{public} (lze volat odkudkoli), \textbf{protected} (lze volat pouze z metod stejné, či odvozené třídy), \textbf{private} (lze volat pouze z metod stejné třídy)}
+				\item{Dodatečných atributů -- metody mohou být statické, abstraktní (virtuální), konečné (finální)}
+			\end{itemize}
+
+			\begin{note}
+				Speciálním případem metod může být například konstruktor, destruktor, či gettery a settery.
+			\end{note}
+
+			Setkáváme se s pojmem \textbf{přetěžování metod}. Jedná se o situaci, kdy třída obsahuje více metod se stejným názvem. Takové metody se musí lišit počtem, nebo typem argumentů. Při volání metody je potom na základě argumentů zvolena požadovaná varianta.
+
+		\subsubsection{Typy metod}
+			Metody lze definovat jako:
+				\begin{itemize}
+					\item{statické -- kapitola~\ref{metody-trid}}
+					\item{abstraktní (virtuální) -- kapitola~\ref{abstraktni-tridy}}
+					\item{konečné (finální) -- Třída potomka je již nemůže předefinovat}
+				\end{itemize}
+
+		\subsubsection{Způsoby ochrany}
+			Metody, stejně jako atributy objektu chráníme pomocí modifikátorů přístupu. Ty určují, odkud lze k metodám přistupovat.
+			\begin{itemize}
+				\item{\textbf{public} -- lze volat odkudkoli}
+				\item{\textbf{protected} -- lze volat pouze z metod stejné, či odvozené třídy}
+				\item{\textbf{private} -- lze volat pouze z metod stejné třídy}
+			\end{itemize}
+
+			\begin{note}
+				Je-li metoda privátní, neznamená to, že ji může volat pouze objekt dané třídy pouze v rámci sebe samotného. Může tuto metodu volat i na jiném objektu stejné třídy.
+			\end{note}
+
+	\subsection{Metody tříd, abstraktní třídy}
+		\subsubsection{Metody tříd}
+			\label{metody-trid}
+			Neplést s metodami objektů! Jedná se o metody k jejichž volání není potřeba vytvářet objekt dané třídy. Říkáme jim statické. Dle logiky věci nemohou tyto metody pracovat s daty konkrétního objektu. Nelze tedy přistupovat k hodnotám atributů, či volat ne-statické metody v rámci též třídy. Mohou však modifikovat proměnné třídy (neplést s vlastnostmi objektu), označované jako statické proměnné. Změna takovéto proměnné se projeví v rámci celého programu.
+			\\
+			\\
+			Implementačně mohou být řešeny tak, že se při prvním volání metody dané třídy vytvoří speciální objekt této třídy, obsahující pouze statické metody a statické proměnné.
+
+		\subsubsection{Abstraktní třídy}
+			\label{abstraktni-tridy}
+			Jedná se o třídy, z nichž nelze vytvořit objekt. Slouží ke generalizování vlastností a základního chování určité skupiny tříd (jejích potomků). Abstraktní třída může své metody libovolně buď implementovat, nebo označit za abstraktní. V tom případě pak ne-abstraktní potomek třídy musí dané metody implementovat.
+			\\
+			\\
+			Hlavním rozdílem, mezi abstraktní třídou a rozhraním (\ref{rozhrani}) je to, že abstraktní třída může obsahovat implementace metod.
+
+			\paragraph{Příklad:} Mějme dva typy databází – SQL databáze (Oracle, PostgreSQL, MySQL, atp.) a objektové databáze (např. MongoDB). Program chceme postavit tak, abychom mohli implementace (v tomto případě operací \texttt{select} a \texttt{insert}) jednoduše zaměňovat (pomocí polymorfismu).
+			\\
+			Z logiky věci vyplývá, že na vrcholu naší hierarchie bude rozhraní definující operace \texttt{select} a \texttt{insert}. Z něj pak budou dědit dvě větve tříd. První větev bude určena pro SQL databáze a jejím vrcholem bude abstraktní třída implementující metody \texttt{select} a \texttt{insert} obecným způsobem platným pro značnou část relačních databází. Z této třídu budou dědit jednotlivé implementace pro specifické databáze (a případně překryjí generické chování vlastní implementací).
+			\\
+			Druhou větví budou třídy určené pro jednotlivé objektové databáze. Ty bohužel žádnou abstraktní třídu mít nemohou, jelikož nemají žádný standardizovaný dotazovací jazyk.
+
+	\subsection{Vícenásobná dědičnost, rozhraní}
+		\subsubsection{Vícenásobná dědičnost}
+			\label{vicenasobna-dedicnost}
+			V některých programovacích jazycích může třída dědit z více rodičovských tříd současně. Jedná se například o C++, Common Lisp, Python,\dots Jazyky podporující pouze \uv{jednoduchou} dědičnost jsou například C\#, Java, nebo Ruby.
+			\\
+			\\
+			Při použití vícenásobné dědičnosti narážíme zejména na problém zvaný \textit{The diamond problem}. Mějme třídy $A, B, C, D$, takové, že $B$ dědí $A$, $C$ dědí $A$ a $D$ dědí z obou $B$ i $C$. Nechť třídy $B$ a $C$ definují metodu $m$, zatímco $D$ ji nedefinuje. Zavoláme-li metodu $m$ na objektu třídy $D$, která její implementace bude zavolána? Různé jazyky tento problém řeší různě. @TODO Jakub Kadlčík -- dopsat jak. Jazyk Python využívá linearizačního algoritmu, který podle daných pravidel vytvoří lineárně uspořádaný graf a následně vybírá pouze dalšího následovníka v řadě.
+
+		\subsubsection{Rozhraní}
+			\label{rozhrani}
+			Rozhraní je předpis tvořený seznamem metod splňujícím určitá kritéria.
+			\begin{itemize}
+				\item{Předepsané metody nemají implementaci (tělo), pouze hlavičku}
+				\item{Předepsané metody nedefinují modifikátor přístupu. Metody musejí být následně implementovány jako veřejné}
+			\end{itemize}
+			Případně také může obsahovat konstanty.
+			\\
+			\\
+			Pokud třída ve své definici říká, že implementuje dané rozhraní, pak to znamená, že implementuje \textbf{všechny} jeho metody. Jaké to má dopady na programování?
+			\begin{itemize}
+				\item{Můžeme se spolehnout, že objekty třídy implementující dané rozhraní, budou disponovat danou množinou metod}
+				\item{Polymorfismus -- pokud máme objekty více tříd implementujících dané rozhraní, pak se budou metody vykonávající danou věc jmenovat stejně}
+				\item{Návrhový vzor \textit{Program to an interface not an implementation} -- kód by neměl být závislý na konkrétní implementaci, ale měl by záviset na rozhraní. Potom by měl fungovat s libovolnou třídou implementující dané rozhraní}
+			\end{itemize}
+
+			\begin{note}
+				Rozhraním nelze předepsat atributy objektu, pouze metody a konstanty.
+			\end{note}
+
+	\subsection{Příklady objektově orientovaných jazyků a jejich rysy}
+		@TODO Jakub Kadlčík
+		\subsubsection{Java}
+		\subsubsection{C\#}
+		\subsubsection{Common Lisp}
+		\subsubsection{Python}
 
 
 
