@@ -140,6 +140,8 @@ konzistence dat.}
 \subsubsection{Operační systém}
 \begin{itemize}
 	\item Základní softwarové (programové) vybavení počítače
+	\item Zaveden do paměti počítače při jeho startu a zůstává v činnosti až do jeho vypnutí
+	\item Skládá se z jádra (kernel) a pomocných systémových nástrojů
 	\item Rozhraní mezi hardware a ostatním software (knihovny, systémové služby, aplikace)
 	\item Rozhraní mezi uživatelem a aplikacemi
 	\item Běží v privilegovaném režimu (jeho funkce jsou upřednostněné)
@@ -154,26 +156,84 @@ Očekáváme od něj:
 	\item obsluhu zařízení a organizaci dat (souborový systém, síťové rozhraní, uživatelské rozhraní)
 \end{itemize}
 
+
+\textbf{ARCHITEKTURA JÁDRA}
 \begin{itemize}
 	\item Monolitické jádro
 	\begin{itemize}	
+		\item vrstvená architektura
+		\item moduly
 		\item všechny služby pohromadě - lepší výkon
 		\item problém s chybnými ovladači
 		\item Linux, *BSD
+		\item Nevýhoda: pokud se objeví chyba ve vrstvách jaderného režimu, může poškodit systém, musí se zajistit bezpečnost celého systému jako celku
 	\end{itemize}
 	\item Mikrojádro 
 	\begin{itemize}	
 		\item poskytuje správu adresního prostoru, procesů, IPC
 		\item oddělení serverů => bezpečnost
+		\item možnost restartu serverů
+		\item Výhoda: lze rozdělit na menší subsystémy (na procesy se speciálními právy -> lepší bezpečnost), při chybě stačí restartovat subsystém a ne celý systém, malý systém -> jednodušší na pochopení
+		\item Nevýhoda: meziprocesní komunikace je pomalá
 		\item Minix, Mach
 	\end{itemize}
 	\item Hybridní jádro - Windows NT, MacOS X
+	\item Exokernel - mikrojádro zahnaný do extrémů
 \end{itemize}
 
 \begin{figure} [h]
 		\includegraphics[scale=0.8]{img/architektura_jadra.png}
 		\caption{architektura jádra}	
 \end{figure}
+
+\textbf{PROBLÉMY S NÁVRHEM OS}
+\begin{itemize}
+	\item Vize a cíl
+	\item Různé přístupy OS k datům: vše je...
+	\begin{itemize}
+		\item páska (Fortran)
+		\item soubor (UNIX)
+		\item objekt (Windows)
+		\item dokument (Web)
+	\end{itemize}
+	\item Přenositelnost, specifikované možnosti
+\end{itemize}
+
+\textbf{PRAVĚK OS}
+\begin{itemize}
+	\item CP/M
+	\item MS-DOS
+	\begin{itemize}
+		\item Jednouživatelský, jednoúlohový
+		\item Omezené možnosti práce s pamětí (problém s ovladači)
+	\end{itemize}
+\end{itemize}
+
+\textbf{UNIX}
+\begin{itemize}
+	\item MULTICS - MIT + Bell Labs + GE
+	\item UNICS - obkleštěný MULTICS pro PDP-7
+	\item BSD základ pro další unixy -> SUN
+	\item standard POSIX - nepopisuje jádro, ale funkce standardní knihovny a funkcí (průnik funkcionality)
+	\item 1987 Tanenbaum vydává MINIX - výukový OS založený na mikrokernelu
+	\item 1984: Richard Stallman -> GNU is Not Unix
+	\item 1991: Linus Torvalds -> Jádro Linux
+\end{itemize}
+
+\textbf{WINDOWS}
+\begin{itemize}
+	\item WINDOWS 1.0, 2.X - Nástavba nad MS-DOS; Kooperativní multitasking
+	\item WINDOWS 3.X - přidává lepší práci s pamětí
+	\item WINDOWS 9X - GUI; Preemptivní multitasking
+	\item WINDOWS NT
+	\begin{itemize}
+		\item Vychází z OS/2
+		\item Bezpečnost (armáda)
+		\item Spolehlivost
+		\item Kompatibilita s ostatními OS (POSIX)
+		\item Hybridní jádro
+	\end{itemize}
+\end{itemize}
 
 \subsubsection{Poskytovaná rozhraní}
 \begin{enumerate}
