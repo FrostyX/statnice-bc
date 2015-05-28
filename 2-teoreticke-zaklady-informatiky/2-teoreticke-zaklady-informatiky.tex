@@ -2274,7 +2274,7 @@ Chomského hierarchie. Věta o rekurzi.
 				\end{itemize}
 			\item TS, který nikdy nezapíše na pásku \textvisiblespace
 				\begin{itemize}
-					\item Roziníme TS, který nemá žádný přechod ve tvaru $\delta(q,a) = (q',\textvisiblespace,D)$
+					\item Roziníme TS, který nemá žádný přechod ve tvaru $\delta(q,a) = (q',$ \textvisiblespace $,D)$
 				\end{itemize}
 			\item TS, který po sobě \uv{který po sobě uklízí}
 				\begin{itemize}
@@ -2309,7 +2309,7 @@ Chomského hierarchie. Věta o rekurzi.
 						U TS s oboustranně nekonečnou páskou považujeme $\alpha q\beta$ za totožnou s
 						$\alpha q\beta$\textvisiblespace a s \textvisiblespace$\alpha q\beta$.
 					\item \textbf{Krok výpočtu TS (s oboustranně nekonečnou páskou)} je definován jako binární
-						relace na množině konfigurací: Nechť $\alpha aqB\beta$ je taková konfigurace $T$, kde
+						relace na množině konfigurací: Nechť $\alpha aqb\beta$ je taková konfigurace $T$, kde
 						$q \neq q, \alpha, \beta \in \Gamma^{*}, a,b \in \Gamma.$
 						\begin{itemize}
 							\item Je-li $\delta(q,a) = (q', x, L) $, pak  $$\alpha aqb\beta \vdash \alpha q'ax\beta$$.
@@ -2325,7 +2325,7 @@ Chomského hierarchie. Věta o rekurzi.
 							\item páskovou abecedou $\Gamma$ t.ž. $\Sigma \subset \Gamma,$ \textvisiblespace
 								$\in  \Gamma $
 							\item přechodovou funkcí $\delta : Q \times  \Gamma^{k} \rightarrow Q \times [ \Gamma
-								\times \{L, S, R \} ]^{k}$
+								\times \{L, R \} ]^{k}$
 							\item počátečním stavem $q_{start} \in Q$
 							\item přijímacím stavem $q_{+} \in Q $ a zamítacím stavem $q_{-}
 								\in Q.$ $q_{+} \neq q_{-}$
@@ -2352,7 +2352,7 @@ Chomského hierarchie. Věta o rekurzi.
 		\end{figure}
 
 		\vspace{1cm}
-		\textbf{Jazyky, které jsou částečně rekurzivní ale nejdou rekurzivní:}
+		\textbf{Jazyky, které jsou částečně rekurzivní ale nejsou rekurzivní:}
 
 		\begin{itemize}
 			\item Univezální jazyl $L_{U}$ definován takto : $$L_{U} = \{ [T,w]| T \text{ je } TS \text{, který přijímá } w\}$$
@@ -2397,14 +2397,14 @@ Chomského hierarchie. Věta o rekurzi.
 
 
 
-			\item Nechť $L_{1}, L_{2} \in ČR$ pak:
+			\item Nechť $L_{1}, L_{2} \in$ ČR pak:
 				\begin{itemize}
-					\item $L_{1} \cup L_{2} \in ČR$
-					\item $L_{1} \cap L_{2} \in ČR$
-					\item $L_{1} \circ L_{2} \in ČR$
-					\item $L^{*} \in ČR$
+					\item $L_{1} \cup L_{2} \in$ ČR
+					\item $L_{1} \cap L_{2} \in$ ČR
+					\item $L_{1} \circ L_{2} \in$ ČR
+					\item $L^{*} \in $ ČR
 				\end{itemize}
-			\item Pokud $L \in ČR$ a  $\Sigma^{*} \setminus  L \in ČR$, pak $L \in R$
+			\item Pokud $L \in $ ČR a  $\Sigma^{*} \setminus  L \in $ ČR, pak $L \in R$
 
 		\end{itemize}
 
@@ -2574,6 +2574,7 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 
 		PSPACE je třída jazyku, které jsou rozhodnutelné v polynomickém čase na (deterministickém) TS, tedy
 		$$\text{PSPACE} = \bigcup_k \text{SPACE}(n^k)$$
+		\textit{(ve slajdech je napsáno v polynomickém čase, ale podle mě tam má být polynomická paměť)}\\
 		Ze Savitchovy věty plyne že $$\text{PSPACE} = \text{NPSPACE}$$
 		Celkově tedy máme:
 		$$\text{ P } \subseteq \text{ NP } \subseteq \text{ PSPACE } \subseteq \text{ EXPTIME } $$  kde
@@ -2587,7 +2588,7 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 		Jazyk $B$ je \textbf{PSPACE-úplný problém}, pokud
 		\begin{itemize}
 			\item $B \in$ PSPACE
-			\item $B$ je PSPACE-těžký, tj. každý $A \in$ PSPACE he redukovatelný v polynomickém čase na $B$
+			\item $B$ je PSPACE-těžký, tj. každý $A \in$ PSPACE je redukovatelný v polynomickém čase na $B$
 		\end{itemize}\vspace{3mm}
 		\textbf{Grafová hra:} Mějme orientovaný graf G s vyznačeným počátečním uzlem $u_1$
 		\begin{itemize}
