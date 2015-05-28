@@ -954,11 +954,53 @@ Líné vyhodnocování = vyhodnocování založené na příslibech (někdy taky
 			\end{note}
 
 	\subsection{Příklady objektově orientovaných jazyků a jejich rysy}
-		@TODO Jakub Kadlčík
 		\subsubsection{Java}
+			\begin{itemize}
+				\item{Není čistě objektová -- obsahuje i primitivní datové typy}
+				\item{Statické typování}
+				\item{Pouze \uv{jednoduchá} dědičnost; Možnost implementovat více rozhraní}
+				\item{Podporuje přetěžování metod}
+				\item{Nepodporuje přetěžování operátorů}
+				\item{Metody nejsou elementy prvního řádu; od Java 8 ale podporuje lambda výrazy}
+			\end{itemize}
+
 		\subsubsection{C\#}
+			\begin{itemize}
+				\item{Není čistě objektový -- obsahuje i primitivní datové typy}
+				\item{Statické typování}
+				\item{Podporuje přetěžování metod i operátorů}
+				\item{Metody nejsou elementy prvního řádu, ale podporuje lambda výrazy}
+			\end{itemize}
+
+		\subsubsection{Smalltalk}
+			\begin{itemize}
+				\item{Čistě objektový}
+				\item{Pouze \uv{jednoduchá} dědičnost}
+				\item{Dynamické typování $\Rightarrow$ Nepodporuje přetěžování metod}
+				\item{Řízení přístupu -- veřejné metody, soukromé data}
+				\item{Všechny operace jsou řešeny zasíláním zpráv}
+			\end{itemize}
+
 		\subsubsection{Common Lisp}
+			\begin{itemize}
+				\item{Dynamický jazyk}
+				\item{Objektový systém CLOS (Common Lisp Object System)}
+				\item{Multiparadigmatický jazyk -- OOP je jedno z mnoha paradigmat, které lze kombinovat}
+				\item{Dynamické typování $\Rightarrow$ Nepodporuje přetěžování metod}
+				\item{Vícenásobná dědičnost}
+				\item{Metody se definují mimo definici třídy}
+			\end{itemize}
+
 		\subsubsection{Python}
+			\begin{itemize}
+				\item{Multiparadigmatický}
+				\item{Vícenásobná dědičnost -- linearizační algoritmus MRO}
+				\item{Nepodporuje rozhraní}
+				\item{Dynamické typování $\Rightarrow$ Nepodporuje přetěžování metod}
+				\item{Nepodporuje řízení přístupu -- privátní vlastnosti a metody se označují pouze podtržítkem na začátku názvu}
+				\item{Podporuje přetěžování operátorů}
+				\item{Metody jsou elementy prvního řádu, podporuje lambda výrazy}
+			\end{itemize}
 
 
 
