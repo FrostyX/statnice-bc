@@ -862,6 +862,9 @@ Líné vyhodnocování = vyhodnocování založené na příslibech (někdy taky
 		\paragraph{is-a:} Mějme entity A, B. Třída reprezentující entitu B může dědit z třídy A pouze pokud je tvrzení \uv{B je A} pravdivé (i.e. \uv{Pes je Zvíře}).
 
 		\paragraph{Vícenásobná dědičnost:} viz~\ref{vicenasobna-dedicnost} -- \nameref{vicenasobna-dedicnost}
+		\\
+		\\
+		V některých programovaích jazycích může být třída prohlášena za neděditelnou pomocí klíčových slov \texttt{final} (Java), nebo \texttt{sealed} (C\#).
 
 		\subsubsection{Polymorfismus}
 		Situace, kdy několik objektů poskytje stejné rozhraní a navenek se s nimi pracuje stejně, avšak jejich chování se liší dle implementace. Můžeme také hovořit o polymorfismu v souvislosti s dědičností -- jedná se o situaci, kdy je na nějakém místě očekáván objekt dané třídy, či libovolné třídy z ní odvozené. Rozhraní dané třídy je vždy podmnožinou rozhraní libovolné její potřídy.
@@ -930,7 +933,7 @@ Líné vyhodnocování = vyhodnocování založené na příslibech (někdy taky
 			V některých programovacích jazycích může třída dědit z více rodičovských tříd současně. Jedná se například o C++, Common Lisp, Python,\dots Jazyky podporující pouze \uv{jednoduchou} dědičnost jsou například C\#, Java, nebo Ruby.
 			\\
 			\\
-			Při použití vícenásobné dědičnosti narážíme zejména na problém zvaný \textit{The diamond problem}. Mějme třídy $A, B, C, D$, takové, že $B$ dědí $A$, $C$ dědí $A$ a $D$ dědí z obou $B$ i $C$. Nechť třídy $B$ a $C$ definují metodu $m$, zatímco $D$ ji nedefinuje. Zavoláme-li metodu $m$ na objektu třídy $D$, která její implementace bude zavolána? Různé jazyky tento problém řeší různě. @TODO Jakub Kadlčík -- dopsat jak. Jazyk Python využívá linearizačního algoritmu, který podle daných pravidel vytvoří lineárně uspořádaný graf a následně vybírá pouze dalšího následovníka v řadě.
+			Při použití vícenásobné dědičnosti narážíme zejména na problém zvaný \textit{The diamond problem}. Mějme třídy $A, B, C, D$, takové, že $B$ dědí $A$, $C$ dědí $A$ a $D$ dědí z obou $B$ i $C$. Nechť třídy $B$ a $C$ definují metodu $m$, zatímco $D$ ji nedefinuje. Zavoláme-li metodu $m$ na objektu třídy $D$, která její implementace bude zavolána? Různé jazyky tento problém řeší různě. Optimálním způsobem je využití C3 linearizačního algoritmu zvaného MRO (Method Resolution Order), který podle daných pravidel vytvoří lineárně uspořádaný graf a následně vybírá pouze dalšího následovníka v řadě.
 
 		\subsubsection{Rozhraní}
 			\label{rozhrani}
