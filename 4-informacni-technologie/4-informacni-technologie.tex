@@ -7,17 +7,52 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{hyperref}
+\usepackage{verbatim}
 \usepackage{ amssymb }
 \usepackage{ mathrsfs }
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amsfonts}
-\usepackage{comment}
 \newtheorem{veta}{Věta}
 \newtheorem{definition}{Definice}
 \newtheorem{note}{Poznámka}
 
 
+\lstnewenvironment{Java}
+  {\lstset{language=Java, keywordstyle=\color{blue}, morekeywords={String, Connection, SQLException, PreparedStatement}}}
+  {}
+
+\lstnewenvironment{CS}
+  {\lstset{language=C, keywordstyle=\color{blue}, morekeywords={SqlConnectionStringBuilder, new, string, SqlConnection, using, SqlCommand, SQLiteConnection}}}
+  {}
+
+\definecolor{ping}{RGB}{190, 47, 194}
+\definecolor{Orange}{RGB}{255, 102, 0}
+\definecolor{ForestGreen}{RGB}{38, 106, 46}
+
+\lstdefinelanguage{SQL}
+  {morekeywords={SELECT, FROM, UPDATE, SET, WHERE, AS, OR, AND, TYPE, POSSREP,%
+  CHAR, CONSTRAINT, INT, VAR, BASE, RELATION, KEY, TUPLE, VARCHAR, int, NULL, CHECK,%
+  serial, CREATE, TABLE, NOT, PRIMARY, INSERT, INTO, VALUES, DELETE, DISTINCT, LIKE,%
+  INTERSECT, EXCEPT, MINUS, JOIN, RENAME, TIMES, MATCHING, ALTER, TO, COLUMN, NATURAL,ORDER, BY, DESC, YEAR,WITH, DROP, VIEW, MATERIALIZED, REFRESH, NO, DATA, TEMPORARY, DATE, INDEX, UNIQUE, ON, OR, INNER, FUNCTION, TRIGGER, RETURNS, DECLARE, BEGIN, END, LANGUAGE, BEFORE, AFTER, FOR, EACH, WHEN, ROW, STATEMENT, EXECUTE, PROCEDURE, IF, IS, RETURN, RAISE, EXCEPTION, THEN, COMMIT, ROLLBACK% 
+  },%
+   morecomment=[s]{/*}{*/},%
+   morecomment=[l]--,%
+   morestring=[b]",%
+   morestring=[b]',%
+   morestring=[b]`,%
+  }%
+
+\lstset{language={SQL}, 
+			keywordstyle=\color{Orange},
+			stringstyle=\color{red},
+			commentstyle=\color{ForestGreen},
+			numberstyle=\tiny\color{blue},
+			keywords= [2]{Job, Sex, Name, Salary, ChildAge, ChildName, Date, extract, AVG, ROUND},
+			keywordstyle=[2]\color{ping},
+			morekeywords=[3]{1, 2, 3, 4, 5, 6, 7, 8, 9, 0},
+   			keywordstyle=[3]{\color{cyan}},
+			}
 
 
 \begin{document}
@@ -27,7 +62,6 @@
 \newpage
 \tableofcontents
 \newpage
-
 %-----------------------------------prvni odstavec------------------------------------
 \section{}
 \paragraph{John von Neumannova a harvardská architektura počítače, princip jeho činnosti. Binární logika, logické operace a funkce, logické obvody. Reprezentace čísel a znaků v paměti počítače. Osobní počítač (PC), základní deska, chipset a sběrnice (interní, externí). Procesor (CPU), vykonávání instrukcí, podprogramy a zásobník, přerušení. Paměti počítače (RAM, cache, disk, diskové pole). Přídavné karty PC, datové mechaniky a média (CD, DVD, paměťové karty), periferie.}
@@ -261,248 +295,18 @@
 
 \clearpage
 \subsection{Reprezentace čísel a znaků v paměti počítače}
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/kodovani_cisel.png}	
-\end{figure}
-
-\clearpage
-\subsubsection{Reprezentace čísel}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/cela_cisla1.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/cela_cisla2.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/cela_cisla3.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/cisla_s_radovou_carkou1.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/cisla_s_radovou_carkou2.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/cisla_s_radovou_carkou3.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/cisla_s_radovou_carkou4.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/cisla_s_radovou_carkou5.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/cisla_s_radovou_carkou6.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/cisla_s_radovou_carkou7.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/cisla_s_radovou_carkou8.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/text1.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/text2.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/text3.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/text4.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/text5.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/text6.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/text7.png}	
-\end{figure}
-
-\clearpage
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/text8.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/text9.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/text10.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka3/text11.png}	
-\end{figure}
-
 
 %-----------------------------------otazka 4------------------------------------------
 
 \clearpage
 \subsection{Osobní počítač (PC), základní deska, chipset a sběrnice (interní, externí)}
-\subsubsection{Osobní počítač (PC)}
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/osobni_pocitac.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/pocitacova_sestava.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/soucasti_pocitace1.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/soucasti_pocitace2.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/soucasti_pocitace3.png}	
-\end{figure}
-
-\clearpage
-\subsubsection{Základní deska}
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/zakladni_deska1.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/zakladni_deska2.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/zakladni_deska3.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/zakladni_deska4.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/zakladni_deska5.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/zakladni_deska6.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/zakladni_deska7.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/zakladni_deska8.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/zakladni_deska9.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/zakladni_deska10.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/zakladni_deska11.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/zakladni_deska12.png}	
-\end{figure}
-
-
-\clearpage
-\subsubsection{Chipset a sběrnice (interní, externí)}
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/cipova_sada1.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/cipova_sada2.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/cipova_sada3.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/rozhrani_vnitrni1.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/rozhrani_vnitrni2.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/rozhrani_vnitrni3.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/rozhrani_vnitrni4.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/rozhrani_vnitrni5.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/rozhrani_vnejsi1.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/rozhrani_vnejsi2.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/rozhrani_vnejsi3.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/rozhrani_vnejsi4.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/rozhrani_vnejsi5.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/rozhrani_vnejsi6.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka4/rozhrani_vnejsi7.png}	
-\end{figure}
-
 
 %-----------------------------------otazka 5------------------------------------------
 
 \clearpage
 \subsection{Procesor (CPU), vykonávání instrukcí, podprogramy a zásobník, přerušení}
+
 \subsubsection{Procesor}
-\begin{comment}
 \begin{itemize}
 	\item základní součást počítače (mozek počítače)
 	\item integrovaný obvod, provádějící strojové instrukce, ze kterých je složen počítačový program umístěný v operační paměti počítače
@@ -540,100 +344,6 @@
 		\includegraphics[scale=0.7]{img/pipelining.png}
 		\caption{pipelining}	
 \end{figure}
-\end{comment}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/procesor1.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/procesor2.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/procesor3.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/procesor4.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/procesor5.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/procesor6.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/procesor7.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/procesor8.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/procesor9.png}	
-\end{figure}
-
-\clearpage
-\subsubsection{Vykonávání instrukcí}
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/vykonavani_instrukci1.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/vykonavani_instrukci2.png}	
-\end{figure}
-
-\clearpage
-\subsubsection{Zásobník}
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/zasobnik.png}	
-\end{figure}
-
-\clearpage
-\subsubsection{Podprogramy}
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/podprogramy1.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/podprogramy2.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/podprogramy3.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/podprogramy4.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/podprogramy5.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/podprogramy6.png}	
-\end{figure}
-
-\clearpage
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/podprogramy7.png}	
-\end{figure}
-
-\clearpage
-\subsubsection{Přerušení}
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/preruseni1.png}	
-\end{figure}
-
-\begin{figure} [h]
-	\includegraphics[scale=0.65]{img/prvni_odstavec/otazka5/preruseni2.png}	
-\end{figure}
 
 %-----------------------------------otazka 6------------------------------------------
 
@@ -641,7 +351,6 @@
 \subsection{Paměti počítače (RAM, cache, disk, diskové pole)}
 
 \subsubsection{Operační paměť (RAM)}
-\begin{comment}
 \begin{itemize}
 	\item zásadní část počítače
 	\item uložení kódu a dat běžících v OS
@@ -679,7 +388,7 @@ paměťových buněk
 	\item ve spolupráci s hardwarem dochází k mapování fyzické paměti do adresního prostoru procesu
 	\item např. grafická paměť může být namapována od adresy 0xD0000000
 \end{itemize}
-\end{comment}
+
 %-----------------------------------otazka 7------------------------------------------
 
 \clearpage
@@ -2552,4 +2261,768 @@ Protokol SSH-2 má dobře navrženou vnitřní architekturu rozdělenou na oddě
 	Bob: \$ ssh walter@walterPC.cz -p 20085 \\
 	Bob již z walterPC: \$ ssh alice@localhost -p 6262
 \end{itemize}
+
+
+
+\newpage
+
+%---------------------------------------------------------------------------------------------------------------------------
+%--------------------------------------------- čtvrtý odstavec -----------------------------------------------------
+%---------------------------------------------------------------------------------------------------------------------------
+\textbf{Relační databázové systémy: relační model dat, základní pojmy (atributy, domény, ntice, relační schémata,
+relace). Operace relační algebry: množinové operace, projekce, selekce, dělení, spojení a jeho typy. Vzájemné
+2
+vztahy relačních operací. Jazyk SQL: tabulky, pohledy, indexy, jejich vytváření a použití. Jazyk SQL: projekce,
+selekce a spojení tabulek. Referenční integrita v relačním modelu dat. Spolupráce SQL s jinými jazyky, procedury
+a triggery. Prostředky pro administraci relačního databázového systému. Systém řízení báze dat: služby,
+architektura, transakční zpracování dat, uzamykací protokoly}
+
+\section{Relační databázové systémy}
+	\includegraphics[scale=0.4]{img/1}
+	
+	\includegraphics[scale=0.4]{img/2}
+	
+	\includegraphics[scale=0.4]{img/3}
+	
+	\includegraphics[scale=0.4]{img/4}
+	
+	\includegraphics[scale=0.4]{img/5}
+	
+	\includegraphics[scale=0.4]{img/6}	
+\subsubsection{Relační model}
+	\includegraphics[scale=0.4]{img/7}
+	
+	\includegraphics[scale=0.4]{img/8}
+	
+	\includegraphics[scale=0.4]{img/9}
+\subsubsection{Základní pojmy}
+	\includegraphics[scale=0.4]{img/10}
+	
+	\includegraphics[scale=0.4]{img/11}
+	
+	\includegraphics[scale=0.4]{img/12}
+	
+	\includegraphics[scale=0.4]{img/13}
+	
+	\includegraphics[scale=0.4]{img/14}
+	
+	\includegraphics[scale=0.4]{img/15}
+	
+	\includegraphics[scale=0.4]{img/16}
+	
+	\includegraphics[scale=0.4]{img/17}
+	
+	\includegraphics[scale=0.4]{img/18}
+
+\subsubsection{Operace relační algebry}
+	\includegraphics[scale=0.4]{img/20}
+	
+	\includegraphics[scale=0.4]{img/21}
+	
+	\includegraphics[scale=0.4]{img/22}
+	
+	\includegraphics[scale=0.4]{img/23}
+	
+	\includegraphics[scale=0.4]{img/24}
+	
+	\includegraphics[scale=0.4]{img/25}
+	
+	\includegraphics[scale=0.4]{img/26}
+	
+	\includegraphics[scale=0.4]{img/27}
+	
+	\includegraphics[scale=0.4]{img/29}
+	
+	\includegraphics[scale=0.4]{img/31}
+	
+	\includegraphics[scale=0.4]{img/32}
+	
+	\includegraphics[scale=0.4]{img/33}
+	
+	\includegraphics[scale=0.4]{img/34}
+	
+	\includegraphics[scale=0.4]{img/35}
+	
+	\includegraphics[scale=0.4]{img/36}
+	
+	\includegraphics[scale=0.4]{img/37}
+	
+	\includegraphics[scale=0.4]{img/38}
+	
+	\includegraphics[scale=0.4]{img/39}
+	
+	\includegraphics[scale=0.4]{img/40}
+	
+	\includegraphics[scale=0.4]{img/41}
+	
+	\includegraphics[scale=0.4]{img/42}
+	
+	\includegraphics[scale=0.4]{img/43}
+	
+	\includegraphics[scale=0.4]{img/44}
+	
+	\includegraphics[scale=0.4]{img/45}
+	
+	\includegraphics[scale=0.4]{img/46}
+	
+	\includegraphics[scale=0.4]{img/47}
+	
+	\includegraphics[scale=0.4]{img/48}
+	
+	\includegraphics[scale=0.4]{img/49}
+	
+	\includegraphics[scale=0.4]{img/50}
+	
+	\includegraphics[scale=0.4]{img/51}
+	
+	\includegraphics[scale=0.4]{img/52}
+	
+	\includegraphics[scale=0.4]{img/53}
+	
+	\includegraphics[scale=0.4]{img/54}
+	
+	\includegraphics[scale=0.4]{img/55}
+	
+	\includegraphics[scale=0.4]{img/56}
+	
+	\includegraphics[scale=0.4]{img/57}
+	
+	\includegraphics[scale=0.4]{img/58}
+	
+	\includegraphics[scale=0.4]{img/59}
+
+\newpage	
+\section{Jazyk SQL}
+Jazyk SQL  (Structured Query Language) je jedním z nejrozšířenějších jazyků pro Coddův relační databázový model. Jedná se o deklarativní jazyk umožňující dotazování, definici a modifikaci dat. Většina implementací jazyka obsahuje i procedurální rozšíření (např. PL/pgSQL). Jazyk SQL se poprvé objevil v roce 1974 (pod názvem SEQUEL), což jej činí jedním z nejstarších jazyků pro relační model (základy modelu položil Edgar F. Codd v letech 1970-1972).
+Jazyk SQL vychází ze základních teoretických dotazovacích jazyků relačního modelu – relační algebry a n-ticového relačního kalkulu. Od relačního modelu se však jazyk SQL odchyluje a striktně řečeno jej nelze označovat jako relační. Navíc od počátku vývoje tohoto jazyka byl kladen důraz na efektivitu vyhodnocování a dobrý návrh jazyka byl opomíjen. V důsledku má jazyk komplikovanější či logicky nekonzistentní syntaxi (WHERE $\times$ HAVING, apod.).
+Jazyk je standardizován, nicméně se lze setkat s nestandardními rozšířeními. Nejnovější revize standardu byla vydána v roce 2011. Jazyk je implementován v mnoha současných komerčních i open-source databázových systémech – používají jej databázové systémy Oracle Database, Microsoft SQL Server, PostgreSQL, MySQL, MariaDB, MySQL, SQLite a další.
+ \subsection{Tabulky}
+\noindent\textbf{Vytvoření tabulky}
+
+\paragraph{Vlastnosti sloupců}
+Na sloupce je možné klást dodatečné podmínky, které musejí data v těchto sloupcích splňovat:
+\\\textbf{NOT NULL} – sloupec nesmí obsahovat hodnotu NULL\\
+\textbf{PRIMARY KEY} – daný sloupec je primárním klíčem, hodnota umožňuje jednoznačně identifikovat příslušný řádek\\
+\textbf{UNIQUE} – daný sloupec musí obsahovat vzájemně různé hodnoty (hodnoty se nesmí opakovat)\\
+\textbf{DEFAULT} výraz – implicitní hodnota; pokud není uvedeno, implicitní hodnota je NULL\\
+\textbf{CHECK} podmínka – obecná podmínka, kterou musí hodnoty v daném sloupci splňovat\\
+Některá omezení je možné definovat pro více sloupců současně:\\
+\textbf{UNIQUE}$(sloupec_i, \dots, sloupec_k)$ -- kombinace hodnot z těchto sloupců musí být napříč tabulkou unikátní\\
+\textbf{PRIMARY KEY}$(sloupec_i, \dots, sloupec_k)$ -- kombinace hodnot z těchto sloupců tvoří primární klíč\\
+\textbf{CHECK} podmínka 
+
+\begin{lstlisting}
+-- Zakladni synztax vytvoreni tabulky
+CREATE TABLE nazev_tabulky (
+  sloupec_1 datovy_typ_1 [vlastnosti_1],
+  \dots
+  sloupec_n datovy_typ_n [vlastnosti_n],
+  [omezeni_pro_vice_sloupcu]);
+
+-- Priklady
+CREATE TABLE zamestnanci (
+  jmeno varchar(30)	PRIMARY KEY,
+  vek int 		NOT NULL CHECK (vek > 0),
+  plat numeric(8, 2)	NOT NULL CHECK (plat > 8500),
+  funkce varchar(20));
+
+CREATE TABLE katalog_modelu_automobilu (
+  vyrobce varchar(40),
+  model varchar(40),
+  pocet_dveri int CHECK (pocet_dveri > 0),
+  PRIMARY KEY (vyrobce, model));
+\end{lstlisting}
+\newpage
+\noindent\textbf{Vkládání do tabulky}
+\begin{lstlisting}
+--Zakladni syntax
+INSERT INTO jmeno_tabulky (sloupec_1, ..., sloupec_n) 
+   VALUES (hodnota_1, ..., hodnota_n);
+
+-- Priklady
+INSERT INTO zamestnanci (jmeno, vek, plat, funkce) 
+  VALUES ('Jan', 24, 32345, 'Designer');
+
+INSERT INTO zamestnanci VALUES ('Tomas', 32, 49999, 'Programator');
+
+INSERT INTO zamestnanci (jmeno, vek, plat) VALUES ('Jiri', 40, 49999);
+
+INSERT INTO zamestnanci (jmeno, vek, plat, funkce) VALUES
+  ('Pavel', 54, 82345, 'Manager'),
+  ('Ota', 32, 21000, 'Udrzbar');
+\end{lstlisting}
+
+\noindent\textbf{Selekce dat z tabulky}
+\begin{lstlisting}
+SELECT * FROM zamestnanci;
+\end{lstlisting}
+
+\noindent\textbf{Změna hodnot}
+
+\begin{lstlisting}
+--zakladni synzaxe
+UPDATE jmeno_tabulky SET sloupec_i = vyraz_i, ..., sloupec_k = vyraz_k;
+-- zmena se provede pro vsechny radky
+
+UPDATE jmeno_tabulky SET sloupec_i = vyraz_i, ..., sloupec_k = vyraz_k 
+	WHERE podminka;
+-- zmena se provede pouze u radku splnujici podminku
+
+--priklady
+UPDATE zamestnanci SET plat = plat * 1.1;
+
+UPDATE zamestnanci SET funkce = 'Senior programator', plat = plat * 2 
+  WHERE funkce = 'Programator';
+\end{lstlisting}
+
+
+\noindent\textbf{Mazání dat}
+\begin{lstlisting}
+-- Zakladni syntax
+DELETE FROM jmeno_tabulky;
+-- odstrani vsechyn radky
+
+DELETE FROM jmeno_tabulky WHERE podminka;
+-- odstrani pouze redky vyhovujici podmince
+
+--Priklad 
+DELETE FROM zamestnanci WHERE vek > 28;
+\end{lstlisting}
+
+
+\subsection{Pohledy}
+Pohled si lze představit jako virtuální tabulku (relaci), jejíž obsah tvoří výsledek dotazu, který jsme uvedli v definici pohledu. Výsledek dotazu se počítá při každém použití pohledu. Pohled nezabírá (skoro) žádné místo na disku.
+
+\subsubsection{Vyuziti pohledu}
+\begin{description}
+	\item[Abstrakce]
+Pohledy mohou sloužit k pojmenování opakujícího se dotazu, který se často vyskytuje jako součást jiných dotazů.
+	\item[Zajištění kompatibility]
+V databázi mohlo být nutné změnit schéma některých tabulek. Nicméně se může stát, že aplikace, které tuto databázi využívají, mohou očekávat původní schéma. Aby nebylo nutné aplikace upravovat, pomocí pohledu pojmenujeme dotaz, který z nových tabulek vypočítá původní tabulku.
+	\item[Ochrana citlivých údajů]
+Tabulky mohou obsahovat citlivé údaje (rodná čísla, čísla platebních karet, apod.). Pokud chceme některým uživatelům umožnit přístup pouze k některým datům, vytvoříme pro ně pohled, který citlivá data obsahovat nebude a přístup k základním tabulkám těmto uživatelům zakážeme.
+	\item[Optimalizace]
+Pomocí speciálního typu pohledu – tzv. materializovaného pohledu – je možné provádět jistý druh optimalizací. Představme si následující situaci. Výpočet výsledku dotazu je tak časově náročný, že jej nemůžeme vyhodnocovat interaktivně, protože by uživatel musel na odpověď čekat příliš dlouho. Nicméně výsledek tohoto dotazu i tak potřebujeme mít k dispozici pro interaktivní dotazování. Povaha dotazu však umožňuje výsledek předpočítat a uložit jej (např. nepotřebujeme mít k dispozici zcela aktuální informace, ale postačují informace vypočtené z dat z předchozích dnů). K tomuto účelu lze využít materializovaný pohled. Při jeho definici se vypočítá výsledek dotazu a ten se uloží (výpočet lze odložit). Pokud je to potřeba, je možné výsledek dotazu přepočítat.
+\end{description}
+
+\subsubsection{Syntaxe}
+\begin{lstlisting}
+/* Zakladni syntaxe */
+CREATE VIEW nazev_pohledu AS query;
+
+/* Odstraneni pohledu */
+DROP VIEW nazev_pohledu;
+
+/* Docasny pohled -- automaticky odstranen pri ukonceni sezeni */
+CREATE TEMPORARY VIEW nazev_pohledu AS query;
+
+/* Materializovany pohled (PostgreSQL ve verzi 9.3 a novejsi) */
+CREATE MATERIALIZED VIEW nazev_pohledu AS query;
+
+/* Materializovany pohled bude vytvoren, dotaz se nebude vyhodnocovat */
+CREATE MATERIALIZED VIEW nazev_pohledu AS query WITH NO DATA;
+
+/* Aktualizace dat v materializovanem pohledu */
+REFRESH MATERIALIZED VIEW nazev_pohledu;
+\end{lstlisting}
+
+
+\subsubsection{Příklad}
+\begin{lstlisting}
+CREATE TABLE customers_all (
+  id SERIAL PRIMARY KEY,
+  name   VARCHAR(50),
+  email  VARCHAR(255),
+  phone  VARCHAR(20),
+  cardno VARCHAR(16),
+  expdat DATE,
+  ccv	 VARCHAR(3));
+  
+INSERT INTO customers_all (name, email, phone, cardno, expdat, ccv) VALUES
+  ('Timothy H. Lambert', 'TimothyHLambert@a.example', 
+  '903-748-9005', '4532673594042130', '2019-11-01', '230'),
+  ('Alberto C. Whitney', 'AlbertoCWhitney@b.example', 
+  '541-210-6628', '4716945870605022', '2016-09-01', '142'),
+  ('Lynn B. Parent',     'LynnBParent@c.example',     
+  '971-217-5883', '5396092899337578', '2015-10-01', '987');
+  
+ALTER TABLE customers_all 
+  RENAME COLUMN expdat TO expiration_date;
+ALTER TABLE customers_all 
+  RENAME COLUMN cardno TO card_number;
+ALTER TABLE customers_all 
+  RENAME TO customers_all_2;
+  
+CREATE VIEW customers_all AS (
+  SELECT id, name, email, phone, card_number 
+     AS cardno, expiration_date AS expdat, ccv 
+        FROM customers_all_2);
+
+SELECT * FROM customers_all;
+
+CREATE VIEW customers AS 
+  (SELECT id, name, email, phone FROM customers_all_2);
+
+SELECT * FROM customers;
+
+CREATE MATERIALIZED VIEW materialized_test AS 
+   SELECT * FROM customers_all_2;
+DELETE FROM customers_all_2 
+   WHERE expiration_date < '2016-01-01';
+
+SELECT * FROM materialized_test;
+REFRESH MATERIALIZED VIEW materialized_test;
+SELECT * FROM materialized_test;
+\end{lstlisting}
+
+\subsection{Indexy}
+Index je dodatečná datová struktura (není součástí tabulky), kterou je možné využít ke zrychlení některých typů dotazů. Mezi dotazy, které je možné pomocí indexů zrychlit, patří především ty, které obsahují operace porovnání =, <, <=, >, >=; množinové operace (UNION, ...) nebo třídění či odstraňování duplicit.
+Použití indexů není "zdarma" – indexy zabírají místo na disku a při změnách dat v tabulkách je nutné příslušné indexy aktualizovat. Operace INSERT, UPDATE a DELETE se pro tabulky s indexy částečně zpomalí (čím více indexů na dané tabulce máme, tím pomalejší tyto operace budou). Na druhou stranu operace SELECT se pro tabulky s indexy může (často velmi výrazně) zrychlit.
+
+\paragraph{Představa.} 
+Uvažujme město, ve kterém si vedou kroniku (tabulku) o narození občanů. Kronika se skládá z jednotlivých stránek, na kterých jsou jednotlivé záznamy o narození. Při narození dítěte kronikář jednoduše zapíše jeho jméno na nejbližší volné místo v kronice (levná operace). Problém nastává v okamžiku, kdy by někdo rád zjistil, kdy se narodil konkrétní člověk. Nemá jinou možnost než celou kroniku prolistovat a projít ji záznam po záznamu (sekvenční přístup). Navíc čím více záznamů v kronice bude, tím dražší bude tuto operaci provést.
+Situace se zcela změní, pokud máme k dispozici abecedně seřazený rejstřík jmen (dodatečnou datovou strukturu). V takovém případě prohledáme rejstřík (rychlá operace, můžeme použít binární vyhledávání) a zjistíme, na které stránce se nachází požadovaný záznam, nalistujeme danou stránku a nalezneme záznam. Na druhou stranu, zápis do kroniky již není tak přímočarý – kronikář musí kromě zapsání nového záznamu do kroniky ještě přidat nové jméno na správné místo v rejstříku, což již může být relativně drahá operace.
+
+\newpage
+\subsubsection{Syntaxe}
+\begin{lstlisting}
+-- Vytvoreni
+CREATE [UNIQUE] INDEX jmeno_indexu 
+  ON jmeno_tabulky (sloupec_1, ..., sloupec_n);
+
+-- Smazani
+DROP INDEX jmeno_indexu;
+\end{lstlisting}
+
+
+\subsection{Projekce}
+Výsledkem tohoto dotazu je tabulka zúžená na vybrané sloupce. Pokud chceme vybrat všechny sloupce, můžeme seznam sloupců nahradit symbolem *.
+
+\subsubsection{Syntax}
+Výsledná tabulka může obsahovat duplicitní řádky. Duplicitní řádky je možné eliminovat uvedením klíčového slova DISTINCT:
+\begin{lstlisting}
+SELECT sloupec_1, ..., sloupec_n FROM nazev_tabulky;
+
+SELECT DISTINCT sloupec_1, ..., sloupec_n FROM nazev_tabulky;
+\end{lstlisting}
+
+
+\subsection{Priklady}
+\begin{lstlisting}
+SELECT jmeno, vek FROM zamestnanci;
+SELECT * FROM zamestnanci;
+\end{lstlisting}
+
+\subsection{Selekce}
+Výsledkem tohoto dotazu je tabulka obsahující pouze ty řádky, které vyhovují zadané podmínce. Selekci je možné kombinovat s projekcí.
+
+\subsubsection{Syntax}
+\begin{lstlisting}
+SELECT * FROM nazev_tabulky WHERE podminka;
+\end{lstlisting}
+
+\subsubsection{Příklady}
+\begin{lstlisting}
+SELECT * FROM zamestnanci 
+  WHERE funkce = 'Programator';
+
+SELECT jmeno, plat FROM zamestnanci 
+  WHERE plat < 20000 OR plat > 40000;
+\end{lstlisting}
+
+\subsection{Spojení tabulek}
+Pokud provádíme např. spojení dvou tabulek a tyto tabulky obsahují sloupec stejného jména, nelze se již na tento sloupec odkazovat pouze jeho jménem, ale musíme specifikovat, ze které tabulky má daný sloupec být (pomocí tečkové notace ve tvaru tabulka.sloupec).
+V rámci dotazu se nesmí vyskytovat dvě tabulky stejného jména, proto v části FROM je možné pro potřeby daného dotazu tabulky pojmenovat:
+\begin{lstlisting}
+SELECT * FROM tab, tab; --chyba
+	
+SELECT * FROM tab AS t1, tab AS t2;
+--v ramci dotazu se t1 a t2 chovaji jako dve ruzne tabulky 
+--(obe obsahuji tataz data jako tabulka tab)
+\end{lstlisting}
+
+
+\subsubsection{Přirozené spojení}
+\begin{lstlisting}
+/* Prirozene spojene */
+SELECT * FROM tabulka_1 NATURAL JOIN tabulka_2;
+	
+/* Ekvivalentni vyjadreni */
+-- T_atribut_i = nazvy sloupcu vyskytujicich se pouze v tabulka_2
+-- S_atribut_i = nazvy sloupcu, ktere jsou spolecne pro tabulka_1 a tabulka_2
+SELECT tabulka_1.*, tabulka_2.T_atribut_1, ..., tabulka_2.T_atribut_m
+FROM tabulka_1, tabulka 2 WHERE
+  tabulka_1.S_atribut_1 = tabulka_2.S_atribut_1
+  AND ... AND
+  tabulka_1.S_atribut_n = tabulka_2.S_atribut_n;
+	  
+/* nebo tez: */
+SELECT tabulka_1.*, tabulka_2.T_atribut_1, ..., tabulka_2.T_atribut_m
+FROM tabulka_1 [INNER] JOIN tabulka_2 ON
+  tabulka_1.S_atribut_1 = tabulka_2.S_atribut_1
+  AND ... AND
+  tabulka_1.S_atribut_n = tabulka_2.S_atribut_n;
+\end{lstlisting}
+
+\subsubsection{Přejmenování}
+\begin{lstlisting}
+SELECT stare_jmeno_1 [AS] nove_jmeno_1, ..., 
+   stare_jmeno_n [AS] nove_jmeno_n FROM tabulka;
+\end{lstlisting}
+
+\subsubsection{Kartézský součin}
+\begin{lstlisting}
+SELECT * FROM tabulka_1, tabulka_2;
+/* ekvivalentne: */
+SELECT * FROM tabulka_1 CROSS JOIN tabulka_2;
+\end{lstlisting}
+
+\subsubsection{Polospojení}
+\begin{lstlisting}
+SELECT DISTINCT rel1.* FROM rel1 NATURAL JOIN rel2;
+SELECT DISTINCT rel2.* FROM rel1 NATURAL JOIN rel2;
+\end{lstlisting}
+
+\subsubsection{Kompozice}
+\begin{lstlisting}
+SELECT foo, qux FROM rel1 NATURAL JOIN rel2;
+\end{lstlisting}
+
+\section{Referenční integrita}
+Data uložená ve více tabulkách jsou často logicky provázána. Například můžeme mít tabulku odběratelé a tabulku faktury, kde každá faktura přísluší některému odběrateli. Chceme, aby pro každou fakturu odběratel vždy existoval. Je nutné zajistit, aby nebylo možné například vložit fakturu pro neexistujícího odběratele nebo smazat odběratele, ke kterému máme uložené nějaké faktury.
+K tomuto účelu v jazyce SQL slouží tzv. cizí klíč(e). Omezení dané cizím klíčem vyžaduje, aby hodnoty ve specifikovaném sloupci (nebo sloupcích) odpovídaly hodnotám, které se nacházejí v některém řádku jiné tabulky. Tímto způsobem je zajištěna tzv. referenční integrita mezi dvěma tabulkami (řádky z jedné tabulky se nemohou odkazovat na neexistující řádky z jiné tabulky).
+	
+	\includegraphics[scale=0.4]{img/60}
+	
+	\includegraphics[scale=0.4]{img/61}
+	
+	\includegraphics[scale=0.4]{img/62}
+	
+	\includegraphics[scale=0.4]{img/63}
+	
+	\includegraphics[scale=0.4]{img/64}
+	
+	\includegraphics[scale=0.4]{img/65}
+	
+	\includegraphics[scale=0.4]{img/66}
+	
+	\includegraphics[scale=0.4]{img/67}
+	
+	\includegraphics[scale=0.4]{img/68}
+	
+	\includegraphics[scale=0.4]{img/69}
+	
+	\includegraphics[scale=0.4]{img/70}
+
+\section{Spolupráce SQL s jinými jazyky}
+	\subsection{Java}
+	K provázání jazyka Java s databázi využívající jazyk SQL slouží API zvané JDBC ( Java Database Connectivity). Java může spolupracovat s celou škálou databází napřklad: MySQL, SQLite, PostgreSQL, \dots. Java ovšem obsahuje databázi Apache Derby již v JVM. Pro propojení Java aplikace s databází je potřeba tzv. JDBC driver který implementuje veškerou předepsanou funkcionalitu. Odstiňuje aplikaci od toho s jakou databází spolupracuje. 
+	
+	\subsubsection{Připojení k databázi}
+	\begin{Java}
+//Connection to MySQL database
+
+Connection con = null;
+String connectionURL = "jdbc:mysql://tux.inf.upol.cz:3306/vyjiro00";
+         
+try {
+   con = DriverManager.getConnection(connectionURL, 
+	"admin", "Password");
+	
+   System.out.println("pripojeno");
+} catch (SQLException e) {
+   e.printStackTrace();
+}
+
+//Connect to embeded SQLite database
+Class.forName("org.sqlite.JDBC");
+connection = DriverManager.getConnection("jdbc:sqlite:blog.sqlite");
+	\end{Java}
+	
+	\subsubsection{Vytváření dotazů}	
+	Pro vytvoření dotazu nabízí JDBC objekt \texttt{Statement}, který ve svém konstruktoru bere  sql \texttt{String} jako argument.
+\begin{Java}
+try (Statement stmt = con.createStatement()){
+   stmt.addBatch("CREATE TABLE person(name  VARCHAR(30),PRIMARY KEY (name))");
+   stmt.executeBatch(); //execute statement
+}
+\end{Java}
+Další možností jak vytvářet dotazy jsou tzv. \texttt{PrepatedStatement}, které nám pomáhají zabránit SQL-injection. Nebo-li jinak řečeno nemůže se stát, že by nám do dotaz, kde se vkládá jméno a heslo, nějaký hacker vložil dotaz který vymaže celou tabulku apod. Použití \texttt{Preparedstatement} je následující:
+\begin{Java}
+public Author insertAuthor(String name) throws DatabaseException {
+String sql = "INSERT INTO [author] ([name]) VALUES (?);";
+         
+ try (PreparedStatement stmt =  connection.prepareStatement(sql) {
+    stmt.setString(1, name);
+    stmt.executeUpdate();
+             
+  } catch (SQLException e) {
+      throw new DatabaseException("Author insert failed with message: " 
+	+ e.getMessage());
+  }
+}
+\end{Java}
+
+\subsection{C\#}
+V C\# databáze moc neumím omlouvám se na nekompletní vysvětlení. Čerpáno z \href{http://www.itnetwork.cz/c-sharp-tutorial-pripojena-databazova-aplikace}{[1]}.
+	\subsubsection{připojení k databázi}
+\begin{CS}
+SqlConnectionStringBuilder csb = new SqlConnectionStringBuilder();
+csb.DataSource = @"localhost\SQLEXPRESS";
+csb.InitialCatalog = "SlovnicekDB";
+csb.IntegratedSecurity = true;
+string pripojovaciRetezec = csb.ConnectionString;
+
+using (SqlConnection pripojeni = new SqlConnection(connectionString))
+{
+        pripojeni.Open();
+        Console.WriteLine("Aplikace se uspesne pripojila k databazi.");
+}
+Console.ReadKey();
+
+// Connect to SQLite
+SQLiteConnection.CreateFile("Database.sqlite");
+con = new SQLiteConnection("Data Source=Database.sqlite;Version=3;");
+\end{CS}
+
+\subsubsection{Vytváření dotazů}
+\begin{CS}
+SqlCommand prikaz = new SqlCommand();
+prikaz.Connection = pripojeni;
+prikaz.CommandText = "SELECT COUNT(*) FROM Word";
+int pocetSlovicek = (int)prikaz.ExecuteScalar(); 
+pripojeni.Close();
+Console.WriteLine("Pocet slovicek v DB je {0}", pocetSlovicek);
+
+//C# equivalent of Java PrepraredStatement
+string addDriverStmt = "INSERT INTO drivers (name, adress) VALUES (@name, @adress)";
+using (SQLiteCommand cmd = new SQLiteCommand(addDriverStmt, con))
+{
+  con.Open();
+
+  cmd.Parameters.AddWithValue("@name", name);
+  cmd.Parameters.AddWithValue("@adress", adress);
+  cmd.ExecuteNonQuery();
+}
+con.Close();
+\end{CS}
+
+\includegraphics[scale=0.4]{img/80}
+
+\includegraphics[scale=0.4]{img/81}
+
+\section{Procedury a triggery}
+V jazyce PL/pgSQL je možné kromě uživatelsky definovaných funkcí programovat i tzv. triggery, což jsou funkce asociované s konkrétními tabulkami, které se spouští při operacích jako je vložení nových řádků, apod.
+
+\paragraph{Definice triggeru.}
+Funkce, která slouží jako trigger, se definuje standardním způsobem, pouze nesmí mít žádné parametry a návratový typ musí být TRIGGER.
+\begin{lstlisting}
+CREATE FUNCTION nazev_funkce() RETURNS TRIGGER AS $$
+[DECLARE
+  deklarace] --nepovinny blok deklaraci
+BEGIN
+  prikazy
+END;
+$$ LANGUAGE plpgsql;
+\end{lstlisting}
+Jakmile máme příslušnou funkci nadefinovánu, můžeme ji přiřadit ke konkrétní tabulce a konkrétním operacím (INSERT, UPDATE, DELETE). V okamžiku, kdy se provádí daná operace nad danou tabulkou, systém automaticky spustí naši funkci. Navíc můžeme specifikovat, jestli se má daná funkce spustit před (BEFORE) nebo po (AFTER) provedení dané operace. Dále lze určit, jestli bude daná funkce spuštěna nad celou tabulkou (FOR EACH STATEMENT) anebo pro každý vkládaný/modifikovaný/mazaný řádek zvlášť (FOR EACH ROW). Volitelně potom můžeme zadat podmínku, která musí být splněna, aby byl trigger systémem spuštěn.
+
+\textbf{Speciální proměnné}\\ 
+Při spuštění triggeru jsou v rámci funkce k dispozici následující proměnné:
+\begin{itemize}
+	\item NEW (typ RECORD) – pro triggery spouštěné pro každý řádek tato proměnná obsahuje při INSERT nebo UPDATE nový řádek, který bude (byl) vložen do databáze nebo změněn. Pro celotabulkové triggery a pro DELETE je proměnná rovna NULL.
+	
+	\item OLD (typ RECORD) – pro triggery spouštěné pro každý řádek tato proměnná obsahuje při UPDATE nebo DELETE původní řádek, který bude (byl) změněn nebo odstraněn. Pro celotabulkové triggery a pro INSERT je proměnná rovna NULL.
+\end{itemize}
+
+
+\begin{lstlisting}
+CREATE TRIGGER nazev_triggeru { BEFORE | AFTER } { udalost [ OR ... ] }
+    ON nazev_tabulky
+    [ FOR [ EACH ] { ROW | STATEMENT } ]
+    [ WHEN ( podminka ) ]
+    EXECUTE PROCEDURE nazev_funkce ();
+
+-- Priklady
+CREATE TRIGGER check_update
+    BEFORE INSERT OR UPDATE OF balance ON accounts
+    FOR EACH ROW
+    EXECUTE PROCEDURE check_account_update();
+	
+CREATE TRIGGER check_update
+    BEFORE UPDATE ON accounts
+    FOR EACH ROW
+    WHEN (OLD.balance IS DISTINCT FROM NEW.balance)
+    EXECUTE PROCEDURE check_account_update();
+	
+CREATE TRIGGER log_update
+    AFTER UPDATE ON accounts
+    FOR EACH ROW
+    WHEN (OLD.* IS DISTINCT FROM NEW.*)
+    EXECUTE PROCEDURE log_account_update();
+
+CREATE TABLE platy (
+    jmenoZamestance	TEXT,
+    plat		NUMERIC(8, 2),
+    posledniZmena	TIMESTAMP,
+    zmenuProvedl	TEXT
+);
+
+CREATE FUNCTION platy_stamp() RETURNS trigger AS $$
+    BEGIN
+        -- Check that empname and salary are given
+        IF NEW.jmenoZamestance IS NULL THEN
+            RAISE EXCEPTION 'empname cannot be null';
+        END IF;
+        IF NEW.plat IS NULL THEN
+            RAISE EXCEPTION '% cannot have null salary', NEW.empname;
+        END IF;
+        -- Who works for us when she must pay for it?
+        IF NEW.plat < 0 THEN
+            RAISE EXCEPTION '% cannot have a negative salary', NEW.empname;
+        END IF;		
+        -- Do not insert or modify Bill's salary (silently, *evil-laugh*)
+        IF NEW.jmenoZamestance = 'Bill' THEN
+            RETURN NULL;
+        END IF
+        -- Remember who changed the payroll when
+        NEW.posledniZmena := current_timestamp;
+        NEW.zmenuProvedl := current_user;
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER platy_stamp BEFORE INSERT OR UPDATE ON platy
+    FOR EACH ROW EXECUTE PROCEDURE platy_stamp();
+\end{lstlisting}
+
+\section{Prostředky pro administraci relačních databázových systémů}
+Prostředků je nepřeberné množství. Jsou bud konzolové a nebo grafické pro databázový systém MySQL je možné použít MySQLWorkbench (GUI), případně konzolovou verzi. U MySQL dále poskytuje možnost správy pomocí webového rozhraní zvané PHPMyAdmin. Pro administraci databázového systému PostgreSQL máme následující nástroje: pgadmin (GUI), psql (konzole).
+
+\subsection{Klient psql}
+Psql je konzolový klient, který slouží k administraci databázového systému PostgreSQL. Pokud chceme spravovat databázi nejjednodušší možností je se přihlásit na server, na kterém běží PostgreSQL pomocí ssh následovně: \texttt{ssh vase\_prijmeni@slon.inf.upol.cz}. Potom můžeme spustit klienta zadáním příkazu \texttt{psql}. Ovládání klienta je následující:
+\begin{itemize}
+	\item $\backslash$e -- spustí externí editor (vhodné pro delší SQL příkazy)
+	\item $\backslash$i <soubor> -- provede SQL příkazy ze souboru
+	\item $\backslash$d -- vypíše všechny tabulky, pohledy, indexy v aktuální databázi
+	\item $\backslash$d <objekt> -- vypíše podrobné informace o objektu
+	\item $\backslash$? -- nápověda
+	\item $\backslash$c <databáze> -- připojí se k databázi
+	\item $\backslash$q -- ukončí klienta
+\end{itemize}
+\includegraphics[scale=0.4]{img/79}
+
+Dále si myslím, že není moc co popisovat každý s nás aspoň jednou nějakého klienta používal takže tady je vždycky o čem mluvit.
+
+\section{Řízení báze dat}
+\includegraphics[scale=0.4]{img/71}
+
+\includegraphics[scale=0.4]{img/72}
+
+\includegraphics[scale=0.4]{img/73}
+
+\includegraphics[scale=0.4]{img/74}
+
+\includegraphics[scale=0.4]{img/75}
+
+\includegraphics[scale=0.4]{img/76}
+
+\includegraphics[scale=0.4]{img/77}
+
+\includegraphics[scale=0.4]{img/78}
+
+\section{Transakční zpracování dat}
+Můžeme uvažovat následující problémy:
+\paragraph{1. převod peněz mezi účty}
+Převod peněz mezi účty potřebujeme vykonat atomicky. Potřebujeme nedělitelně odepsat danou částku z jednoho účtu a připsat ji na druhý účet. Nemůžeme dopustit situaci, kdy bychom odepsali peníze z účtu, ale např. kvůli chybě systémů již peníze nepřipsali na druhý účet. Vyžadujeme, aby byly provedeny buď všechny změny nebo žádná.
+\paragraph{2. rezervace místa v letadle}
+Databázový systém je běžně využíván mnoha uživateli najednou. Při souběžném přístupu více uživatelů požadujeme co nejefektivnější zpracování jejich požadavků při zachování konzistence dat v databázi.
+\\[12pt]Rezervace místa v letadle může probíhat (zhruba) takto:
+\begin{lstlisting}
+1. SELECT seat INTO S FROM flights WHERE ... LIMIT 1;
+	
+2. if found then
+     UPDATE flights SET ... WHERE seat = ...;
+   end if
+\end{lstlisting}
+Může dojít k souběžnému přístupu dvou uživatelů:
+\begin{verbatim}
+U1:    1.       2.
+U2:         1.         2.
+čas: >>>>>>>>>>>>>>>>>>>>
+\end{verbatim}
+Potřebujeme zajistit konzistenci dat – druhý uživatel nesmí získat stejné sedadlo jako první.
+\newpage
+\subsection*{Řešení: Transakce}
+Transakce lze chápat jako sekvence databázových operací, které splňují ACID:
+\begin{enumerate}
+	\item Atomicita – Všechny operace v rámci transakce se provedou buď všechny nebo žádná.
+	\item Konzistence – Před i po vykonání transakce se databáze nachází v konzistentním stavu. Musí být splněna všechna integritní omezení.
+	\item Izolace – Jednotlivé transakce jsou izolované. Změny prováděné v průběhu zpracovávání dané transakce nejsou viditelné v ostatních transakchích.
+	\item Trvalost (durability) – Po úspěšném ukončení transakce jsou data uložena a nemohou být ztracena.
+\end{enumerate}
+
+\subsection*{Transakce v SQL}
+V jazyce SQL máme pro práci s transakcemi k dispozici následující příkazy:
+\begin{lstlisting}
+BEGIN; -- spousti transakci
+...prikazy v ramci transakce...
+COMMIT; -- ulozi a ukonci transakci
+
+BEGIN;
+...prikazy v ramci transakce...
+ROLLBACK; -- vrati zmeny provedene transakci a ukonci ji
+\end{lstlisting}
+Příkaz \texttt{ROLLBACK} může vyvolat i databázový systém při kolizi dané transakce s jinou transakcí.
+Poznámka: Každý samostatný příkaz je automaticky vykonán v rámci vlastní transakce (např. při vykonání \texttt{UPDATE} nevidíme jednotlivé změny řádků, ale až celou upravenou tabulku).
+
+\subsection*{Úrovně izolace}
+Požadavky ACID jsou relativně silné a jejich zajištění je časově náročné. Proto je možné tyto podmínky zeslabit pomocí tzv. úrovní izolace. Rozeznáváme 4 úrovně (od nejslabší po nejsilnější):
+
+\subsubsection*{1. READ UNCOMMITTED}
+Transakci je umožněno číst data zapisovaná jinou transakcí, aniž by tato jiná transakce byla ukončená pomocí COMMIT. Čtení takových dat označujeme jako tzv. dirty read. Takto přečtená data mohou být nekonzistentní (čas plyne shora dolů):
+
+\includegraphics[scale=0.5]{img/ReadUncommited}
+
+V první transkaci jsme zjistili, že věk člověka 5 je 21, ačkoliv v databázi takový záznam neexistuje.
+Tato úroveň izolace je vhodná pouze pro specifické případy (např. servisní analýza databáze), kdy nepotřebujeme přesná a konzistentní data.
+
+\subsubsection*{2. READ COMMITTED}
+Na této úrovni izolace již nemůže dojít k dirty read. Data, která přečteme, byla vždy zapsána transakcí, která byla úspěšně ukončena pomocí COMMIT. Avšak může dojít k tzv. non-repeatable read. Pokud v rámci transakace čteme nějaká data vícekrát, může se stát, že se při opakovaném čtení pokaždé nevrátí stejný výsledek. Mezi čteními dat naší transakcí totiž mohla být úspěšně ukončena souběžná transakce, která zapsala/upravila/smazala nějaká data.
+
+\includegraphics[scale=0.5]{img/ReadCommited}
+
+\subsubsection*{3. REPEATABLE READ}
+Na této úrovni je zajištěno, že nedojde k non-repeatable read. Data, která jednou přečteme, se již nemohou při dalším čtení změnit. Může však nastat tzv. phantom read. Pokud v rámci transakce čteme nějaká data vícekrát, může se stát, že výsledek opakovaného čtení bude obsahovat nové řádky, které při předchozím čtení ve výsledku nebyly. Mezi čteními dat naší transakcí totiž mohla být úspěšně ukončena souběžná transakce, která zapsala nová data.
+
+\includegraphics[scale=0.5]{img/RepeatableRead}
+
+\subsubsection*{4. SERIALIZABLE}
+Nemůže dojít k žádnému výše uvedenému fenoménu, vynucuje ACID.
+
+\includegraphics[scale=0.6]{img/ACIDNote}
+
+\section{Uzamykací protokoly}
+\includegraphics[scale=0.5]{img/82}
+
+\includegraphics[scale=0.5]{img/83}
+
+\includegraphics[scale=0.5]{img/84}
+
+\includegraphics[scale=0.5]{img/85}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
