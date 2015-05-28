@@ -658,7 +658,7 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
 %---------------------------------------------------------------------------------------------
 \newpage
 \section{Makra}
-\paragraph{Motivace} Chceme upravit $if$ tak aby při absenci alternativního výrazu vracel $\#f$. 
+\paragraph{Motivace} Chceme upravit $if$ tak aby při absenci alternativního výrazu vracel $\#f$.
 \\ Nyní máme (\color{red}$if$ \color{black} (= 1 2) '$blah$) $\Rightarrow$ nedefinovaná hodnota.
 \\ Chceme: (\color{red}$new-if$ \color{black} (= 1 2) '$blah$) $\Rightarrow$ $\#f$.
 \\ Potřebujeme zavést předpis, který bude provádět "transformaci kódu". Spoustu možností jak vyřešit (nová transformační procedura nebo třeba pomocí kvazikvótování). Nejlepší řešení $\rightarrow$ zavedeni \color{blue} maker \color{black}.
@@ -730,7 +730,7 @@ Výhody:
 	\item nemůže nastat \textit{symbol capture}
 	\item makra jsou v souladu s lexikálním rozsahem platnosti
 	\item makra lze definovat lokálně
-\end{itemize} 
+\end{itemize}
 Nevýhody:
 \begin{itemize}
 	\item některá makra se tímto způsobem nedělají pohodlně
@@ -760,7 +760,7 @@ Základní myšlenka:
 	\item procedura \color{blue} force \color{black}, která pro daný příslib aktivuje výpočet a vrátí hodnotu vzniklou vyhodnocením přislíbeného výrazu
 \end{itemize}
 Líné vyhodnocování = vyhodnocování založené na příslibech (někdy taky "call by need")
-\paragraph{Poznámka.} 
+\paragraph{Poznámka.}
 \begin{itemize}
 	\item Při líném vyhodnocování dochází k propagaci chyb (chyba se projeví "na jiném místě" než "kde vznikla".
 	\item pomocí příslibů je možné "odložit časově složitý výpočet na později" a aktivovat jej, až je skutečně potřeba jej provést.
