@@ -17,6 +17,7 @@
 \usepackage{graphicx}
 \usepackage{ dsfont }
 \usepackage{color}
+\usepackage{float}
 
 \begin{document}
 
@@ -1596,6 +1597,129 @@ Ak nahradíme limitu limitou zľava(zprava) dostaneme \textbf{deriváciu zľava(
 	Uvažujme funkciu $f:J\rightarrow \mathds{R}$ a $x_{0}\in J$. Lineárne homogénne zobrazenie $A:\mathds{R}\rightarrow \mathds{R}$ nazývame \textbf{diferenciál funkcie} $f$ v bode $x_{0}$, ak $$\lim_{h\rightarrow 0}\frac{f(x_{0}+h) - f(x_{0})-A(h)}{h}=0$$ Diferencál funkcie $f$ v bode $x_{0}$ označujeme $df(x_{0})$.
 \end{definition}
 
+\subsection{Vyšetrovanie priebehu funkcie}
+\paragraph{}
+Pomocou derivácií možeme vyšetriť priebeh funkcie. Definovali sme tečnu ku grafu funkcie. Strmosť tečny nám určuje, ako moc sa hodnoty menia. Derivácia v bode extrému je rovná 0, v tom istom bode je tečna vodorovná s osou $y$ (toto je jeden z ukazovatelov že sa nachádzame v extréme). Pozri obrázok \ref{tecna}.
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[scale=0.24]{img/tecna}
+	\end{center}
+	\caption{Tečna ku grafu funkcie v bode $x_{1}$ a $x_{2}$, v bode $x_{1}$ vidíme že tečna je strmá(hodnoty sa menia výrazne), v bode $x_{2}$ vidíme že tečna je rovnobežná s osou x, takže sa nachádzame v extréme (derivácia by v $x_{2}$ bola rovná 0)\label{tecna}}
+\end{figure}
+
+\subsubsection{Extrémy}
+\paragraph{}
+Nech $f:X\subseteq \mathds{R}\rightarrow \mathds{R}$. Povedzme že funkcia $f$ je \textbf{rastúca (respektívne klesajúca, nerastúca, neklesajúca)} v bode $x_{0}\in X$, ak existuje okolie $(x_{0}-\delta, x_{0}+\delta)$ bodu $x_{0}$ také, že $f((x_{0}-\delta, x_{0})\cap X)<f(x_{0})<f((x_{0}, x_{0}+\delta)\cap X)$ (respektívne $f((x_{0}-\delta, x_{0})\cap X)>f(x_{0})>f((x_{0}, x_{0}+\delta)\cap X)$, $f((x_{0}-\delta, x_{0})\cap X)\geq f(x_{0})\geq f((x_{0}, x_{0}+\delta)\cap X)$, $f((x_{0}-\delta, x_{0})\cap X)\leq f(x_{0})\leq f((x_{0}, x_{0}+\delta)\cap X)$). \paragraph{}
+Povedzme, že funkcia $f$ nabýva v $x_{0}$ \textbf{lokálne maxima (minima)} ak existuje okolie $U$ bodu $x_{0}$ také, že $f|_{U\cap X}$ (tento zápis znamená zúženie funkcie $f$ na okolie $U$) nabýva v $x_{0}$ maxima (minima).
+
+\begin{sentence}
+	Majme $f:J\rightarrow \mathds{R}$, potom:
+	\begin{enumerate}
+		\item Ak je $f'(x_{0})>0$ (poprípade ak je $f'(x_{0})=\infty$), potom je $f$ v bode $x_{0}$ \textbf{rastúca}.
+		\item Ak je $f'(x_{0})<0$ (poprípade ak je $f'(x_{0})=-\infty$), potom je $f$ v bode $x_{0}$ \textbf{klesajúca}.
+	\end{enumerate}
+\end{sentence}
+
+\begin{result}
+	\label{dosledok1}
+	Ak je $x_{0}\in J$ bodom extrému funkcie $f:J\rightarrow \mathds{R}$ a existuje $f'(x_{0})$, potom $f'(x_{0})=0$ (ako sme tvrdili v úvode).
+\end{result}
+
+\subsection{Základné vety diferenciálneho počtu}
+\begin{sentence}
+	\textbf{(Rolleova)} Majme $f:[a,b]\rightarrow \mathds{R}$ spojitá funkcia majúca deriváciu (vlastnú alebo nevlastnú) v každom vnútornom bode $[a,b]$. Ak $f(a)=f(b)$, potom existuje $c\in (a, b)$ také, že$f'(c)=0$.
+\end{sentence}
+\paragraph{}
+\textbf{D:} Ak je $f$ konštantná, potom $c$ je ľubovolný bod intervalu $(a, b)$. Uvažujme 2 rozne prípady. \textbf{Prvý:} Ak existuje bod v (a, b), v ktorom funkcia $f$ nabýva hodnoty vačšej než $f(a)$, potom vezmeme za $c$ bod v ktorom funkcia $f$ nabýva na $[a, b]$ svojho maxima. Taký bod existovať bude (na základe vety 4.9 \dots neviem kde ju doc. Krupka dal ale ja som ju nenašiel) a bude rozny od $a, b$, pretože funkcia $f$ nabýva hodnoty vaščej než $f(a)$ v nejakom bode $(a, b)$. Ostáva ukázať že $f'(c)=0$. To ale plynie z dosledku číslo \ref{dosledok1}.
+
+\begin{sentence}
+	\textbf{\textbf{(Lagrangeova veta o strednej hodnote)}} Majme $f:[a,b]\rightarrow \mathds{R}$ spojitá funkcia majúca deriváciu (vlastnú alebo nevlastnú) v každom vnútornom bode $[a,b]$. Potom existuje $c\in (a, b)$ také, že $f'(c)=\frac{f(b)-f(a)}{b-a}$. (Používa sa k odhadu, ako rýchlo funkcia rastie)
+\end{sentence}
+
+\paragraph{}
+\textbf{D:} Vetu dokážeme pomocou Rolleovej vety tak, že ju aplikujeme na rozdiel funkcie $f$ a afinnej funkcie $g$ prechádzajúcej bodmi $(a, f(a)) a (b, f(b))$. Uvažujme teda funkciu $F:[a, b]\rightarrow \mathds{R}$ s predpisom $F(x)=f(x)-\frac{f(b)-f(a)}{b-a}(x-a)-f(a)$. Táto funkcia spĺňa všetky predpoklady Rolleovej vety. Preto existuje $c\in (a, b)$ také, že $F'(c)=0$. Pretože $F(x)=f(x)-\frac{f(b)-f(a)}{b-a}$ pre $x=c$ dostávame $F(c)=f(c)-\frac{f(b)-f(a)}{b-a}=0$.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.6]{img/lagrangeova_veta}
+	\end{center}
+	\caption{Lagrangeova veta}
+\end{figure}
+
+\begin{result}
+	Majme $f, g:[a, b]\rightarrow \mathds{R}$ spojité funkcie. Ak platí že $f' = g'$, potom existuje $c\in\mathds{R}$ také, že $f=g+c$. (Inak povedané, funkcie s rovnakou deriváciou sa na intervale líšia iba o konštantu.)
+\end{result}
+
+\begin{sentence}
+	\textbf{(Couchova veta o strednej hodnote)} Majme $f, g:[a, b]\rightarrow \mathds{R}$ spojité funkcie a nech existuje v každom bode $x\in (a, b)$ derivácia $f'(x)$ (vlastná alebo nevlastná) a vlastná derivácia $g'(x)\neq 0$. Potom exituje $x\in (a, b)$ také, že $\frac{f'(c)}{g'(c)}=\frac{f(b)-f(a)}{g(b)-g(a)}$.
+\end{sentence}
+\paragraph{}
+\textbf{D:} Vetu dokážeme obdobným sposobom ako tú predchádzajúcu. Najprv, pretože $g'(x)\neq 0$ na $(a, b)$, podľa Lagrangeovej vety máme, že $g(a)\neq g(b)$. Definujeme funkciu \\ $F:[a, b]\rightarrow \mathds{R}$ s predpisom $F(x)=(f(x)-f(a))(g(b)-g(a))-(g(x)-g(a))(f(b)-f(a))$. Táto funkcia spĺňa podmienky Rolleovej vety a preto existuje $c\in (a, b)$ také, že $F'(c)=0$, teda $F'(c)= f'(x)(g(b)-g(a))-g'(c)(f(b)-f(a))=0$.
+
+\begin{example}
+	Uvažujme funkciu $f=ln$ na intervale $[a, b]=[5, 10]$. Podľa vety o strednej hodnote existuje $c\in(5, 10)$ také, že $(10-5)ln'(c)=5/c=ln 10 - ln 5=ln2$. Pretože $5<c<10$, znamená to, že $\frac{5}{10}<5/c=ln2<\frac{5}{5}$. Dostávame prvý odhad funkcie $ln$ v bode 2: $\frac{1}{2}<ln2<1$. Pokračujme ďalej, z nerovnice $1<2ln2$ a z monotonie funkcie $exp$ dostaneme $e=exp(1)<exp(2ln2)=4$. Číslo $e$ je teda menšie ako 4.
+\end{example}
+
+\section{Postupnosti a ich limity}
+\subsection{Postupnosti}
+\paragraph{}
+Ako \textbf{postupnosť} sa označuje usporiadný súbor matematických objektovy očíslovaných spravidla prirodzenými číslam. Postupnosť je možné definovať  ako zobrazenie z množiny prirodzených do ľubovolnej množiny. Členmi postupnosť možu byť čísla (číselné postupnosti), funkcie (funkčné postupnosti), množiny \dots číslená postupnosť priraďuje každému $n\in \mathds{N}$ číslo $a_{n}$ (v prípade funkčnej postupnosti to je $f_{n}(x)$). Postupnosť obvykle značíme $(a_{n})_{n=1}^{\infty}$. Postupnosť može byť vyjedrená aj výrazom na výpočet n-tého člena postupnosti $a_{n}$ (napr. $a_{n}=\frac{n}{n+1}$ odpovedá postupnosti : $a_{1}=\frac{1}{2}$, $a_{2}=\frac{2}{3}$, $a_{3}=\frac{3}{4}$ \dots). Postupnosť možeme zadať aj rekurentne (ďaľší člen postupnosti sa vypočíta pomocou predchádzajúcich členov). Rekurentne je zadaná napr. \textbf{Fibonacciho postupnosť} a to nasledovne: $a_{1}=1$, $a_{2}=1$, $a_{n+2}=a_{n}+a_{n+1}$.
+
+\subsection{Vlastnosti postupností}
+\paragraph{}
+Kedže postupnosť je možné zadefinovať ako zobrazenie, tak bude mať rovnaké vlastnosti ako zobrazenie. Postupnosť je:
+\begin{enumerate}
+	\item \textbf{rastúca}, ak pre všetky $i$ platí, $a_{i}>a_{i-1}$
+	\item \textbf{nerastúca}, ak pre všetky $i$ platí, $a_{i}\leq a_{i-1}$
+	\item \textbf{klesajúca}, ak pre všetky $i$ platí, $a_{i}<a_{i-1}$
+	\item \textbf{neklesajúca}, ak pre všetky $i$ platí, $a_{i}\geq a_{i-1}$
+	\item \textbf{zhora ohraničená} na množine $A$, ak existuje taká $L\subseteq A$, že pre všetky $i$ platí $a_{i}\leq L$ (tým sú myslené prvky z $L$)
+	\item \textbf{zdola ohraničená} na množine $A$, ak existuje taká $L\subseteq A$, že pre všetky $i$ platí $a_{i}\geq L$	
+\end{enumerate}
+
+Ak je postupnosť nerastúca alebo neklesajúca, hovoríme, že je \textbf{monotónna}. Ak je rastúca alebo klesajúca hovorýme že je \textbf{rýdzo monotónna}. Ak je postupnosť zároveň zhora aj zdola ohraničená, hovoríme že je \textbf{ohraničená}. Ak sa v ľubovolne malom $\epsilon$ - okolí bodu $b$ na intervale $(b-\epsilon , b+\epsilon )$ nachádza nekonečne veľa bodov postupnosti $(a_{n})$, potom bod $b$ nazývame \textbf{hromadným bodom postupnosti} $(a_{n})$.
+
+\subsection{Príklady postupností}
+\subsubsection{Aritmetická postupnosť}
+\paragraph{}
+Je druh postupnosti kde je stály rozdiel medzi susednými členmi postupnosti. Tento rozdiel sa volá diferencia a značí sa \textbf{d}. Ďalej su to 3-prdele vzorcov na počítanie s aritmetickou postupnosťou (tie ale uvádzať nebudeme).
+
+\begin{example}
+	Majme aritmetickú postupnosť zadanú prvým členom a diferenciou: $a_{1}=5$, $d=5$. Vypočítajte $a_{2}$, $a_{3}$. (Je to hard \dots berte kalkulačky súdruhovia).
+\end{example}
+
+\subsubsection{Geometrická postupnosť}
+\paragraph{}
+Druh postupnosti kde je každý člen (okrem prvého) stálym násobkom predchádzjúceho člena. Tento násobok sa volá kvocient a značí sa \textbf{q}. Je možné ju chápať ako zúženie exponenciálnej funkcie na obor prirodzených čísel. Obsahuje podobné množstvo vzorcov ako aritmetická \dots
+
+\begin{example}
+	Majme geometrickú postupnosť zadanú prvým členom a kvocientom: $a_{1}=2$, $d=2$. Vypočítajte $a_{2}$, $a_{3}$, $a_{4}$. ($a_{2}=4$, $a_{3}=8$, $a_{4}=16$).
+\end{example}
+
+\subsubsection{Fibonacciho postupnosť}
+Všetkým známa.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=1]{img/fibonacci}
+	\end{center}
+	\caption{Fibonacciho postupnosť ilustratívne}
+\end{figure}
+
+\subsection{Limita postupnosti}
+\begin{definition}
+	Postupnosť $(a_{n})_{n=1}^{\infty}$ má \textbf{limitu} $L$, ak sa jej hodnotami može k $L$ priblížiť. Teda pre každé kladné číslo $\epsilon$ platí, že existuje nejaký člen postupnosti od ktorej sú už jej hodnoty od $L$ vzdialené menej než $\epsilon$. Formálne zapísané, ak pre pre každéb $\epsilon>0$ existuje $n_{0}$ také, že pre každé $n>n_{0}$ platí, že $|a_{n}-L|<\epsilon$.
+\end{definition}
+
+\paragraph{}
+Ak k ľubovolnému $\epsilon>0$ existuje $n_{0}$ také, že pre každé $n>n_{0}$ platí, že $|a_{n}-L|<\epsilon$ hovoríme, že postupnosť $(a_{n})$ má \textbf{vlastnú a konečnú limitu L}. Inak povedané postupnosť \textbf{konverguje} k $L$. To že postupnosť konverguje k $L$ zapisujeme: $$\lim_{n\rightarrow \infty} a_{n}=L$$. Ak má postupnosť vlastnú limitu, tak postupnosť označujeme ako \textbf{konvergentnú}. V opačnom prípade hovoríme o \textbf{divergentnej} postupnosti. O postupnosti hovríme že je:
+
+\begin{enumerate}
+	\item \textbf{konvergentná}, ak má vlastnú limitu
+	\item \textbf{divergentná}, ak má nevlastnú limitu $+\infty$ alebo $-\infty$, je oscilujúca alebo nemá limitu
+	\item \textbf{oscilujúca}, ak nemá vlastnú limitu ani nevlastnú limitu
+\end{enumerate}
 %---------------------------------------------------------------------------------------------------------
 % --------------------------------------------- pátý odstavec ---------------------------------------------
 % ---------------------------------------------------------------------------------------------------------
