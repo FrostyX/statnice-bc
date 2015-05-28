@@ -653,6 +653,188 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
   \subsection{Vlastnosti typových systémů}
 
 
+%---------------------------------------------------------------------------------------------
+%---------------------------------------- Čtvrtý odstavec-------------------------------------
+%---------------------------------------------------------------------------------------------
+\newpage
+\section{Makra}
+\paragraph{Motivace} Chceme upravit $if$ tak aby při absenci alternativního výrazu vracel $\#f$. 
+\\ Nyní máme (\color{red}$if$ \color{black} (= 1 2) '$blah$) $\Rightarrow$ nedefinovaná hodnota.
+\\ Chceme: (\color{red}$new-if$ \color{black} (= 1 2) '$blah$) $\Rightarrow$ $\#f$.
+\\ Potřebujeme zavést předpis, který bude provádět "transformaci kódu". Spoustu možností jak vyřešit (nová transformační procedura nebo třeba pomocí kvazikvótování). Nejlepší řešení $\rightarrow$ zavedeni \color{blue} maker \color{black}.
+\subsection{Dva základní pohledy na makra}
+\subsubsection{První pohled}
+\begin{center}
+	Makra jsou "rozšířením syntaxe jazyka"
+\end{center}
+\begin{definition}
+	makro = dáno definicí svého transformačního předpisu
+\end{definition}
+\begin{itemize}
+	\item po načtení výrazu (READ) je v něm provedena makroexpanze. Tuto fázi provádí tzv. \textit{preprocesor}
+	\item až po dokončení expanze všech maker nastává vyhodnocování výrazu
+	\item nemá smysl uvažovat pojem "aplikace makra"
+	\item takto na makra pohlíží většina PJ: C, DrScheme, Common LISP, \dots
+\end{itemize}
+Výhody přístupu:
+\begin{itemize}
+	\item preprocesor a vlastní \textit{eval} jsou zcela nezávislé
+	\item preprocesor může být aktivován okamžitě po načtení výrazu
+	\item umožňuje snadnou kompilaci kódu (v kompilovaném kódu již pochopitelně "žádná makra nejsou")
+\end{itemize}
+Nevýhody přístupu:
+\begin{itemize}
+	\item makra jsou "mimo jazyk" (často se zapisují odlišně, třeba v C)
+	\item makra nejsou elementy prvního řádu
+\end{itemize}
+
+\subsubsection{Druhý pohled}
+\begin{center}
+	Makra jsou "speciální elementy jazyka"
+\end{center}
+\begin{definition}
+	makro = element jazyka obsahující ukazatel na transformační proceduru
+\end{definition}
+\begin{itemize}
+	\item transformační procedura \dots klasická procedura
+	\item je potřeba rozšířit eval: případ, kdy se první prvek seznamu vyhodnotí na makro
+	\item makra jsou "uživatelsky definované speciální formy"
+	\item takto na makra budeme pohlížet my (dále třeba PJ: M4, \TeX)
+\end{itemize}
+Výhody přístupu:
+\begin{itemize}
+	\item makra jsou elementy prvního řádu
+	\item s makry lze pracovat "jako s daty", mohou dynamicky vznikat/zanikat za běhu programu
+	\item můžeme uvažovat koncept "anonymního makra"
+\end{itemize}
+Nevýhody přístupu:
+\begin{itemize}
+	\item k makroexpanzi dochází až při činnosti eval
+	\item prakticky znemožňuje účinnou kompilaci kódu
+	\item při neuváženém používání maker komplikuje ladění programu
+\end{itemize}
+
+\subsection{Hygienická makra}
+\begin{center}
+	"hygienická" \dots umožňují vytvářet bezpečná makra
+\end{center}
+Základní rysy:
+\begin{itemize}
+	\item definována v R5RS (kromě Scheme, pokud vím, nikdo nemá)
+	\item kompletně jiný přístup k makrům než \textit{define-macro}
+	\item makra jsou definována pomocí (několika) přepisovacích pravidel
+\end{itemize}
+Výhody:
+\begin{itemize}
+	\item prakticky odpadají složitě kvazikvotované výrazy
+	\item nemůže nastat \textit{symbol capture}
+	\item makra jsou v souladu s lexikálním rozsahem platnosti
+	\item makra lze definovat lokálně
+\end{itemize} 
+Nevýhody:
+\begin{itemize}
+	\item některá makra se tímto způsobem nedělají pohodlně
+\end{itemize}
+
+\subsection{Použití}
+\subsubsection{Normální makra}
+\begin{center}
+	\includegraphics[scale=0.25]{img/makra_normalni_pouziti_1}
+	\includegraphics[scale=0.25]{img/makra_normalni_pouziti_2}
+	\includegraphics[scale=0.25]{img/makra_normalni_pouziti_3}
+\end{center}
+
+\subsubsection{Hygienická makra}
+\begin{center}
+	\includegraphics[scale=0.35]{img/makra_hygienicka_pouziti_1}
+	\includegraphics[scale=0.35]{img/makra_hygienicka_pouziti_2}
+\end{center}
+
+\section{Líné vyhodnocování, přísliby a proudy}
+\subsection{Přísliby a líne vyhodnocování}
+Základní myšlenka:
+\begin{itemize}
+	\item místo vyhodnocení daného výrazu pracujeme s \textit{příslibem} jeho budoucího vyhodnocení
+	\item \textit{příslib} = nový typ elementu (element prvního řádu
+	\item speciální forma \color{blue} delay \color{black}, která pro daný výraz vrací příslib jeho vyhodnocení
+	\item procedura \color{blue} force \color{black}, která pro daný příslib aktivuje výpočet a vrátí hodnotu vzniklou vyhodnocením přislíbeného výrazu
+\end{itemize}
+Líné vyhodnocování = vyhodnocování založené na příslibech (někdy taky "call by need")
+\paragraph{Poznámka.} 
+\begin{itemize}
+	\item Při líném vyhodnocování dochází k propagaci chyb (chyba se projeví "na jiném místě" než "kde vznikla".
+	\item pomocí příslibů je možné "odložit časově složitý výpočet na později" a aktivovat jej, až je skutečně potřeba jej provést.
+\end{itemize}
+
+\subsection{Proudy (Streams)}
+\begin{itemize}
+	\item proudy jsou nejčastěji používanou aplikací líného vyhodnocování
+	\item neformálně: proudy jsou líně vyhodnocované seznamy
+	\item konstruktor \textit{cons-stream} a selektory \textit{stream-car} a \textit{stream-cdr}
+	\item prázdný seznam je proud
+	\item každý tečkový pár (\textit{e} . \textit{p}), kde \textit{e} je libovolný element a \textit{p} je příslib proudu, je proud.
+	\item výpočet je řízen daty, dochází k propagaci chyb
+\end{itemize}
+\begin{center}
+	\includegraphics[scale=0.35]{img/streams_1}
+\end{center}
+
+\subsubsection{Nekonečné proudy}
+\begin{itemize}
+	\item neformálně: "potenciálně nekonečná lineární datová struktura"
+	\item v každém okamžiku průchodu nekonečným proudem máme vždy k dispozici aktuální prvek a příslib
+	\item v praxi se konstruuje rekurzivní procedurou bez limitní podmínky
+\end{itemize}
+\begin{center}
+	\includegraphics[scale=0.35]{img/nekonecne_proudy_1}
+	\includegraphics[scale=0.35]{img/nekonecne_proudy_2}
+	\includegraphics[scale=0.35]{img/nekonecne_proudy_3}
+\end{center}
+
+\newpage
+\section{Aktuální pokračování a únikové funkce}
+\begin{center}
+	\includegraphics[scale=0.35]{img/aktualni_pokracovani_1}
+	\includegraphics[scale=0.35]{img/aktualni_pokracovani_2}
+	\includegraphics[scale=0.35]{img/aktualni_pokracovani_3}
+	\includegraphics[scale=0.35]{img/aktualni_pokracovani_4}
+	\includegraphics[scale=0.35]{img/aktualni_pokracovani_5}
+	\includegraphics[scale=0.35]{img/aktualni_pokracovani_6}
+	\includegraphics[scale=0.35]{img/aktualni_pokracovani_7}
+	\includegraphics[scale=0.35]{img/aktualni_pokracovani_8}
+	\includegraphics[scale=0.35]{img/aktualni_pokracovani_9}
+	\includegraphics[scale=0.35]{img/aktualni_pokracovani_10}
+	\includegraphics[scale=0.31]{img/aktualni_pokracovani_11}
+	\includegraphics[scale=0.31]{img/aktualni_pokracovani_12}
+	\includegraphics[scale=0.31]{img/aktualni_pokracovani_13}
+\end{center}
+
+\section{Zásobníkový model vyhodnocování programů (totálně nemám tušení co to je za hrůzu :D )}
+\begin{center}
+	\includegraphics[scale=0.35]{img/zasobnikovy_model_1}
+	\includegraphics[scale=0.35]{img/zasobnikovy_model_2}
+	\includegraphics[scale=0.3]{img/zasobnikovy_model_3}
+	\includegraphics[scale=0.3]{img/zasobnikovy_model_4}
+	\includegraphics[scale=0.3]{img/zasobnikovy_model_5}
+	\includegraphics[scale=0.3]{img/zasobnikovy_model_6}
+	\includegraphics[scale=0.3]{img/zasobnikovy_model_7}
+	\includegraphics[scale=0.3]{img/zasobnikovy_model_8}
+	\includegraphics[scale=0.3]{img/zasobnikovy_model_9}
+	\includegraphics[scale=0.3]{img/zasobnikovy_model_10}
+	\includegraphics[scale=0.3]{img/zasobnikovy_model_11}
+	\includegraphics[scale=0.3]{img/zasobnikovy_model_12}
+	\includegraphics[scale=0.3]{img/zasobnikovy_model_13}
+	\includegraphics[scale=0.3]{img/zasobnikovy_model_14}
+\end{center}
+
+
+
+
+
+
+
+
+
 %---------------------------------------- Pátý odstavec---------------------------------------------------
 
 \newpage
