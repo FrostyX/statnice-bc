@@ -1720,6 +1720,54 @@ Ak k ľubovolnému $\epsilon>0$ existuje $n_{0}$ také, že pre každé $n>n_{0}
 	\item \textbf{divergentná}, ak má nevlastnú limitu $+\infty$ alebo $-\infty$, je oscilujúca alebo nemá limitu
 	\item \textbf{oscilujúca}, ak nemá vlastnú limitu ani nevlastnú limitu
 \end{enumerate}
+
+\section{Číselné rady, konvergencia a súčty, kritéria konvergencie}
+\paragraph{}
+Majme postupnosť $(x_{n})$ reálnych čísel. \textbf{Nekonečným radom} určeným postupnosťou $(x_{n})$ rozumieme symbol $\sum x_{n}$. Postupnosť $(s_{n})$, ktorej členy su danné predpisom $s_{n}=x_{1} + \dotsm + x_{n}$ (kde $n=1, 2, 3 \dots$), nazývame \textbf{postupnosťou čiastočných súčtov radu} $\sum x_{n}$. Ak postupnosť čiastočných súčtov radu $\sum x_{n}$ konverguje, hovoríme o \textbf{konvergentnom rade} a číslo $s_{n}$ nazývame jeho \textbf{súčtom}. V opačnom prípade hovoríme o \textbf{divergentnom rade}. Súčet nekonečného radu $\sum x_{n}$ označujeme rovnako $\sum x_{n}$. Tvrdenie $\sum x_{n}=s$ znamená: Rad $\sum x_{n}$ konverguje a jeho súčtom je $s$. Okrem tohoto zápisu sa používa aj zápis $\sum_{n=1}^{\infty} x_{n}$. Zápis $\sum_{n=k}^{\infty} x_{n}$ znamená $\sum_{n=1}^{\infty} x_{n}+k-1$. V takom prípade budeme používať nasledujúce značenie pre postupnosť čiastočných súčtov radu: $s_{n}=x_{k}+x_{k+1}+\dotsm + x_{k+n-1}$.
+
+\subsection{Príklady radov}
+\paragraph{}
+Nech $q\in \mathds{R}$. Rad $\sum q^{n-1}$ sa nazýva \textbf{geometrický rad} s kvocientom $q$. Ak je $q\neq 1$, potom pre n-tý člen $s_{n}$ jeho postupnosti čiastočných súčtov platí:$$s_{n}=1+q+q^{2}+q^{3}+\dotsm + q^{n-1}=\frac{1-q}{1-q}(1+q+q^{2}+q^{3}+\dotsm + q^{n-1}) = \frac{1-q^{n}}{1-q}$$
+Ak je $q=1$, platí $s_{n}=n$\\
+Vidíme teda, že $lim \; s_{n}$ existuje, práve vtedy keď $|q| < 1$, a je rovná $1/(1-q)$. Uvedený rad teda konverguje práve vtedy, keď $|q| < 1$, a v tom prípade platí $\sum q^{n-1}=1/(1-q)$. \paragraph{} Geometrický rad s $q=-1$ sa nazýva \textbf{Grandiho rad}. Rad $\sum 1/n$ sa nazýva \textbf{harmonický rad}. Pre postupnosť $(s_{n})$ jeho čiastočných súčtov platí: $$s_{1}=1$$$$s_{2}=1+\frac{1}{2}$$$$s_{3}=1+\frac{1}{2}+\frac{1}{3}$$$$s_{4}=s_{2}+\frac{1}{3}+\frac{1}{4}>s_{2}+\frac{1}{4}+\frac{1}{4}=s_{2+\frac{1}{2}}$$$$\dotso$$$$s_{2^{n+1}}=s_{2^{n}}+\frac{1}{2}$$
+Z toho je možné vysledovať, že harmonický rad diveruje, hoci spĺňa nutnú podmienku konvergencie (uvedená nižšie).
+
+\begin{sentence}
+	\textbf{(Cauchyho-Bolzanovo kritérium konvergencie)} Rad $\sum x_{n}$ konverguje, práve vtedy keď ku každému $\epsilon >0$ existuje číslo $n_{0}\in \mathds{N}$ také, že pre každé $n_{1}, n_{2}>n_{0}; \; n_{2}\geq n_{1}$, platí: $|x_{n_{1}}+\dotsm +x_{n_{2}}|<\epsilon$.
+\end{sentence}
+
+\begin{result}
+	\textbf{(Nutná podmienka konvergencie radu)} Ak rad $\sum x_{n}$ konverguje, potom platí že: $lim \; x_{n}=0$ (Poznámka: zamyslite sa nad geometrickým radom)
+\end{result}
+
+\begin{sentence}
+	Majme 2 postupnosti reálnych čísel $(x_{n})$, $(y_{n})$ a číslo $c$. Ak rady $\sum x_{n}$ a $\sum y_{n}$ konvergujú, potom konvergujú aj rady $\sum (x_{n}+y_{n})$ a $\sum cx_{n}$ a platí $$\sum (x_{n}+y_{n})=\sum x_{n} + \sum y_{n}$$ $$\sum cx_{n}=c\sum x_{n}$$
+\end{sentence}
+
+\begin{sentence}
+	Ešte sa tu nachádzajú asi 2 (podľa mňa) menej podstatné vety o konvergencii radov. Ide v nich asi o to že ak sa 2 rady rovnajú a prvý z nich konverguje, tak konverguje aj ten druhý atď \dots
+\end{sentence}
+
+\subsection{Rady s nezápornými členmi}
+\paragraph{}
+Nech $(x_{n})\geq 0$. Postupnosť čiastočných súčtov radu $\sum x_{n}$ je neklesajúca. Konverguje práve vtedy, keď je ohraničená a práve vtedy, keď nejaká jej podpostupnosť. Inak diverguje k $+\infty$.
+
+\begin{sentence}
+	\textbf{(Zrovnávacie kritérium)} Nech $\sum x_{n}$ a $\sum y_{n}$ sú rady s nezápornými členmi a nech existuje číslo $n_{0}$ také, že pre každé $n\geq n_{0}$ platí $x_{n}\leq y_{n}$. Potom s konvergencie radu $\sum y_{n}$ plynie konvergencia radu $\sum x_{n}$.
+\end{sentence}
+
+\begin{sentence}
+	Zase sú tu aj iné vety ... ale myslím že nám chýbať nebudú.
+\end{sentence}
+
+\subsection{Alternujúce a absolutne konvergentné rady}
+\paragraph{}
+Povieme, že rada $\sum x_{n}$ je \textbf{alternujúca}, ak pre každý člen $x_{n}$ má člen $x_{n+1}$ opačné znamienko. Rad $x_{n}$, pre ktorý rad $\sum |x_{n}|$ konverguje, sa nazýva \textbf{absolutne konvergentný}.  Z vety ktorá nasleduje plynie, že absolútne konvergentná rada je konvergentná. Konvergentná rada ktorá nieje absolútne konvergentná, sa nazýva \textbf{neabsolútne konvergentná} (relatívne konvergentná).
+
+\begin{sentence}
+	Ak konverguje rad $\sum |x_{n}|$, konverguje aj rad $\sum x_{n}$ a platí $|\sum x_{n}|\leq \sum |x_{n}|$\\ \textbf{D:} (Iba naznačenie) Pre ľubovolné čísla $n_{1}\leq n_{2}$ platí $$|x_{n_{1}}+ \dotsm + x_{n_{2}}|\leq |x_{n_{1}}| + \dotsm + |x_{n_{2}}|$$.
+\end{sentence}
+
 %---------------------------------------------------------------------------------------------------------
 % --------------------------------------------- pátý odstavec ---------------------------------------------
 % ---------------------------------------------------------------------------------------------------------
