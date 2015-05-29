@@ -895,7 +895,7 @@ Pro každé $u,v \in \Sigma^* \text{ platí, že } \delta^*(q, uv) = \delta^*(\d
 
 
 \begin{poznamka}
-Automat $A$ přijím řetězec $a$, pokud $\delta^*(q_0,w) \in F$.
+Automat $A$ přijímá řetězec $w$, pokud $\delta^*(q_0,w) \in F$.
 \end{poznamka}
 
 \begin{veta}
@@ -903,8 +903,8 @@ Automat $A$ přijím řetězec $a$, pokud $\delta^*(q_0,w) \in F$.
 \end{veta}
 
 
-Jazyk rozpoznaný konečným deterministickým automate lze formulovat jako
-$L(A) = \lbrace w \in \Sigma^* |\quad \delta^*(q_0,w) \in F \rbrace$.
+Jazyk rozpoznaný konečným deterministickým automatem lze formulovat jako:
+$$L(A) = \lbrace w \in \Sigma^* |\quad \delta^*(q_0,w) \in F \rbrace$$
 
 \subsubsection{KDA s neúplnou přechodovou funkcí}
 
@@ -1220,7 +1220,7 @@ Takto bude vypadat předchozí př\'iklad číslo \ref{priklad-5}, reprezentovan
    $ q_{2} $ & $ \emptyset $ & $ \emptyset $ & $\lbrace q_{3} \rbrace$ & $ \emptyset $ \\
    $ q_{3} $ & $ \emptyset $ & $ \emptyset $ & $\lbrace q_{3} \rbrace$ & $\lbrace q_{5} \rbrace$ \\
    $ q_{4} $ & $ \emptyset $ & $\lbrace q_{3} \rbrace$ & $\emptyset$ & $ \emptyset $ \\
-   $ q_{5} $ & $ \emptyset $ &  $ \emptyset $ & $\emptyset$ & $ \emptyset $ 
+   $ q_{5}^* $ & $ \emptyset $ &  $ \emptyset $ & $\emptyset$ & $ \emptyset $ 
 \end{tabular}
 \end{center}
 \caption{Přechodov\'a tabulka pro \ref{priklad-5}. přiklad}
@@ -1467,6 +1467,7 @@ Mějme v\'yraz $b(ab)^{*}ba^{*}$. D\'ale
 \begin{figure}[H]
 			\centering
 			\includegraphics[width=8cm]{img/min2.png}
+			\caption{$q_4$ a $q_6$ jsou přijímací (šipka mezi $ q_1$ a $q_6$  má být obráceně)}
 			\end{figure}
 
 N\'asledně rozklady:
@@ -1939,7 +1940,7 @@ Navíc $\langle \sigma, abc \rangle \in \delta(q, a, d)$ znamená slovně: \uv{Z
 \subsubsection{Reprezentace NZA}
 
 \paragraph{Přechodová tabulka}
-V přechodové tabulce řádky odpovídají stavům a sloupce odpovídají prvkům $(\Sigma \cup \lbrace \varepsilon \rbrace \times \Gamma$.
+V přechodové tabulce řádky odpovídají stavům a sloupce odpovídají prvkům $(\Sigma \cup \lbrace \varepsilon \rbrace) \times \Gamma$.
 \begin{priklad}
 \begin{eqnarray*}
 Q &=& \lbrace q_0, q_1 \rbrace \\
@@ -2264,11 +2265,24 @@ Chomského hierarchie. Věta o rekurzi.
 
 		\textit{Intuitivní pojem algoritmu = algoritmus TS.} \\(to je všechno co k tomu máme)
 
+	\paragraph{Wikipedie:}
+	Teze může znít například takto: \textit{\uv{Ke každému algoritmu existuje ekvivalentní Turingův stroj.}}
+Kvůli neformální definici pojmu algoritmus nemůže být tato teze nikdy dokázána, lze ji ale vyvrátit, podaří-li se sestrojit stroj, který bude umět řešit problémy, které Turingův stroj řešit neumí (např. problém zastavení).
+
+Jelikož každý počítačový program lze přeložit do jazyka Turingova stroje a obvykle i naopak, lze tezi ekvivalentně formulovat pro kterýkoli běžně používaný programovací jazyk. Přesněji, programovací jazyk potřebuje jednu z následujících konstrukcí (kromě jiných), aby byl turingovsky úplný (tj. ekvivalentní Turingovu stroji):
+
+		\begin{itemize}
+			\item cyklus while-do
+			\item neomezenou (alespoň teoreticky) rekurzi
+			\item podmíněný skok
+		\end{itemize}
+Běžné programovací jazyky mívají všechny tři tyto konstrukce. Mezi jazyky, které turingovsky úplné nejsou, patří SQL (myšleno bez vložených procedur) a Charity.
+
 	\subsection{Varianty TS}
 		\begin{itemize}
 			\item TS, který se nikdy nepokusí přejet levý okraj pásky
 				\begin{itemize}
-					\item Rozumíme TS, u kterého při výpočtu nad jakým koli slovem nedojde k tomu že, je v konfiguraci
+					\item Rozumíme TS, u kterého při výpočtu nad jakýmkoli slovem nedojde k tomu že, je v konfiguraci
 						$(q,a\omega,0)$ a existuje přechod $\delta(q,a) = (q',b,L).$  Tedy nikdy nenastane situace
 						že by byla hlava nad nejlevějším políčkem pásky a přechodová funkce by určovala pohyb 								vlevo.
 				\end{itemize}
@@ -2276,7 +2290,7 @@ Chomského hierarchie. Věta o rekurzi.
 				\begin{itemize}
 					\item Roziníme TS, který nemá žádný přechod ve tvaru $\delta(q,a) = (q',$ \textvisiblespace $,D)$
 				\end{itemize}
-			\item TS, který po sobě \uv{který po sobě uklízí}
+			\item TS, který \uv{ po sobě uklízí}
 				\begin{itemize}
 					\item Roziníme TS, který zastaví pouze v konfiguraci $\langle q_{+}, \epsilon, 0 \rangle$
 						nebo $\langle q_{-}, \epsilon, 0 \rangle$. Tzn. smaže obsah pásky.
@@ -2330,6 +2344,7 @@ Chomského hierarchie. Věta o rekurzi.
 							\item přijímacím stavem $q_{+} \in Q $ a zamítacím stavem $q_{-}
 								\in Q.$ $q_{+} \neq q_{-}$
 						\end{itemize}
+					\item \textbf{Lineárně ohraničený TS (LBA)} --- klasický nedeterministický  TS ale na pásce se pohybuje jen mezi dvěma zarážkami které nikdy nepřejede a nepřepíše (jako TS který nikdy nepřejede levý okraj)
 
 		\end{itemize}
 		Ke každé variantě TS vždy existuje ekvilalentní klasický TS a obráceně.
@@ -2436,7 +2451,7 @@ Chomského hierarchie. Věta o rekurzi.
 		\begin{itemize}
 		\item regulární jazyky = jazyky KA
 		\item bezkontextové jazyky = jazyky nedeterministických ZA
-		\item kontextové jazyky = jazyky LBA
+		\item kontextové jazyky = jazyky LBA (lineárně ohraničený TS)
 		\item jazyky gen. gramatikami bez omezení = jazyky přijímané TS
 		\end{itemize}
 
@@ -2466,6 +2481,22 @@ Chomského hierarchie. Věta o rekurzi.
 			 TS $T$, který pracuje stejně, ale dostává kód [R] na vstup. }\\
 
 		\vspace{5mm}
+
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=15cm]{img/self1.png}
+			\end{figure}
+
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=15cm]{img/self2.png}
+			\end{figure}
+
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=15cm]{img/self3.png}
+			\end{figure}
+
 		\textbf{Aplikace věty o rekurzi -- Věta o pevném bodě:}
 		Nechť $t : \Sigma^{*} \rightarrow \Sigma^{*}$ je vyčíslitelná funkce. Pak existuje TS $F$, t.ž. $t([F])$ je kód
 		ekvivalentního TS.
@@ -2556,6 +2587,8 @@ její vztah k třídám P a NP, PSPACE-úplné problémy. Třídy N a NL a NL-ú
 	\subsection{Cook--Levinova věta}
 		\textbf{Věta:} SAT je NP-úplný \dots (vic k tomu nemáme a důkaz psat nebudu stejně byste
 			 se na to vysrali a mě už ten \LaTeX  pěkně mrdá)
+
+		Na wikipedii je ta věta: \uv{Existuje NP-úplný problém}. Víc nic. 
 
 	\subsection{Příklady NP--úplných problémů}
 		\begin{itemize}
