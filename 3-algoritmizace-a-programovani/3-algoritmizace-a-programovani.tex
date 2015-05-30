@@ -171,6 +171,23 @@ Pole, ve kterém jsou uloženy prvky, je v průběhu třídění rozděleno na d
 \end{algorithmic}
 \end{algorithm}
 
+\subsubsection{Bubble sort}
+Při třídění přímou výměnou procházíme postupně pole s tříděnými prvky směrem od začátku k jeho konci a srovnáváme sousední dvojice, zda prvky v nich jsou podle velikosti ve správném pořadí. Jestliže ne, tedy větší prvek je před menším, provedeme jejich vzájemnou výměnu. V dalším kroku celý postup zopakujeme, ale už bez posledního prvku, tedy jen s prvními n-1 prvky. Při něm se obdobným způsobem dostane na své cílové místo předposlední prvek setříděné posloupnosti. V následujícím kroku už budeme procházet jen n-2 prvků atd. Je zřejmé, že každým průchodem se délka procházené části sníží o jeden prvek, až nakonec v posledním průchodu bude procházená část mít jen dva prvky a po jejich srovnání a případné výměně je třídění dokončeno.
+\begin{algorithm}
+\caption{Pseudokód}
+\begin{algorithmic}[]
+\Procedure{BubbleSort(A, n)}{}
+\For{$i \gets n-2$ \textbf{downto} $0$}
+	\For{$j \gets 0$ \textbf{to} $i$}
+		\If{$A[j] > A[j+1]$}
+			\State 	\textbf{exch} $(A[i], A[m])$
+		\EndIf
+	\EndFor
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
 
 
 
@@ -182,7 +199,8 @@ Uvažujme operaci přesunu prvku o jednu pozici dozadu. Těch v jednom kroku pro
 \subsubsection{Select sort}
 Vezměme nejprve operaci výběru. Nechť počet prvků v nesetříděné části je k. Abychom našli její nejmenší prvek, potřebujeme k tomu k-1 srovnání. Neboť počínaje druhým prvkem v nesetříděné části postupně srovnáváme všechny její prvky až po poslední prvek, vždy s právě zapamatovaným prvkem. Délky nesetříděných částí jsou v jednotlivých krocích $n, n-1, n-2, \cdots 2$. Odtud celkový počet srovnání $(n-1) + (n-2) + \cdots + 1 = \frac{(n-1)n}{2} = \frac{n^2-n}{2}$. Nyní uvažujme operaci výměny vybraného, nejmenšího prvku s prvním prvkem nesetříděné části. Ta v každém kroku proběhne jen jednou. Třídících kroků je n-1 a odtud dostáváme celkový počet výměn $n-1$. Největší časovou složitost má operace výběru. \textbf{Výsledná časová složitost je} $\theta (n^2)$.
 
-
+\subsubsection{Bubble Sort}
+Vezměme opět nejprve operaci srovnání. V prvním průchodu se prochází všech n prvků, což reprezentuje srovnání n-1 sousedních dvojic. V druhém průchodu se prochází n-1 prvků, tedy n-2 srovnávaných dvojic. V posledním průchodu má procházená část dva prvky, tedy se provede jen jedno srovnání. Odtud celkový počet srovnání $(n-1) + (n-2) + \cdots + 1 = \frac{(n-1)n}{2} = \frac{n^2-n}{2}$. Nyní uvažujme operaci výměn. Výměn se provede maximálně tolik, kolik je srovnání. Minimální možný počet výměn je žádná výměna (prvky jsou na začátku uspořádány tak, že jsou setříděné). Dostáváme počty přesunů průměrný $\frac{3(n^2-n}{4}$ a maximální $\frac{3(n^2-n}{2}$. \textbf{Výsledná časová složitost je} $\theta (n^2)$.
 
 
 
