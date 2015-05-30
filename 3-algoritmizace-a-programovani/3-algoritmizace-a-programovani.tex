@@ -129,12 +129,10 @@ Pole, ve kterém jsou uloženy prvky, je v průběhu třídění rozděleno na d
 	\item Průběžný krok \\
 	Nechť setříděná část je nyní tvořena k prvky a za ní je zbývajících n-k prvků, které tvoří nesetříděnou část. Vezmeme první prvek z nesetříděné části $(a_k)$, uložíme ho do pomocné proměnné, označme ji x, a pozici tohoto prvku považujeme za volnou. Nyní odzadu procházíme prvky v setříděné části a postupně pro indexy r = k-1, k-2, ... srovnáváme, zda mezi prvkem $a_r$ a uloženým prvkem x platí $a_r > x$. Pokud ano, posuneme prvek $a_r$ o jednu pozici dozadu (tato pozice za prvkem je v tomto okamžiku volná) a jeho původní pozice se nyní stane novou volnou pozicí. Celý proces srovnání skončí v okamžiku, kdy buďto pro některý prvek platí $a_r \geq x$ anebo jsme celou setříděnou část již prošli (a tato je rovněž i posunuta dozadu). Pozice vložení ve chvíli, kdy ukončíme srovnávání, odpovídá stávající volné pozici. Na ni uložíme prvek obsažený v proměnné x. Po každém provedení průběžného kroku se zvětší velikost setříděné části o jeden prvek, až nakonec setříděná část bude zahrnovat všechny prvky.
 \end{enumerate}
-
-
 \begin{algorithm}
 \caption{Pseudokód}
 \begin{algorithmic}[]
-\Procedure{InsertionSort}{}
+\Procedure{InsertionSort(A, n)}{}
 \For{$i \gets 1$ \textbf{to} $n-1$}
 	\State $x \gets A[i]$
 	\State $j \gets i-1$
@@ -148,6 +146,31 @@ Pole, ve kterém jsou uloženy prvky, je v průběhu třídění rozděleno na d
 \end{algorithmic}
 \end{algorithm}
 
+\subsubsection{Select sort}
+Část obsahující již setříděné prvky je první a část s doposud nesetříděnými prvky je za ní. V nesetříděné části se v každém kroku najde nejmenší prvek a ten se přesune na konec již setříděné části.
+\begin{enumerate}
+	\item Počáteční krok \\
+	Na začátku celé pole, tj. všech n prvků tvoří nesetříděnou část.
+	\item Průběžný krok \\
+	Nechť setříděná část, která je na začátku, má n-k prvků a setříděná část za ní má k prvků. V nesetříděné části vybereme nejmenší její prvek. Postupujeme tak, že si na začátku zapamatujeme pozici prvního prvku nesetříděné části. Nyní postupně procházíme prvky nesetříděné části počínaje od jejího druhého prvku a každý z nich srovnáváme s prvkem na zapamatované pozici. Jestliže srovnávaný prvek je menší, jeho pozice se stane novou zapamatovanou pozicí. Je zřejmé, že na konci je na zapamatované pozici nejmenší prvek. Ten musíme přesunout na konec setříděné části - vyměníme ho s prvním prvkem v nesetříděné části. Po každém provedení průběžného kroku se zvětší velikost setříděné části o jeden prvek. V okamžiku, kdy setříděná část bude obsahovat n-1 prvků, je třídění ukončeno, protože v nesetříděné části tímto zůstane už jen největší prvek, který je na konci a tudíž na své cílové pozici.
+\end{enumerate}
+\begin{algorithm}
+\caption{Pseudokód}
+\begin{algorithmic}[]
+\Procedure{SelectionSort(A, n)}{}
+\For{$i \gets 0$ \textbf{to} $n-2$}
+	\State $m \gets i$
+	\For{$j \gets i+1$ \textbf{to} $n-1$}
+		\If{$A[j] < A[m]$}
+			\State $m \gets j$
+		\EndIf
+	\EndFor
+	\textbf{exch} $(A[i], A[m])$
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
 
 
 
@@ -155,6 +178,9 @@ Pole, ve kterém jsou uloženy prvky, je v průběhu třídění rozděleno na d
 \subsubsection{Insert sort}
 Vezměme nejprve operaci srovnání. Nechť počet prvků v setříděné části je k. Abychom zjistili místo vložení, uděláme 1 až k srovnání. Jedno srovnání v případě, kdy se prvek vkládá hned na konec setříděné části, k srovnání v případě, kdy prvek patří na první nebo druhou pozici v setříděné části. Odtud pro jeden krok dostáváme průměrný počet srovnání $\frac{1+k}{2}$ a maximální počet srovnání $k$. Vezmeme-li v úvahu, že délky setříděných částí v jednotlivých krocích jsou k = 1, 2, ..., n-1, dostaneme celkové počty srovnání průměrný $\frac{2+3+\cdots+n}{2} = \frac{1+2+\cdots+n-1}{2} = \frac{\frac{n(n-1)}{2}-1}{2} = \frac{n^2+n-2}{4}$ a maximální $1+2+\cdots+(n-1) = \frac{(n-1)n}{2} = \frac{n^2-n}{2}$. Z toho plyne, že operace srovnání má kvadratickou složitost bez ohledu na to, zda uvažujeme průměrný nebo maximální počet srovnání. \\
 Uvažujme operaci přesunu prvku o jednu pozici dozadu. Těch v jednom kroku proběhne 0 až k podle toho, na které místo je prvek vkládán. Odtud pro jeden krok dostáváme průměrný počet přesunů $\frac{0+k}{2}$ a maximální počet přesunů $k$. Pro celé třídění průměrný počet $\frac{1+2+\cdots+(n-1)}{2} = \frac{\frac{(n-1)n}{2}}{2} = \frac{n^2-n}{2}$ a maximální počet $1+2+\cdots+(n-1) = \frac{(n-1)n}{2} = \frac{n^2-n}{2}$. \textbf{Výsledná časová složitost je} $\theta (n^2)$.
+
+\subsubsection{Select sort}
+Vezměme nejprve operaci výběru. Nechť počet prvků v nesetříděné části je k. Abychom našli její nejmenší prvek, potřebujeme k tomu k-1 srovnání. Neboť počínaje druhým prvkem v nesetříděné části postupně srovnáváme všechny její prvky až po poslední prvek, vždy s právě zapamatovaným prvkem. Délky nesetříděných částí jsou v jednotlivých krocích $n, n-1, n-2, \cdots 2$. Odtud celkový počet srovnání $(n-1) + (n-2) + \cdots + 1 = \frac{(n-1)n}{2} = \frac{n^2-n}{2}$. Nyní uvažujme operaci výměny vybraného, nejmenšího prvku s prvním prvkem nesetříděné části. Ta v každém kroku proběhne jen jednou. Třídících kroků je n-1 a odtud dostáváme celkový počet výměn $n-1$. Největší časovou složitost má operace výběru. \textbf{Výsledná časová složitost je} $\theta (n^2)$.
 
 
 
