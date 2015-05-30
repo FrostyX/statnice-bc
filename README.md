@@ -15,6 +15,7 @@ Vypracované otázky na státnice UPOL Bc 2015 | [Seznam pojmů](http://www.inf.
 | Lukáš Medelský   | 3. okruh - čtvrtý odstavec                            |
 | Ondřej Kašpar    | 4. okruh - první odstavec                             |
 | Ondřej Zamec     | 4. okruh - patý odstavec                              |
+| Jakub Drga	   | 4. okruh - šestý odstavec				   |
 
 ## Zpracované otázky
 1. okruh - první + druhý + třetí + pátý + šestý odstavec
