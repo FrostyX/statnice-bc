@@ -30,6 +30,46 @@
 %-----------------------------------prvni odstavec------------------------------------
 \section{}
 \paragraph{Lineární datové struktury: seznam, zásobník, fronta. Úloha třídění a rozdělení třídících algoritmů. Metody třídění porovnáváním: insert sort, Select sort, Bubble sort, Quick sort, Merge sort, Heap sort. Další metody třídění: Counting sort, Radix Sort, Bucket sort, vnější třídění. Složitosti třídicích algoritmů. Pořádkové statistiky.}
+
+\subsection{Lineární datové struktury: seznam, zásobník, fronta}
+Linearni datove struktury se vyznacuji tim, ze jednotlive prvky mnoziny dat jsou v nich ulozeny postupne za sebou.
+\subsubsection{Lineární seznam}
+je dynamická (je vytvářen postupně - paměť pro něj není přidělena najednou jako u pole) datová struktura, vzdáleně podobná poli, obsahující jednu a více datových položek (struktur) stejného typu (uzly), které jsou navzájem lineárně provázany vzájemnými odkazy pomocí ukazatelů nebo referencí. Aby byl seznam lineární, nesmí existovat cykly ve vzájemných odkazech. Zavádí se také ukazatel nebo reference na aktuální (vybraný) prvek seznamu. Na konci (a začátku) seznamu musí být definována zarážka označující konec seznamu. V \textbf{jednosměrném seznamu} odkazuje každá položka na položku následující a v \textbf{obousměrném seznamu} odkazuje položka na následující i předcházející položky. Pokud vytvoříme cyklus tak, že konec seznamu navážeme na jeho počátek, jedná se o \textbf{kruhový seznam}.
+\paragraph{operace nad seznamem:}
+\begin{itemize}
+	\item \textbf{Vyhledání prvku}: Sekvenční přístup = začneme od začátku seznamu a postupně procházíme, dokud prvek nenalezneme (nebo nedojdeme na konec seznamu). Časová složitost $\theta (n)$.
+	\item \textbf{Přidání na začátek}: Vytvoří se nový uzel, kam se uloží hodnota a nastaví se ukazatel na původní první prvek. Časová složitost $\theta (1)$.
+	\item \textbf{Přidání uvnitř seznamu}: Vyhledáme pozici, kam chceme přidat, vytvoříme nový uzel, předchozí ukazatel přemapujeme na nový uzel a do nového uzlu nastavíme ukazatel následujícího prvku seznamu. Časová složitost $\theta (n)$.
+	\item \textbf{Odstranění uzlu}: Pokud odstraňujeme první prvek, stačí nastavit začátek seznamu na následující. Při odstranění uvnitř seznamu se ukazatel předchozího nastaví na následující prvek za rušeným uzlem. Časová složitost $\theta (n)$.
+\end{itemize}
+Práce se seznamem je komplikovanější než s polem. Musíme vytvářet uzly, nastavovat hodnoty jejich ukazatelů atd. Navíc nemáme přímý přístup k jednotlivým datovým prvkům uloženým v seznamu.
+\subsubsection{Zásobník}
+Významná hojně používaná datová struktura typu LIFO (last in first out). \textbf{Dno zásobníku} je fixně stanovený konec struktury, začátek struktury označován jako \textbf{vrchol zásobníku}.
+\paragraph{operace na zásobníku:}
+\begin{itemize}
+	\item \textbf{Push}: Vložení prvku na vrchol zásobníku.
+	\item \textbf{Pop}: Odebrání prvku z vrcholu zásobníku.
+	\item \textbf{Top}: Dotaz na vrchol zásobníku.
+	\item \textbf{Is\_empty}: True, pokud je dno totožné s vrcholem.
+\end{itemize}
+Prkvy kromě vrcholu zásobníku nejsou přímo přístupné. K implementaci je možné využít pole (začátek pole - dno zásobníku) nebo seznam (konec seznamu - dno zásobníku).
+\subsubsection{Fronta}
+Datová struktura typu FIFO (first in first out).
+\paragraph{operace na frontě:}
+\begin{itemize}
+	\item \textbf{Add} = enqueue: Vložení prvku na konec fronty.
+	\item \textbf{Remove} = dequeue: Odebrání prvku ze začátku fronty.
+\end{itemize}
+K implementaci pole nebo seznem.
+\paragraph{Modifikací je prioritní fronta:} K jeho prvkům se na rozdíl od prvků obyčejné fronty váže ještě priorita: Pokud mají prvky stejnou prioritu, opouští frontu v pořadí, v jakém do ní byly vloženy, ale prvek s vyšší prioritou prvky s nižší prioritou předběhne a jde na výstup dříve.
+\paragraph{operace na prioritní frontě:}
+\begin{itemize}
+	\item \textbf{zařazení do fronty s udanou prioritou}: přijímá jako vstup prvek a jeho prioritu a prvek s jeho prioritou zařadí do fronty
+	\item \textbf{odeber nejstarší z prvků s nejvyšší prioritou}: odstraní z fronty ten z prvků s nejvyšší prioritou, který je tam nejdéle, a vrátí ho jako svůj výstup
+\end{itemize}
+Někdy jsou implementovány i další funkce, například možnost zjistit prvek s nejvyšší prioritou bez toho, že by byl odstraněn.
+
+
 \newpage
 
 %-----------------------------------druhy odstavec------------------------------------
