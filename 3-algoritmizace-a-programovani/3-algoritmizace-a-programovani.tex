@@ -70,6 +70,53 @@ K implementaci pole nebo seznem.
 Někdy jsou implementovány i další funkce, například možnost zjistit prvek s nejvyšší prioritou bez toho, že by byl odstraněn.
 
 
+
+
+\subsection{Úloha třídění a rozdělení třídících algoritmů}
+Algoritmy třídění jsou založeny na dvou základních operacích - \textbf{srovnání} a \textbf{přesuny}. Podle toho, jak tyto přesuny probíhají, lze algoritmy rozdělit:
+\begin{itemize}
+	\item třídění vkládáním (insert)
+	\item třídění výměnou (bubble)
+	\item třídění výběrem (select)
+\end{itemize}
+\subsubsection{Úloha třídění}
+Potřeba setřídit údaje se v praxi objevuje velmi často. Proto algoritmy pro třídění patří do skupiny základních, velmi používaných algoritmů. Úloha třídění spočívá v seřazení prvků datové množiny vzestupně podle velikosti jejich zvoleného třídícího klíče. \\
+Mějme n datových prvků $a_1, a_2, \cdots a_n$ a nechť jejich třídící klíč je takového datového typu, že má definovánu operaci srovnání dle velikosti. Cílem je prvky seřadit do posloupnosti $a_{i_1}, a_{i_2}, \cdots a_{i_n}$ tak, že platí $a_{i_1}.key \leq a_{i_2}.key \leq \cdots \leq a_{i_n}.key$. Můžeme mít také opačné setřídění - od největší hodnoty po nejmenší. \\
+\subsubsection{Rozdělení třídících algoritmů}
+Třídící algoritmy lze rozdělit do dvou skupin:
+\begin{itemize}
+	\item Algoritmy vnitřního třízení
+	\item Algoritmy vnějšího třízení
+\end{itemize}
+\paragraph{Algoritmy vnitřního třízení} Základní vlastností je, že všechny tříděné prvky jsou během třídění uloženy ve vnitřní paměti počítače. Výhodou pak je, že všechny operace nad prvkami pracují jen v rámci vnitřní paměti. Vhodné ke třídění malého množství prvků, které se vejdou do vnitřní paměti.
+\begin{itemize}
+	\item Hlavní třídící metody
+	\begin{itemize}
+		\item insert sort
+		\item select sort
+		\item bubble sort
+	\end{itemize}
+	\item účinnější metody
+	\begin{itemize}
+		\item quick sort
+		\item merge sort
+		\item shell sort
+		\item heap sort
+	\end{itemize}
+	\item specifické metody
+	\begin{itemize}
+		\item radix sort
+		\item bucket sort
+	\end{itemize}
+\end{itemize}
+\paragraph{Algoritmy vnějšího třízení} Tříděné prvky jsou uloženy v souborech ve vnější paměti. Průběžně je část prvků načtena do vnitřní paměti, setřízena a vrácena zpět do vnější paměti. Obecně je práce s vnější pamětí pomalejší. Užití při velkém množství dat, kdy není možné prvky uložit do vnitřní paměti.
+\begin{itemize}
+	\item třídění se stejným počtem vstup-výstupních souborů
+	\item vnější třízední s využitím vnitřního
+	\item polyfázové třídění
+\end{itemize}
+
+
 \newpage
 
 %-----------------------------------druhy odstavec------------------------------------
