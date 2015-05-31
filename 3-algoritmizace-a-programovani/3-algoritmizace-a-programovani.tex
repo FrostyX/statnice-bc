@@ -759,12 +759,14 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
 
 
 \newpage
-%----------------------------------------treti odstavec---------------------------------------------------
+%=============================================================================
+%                   treti odstavec (Milan Vojáček)
+%=============================================================================
 \section{}
 \paragraph{Programovací jazyky, jejich syntaxe a sémantika. Přehled paradigmat: funkcionální, procedurální, logické, objektové. Symbolické výrazy a vyhodnocovací proces jazyka Scheme. Vytváření abstrakcí pomocí procedur. Procedury vyšších řádů: aplikace a mapování. Seznamy a hierarchická data. Indukce a rekurze: princip a příklady. Typy rekurzivních výpočetních procesů. Lexikální a dynamický rozsah platnosti. Vlastnosti typových systémů.}
   \subsection{Programovací jazyky, jejich syntaxe a sémantika}
     \paragraph{Programovací jazyk}
-    Programovací jazyk jsou smluvená pravidla, v souladu se kterými je vytvořen program. Program je předpisem s přesně daným tvarem a významem, podle kterého vzniká výpočetní proces. Výpočetní proces je proces, při kterém jsou zpracováváná vstupní data. Každý programovací jazyk musí mít popsánu svoji syntax a sémantiku.\\
+    Programovací jazyk jsou smluvená pravidla, v souladu se kterými je vytvořen program. Program je předpisem s přesně daným tvarem a významem, podle kterého vzniká výpočetní proces. Výpočetní proces je proces, při kterém jsou zpracováváná vstupní data. Každý programovací jazyk musí mít popsánu svoji syntax a sémantiku.
     Dělení:
     \begin{itemize}
       \item dle míry abstrakce
@@ -819,15 +821,288 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
     \end{itemize}
     \paragraph{Sémantika}
       \textit{Význam programu}. V případě ohodnocování syntakticky neplatných řetězců není výpočet proveden. Sémantika popisuje procesy, které řídí počítač při vykonávání programu v daném programovacím jazyce. Například tím, že popisuje vztah mezi vstupem a výstupem programu, nebo popisem jak program poběží na určité platformě, tedy vytvořením modelu výpočtu.
+      \begin{itemize}
+        \item \textit{sémantická chyba} je chyba ve významu programu, mezi typické sémantické chyby patří např. provádění operací nad daty neslučitelných typů, např. sčítání čísel a řetězců znaků, sémantické chyby lze odhalit během překladu či interpretace pouze v omezené míře, např. překladače C jsou během překladu schopny zjistit všechny konflikty v typech dat se kterými program pracuje, technicky ale již není třeba možné při překladu vyloučit chyby způsobené \uv{dělením nulou}, protože hodnota dělitele může být proměnlivá a může během činnosti programu nabývat různých hodnot
+      \end{itemize}
   \subsection{Přehled paradigmat: funkcionální, procedurální, logické, objektové}
+    \paragraph{Funkcionální paradigma}
+      Progamy ve funkcionálních jazycích sestávají ze symbolických výrazů. Výpočet je potom tvořen \textit{postupnou aplikací funkcí}, kdy funkce jsou aplikovány s hodnotami, které vznikly v předchozích krocích aplikací, výsledné hodnoty aplikace jsou použity při aplikaci dalších funkcí a tak dále. Díky absenci vedlejších efektů je možné chápat programy ve funkcionálnách jazycích jako \textit{ekvacionální teorie}. Rovněž se nepoužívají příkazy skoku ani strukturované cykly. Cykly se nahrazují \textit{rekurzivními funkcemi} a \textit{funkcemi vyšších řádů}. V některých funkcionálních jazycích také hraje důležitou roli \textit{líné vyhodnocování} (jazyk Haskell, 1987) a \textit{makra} (zejména dialekty LISPu). Nejznámější teoretický model funkcionálního programování je $\lambda$-kalkul, i když existují i modely jiné, např. modely založené na přepisovacích systémech a uspořádaných algebrách. Typickými zástupci funkcionálních programovacích jazyků jsou Common LISP, Scheme, ML a Anfix (dříve Aleph). Mezi čistě funkcionální jazyky patří Miranda, Haskell, Clean a další.
+    \paragraph{Procedurální paradigma}
+      Procedurální paradigma je spolu s funkcionálním nejstarší z paradigmat programování, někdy též bývá nazýváno paradigmatem \textit{imperativním}. Programy napsané v procedurálním stylu jsou tvořeny \textit{sekvencemi příkazů}, které jsou postupně vykonávány. Klíčovou roli při programování v procedurálním stylu hraje \textit{příkaz přiřazení} (zápis hodnoty na dané místo v paměti) a související \textit{vedlejší efekt} (některým typem přiřazení může být modifikována datová struktura a podobně). Sekvenční style vykonávání příkazů lze částečně ovlivnit pomocí \textit{operací skoků} a \textit{podmíněných skoků}. Formálním modelem procedurálních programovacích jazyků je \textit{von Neumannův RAM stroj}. Z hlediska stylu programování můžeme procedurální paradigma rozdělit na:
+      \begin{itemize}
+        \item \textit{Naivní}\\ Naivní paradigma bývá někdy chápáno jako \uv{samostatné paradigma}, častěji se mezi paradigmata programování ani neuvádí. Naivní procedurální jazyky se vyznačují jakousi všudypřítomnou chaotičností, mají obvykle nesystematicky navrženou syntaxi a sémantiku, v některých rysech jsou podobné nestrukturovaným procedurálním jazykům. Mezi typické zástupce patří programovací jazyky rodiny BASIC (první jazyk BASIC byl navržen v roce 1968 za účelem zpřístupnit počítače a programování mimo komunitu počítačových vědců).
+        \item \textit{Nestrukturované}\\ Nestrukturované procedurální paradigma je velmi blízké assemblerům, programy jsou skutečně lineární sekvence příkazů a skoky jsou v programech realizovány příkazem typu \uv{GO TO}, to jest \uv{jdi na řádek}. V raných programovacích jazycích držících se tohoto stylu bylyl navíc všechny řádky programu číslované a skoky šly realizovat pouze na základě uvedení konkrétního čísla řádku, což s sebou přinášelo velké komplikace. Později se objevily příkazy skoku využívající návěstí. Typickými zástupci v této kategorii byly rané verze jazyků FORTRAN a COBOL.
+        \item \textit{Strukturované}\\ E. Dijkstra upozornil na nebezpečí spjaté s používáním příkazu \uv{GO TO}. Poukázal zejména na to, že při používání příkazu \uv{GO TO} je prakticky nemožné ladit program, protože struktura programu nedává příliš informací o jeho vykonávání (v nějakém bodě výpočtu). Strukturované procedurální paradigma nahrazuje příkazy skoku pomocí podmíněných cyklů typu \uv{opakuj $\sim$ dokud platí podmínka} a jiných strukturovaných konstrukcí, které se do sebe \uv{vnořují}. Typickými zástupci programovacích jazyků z této rodiny jsou jazyky C~(1978), PASCAL~(1970), Modula-2~(1978) a ADA~(1977-1983).
+      \end{itemize}
+    \paragraph{Logické paradigma}
+      Pro logické paradigma je charakteristický jeho \textit{deklarativní charakter}, při psaní programů programátoři spíš popisují problém, než aby vytvářeli předpis, jak problém řešit (to samozřejmě platí jen do omezené míry). Programy v logických programovacích jazycích lze chápat jako \textit{logické teorie} a výpočet lze chápat jako \textit{dedukci důsledků}, které z této teorie plynou. Formálním modelem logického programování jsou speciální inferenční mechanismy. Programy se skládají ze speciálních formulí -- tzv. \textit{klauzulí}. Výpočet se v logických jyzcích zahajuje zadáním cíle, což je existenční dotaz, pro který buď je nebo není během výpočtu nalezena odpověď. Typickým představitelem logického programovacího jazyka je PROLOG~(1972). Logické programovací jazyky rovněž nalezly uplatnění v deduktivních databázích, například jazyk DATALOG~(1978).
+    \paragraph{Objektové paradigma}
+      Objektové paradigma je založené na myšlence vzájemné \textit{interakce objektů}. Objekty jsou nějaké entity, které mají svůj vnitřní stav, který se během provádění výpočetního procesu může měnit. Objekty spolu komunikují pomocí \textit{zasílání zpráv}. Objektově orientované paradigma není \uv{jen jedno}, ale lze jej rozdělit na řadu podtypů. Ze všech programovacích paradigmat má objektová orientace nejvíc modifikací (které jsou leckdy myšlenkově proti sobě). Například při vývoji některých jazyků byla snaha odstranit veškeré rysy připomínající procedurální paradigma: cykly byly nahrazeny \uv{iterátory}, podmíněné příkazy byly nahrazeny \textit{výjimkami}, apod. Jiné jazyky se této striktní představy nedrží. Prvním programovacím jazykem s objektovými rysy byla Simula~(1967). Mezi čistě objektové jazyky řadíme např. Smalltalk~(1971) a Eiffel~(1985). Dalšími zástupci jazyků s objektovými rysy jsou C\texttt{++}, Java, Ruby, Sather, Python, Delphi a C\texttt{\#}.
   \subsection{Symbolické výrazy a vyhodnocovací proces jazyka Scheme}
+    \begin{definition}[symbolický výraz]\label{def-symbolicky-vyraz}\ 
+      \begin{enumerate}
+        \item každé \textit{číslo} je symbolický výraz\\ (zapisujeme \texttt{12}, \texttt{-10}, \texttt{2/3}, \texttt{12.45}, \texttt{4.32e-20}, \texttt{-5i}, \texttt{2+3i}, apod.)
+        \item každý \textit{symbol} je symbolický výraz\\ (zapisujeme \texttt{sqrt}, \texttt{+}, \texttt{quotient}, \texttt{even?}, \texttt{muj-symbol}, \texttt{++?4tt}, apod.)
+        \item jsou-li $e_{1}, e_{2}, \ldots, e_{n}$ symbolické výrazy (pro $n \leq 1$),\\ pak výraz ve tvaru \texttt{($e_1\ e_2\ \ldots\ e_n$)} je symbolický výraz zvaný \textit{seznam}
+      \end{enumerate}
+    \end{definition}
+    \begin{definition}[elementy jazyka]\label{def-elementy-jazyka}\ 
+      \begin{enumerate}
+        \item interní reprezentace každého symbolického výrazu je element jazyka
+        \item každá primitivní procedura je element jazyka
+      \end{enumerate}
+    \end{definition}
+    \paragraph{Symbolický výraz} Symbolický výraz je čistě syntaktický pojem. Symbolické výrazy jsou zavedeny jako sekvence znaků, splňující podmínky definice \ref{symbolicky-vyraz}. Naproti tomu elementy jazyka jsou sémantické pojmy. Elementy jazyka jsou prvky množiny (všech elementů jazyka). Elementy jazyka používáme jako hodnoty, hrají klíčovou roli ve vyhodnocovacím procesu. Role elementů jazyka je úzce svázaná s jejich významem (sémantikou). \textit{Reader} převádí symbolické výrazy na elementy jazyka, které jsou interními reprezentacemi symbolických výrazů. Naopak \textit{printer} slouží k převodu elementů do jejich externí reprezentace.
+    \begin{veta}
+      Nechť $E$ je primitivní procedura a $E_{1},\ldots,E_{n}$ jsou libovolné elementy jazyka. Výsledek \textit{aplikace primitivní procedury $E$ na argumenty $E_{1},\ldots,E_{n}$ v tomto pořadí} značíme Apply[$E,E_{1},\ldots,E_{n}$]. Pokud je výsledkem této aplikace element $F$, píšeme Apply[$E,E_{1},\ldots,E_{n}$] $=$ $F$.
+    \end{veta}
+    Z matematického hlediska je Apply částečné zobrazení z množiny všech konečných posloupností elementů do množiny všech elementů. Pro některé $n$-tice elementů však toto zobrazení není definované, proto \uv{částečné}.
+    \begin{definition}[abstraktní interpret]\label{def-abstraktni-interpret}
+      Množina všech elementů jazyka spolu s pravidly jejich vyhodnocování nazýváme \textit{abstraktní interpret jazyka Scheme}.
+    \end{definition}
+    Vyhodnocování programů, které se skládají z posloupnosti symbolických výrazů probíhá v cyklu, kterému říkáme REPL. Jméno cyklu je zkratka pro \uv{Read}, \uv{Eval}, \uv{Print} a \uv{Loop}, což jsou jednotlivé části cyklu, Budeme-li předpokládat, že máme vstrupní program, jednotlivé fáze cyklu REPL můžeme popsat následovně:
+    
+    \noindent
+    \begin{tabular}{@{}lp{415px}}
+      Read: & Pokud je prázdný vstup, činnost interpretu končí. V opačném případě \textit{reader} načte první vstupní symbolický výraz. Pokud by se to nepodařilo v důsledku syntaktické chyby, pak je činnost interpretu ukončena chybovým hlášením \uv{\texttt{CHYBA: Syntaktická chyba}}. Pokud je symbolický výraz úspěšně načten, je převeden do své interní reprezentace. Výsledný element, označíme jej $E$, bude zpracován v dalším kroku.\\
+      Eval: & Element $E$ z předchozího kroku je vyhodnocen. Vyhodnocení provádí část interpretu, které říkáme \textit{evaluator}. Pokud během vyhodnocení došlo k chybě, je napsáno chybové hlášení a ukončena činnost interpretu. Pokud vyhodnocení končí úspěchem, pak je výsledkem vyhodnocení element. Označme tento element $F$. Výsledný element $F$ bude zpracován v dalším kroku.\\
+      Print: & Provede převod elementu $F$ z předhozího kroku do jeho externí reprezentace. Tuto část činnosti obstarává \textit{printer}. Výsledná externí reprezentace je zapsána na výstup (vytištěna na obrazovku, zapsána do souboru, apod.).\\
+      Loop: & Vstupní symbolický výraz, který byl právě zpracován v krocích \uv{Read}, \uv{Eval} a \uv{Print} je odebrán ze vstupu. Dále pokračujeme krokem \uv{Read}.
+    \end{tabular}
+    \begin{figure}[h]
+      \includegraphics[width=400pt]{img/schema-cyklu-repl}
+      \centering{}
+      \caption{Schéma cyklu REPL\label{img-schema-cyklu-repl}}
+    \end{figure}
+    \begin{definition}[vyhodnocení elementu $E$]
+      \textit{Výsledek vyhodnocení elementu} $E$, značeno Eval[$E$], je definován:
+      \begin{enumerate}
+        \item Pokud je $E$ \textit{číslo}, pak $\text{Eval}[E]:=E$.
+        \item Pokud je E \textit{symbol}, mohou nastat dvě situace:
+          \begin{enumerate}
+            \item Pokud $E$ \textit{má aktuální vazbu} $F$, pak $\text{Eval}[E]:=F$.
+            \item Pokud $E$ \textit{nemá vazbu}, pak ukončíme vyhodnocování hlášením \uv{\texttt{CHYBA: Symbol $E$ nemá vazbu}}.
+          \end{enumerate}
+        \item Pokud je $E$ \textit{seznam} tvaru \texttt{($E_{1}\ E_{2}\ \ldots\ E_{n}$)}, pak nejprve vyhodnotíme jeho první prvek a výsledek vyhodnocení označíme $F_{1}$, formálně: $F_{1}:=\text{Eval}[E_{1}]$. Vzhledem k hodnotě $F_{1}$ rozlišíme tři situace:
+          \begin{enumerate}
+            \item Pokud je $F_{1}$ procedura, pak se v nespecifikovaném pořadí vyhodnotí zbylé prvky $E_2,\ldots,E_n$ seznamu $E$, výsledky jejich vyhodnocení označíme $F_2,\ldots,F_n$. Formálně:\\
+              $F_1:=\text{Eval}[E_1]$,\\
+              $F_2:=\text{Eval}[E_2]$,\\
+              \vdots\quad\quad\quad\vdots \\
+              $F_n:=\text{Eval}[E_n]$.\\
+              Dále položíme $\text{Eval}[E]:=\text{Apply}[F_1,F_2,\ldots,F_n]$, tedy výsledkem vyhodnocení $E$ je element vzniklý \textit{aplikací prcedury $F_1$ na argumenty $F_2,\ldots,F_n$}.
+            \item Pokud je $F_1$ \textit{speciální forma}, pak $\text{Eval}[E]:=\text{Apply}[F_1,E_2,\ldots,E_n]$.
+            \item Pokud $F_1$ není \textit{procedura ani speciální forma}, skončíme vyhodnocování hlášením \uv{\texttt{CHYBA: Nelze provést aplikaci: první prvek seznamu $E$ se nevyhodnotil na proceduru ani na speciální formu}}.
+          \end{enumerate}
+        \item Ve všech ostatních případech klademe $\text{Eval}[E]:=E$.
+      \end{enumerate}
+    \end{definition}
   \subsection{Vytváření abstrakcí pomocí procedur}
+    \paragraph{Abstrakce při programování} Tímto obvykle myslíme možnost vytváření obecnějších programových konstrukcí, které je možné používat ke zvýšení efektivity při programování. Efektivitou ale nemáme nutně na mysli třeba jen rychlost výpočtu, ale třeba provedení programu, které je snadno pochopitelné, rozšiřitelné a lze jej podle potřeby upravovat.
+    
+    \paragraph{Speciální forma} Speciální formy jsou elementy jazyka, při jejichž aplikaci se nevyhodnocuje zbytek seznamu tak, jako u procedur. Speciální formy jsou aplikovány s argumenty jimiž jsou \textit{elementy v jejich nevyhodnocené podobě} a každá \textit{speciální forma si sama určuje} jaké argumenty a v jakém pořadí (zdali vůbec) bude vyhodnocovat. Proto je nutné každou speciální formu vždy detailně popsat. Při popisu se na rozdíl od procedur musíme zaměřit i na to, jak speciální forma manipuluje se svými argumenty.
+    
+    \hspace{4ex} \texttt{(define na2 (lambda (x) (* x x)))}
+    
+    Při vyhodnocování předchozího výrazu je aktivována speciálni forma \texttt{define}, která na symbol \texttt{na2} naváže hodnotu vzniklou vyhodnocením druhého argumentu, tím je $\lambda$-výraz, který se vyhodnotí na proceduru, takže po vyhodnocení předchozího výrazu bude na \texttt{na2} navázána nově vytvořená procedura \uv{umocni hodnotu na druhou}.
+    
+    Vytváření abstrakcí pomocí procedur tedy spočívá v tom, že \textit{konkrétní části kódu} nahrazujeme \textit{aplikací abstraktnějších procedur}.
+    
+    \begin{definition}[$\lambda$-výraz]
+      Každý seznam ve tvaru\\
+      \texttt{(lambda ($\langle param_1 \rangle\ \langle param_2 \rangle\ldots\langle param_n \rangle$) $\langle telo \rangle$)},\\
+      kde $n\geq0$, $\langle param_1 \rangle\ \langle param_2 \rangle\ldots\langle param_n \rangle$ jsou vzájemně různé symboly a $\langle telo \rangle$ je libovolný symbolický výraz, se nazývá \textit{$\lambda$-výraz}. Symboly $\langle param_1 \rangle\ \langle param_2 \rangle\ldots\langle param_n \rangle$ se nazývají \textit{formální argumenty} (někdy též \textit{parametry}). Číslo $n$ nazýváme \textit{počet formálních argumentů} (\textit{parametrů}).
+    \end{definition}
+    
+    \texttt{lambda} musí být skutečně speciální forma, kdyby byla procedura, skončil by následující výraz chybou, neboť symbol \texttt{x} by neměl vazbu.
+    
+    \hspace{4ex} \texttt{(lambda (x) (* x x))}
+    
+    $\lambda$-výraz je chápán jako \textit{předpis pro vznik procedury}, nelze jej ale ztotožňovat s procedurou samotnou.
+    
+    \texttt{(lambda (x y nepouzity) (* (+ 1 x) y))}
+    \begin{itemize}
+      \item \texttt{x}, \texttt{y} -- vázané symboly
+      \item \texttt{+}, \texttt{*} -- volné symboly
+    \end{itemize}
+    
+    Procedury vznikají \textit{vyhodnocováním $\lambda$-výrazů}.
+    
+    \begin{definition}[speciální forma \texttt{define}] Speciální forma \texttt{define} se používá se dvěma argumenty ve tvaru:
+    
+      \hspace{4ex} \texttt{(define} $\langle\text{jméno}\rangle\ \langle\text{výraz}\rangle$\texttt{)}
+      
+      Při aplikaci speciální forma nejprve ověří zdali je argument $\langle\text{jméno}\rangle$ symbol. Pokud tomu tak není, aplikace speciální formy je ukončena hlášením \uv{\texttt{CHYBA: První výraz musí být symbol}}. V opačném případě je vyhodnocen argument $\langle\text{výraz}\rangle$. Označme $F$ výsledek vyhodnocení tohoto elementu, to jest \mbox{$F:=\text{Eval}[\langle\text{výraz}\rangle]$}. Dále je v prostředí vytvořena nová vazba symbolu $\langle\text{jméno}\rangle$ na element $F$. Pokud již symbol $\langle\text{jméno}\rangle$ měl vazbu, tato původní vazba je nahrazena elementem $F$. Ve standardu jazyka Scheme [R6RS] se uvádí, že výsledná hodnota aplikace speciální formy \texttt{define} není definovaná.
+    \end{definition}
+    
   \subsection{Procedury vyšších řádů: aplikace a mapování}
+    \paragraph{Procedury vyšších řádů} Procedury vyšších řádů jsou takové procedury, jimž jsou při aplikaci předávány další procedury jako argumenty nebo které vracejí procedury jako výsledek své aplikace.
+    \begin{verbatim}
+  (define infix
+    (lambda (x operace y)
+      (operace x y)))
+    \end{verbatim}
+    \begin{tabular}{l l l}
+      \texttt{(infix 10 + 20)} & $\Rightarrow$ & \texttt{30}\\
+      \texttt{(infix 10 - (infix 2 + 5))} & $\Rightarrow$ & \texttt{3}\\
+      \texttt{(infix 10 (lambda (x y) x) 20)} & $\Rightarrow$ & \texttt{10}\\
+      \texttt{(infix 10 (lambda (x y) 66) 20)} & $\Rightarrow$ & \texttt{66}\\
+      \texttt{(infix 10 (lambda (x) 66) 20)} & $\Rightarrow$ & \texttt{CHYBA: Chybný počet argumentů při aplikaci}\\
+      \texttt{(infix 10 20 30)} & $\Rightarrow$ & \texttt{CHYBA: Nelze aplikovat: 20 není procedura}
+    \end{tabular}
+    \begin{program}\label{procedura-curry-plus}\ 
+      \begin{verbatim}
+  (define curry+
+    (lambda (c)
+      (lambda (x)
+        (+ x c))))
+      \end{verbatim}
+    \end{program}
+    \begin{tabular}{l l l}
+      \texttt{(define f (curry+ 10))} \\
+      \texttt{f} & $\Rightarrow$ & \uv{procedura, která hodnotu svého argumentu přičte k hodnotě \texttt{10}}\\
+      \texttt{(f 20)} & $\Rightarrow$ & \texttt{30}
+    \end{tabular}
+    \begin{figure}[h]
+      \includegraphics[width=400pt]{img/curry-plus}
+      \centering
+      \caption{Vznik prostředí během aplikace procedur}
+    \end{figure}
+    \paragraph{Mapování} Mapování je činnost, při které se vezme daný seznam, vytvoří se nový seznam stejné délky, jehož prvky jsou nějakým způsobem \uv{změněné} prvky původního seznamu, výstupem je tedy seznam stejné délky s pozměněnými prvky. Takové činnosti se říká \textit{mapování procedury přes seznam}. K provedení této operace a ke konstrukci nového seznamu ve Scheme slouží procedura \texttt{map}. Procedura \texttt{map} bere dva argumenty. Prvním z nich je procedura $\langle proc \rangle$ jednoho argumentu. Druhým argumentem je seznam. Proceduru $\langle proc \rangle$ nazýváme \textit{mapovaná procedura}. Aplikace \texttt{map} tedy probíhá ve tvaru
+    
+    \hspace{4ex} \texttt{(map $\langle proc \rangle\ \langle seznam \rangle$)}
+    
+    Výsledkem této aplikace je seznam výsledků aplikace procedury $\langle proc \rangle$ na každý prvek seznam $\langle seznam \rangle$. Označme prvky seznamu $\langle seznam \rangle$ postupně $\langle prvek_1 \rangle \langle prvek_2 \rangle \ldots \langle prvek_n \rangle $. Aplikací procedury \texttt{map} tedy dostáváme seznam
+    
+    \hspace{4ex}\texttt{(}Apply($\langle proc \rangle\ \langle prvek_1 \rangle$) Apply($\langle proc \rangle\ \langle prvek_2 \rangle$)\ldots Apply($\langle proc \rangle\ \langle prvek_n \rangle$)\texttt{)}
+    
+    Proceduru \texttt{map} lze použít rovněž s více než se dvěma arguemnty. Seznam nemusí být jen jeden, ale může jich být jakýkoli kladný počet $k$:
+    
+    \hspace{4ex} \texttt{(map $\langle proc \rangle\ \langle seznam_1 \rangle\ \langle seznam_2 \rangle\ldots\langle seznam_k \rangle$)}
+    
+    Všechny seznamy $\langle seznam_i \rangle$ musejí mít stejnou délku. Mapovací procedura $\langle proc \rangle$ musí být procedurou $k$ argumentů. Jinými slovy: musí být procedurou tolika argumentů, kolik je seznamů. Výsledkem je pak seznam výsledků aplikací procedury $\langle proc \rangle$ na ty prvky seznamů, které se v předaných seznamech nacházejí na stejných pozicích.
   \subsection{Seznamy a hierarchická data}
+    \paragraph{Tečkový pár} Tečkové páry jsou elementy jazyku. Tečkový pár je vytvořen spojením dvou libovolných elementů do uspořádané dvojice. Prvky v páru pak nazýváme \textit{první prvek páru} a \textit{druhý prvek páru}. Pár je zkonstruován primitivní procedurou \texttt{cons}, selektory prvků jsou \texttt{car} a \texttt{cdr}. 
+    
+    Můžeme konstruovat páry jejichž (některé) prvky jsou opět páry, tímto způsobem lze vytvážet libovolně složité hierarchické struktury postupným \uv{vnořováním párů} do sebe.
+    
+    Než přikročíme k definici seznamu, potřebujeme zavést nový speciální element jazyka. Tímto elementem je \textit{prázdný seznam} (nazývaný též \textit{nil}). Tento element reprezentuje \uv{seznam neobsahující žádný prvek}. Externí reprezentace prázdného seznamu je \texttt{()}. Element \uv{prázdný seznam} se \textit{vyhodnocuje sám na sebe}. Tedy:
+    
+    \texttt{()}\quad$\Rightarrow$\quad\texttt{()}
+    
+    \begin{note}
+      V některých interpretech se prázdný seznam nevyhodnocuje sám na sebe a vyhodnocení \texttt{()} skončí chybou \uv{\texttt{CHYBA: Pokus o vyhodnocení prázdného seznamu}}. Element \textit{prázdný seznam} můžeme v takových interpretech získat pomocí kvotování tím, že potlačíme vyhodnocení výrazu \texttt{()}, viz příklady:
+      \begin{tabular}{l c l}
+        \texttt{(quote ())} & $\Rightarrow$ & \texttt{()} \\
+        \texttt{'()} & $\Rightarrow$ & \texttt{()}
+      \end{tabular}
+    \end{note}
+    
+    \begin{definition}
+      \textit{Seznam} je každý element $L$ jazyka Scheme splňující právě jednu z následujících podmínek:
+      \begin{enumerate}
+        \item $L$ je prázdný seznam (to jest $L$ je vzniklý vyhodnocením \texttt{'()}), nebo
+        \item $L$ je pár ve tvaru \texttt{(}$E\ .\ L'$\texttt{)}, kde $E$ je libovolný element a $L'$ je seznam. V tomto případě se element $E$ nazývá \textit{hlava seznamu $L$} a seznam $L'$ se nazývá \textit{tělo seznamu $L$} (řidčeji též \textit{ocas seznamu $L$}).
+      \end{enumerate}
+    \end{definition}
+    
+    \paragraph{Hieararchická data} Hierarchická data jsou taková data, ve kterých potřebujeme uchovávat více hodnot. Mějme například zlomek, můžeme mít zvlášť proceduru pro výpočet čitatele a zvlášť proceduru pro výčet jmenovatele, to je ale potencionálním zdrojem chyb, navíc nám bobtná kód a stává se nepřehledným. Zlomek tedy můžeme uchovávat jako tečkový pár. Dalším příkladem může být bod (uspořádaná dvojice hodnot), úsečka (dvojice bodů), kružnice (dvojice bodu a čísla), apod.
   \subsection{Indukce a rekurze: princip a příklady}
+    \paragraph{Rekurze} Rekurze ve smyslu \textit{metody definice funkcí a procedur}.  Rekurzivní procedura je procedura, která ve svém těle \textit{provádí aplikaci sebe sama}. Rekurzí lze vyřešit mnoho problémů elegantně a efektivně.
+    
+    Rekurzi můžeme využít například pro:
+    \begin{itemize}
+      \item výpočet faktoriálu: 
+        $$
+          n!=
+          \begin{cases}
+            1 & \text{pokud}\ n\leq 1,\\
+            n \cdot (n-1)! & \text{jinak.}
+          \end{cases}
+        $$
+      \item výpočet Fibonacciho čísel:
+        $$
+          F_n=
+          \begin{cases}
+            n & \text{pokud}\ n\leq 1,\\
+            F_{n-1}+F_{n-2} & \text{jinak.}
+          \end{cases}
+        $$
+    \end{itemize}
+    
+    \paragraph{Indukce} Indukci používáme jako obecný dokazovací princip, jímž jsme schopni dokazovat vlastnosti rekurzivně definovaných funkcí a procedur.
+    
+    U indukce používáme následující značení:
+    \begin{itemize}
+      \item $P$ - vlastnost (prvočíslo, sudé, \dots)
+      \item $P(n)$ - vlastnost čísla $n$ (\uv{$n$ je prvočíslo}, \uv{$n$ je sudé}, \dots)
+    \end{itemize}
+    
+    \begin{veta}[princip indukce přes přirozená čísla]
+      K tomu, abychom ověřili, že vlastnost $P$ platí pro každé $n\in \mathbb{N}_0$, stačí prokázat platnost následujících dvou bodů:
+      \begin{enumerate}
+        \item platí $P(0)$
+        \item pokud platí $P(i)$, pak platí $P(i+1)$.
+      \end{enumerate}
+    \end{veta}
+    %TODO
   \subsection{Typy rekurzivních výpočetních procesů}
+    \paragraph{Lineárně rekurzivní výpočetní proces} 
+      Rekurzivní proces, který má netriviální fáze navíjení a odvíjení. Během fáze navíjení je budována \uv{série odložených výpočtů}, přitom počet prostředí roste lineárně vzhledem k velikosti vstupních argumentů. Po dosažení limitní podmínky nastává fáze odvíjení, ve které je zpětně dokončeno vyhodnocování výrazů, které bylo započato a \uv{odloženo} ve fázi navíjení. Činnost lineárně rekurzivního výpočetního procesu nelze jednoduše přerušit, ani není možné \uv{skočit} na nějaké místo rekurze. Níže uvedená procedura generuje lineárně rekurzivní výpočetní proces.
+      \begin{verbatim}
+  (define fac
+    (lambda (n)
+      (if (<= n 1)
+          1
+          (* n (fac (- n 1))))))
+      \end{verbatim}
+    \paragraph{Stromově rekurzivní výpočetní proces} 
+      Výpočetní proces, který svým průběhem připomíná lineární výpočetní proces, jen s tím rozdílem, že počet aplikací rekurze neroste lineárně s velikostí vstupu. Stromově rekurzivní proces je typicky generován procedurami, které ve svých rekurzivních předpisech vyvolají dvě nebo více aplikací sebe sama. Pro stromově rekurzivní výpočetní procesy je charakteristické postupné střídání fází navíjení a odvíjení. Níže uvedená procedura generuje stromově rekurzivní výpočetní proces.
+      \begin{verbatim}
+  (define fib
+    (lambda (n)
+      (if (<= n 1)
+          n
+          (+ (fib (- n 1))
+             (fib (- n 2))))))
+      \end{verbatim}
+    \paragraph{Lineárně iterativní výpočetní proces}
+      Výpočetní proces, který je generovaný koncově rekurzivními procedurami. Nedochází při něm k vytváření \uv{odložených výpočtů}. Každý lineárně iterativní výpočetní proces je během své činnosti jednoznačně určen:
+      \begin{enumerate}
+        \item vazbami symbolů v prostředí $\mathcal{P}$ svého běhu,
+        \item předisem, jak změnit stav vazeb v $\mathcal{P}$ na základě aktuálních vazeb,
+        \item limitní podmínkou ukončující iterativní proces.
+      \end{enumerate}
+      Lineárně iterativní výpočetní proces může být během svého výpočtu přerušen a posléze oět obnoven v místě přerušení. Fáze průběhu lineárně iterativního procesu je dána vazbami symbolů v prostředí jeho běhu, viz 1. bod předchozího výpisu. Pokud tyto vazby uchováme a lineárně iterativní proces opustíme, je možné jej opět aktivovat s počátečními hodnotami nastavenými na uschované hodnoty. Tím pádem se iterativní proces \uv{rozběhne} od místa zastavení.
   \subsection{Lexikální a dynamický rozsah platnosti}
+    Rozsah platnosti spočívá v hledání vazeb symbolů, v mnoha jazycích se místo pojmu \uv{symbol} používá pojem \uv{proměnná}. Mějme proceduru \texttt{curry+} (\ref{procedura-curry-plus}).
+    \begin{verbatim}
+(define c 100)
+(define f (curry+ 10))
+(f 20)
+    \end{verbatim}
+    \paragraph{Lexikální rozsah platnosti}
+      U lexikálního rozsahu platnosti se vazba symbolů (které nejsou nalezeny v lokálním prostředí) hledá v lexikálně nadřazených prostředích. To znamená v prostředí vzniku procedury. Používá většina programovacích jazyků. Výsledkem \texttt{(f 20)} bude \texttt{30}.
+    \paragraph{Dynamický rozsah platnosti}
+      Vazba symbolů se hledá v prostředí aplikace procedury. V současnosti je téměř nepoužívaný. Výsledkem \texttt{(f 20)} je \texttt{120}.
+      
   \subsection{Vlastnosti typových systémů}
+    Jazyky dělíme podle několika vlastností.
+    \subsubsection*{Kdy je možná kontrola typů}
+      \paragraph{Staticky typované jazyky} 
+        Možná kontrola typů již před interpretací nebo během překladu programu, pouze na základě znalosti jeho syntaktické struktury.
+      \paragraph{Dynamicky typované jazyky}
+        Pouhá struktura kódu (vždy) nestačí ke kontrole typů a typy elementů musí být kontrolovány až za běhu programu. Je rovněž možné, že jedno jméno (symbol nebo proměnná) může během života programu nést hodnoty různých typů.
+    \subsubsection*{Síla}
+      \paragraph{Silně typované jazyky}
+        Pro každou operaci má přesně vymezený datový typ argumentů. Pokud je operace použita s jiným typem argumentů, dochází k chybě.
+      \paragraph{Slabě typované jazyky}
+        Mají definovanou sadu konverzních pravidel, která umožňují, pokud je to nutné, převádět mezi sebou data různých typů. Pokud je provedena operace s argumenty, které jí typově neodpovídají, je provedena konverze typů tak, aby byla operace proveditelná.
+    \subsubsection*{Bezpečnost}
+      \paragraph{Bezpečně typované jazyky}
+        Tyto jazyky se chovají korektně z hlediska provádění operací mezi různými typy elementů. To znamená, že pokud je operace pro daný typ elementů proveditelná, její provedení nemůže způsobit havárii programu.
+      \paragraph{Nebezpečně typované jazyky}
+        Výsledek operace mezi různými typy může vést k chybě při běhu programu. Takovým jazykem je například C, chyba tohoto typu může být způsobena např. přetečením paměti nebo dereferencí ukazatele ukazujícího na místo paměti nepatřící programu.
 
 
 %---------------------------------------------------------------------------------------------
