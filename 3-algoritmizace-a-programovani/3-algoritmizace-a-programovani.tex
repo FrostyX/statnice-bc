@@ -278,6 +278,38 @@ Následně budeme odspodu procházet nelistové uzly a budeme ověřovat, zda sp
 Jestliže došlo k výměně, je nyní v příslušném následníku jiný prvek, čímž může u něho dojít k narušení podmínky haldy vzhledem k prvkům v jeho následnících. Musíme tedy obdobné srovnání (a případnou výměnu) nyní provést pro tohoto následníka. Takto budeme postupovat směrem dolů tak dlouho, dokud nedojdeme buďto k uzlu, u kterého výměna není nutná, anebo k uzlu, který už žádné následníky nemá (listu).
 \paragraph{Vlastní třídění} Z vlastností haldy plyne, že v jejím kořenu je největší prvek. Ten vyměníme s prvkem v posledním listu haldy. O tento list následně haldu zkrátíme a pro nový prvek v kořenu ověříme, zda splňuje vlastnost haldy vzhledem ke svým následníkům. Pokud ne, vyměňujeme prvky mezi uzly a jejich následníky tak dlouho, až všechny splňují vlastnost haldy. Jde o stejný postup, jakým jsme ve fázi vytváření haldy prováděli výměny prvků mezi nelistovými uzly a jejich následníky. Je zřejmé, že každým krokem se halda zkrátí o jeden uzel. Až nakonec obsahuje jen jeden uzel, čímž proces třídění končí.
 
+\subsubsection{Merge sort}
+Metoda je založena na dvoucestném slučováním (sléváním), což je proces, který ze dvou setříděných posloupností vytvoří jednu (delší) posloupnost. \\
+A – je pole, ve kterém jsou za sebou dvě setříděné posloupnosti prvků. \\
+p,q,r – jsou indexy označující, kde uvedené posloupností začínají a končí. \\
+i,j – jsou průběžné indexy používané pro procházení oběma setříděnými posloupnostmi \\
+B – je pole, ve kterém je vytvářena setříděna posloupnost. \\
+k – je průběžný index pro vytváření výstupní posloupnosti \\
+\textbf{Algoritmus slučování}:
+\begin{enumerate}
+	\item Počáteční krok \\
+	Indexy nastavíme na začátek setříděných posloupností a na začátek pole B. i=p, j=q+1, k=0.
+	\item Krok slučování \\
+	Srovnáme prvky $A_i$ a $A_j$. Jestliže je $A_i \leq A_j$, přesuneme $A_i$ do prvku $B_k$ a zvýšíme indexy i a k. \\
+	V opačné případe (je-li $A_i > A_j$), přesuneme $A_j$ do prvku $B_k$ a zvýšíme indexy j a k.
+	\item Krok 2. děláme tak dlouho, dokud nedojdeme na konec některé ze tříděných posloupností. \\
+	Jestliže je $i>q$ (došli jsme na konec první posloupnosti), přesuneme zbývající část 2. posloupnosti do pole B za již přesunuté prvky. \\
+	Jestliže je $j>r$ (došli jsme na konec druhé posloupnosti), přesuneme do pole B zbývající část 1. posloupnosti. \\
+	Nakonec setříděnou posloupnost přesuneme z pole B do pole A na místo původních slučovaných posloupností.
+\end{enumerate}
+\textbf{Algoritmus třídění slučování:}
+\begin{itemize}
+	\item Každou nesetříděnou část rozdělíme na dvě části, které mají stejný počet prvků, je-li sudý počet prvků, nebo na části lišící se o jeden prvek u lichého počtu prvků.
+	\item Je-li první část nesetříděná (obsahuje více než jeden prvek), setřídíme ji stejnou metodu – dělíme ji opět na dvě části atd.
+	\item Je-li druhá část nesetříděná (obsahuje více než jeden prvek), setřídíme ji stejnou metodu – dělíme ji opět na dvě části atd.
+	\item Po případném setřídění obou částí je sloučíme v jednou setříděnou část.
+\end{itemize}
+Je zřejmé, že algoritmu je založen na rozdělování až do setříděných částí (částí obsahující jeden prvek) a slučování již setříděných částí. \\
+\includegraphics[width=8cm]{img/merge.jpg}
+
+
+
+
 
 \newpage
 \subsection{Složitosti třídících algoritmů}
@@ -299,6 +331,10 @@ Naopak optimální případ nastane, když procházená část se vždy rozděl�
 \subsubsection{Heap sort}
 Vezměme nejprve složitost vytvoření haldy. Při něm procházíme jednotlivé jeho nelistové uzly, srovnáváme prvky v něm uložené s následníky a případně provádíme přesuny. Srovnání je v každém uzlu nutné provést dvě - se dvěma následníky (má-li uzel oba následníky). Následně proběhne případný přesun. Vezměme ten nejhorší případ, kdy srovnání a přesuny proběhnou od nejhornějšího uzlu (kořene) až po ten nejspodnější nelistový uzel. Jde celkem o $3 \ast h$ operací (3 operace v každém uzlu: 2 srovnání + 1 přesun), kde h je výška stromu. Výška binárního vyváženého stromu logaritmicky závisí na počtu uzlů (prvků). Tedy pro každý probíraný nelistový jeden uzel má v nejhorším případě (a i v průměrném případě) logaritmickou složitost. Vynásobením počtem uvažovaných nelistových uzlů dostáváme složitost $\theta(n\times ln(n))$. \\
 Složitost fáze vlastního třízení je hlavně určena složitostí operací srovnání a případných výměn, které následují po vzájemné výměně prvků mezi kořenem a posledním listem ve stávající haldě a zkrácením haldy o tento list. Opět to vyžaduje 2 srovnání a 1 přesun na každý nelistový uzel (nebo 1 srovnání, pokud uzel má jen jednoho následníka). Tedy maximálně $3\ast h$ operací (tento počet typicky klesá, jak se halda postupně zkracuje). Opět logaritmická složitost pro každý nový prvek v kořenu haldy. Vynásobíme-li ji celkovým počtem prvků, dostáváme zase složitost $\theta(n\times ln(n))$. \textbf{Výsledná časová složitost je} $\theta (n \times ln(n)$.
+
+\subsubsection{Merge sort}
+Nejprve odvodíme časovou složitost slučování. Nechť počet prvků v první slučované posloupnosti je $m_1$ a v druhé $m_2$. V průběhu slučování se dělají srovnání, jejich počet je $\min (m_1, m_2) \cdots m_1 + m_2 - 1$. Dále probíhají přesuny. Každý prvek se nejprve přesune do pole B a na konci se vrátí do pole A. Celkem je přesunů $2 \ast (m_1 + m_2)$. Složitost slučování je lineární $\theta (m_1 + m_2)$. \\
+Nechť n je počet tříděných prvků. Postupných rozdělování se rozdělí na n jednoprvkových částí. Ty se následně slučují. Pro jednoduchost předpokládejme, že obě slučované části mají stejnou délku. Počet operací (srovnání + přesunů) je celkově $k\ast 3n$. Zřejmě mezi číslem kroku i a délkou slučovaných částí v kroku i platí vztah délka slučované části je $2^{i-1}$. Pro poslední krok $\frac{n}{2} = 2^{k-1}$. Odtud $k = log_2(n)$. \textbf{Výsledná časová složitost je} $\theta (n \times ln(n)$.
 
 
 
