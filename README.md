@@ -21,7 +21,7 @@ Vypracované otázky na státnice UPOL Bc 2015 | [Seznam pojmů](http://www.inf.
 1. okruh - celý
 2. okruh - celý
 3. okruh - druhý + čtvrtý odstavec + pátý odstavec
-4. okruh - druhý + třetí + čtvrty odstavec
+4. okruh - první + druhý + třetí + čtvrty odstavec
 
 
 ## Build
