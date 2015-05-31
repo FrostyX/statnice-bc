@@ -21,6 +21,8 @@
 \setlength{\parindent}{0px}
 \setlength{\parskip}{0.8em}
 
+\algdef{SE}[DOWHILE]{Do}{doWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}
+
 \begin{document}
 
 \title{Státnicový okruh 3: \\ Algoritmizace a programování}
@@ -172,6 +174,7 @@ Pole, ve kterém jsou uloženy prvky, je v průběhu třídění rozděleno na d
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+\newpage
 \includegraphics[width=8cm]{img/select}
 
 \subsubsection{Bubble sort}
@@ -190,11 +193,77 @@ Při třídění přímou výměnou procházíme postupně pole s tříděnými 
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+\newpage
 \includegraphics[width=8cm]{img/bubble}
 
+\subsubsection{Quick sort}
+Quicksort je efektivní metoda třídění výměnou. Princip metody spočívá v tom, že v poli zvolíme určitý prvek (bývá označován jako pivot), označme ho $A_p$ , a postupnými výměnami rozdělíme pole na dvě části. V první části (označme ji L) budou prvky, které nejsou větší než zvolený prvek $A_p$ , a v druhé části (R) budou prvky, které nejsou menší než $A_p$. Postupným rekurzivním opakováním tohoto postupu se tříděné části stávají postupně stávají menší, až nakonec nastane stav, že každá část obsahuje jen jeden prvek, čímž třídění skončí. \\
+Klíčovou záležitostí je volba pivota $A_p$ . Optimální by bylo zvolit ho tak, aby vzniklé části L a R měly stejnou velikost. To by znamenalo najít prvek, jehož hodnota je uprostřed hodnot všech prvků (medián). Nalezení takového prvku je ale tak časově náročné, že by to natolik zhoršilo účinnost třídění, že by se třídění stalo neefektivní. Proto se volí mnohem jednodušší způsob – jako pivot se vezme prvek, který je na určité pozici v tříděné části pole.
+\paragraph{Pivot je poslední prvek} Popis algoritmu: \\
+A – je pole s tříděnými prvky, počet prvků v poli je n \\
+l,r – jsou indexy počátku a konce části pole, která je právě tříděna \\
+i,j – jsou průběžné indexy používané pro procházení polem ve směrech odpředu a odzadu \\
+Popis algoritmu:
+\begin{enumerate}
+	\item Počáteční krok \\
+	Na počátku právě tříděnou částí bude celé pole, tj. nastavíme l = 0, r = n-1.
+	\item Třídící krok \\
+	Do proměnné x uložíme pivota $x = A[r]$ a průběžné indexy nastavíme před začátek právě tříděné části a na konec tříděné části i = l-1, j = r.
+	\item Výměny \\
+	Začneme inkrementovat index i tak dlouho, až najdeme prvek, pro který platí $a_i \geq x$. Následně začneme dekrementovat index j tak dlouho, až buďto najdeme prvek, pro který platí $a_j \leq x$, anebo nastane $i \geq j$. \\
+	Pokud $i < j$, uděláme výměnu prvků $A_i$ a $A_j$ a pokračujeme krokem 3. \\
+	Je-li $i \geq j$, ukončíme výměny a přejdeme ke kroku 4.
+	\item Prvky A i a A r mezi sebou vyměníme. \\
+	Je-li $ l < i-1 $, aplikujeme krok 2. na část pole s koncovými indexy $l$ a $i-1$. \\
+	Je-li $ i+1 < r $, aplikujeme krok 2. na část pole s koncovými indexy $i+1$ a $r$.
+\end{enumerate}
+\paragraph{Pivot je prvek uprostřed} Popis algoritmu: \\
+\begin{enumerate}
+	\item Počáteční krok \\
+	Na počátku aktuální tříděnou částí bude celé pole, tj. nastavíme l = 0, r = n-1.
+	\item Třídící krok \\
+	Do proměnné x uložíme střední prvek $x = A [ \frac{l+r}{2} ]$ a průběžné indexy nastavíme na začátek a konec právě tříděné části i = l, j = r. \\
+	Nyní procházíme tříděnou část směrem dozadu - zvětšujeme index i tak dlouho, až najdeme prvek, pro který platí $A_i \geq x$. \\
+	Následně procházíme tříděnou část směrem dopředu - snižujeme index j, tak dlouho, až najdeme prvek, pro který platí $A_j \leq x$. \\
+	Prvky $A_i$ a $A_j$ mezi sebou vyměníme a následně i++ a j--. \\
+	Tento proces provádíme tak dlouho, dokud nenastane $i>j$. V tomto okamžiku je buďto i=j+1 anebo je i=j+2.
+\end{enumerate}
+Má-li část L více než jeden prvek $(l<j)$, pak rekurzivně provedeme třídící krok 2. na této části pole - její počáteční a koncový index je dán současnými hodnotami proměnných l,j. \\
+Má-li část R více než jeden prvek $(i<r)$, pak rekurzivně provedeme třídící krok 2. na této části pole - její počáteční a koncový index je dán současnými hodnotami proměnných i,r. \\
+\begin{algorithm}
+\caption{Pseudokód}
+\begin{algorithmic}[]
+\Procedure{QuickSort(A, l, r)}{}
+\State $ x \gets A[l+r/2] $
+\State $ i \gets l $
+\State $ j \gets r $
+\Do
+	\While{$A[i] < x$}
+		\State $i \gets i + 1$
+	\EndWhile
+	\While{$x < A[j]$}
+		\State $j \gets j - 1$
+	\EndWhile
+	\If{$i<j$}
+		\State \textbf{break}
+	\EndIf
+	\State \textbf{exch}$(A[i], A[j])$
+	\State $i \gets i + 1$
+	\State $j \gets j - 1$
+\doWhile{$i \leq j$}
+\If{$l<j$}
+	\State \textbf{QuickSort(A, l, j)}
+\EndIf
+\If{$i<r$}
+	\State \textbf{QuickSort(A, i, r)}
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 
 
+\newpage
 \subsection{Složitosti třídících algoritmů}
 \subsubsection{Insert sort}
 Vezměme nejprve operaci srovnání. Nechť počet prvků v setříděné části je k. Abychom zjistili místo vložení, uděláme 1 až k srovnání. Jedno srovnání v případě, kdy se prvek vkládá hned na konec setříděné části, k srovnání v případě, kdy prvek patří na první nebo druhou pozici v setříděné části. Odtud pro jeden krok dostáváme průměrný počet srovnání $\frac{1+k}{2}$ a maximální počet srovnání $k$. Vezmeme-li v úvahu, že délky setříděných částí v jednotlivých krocích jsou k = 1, 2, ..., n-1, dostaneme celkové počty srovnání průměrný $\frac{2+3+\cdots+n}{2} = \frac{1+2+\cdots+n-1}{2} = \frac{\frac{n(n-1)}{2}-1}{2} = \frac{n^2+n-2}{4}$ a maximální $1+2+\cdots+(n-1) = \frac{(n-1)n}{2} = \frac{n^2-n}{2}$. Z toho plyne, že operace srovnání má kvadratickou složitost bez ohledu na to, zda uvažujeme průměrný nebo maximální počet srovnání. \\
@@ -203,9 +272,13 @@ Uvažujme operaci přesunu prvku o jednu pozici dozadu. Těch v jednom kroku pro
 \subsubsection{Select sort}
 Vezměme nejprve operaci výběru. Nechť počet prvků v nesetříděné části je k. Abychom našli její nejmenší prvek, potřebujeme k tomu k-1 srovnání. Neboť počínaje druhým prvkem v nesetříděné části postupně srovnáváme všechny její prvky až po poslední prvek, vždy s právě zapamatovaným prvkem. Délky nesetříděných částí jsou v jednotlivých krocích $n, n-1, n-2, \cdots 2$. Odtud celkový počet srovnání $(n-1) + (n-2) + \cdots + 1 = \frac{(n-1)n}{2} = \frac{n^2-n}{2}$. Nyní uvažujme operaci výměny vybraného, nejmenšího prvku s prvním prvkem nesetříděné části. Ta v každém kroku proběhne jen jednou. Třídících kroků je n-1 a odtud dostáváme celkový počet výměn $n-1$. Největší časovou složitost má operace výběru. \textbf{Výsledná časová složitost je} $\theta (n^2)$.
 
-\subsubsection{Bubble Sort}
+\subsubsection{Bubble sort}
 Vezměme opět nejprve operaci srovnání. V prvním průchodu se prochází všech n prvků, což reprezentuje srovnání n-1 sousedních dvojic. V druhém průchodu se prochází n-1 prvků, tedy n-2 srovnávaných dvojic. V posledním průchodu má procházená část dva prvky, tedy se provede jen jedno srovnání. Odtud celkový počet srovnání $(n-1) + (n-2) + \cdots + 1 = \frac{(n-1)n}{2} = \frac{n^2-n}{2}$. Nyní uvažujme operaci výměn. Výměn se provede maximálně tolik, kolik je srovnání. Minimální možný počet výměn je žádná výměna (prvky jsou na začátku uspořádány tak, že jsou setříděné). Dostáváme počty přesunů průměrný $\frac{3(n^2-n}{4}$ a maximální $\frac{3(n^2-n}{2}$. \textbf{Výsledná časová složitost je} $\theta (n^2)$.
 
+\subsubsection{Quick sort}
+Složitost závisí na tom, v jakém poměru se tříděná část rozdělí na nové části L a R. Nejhorší případ nastane, když jedna z těchto částí obsahuje jen jeden prvek a ta druhá zbývající prvky. Pak by následující třídící krok proběhl vždy jen pro tu větší část a ta by měla vždy o jeden prvek méně, než tomu bylo v předchozím kroku. Počet srovnání je maximálně o 1 větší, než je počet prvků v procházené části. Tento největší počet srovnání nastane v případě, kdy procházená část už je setříděná. \\
+Pro počet výměn nám stačí skutečnost, že jich je nejvýše tolik, kolik je srovnání. Celkově je z toho vidět, že složitost operace srovnání a tím i celé metody je v tomto nejhorším případě kvadratická. \\
+Naopak optimální případ nastane, když procházená část se vždy rozdělí na dvě stejné části. Počet třídících chodů logaritmicky závisí na počtu tříděných prvků. Zbývá stanovit složitost operace srovnání v jednom třídícím průchodu. Ta je závislá na tom, na kolik částí je tříděné pole rozděleno. Máme-li v daném třídícím chodu k částí, pak v každé z nich bude $\frac{n}{k}$ prvků. Počet srovnání v každé části je nejvýše o 1 větší než je počet prvků v ní. V prvním třídícím průchodu chodu je počet částí 1, v posledním, kdy části mají délku 2, je počet $\frac{n}{2}$. Dosazením zjistíme, že počet srovnání v jednom třídím průchodu se pohybuje od n+1 v prvním třídícím průchodu až po $\frac{3n}{2}$ v posledním průchodu. Tedy ve všech průchodech je složitost lineární. \textbf{Výsledná časová složitost je} $\theta (n \times ln(n)$.
 
 
 \newpage
@@ -840,14 +913,14 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
     \paragraph{Objektové paradigma}
       Objektové paradigma je založené na myšlence vzájemné \textit{interakce objektů}. Objekty jsou nějaké entity, které mají svůj vnitřní stav, který se během provádění výpočetního procesu může měnit. Objekty spolu komunikují pomocí \textit{zasílání zpráv}. Objektově orientované paradigma není \uv{jen jedno}, ale lze jej rozdělit na řadu podtypů. Ze všech programovacích paradigmat má objektová orientace nejvíc modifikací (které jsou leckdy myšlenkově proti sobě). Například při vývoji některých jazyků byla snaha odstranit veškeré rysy připomínající procedurální paradigma: cykly byly nahrazeny \uv{iterátory}, podmíněné příkazy byly nahrazeny \textit{výjimkami}, apod. Jiné jazyky se této striktní představy nedrží. Prvním programovacím jazykem s objektovými rysy byla Simula~(1967). Mezi čistě objektové jazyky řadíme např. Smalltalk~(1971) a Eiffel~(1985). Dalšími zástupci jazyků s objektovými rysy jsou C\texttt{++}, Java, Ruby, Sather, Python, Delphi a C\texttt{\#}.
   \subsection{Symbolické výrazy a vyhodnocovací proces jazyka Scheme}
-    \begin{definition}[symbolický výraz]\label{def-symbolicky-vyraz}\ 
+    \begin{definition}[symbolický výraz]\label{def-symbolicky-vyraz}\
       \begin{enumerate}
         \item každé \textit{číslo} je symbolický výraz\\ (zapisujeme \texttt{12}, \texttt{-10}, \texttt{2/3}, \texttt{12.45}, \texttt{4.32e-20}, \texttt{-5i}, \texttt{2+3i}, apod.)
         \item každý \textit{symbol} je symbolický výraz\\ (zapisujeme \texttt{sqrt}, \texttt{+}, \texttt{quotient}, \texttt{even?}, \texttt{muj-symbol}, \texttt{++?4tt}, apod.)
         \item jsou-li $e_{1}, e_{2}, \ldots, e_{n}$ symbolické výrazy (pro $n \geq 1$),\\ pak výraz ve tvaru \texttt{($e_1\ e_2\ \ldots\ e_n$)} je symbolický výraz zvaný \textit{seznam}
       \end{enumerate}
     \end{definition}
-    \begin{definition}[elementy jazyka]\label{def-elementy-jazyka}\ 
+    \begin{definition}[elementy jazyka]\label{def-elementy-jazyka}\
       \begin{enumerate}
         \item interní reprezentace každého symbolického výrazu je element jazyka
         \item každá primitivní procedura je element jazyka
@@ -862,7 +935,7 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
       Množina všech elementů jazyka spolu s pravidly jejich vyhodnocování nazýváme \textit{abstraktní interpret jazyka Scheme}.
     \end{definition}
     Vyhodnocování programů, které se skládají z posloupnosti symbolických výrazů probíhá v cyklu, kterému říkáme REPL. Jméno cyklu je zkratka pro \uv{Read}, \uv{Eval}, \uv{Print} a \uv{Loop}, což jsou jednotlivé části cyklu, Budeme-li předpokládat, že máme vstrupní program, jednotlivé fáze cyklu REPL můžeme popsat následovně:
-    
+
     \noindent
     \begin{tabular}{@{}lp{415px}}
       Read: & Pokud je prázdný vstup, činnost interpretu končí. V opačném případě \textit{reader} načte první vstupní symbolický výraz. Pokud by se to nepodařilo v důsledku syntaktické chyby, pak je činnost interpretu ukončena chybovým hlášením \uv{\texttt{CHYBA: Syntaktická chyba}}. Pokud je symbolický výraz úspěšně načten, je převeden do své interní reprezentace. Výsledný element, označíme jej $E$, bude zpracován v dalším kroku.\\
@@ -900,42 +973,42 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
     \end{definition}
   \subsection{Vytváření abstrakcí pomocí procedur}
     \paragraph{Abstrakce při programování} Tímto obvykle myslíme možnost vytváření obecnějších programových konstrukcí, které je možné používat ke zvýšení efektivity při programování. Efektivitou ale nemáme nutně na mysli třeba jen rychlost výpočtu, ale třeba provedení programu, které je snadno pochopitelné, rozšiřitelné a lze jej podle potřeby upravovat.
-    
+
     \paragraph{Speciální forma} Speciální formy jsou elementy jazyka, při jejichž aplikaci se nevyhodnocuje zbytek seznamu tak, jako u procedur. Speciální formy jsou aplikovány s argumenty jimiž jsou \textit{elementy v jejich nevyhodnocené podobě} a každá \textit{speciální forma si sama určuje} jaké argumenty a v jakém pořadí (zdali vůbec) bude vyhodnocovat. Proto je nutné každou speciální formu vždy detailně popsat. Při popisu se na rozdíl od procedur musíme zaměřit i na to, jak speciální forma manipuluje se svými argumenty.
-    
+
     \hspace{4ex} \texttt{(define na2 (lambda (x) (* x x)))}
-    
+
     Při vyhodnocování předchozího výrazu je aktivována speciálni forma \texttt{define}, která na symbol \texttt{na2} naváže hodnotu vzniklou vyhodnocením druhého argumentu, tím je $\lambda$-výraz, který se vyhodnotí na proceduru, takže po vyhodnocení předchozího výrazu bude na \texttt{na2} navázána nově vytvořená procedura \uv{umocni hodnotu na druhou}.
-    
+
     Vytváření abstrakcí pomocí procedur tedy spočívá v tom, že \textit{konkrétní části kódu} nahrazujeme \textit{aplikací abstraktnějších procedur}.
-    
+
     \begin{definition}[$\lambda$-výraz]
       Každý seznam ve tvaru\\
       \texttt{(lambda ($\langle param_1 \rangle\ \langle param_2 \rangle\ldots\langle param_n \rangle$) $\langle telo \rangle$)},\\
       kde $n\geq0$, $\langle param_1 \rangle\ \langle param_2 \rangle\ldots\langle param_n \rangle$ jsou vzájemně různé symboly a $\langle telo \rangle$ je libovolný symbolický výraz, se nazývá \textit{$\lambda$-výraz}. Symboly $\langle param_1 \rangle\ \langle param_2 \rangle\ldots\langle param_n \rangle$ se nazývají \textit{formální argumenty} (někdy též \textit{parametry}). Číslo $n$ nazýváme \textit{počet formálních argumentů} (\textit{parametrů}).
     \end{definition}
-    
+
     \texttt{lambda} musí být skutečně speciální forma, kdyby byla procedura, skončil by následující výraz chybou, neboť symbol \texttt{x} by neměl vazbu.
-    
+
     \hspace{4ex} \texttt{(lambda (x) (* x x))}
-    
+
     $\lambda$-výraz je chápán jako \textit{předpis pro vznik procedury}, nelze jej ale ztotožňovat s procedurou samotnou.
-    
+
     \texttt{(lambda (x y nepouzity) (* (+ 1 x) y))}
     \begin{itemize}
       \item \texttt{x}, \texttt{y} -- vázané symboly
       \item \texttt{+}, \texttt{*} -- volné symboly
     \end{itemize}
-    
+
     Procedury vznikají \textit{vyhodnocováním $\lambda$-výrazů}.
-    
+
     \begin{definition}[speciální forma \texttt{define}] Speciální forma \texttt{define} se používá se dvěma argumenty ve tvaru:
-    
+
       \hspace{4ex} \texttt{(define} $\langle\text{jméno}\rangle\ \langle\text{výraz}\rangle$\texttt{)}
-      
+
       Při aplikaci speciální forma nejprve ověří zdali je argument $\langle\text{jméno}\rangle$ symbol. Pokud tomu tak není, aplikace speciální formy je ukončena hlášením \uv{\texttt{CHYBA: První výraz musí být symbol}}. V opačném případě je vyhodnocen argument $\langle\text{výraz}\rangle$. Označme $F$ výsledek vyhodnocení tohoto elementu, to jest \mbox{$F:=\text{Eval}[\langle\text{výraz}\rangle]$}. Dále je v prostředí vytvořena nová vazba symbolu $\langle\text{jméno}\rangle$ na element $F$. Pokud již symbol $\langle\text{jméno}\rangle$ měl vazbu, tato původní vazba je nahrazena elementem $F$. Ve standardu jazyka Scheme [R6RS] se uvádí, že výsledná hodnota aplikace speciální formy \texttt{define} není definovaná.
     \end{definition}
-    
+
   \subsection{Procedury vyšších řádů: aplikace a mapování}
     \paragraph{Procedury vyšších řádů} Procedury vyšších řádů jsou takové procedury, jimž jsou při aplikaci předávány další procedury jako argumenty nebo které vracejí procedury jako výsledek své aplikace.
     \begin{verbatim}
@@ -951,7 +1024,7 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
       \texttt{(infix 10 (lambda (x) 66) 20)} & $\Rightarrow$ & \texttt{CHYBA: Chybný počet argumentů při aplikaci}\\
       \texttt{(infix 10 20 30)} & $\Rightarrow$ & \texttt{CHYBA: Nelze aplikovat: 20 není procedura}
     \end{tabular}
-    \begin{program}\label{procedura-curry-plus}\ 
+    \begin{program}\label{procedura-curry-plus}\
       \begin{verbatim}
   (define curry+
     (lambda (c)
@@ -970,27 +1043,27 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
       \caption{Vznik prostředí během aplikace procedur}
     \end{figure}
     \paragraph{Mapování} Mapování je činnost, při které se vezme daný seznam, vytvoří se nový seznam stejné délky, jehož prvky jsou nějakým způsobem \uv{změněné} prvky původního seznamu, výstupem je tedy seznam stejné délky s pozměněnými prvky. Takové činnosti se říká \textit{mapování procedury přes seznam}. K provedení této operace a ke konstrukci nového seznamu ve Scheme slouží procedura \texttt{map}. Procedura \texttt{map} bere dva argumenty. Prvním z nich je procedura $\langle proc \rangle$ jednoho argumentu. Druhým argumentem je seznam. Proceduru $\langle proc \rangle$ nazýváme \textit{mapovaná procedura}. Aplikace \texttt{map} tedy probíhá ve tvaru
-    
+
     \hspace{4ex} \texttt{(map $\langle proc \rangle\ \langle seznam \rangle$)}
-    
+
     Výsledkem této aplikace je seznam výsledků aplikace procedury $\langle proc \rangle$ na každý prvek seznam $\langle seznam \rangle$. Označme prvky seznamu $\langle seznam \rangle$ postupně $\langle prvek_1 \rangle \langle prvek_2 \rangle \ldots \langle prvek_n \rangle $. Aplikací procedury \texttt{map} tedy dostáváme seznam
-    
+
     \hspace{4ex}\texttt{(}Apply($\langle proc \rangle\ \langle prvek_1 \rangle$) Apply($\langle proc \rangle\ \langle prvek_2 \rangle$)\ldots Apply($\langle proc \rangle\ \langle prvek_n \rangle$)\texttt{)}
-    
+
     Proceduru \texttt{map} lze použít rovněž s více než se dvěma arguemnty. Seznam nemusí být jen jeden, ale může jich být jakýkoli kladný počet $k$:
-    
+
     \hspace{4ex} \texttt{(map $\langle proc \rangle\ \langle seznam_1 \rangle\ \langle seznam_2 \rangle\ldots\langle seznam_k \rangle$)}
-    
+
     Všechny seznamy $\langle seznam_i \rangle$ musejí mít stejnou délku. Mapovací procedura $\langle proc \rangle$ musí být procedurou $k$ argumentů. Jinými slovy: musí být procedurou tolika argumentů, kolik je seznamů. Výsledkem je pak seznam výsledků aplikací procedury $\langle proc \rangle$ na ty prvky seznamů, které se v předaných seznamech nacházejí na stejných pozicích.
   \subsection{Seznamy a hierarchická data}
-    \paragraph{Tečkový pár} Tečkové páry jsou elementy jazyku. Tečkový pár je vytvořen spojením dvou libovolných elementů do uspořádané dvojice. Prvky v páru pak nazýváme \textit{první prvek páru} a \textit{druhý prvek páru}. Pár je zkonstruován primitivní procedurou \texttt{cons}, selektory prvků jsou \texttt{car} a \texttt{cdr}. 
-    
+    \paragraph{Tečkový pár} Tečkové páry jsou elementy jazyku. Tečkový pár je vytvořen spojením dvou libovolných elementů do uspořádané dvojice. Prvky v páru pak nazýváme \textit{první prvek páru} a \textit{druhý prvek páru}. Pár je zkonstruován primitivní procedurou \texttt{cons}, selektory prvků jsou \texttt{car} a \texttt{cdr}.
+
     Můžeme konstruovat páry jejichž (některé) prvky jsou opět páry, tímto způsobem lze vytvážet libovolně složité hierarchické struktury postupným \uv{vnořováním párů} do sebe.
-    
+
     Než přikročíme k definici seznamu, potřebujeme zavést nový speciální element jazyka. Tímto elementem je \textit{prázdný seznam} (nazývaný též \textit{nil}). Tento element reprezentuje \uv{seznam neobsahující žádný prvek}. Externí reprezentace prázdného seznamu je \texttt{()}. Element \uv{prázdný seznam} se \textit{vyhodnocuje sám na sebe}. Tedy:
-    
+
     \texttt{()}\quad$\Rightarrow$\quad\texttt{()}
-    
+
     \begin{note}
       V některých interpretech se prázdný seznam nevyhodnocuje sám na sebe a vyhodnocení \texttt{()} skončí chybou \uv{\texttt{CHYBA: Pokus o vyhodnocení prázdného seznamu}}. Element \textit{prázdný seznam} můžeme v takových interpretech získat pomocí kvotování tím, že potlačíme vyhodnocení výrazu \texttt{()}, viz příklady:
       \begin{tabular}{l c l}
@@ -998,7 +1071,7 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
         \texttt{'()} & $\Rightarrow$ & \texttt{()}
       \end{tabular}
     \end{note}
-    
+
     \begin{definition}
       \textit{Seznam} je každý element $L$ jazyka Scheme splňující právě jednu z následujících podmínek:
       \begin{enumerate}
@@ -1006,14 +1079,14 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
         \item $L$ je pár ve tvaru \texttt{(}$E\ .\ L'$\texttt{)}, kde $E$ je libovolný element a $L'$ je seznam. V tomto případě se element $E$ nazývá \textit{hlava seznamu $L$} a seznam $L'$ se nazývá \textit{tělo seznamu $L$} (řidčeji též \textit{ocas seznamu $L$}).
       \end{enumerate}
     \end{definition}
-    
+
     \paragraph{Hieararchická data} Hierarchická data jsou taková data, ve kterých potřebujeme uchovávat více hodnot. Mějme například zlomek, můžeme mít zvlášť proceduru pro výpočet čitatele a zvlášť proceduru pro výčet jmenovatele, to je ale potencionálním zdrojem chyb, navíc nám bobtná kód a stává se nepřehledným. Zlomek tedy můžeme uchovávat jako tečkový pár. Dalším příkladem může být bod (uspořádaná dvojice hodnot), úsečka (dvojice bodů), kružnice (dvojice bodu a čísla), apod.
   \subsection{Indukce a rekurze: princip a příklady}
     \paragraph{Rekurze} Rekurze ve smyslu \textit{metody definice funkcí a procedur}.  Rekurzivní procedura je procedura, která ve svém těle \textit{provádí aplikaci sebe sama}. Rekurzí lze vyřešit mnoho problémů elegantně a efektivně.
-    
+
     Rekurzi můžeme využít například pro:
     \begin{itemize}
-      \item výpočet faktoriálu: 
+      \item výpočet faktoriálu:
         $$
           n!=
           \begin{cases}
@@ -1030,15 +1103,15 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
           \end{cases}
         $$
     \end{itemize}
-    
+
     \paragraph{Indukce} Indukci používáme jako obecný dokazovací princip, jímž jsme schopni dokazovat vlastnosti rekurzivně definovaných funkcí a procedur.
-    
+
     U indukce používáme následující značení:
     \begin{itemize}
       \item $P$ - vlastnost (prvočíslo, sudé, \dots)
       \item $P(n)$ - vlastnost čísla $n$ (\uv{$n$ je prvočíslo}, \uv{$n$ je sudé}, \dots)
     \end{itemize}
-    
+
     \begin{veta}[princip indukce přes přirozená čísla]
       K tomu, abychom ověřili, že vlastnost $P$ platí pro každé $n\in \mathbb{N}_0$, stačí prokázat platnost následujících dvou bodů:
       \begin{enumerate}
@@ -1048,7 +1121,7 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
     \end{veta}
     %TODO
   \subsection{Typy rekurzivních výpočetních procesů}
-    \paragraph{Lineárně rekurzivní výpočetní proces} 
+    \paragraph{Lineárně rekurzivní výpočetní proces}
       Rekurzivní proces, který má netriviální fáze navíjení a odvíjení. Během fáze navíjení je budována \uv{série odložených výpočtů}, přitom počet prostředí roste lineárně vzhledem k velikosti vstupních argumentů. Po dosažení limitní podmínky nastává fáze odvíjení, ve které je zpětně dokončeno vyhodnocování výrazů, které bylo započato a \uv{odloženo} ve fázi navíjení. Činnost lineárně rekurzivního výpočetního procesu nelze jednoduše přerušit, ani není možné \uv{skočit} na nějaké místo rekurze. Níže uvedená procedura generuje lineárně rekurzivní výpočetní proces.
       \begin{verbatim}
   (define fac
@@ -1057,7 +1130,7 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
           1
           (* n (fac (- n 1))))))
       \end{verbatim}
-    \paragraph{Stromově rekurzivní výpočetní proces} 
+    \paragraph{Stromově rekurzivní výpočetní proces}
       Výpočetní proces, který svým průběhem připomíná lineární výpočetní proces, jen s tím rozdílem, že počet aplikací rekurze neroste lineárně s velikostí vstupu. Stromově rekurzivní proces je typicky generován procedurami, které ve svých rekurzivních předpisech vyvolají dvě nebo více aplikací sebe sama. Pro stromově rekurzivní výpočetní procesy je charakteristické postupné střídání fází navíjení a odvíjení. Níže uvedená procedura generuje stromově rekurzivní výpočetní proces.
       \begin{verbatim}
   (define fib
@@ -1086,11 +1159,11 @@ Použití této metody je vhodné, pokud by standardní hašovací tabulka byla 
       U lexikálního rozsahu platnosti se vazba symbolů (které nejsou nalezeny v lokálním prostředí) hledá v lexikálně nadřazených prostředích. To znamená v prostředí vzniku procedury. Používá většina programovacích jazyků. Výsledkem \texttt{(f 20)} bude \texttt{30}.
     \paragraph{Dynamický rozsah platnosti}
       Vazba symbolů se hledá v prostředí aplikace procedury. V současnosti je téměř nepoužívaný. Výsledkem \texttt{(f 20)} je \texttt{120}.
-      
+
   \subsection{Vlastnosti typových systémů}
     Jazyky dělíme podle několika vlastností.
     \subsubsection*{Kdy je možná kontrola typů}
-      \paragraph{Staticky typované jazyky} 
+      \paragraph{Staticky typované jazyky}
         Možná kontrola typů již před interpretací nebo během překladu programu, pouze na základě znalosti jeho syntaktické struktury.
       \paragraph{Dynamicky typované jazyky}
         Pouhá struktura kódu (vždy) nestačí ke kontrole typů a typy elementů musí být kontrolovány až za běhu programu. Je rovněž možné, že jedno jméno (symbol nebo proměnná) může během života programu nést hodnoty různých typů.
