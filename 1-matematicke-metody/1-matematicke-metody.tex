@@ -1768,6 +1768,130 @@ Povieme, že rada $\sum x_{n}$ je \textbf{alternujúca}, ak pre každý člen $x
 	Ak konverguje rad $\sum |x_{n}|$, konverguje aj rad $\sum x_{n}$ a platí $|\sum x_{n}|\leq \sum |x_{n}|$\\ \textbf{D:} (Iba naznačenie) Pre ľubovolné čísla $n_{1}\leq n_{2}$ platí $$|x_{n_{1}}+ \dotsm + x_{n_{2}}|\leq |x_{n_{1}}| + \dotsm + |x_{n_{2}}|$$.
 \end{sentence}
 
+\section{Neurčitý a určitý Riemannov integrál}
+\paragraph{}
+V deriváciách sme hľadali zo zadanej funkcie jej deriváciu. Pomocou integrálov sa rieši opačný problém, takže zo zadanej derivácie určiť povodnú funkciu.
+
+\subsection{Neurčitý integrál}
+\paragraph{}
+Predpokladajme, že máme danú funkciu $f$, o ktorej vieme, že vznikla derivovaním nejakej funkcie $F$ na intervale $(a, b)$, teda, že $f(x) =F'(x)$ pre každé $x \in (a, b)$. Otázka je: Aká bola povodná funkcia $F$? Funkcia $F$, ktorú hľadáme, sa preto niekedy nazýva \textbf{primitívna funkcia}.
+
+\begin{example}
+	Majme funckiu $f(x)=8x^{3}$ pre $x\in (-\infty , \infty)$ Úlohou je nájsť funkciu $F$. ($F=2x^{4}$ pretože pre každé $x\in (-\infty , \infty)$ platí, že $F'(x)=2\cdot 4x^{3}$). 
+\end{example}
+
+\begin{definition}
+	Nech $(a, b)$ je ľubovolný otvorený interval. Funkcia $F$ sa nazýva primitívnou funkciou k funkcii $f$ na intervale $(a, b)$ ak pre každé $x \in (a, b)$ platí$$f(x)=F'(x)$$
+\end{definition}
+
+\begin{sentence}
+	Nech funkcia $F$ je primitívnou funkciou k funkcii $f$ na intervale $(a, b)$. Funkcia $G$ je primitívnou funkciou k funkcii $f$ na intervale $(a, b)$ práve vtedy, ak existuje reálne číslo $c$ také, že pre každé $x\in (a, b)$ platí $$G(x)=F(x)+c$$
+\end{sentence}
+
+\paragraph{}
+To znamená, že primitívne funkcie k rovnakej funkcii $f$ sa môžu líšiť len konštantou. Ak hľadáme ktorúkoľvek z primitívnych funkcií, tak hovoríme, že hľadáme \textbf{neurčitý integrál z funkcie f} a značíme $$\int f(x)dx$$
+
+\paragraph{}
+Na základe predchádzajúcej vety možeme neurčitý integrál písať aj v tvare $$\int f(x)dx=F(x)+c$$ kde $F$ je jedna z možných primitívnych funkcií.
+
+\subsubsection{Substitučná metóda (iba informatívne)}
+\paragraph{}
+Prvá veta o substitučnej metóde umožňuje hľadať neurčité integrály funkcií, ktoré sú
+súčinom nejakej zloženej funkcie a derivácie jej vnútornej zložky, napr. integrály typu $$\int (\varphi (x))\cdot \varphi '(x)dx$$
+
+\begin{example}
+	Vypočítajte integrál: $$\int \frac{cos(ln\; x)}{x}dx$$ Funkcia $cos(ln \; x)$ je zložená funkcia, pričom $ln \; x$ je vnútorná zložka. Použijeme substitúciu $$t=ln \; x \; \Rightarrow \; dt=\frac{1}{x}dx$$ Pos substitúcii dostaneme $$\int \frac{cos(ln\; x)}{x}dx = \int cos \;t \; dt = sin \;t + c=sin \; (ln \; x)+c$$
+\end{example}
+
+\subsubsection{Metóda Per-Partes (iba informatívne)}
+\paragraph{}
+Aj keď vo všeobecnosti nejaké pravidlo pre integrovanie súčinu dvoch funkcií nemáme, v niektorých prípadoch nám môže pomôcť nasledujúca veta, známa ako veta o metóde "per-partes"(krátko MPP).
+
+\begin{sentence}
+	Nech funkcie $u$ a $v$ majú na intervale $(a, b)$ spojité derivácie $u'$ resp. $v'$. Potom na intervale $(a, b)$ platí $$\int u(x) \cdot v'(x)dx = u(x) \cdot v(x) - \int u'(x)\cdot v(x) dx$$ Na pravej strane sme dotsali jednoduhší integrál. Niekedy vieme výsledok z neho určiť priamo, inokedy treba použiť vhodný postup na jeho určenie.
+\end{sentence}
+
+\subsection{Určitý Riemannov integrál}
+\paragraph{}
+Sú 2 sposoby ako zadefinovať určitý Riemannov integrál. Jeden z nich je použitím (Cauchyových) integrálnych súčtov (Ten sme si v MATA nedefinovali) a druhý je použitím \textbf{horných a dolných integrálov}. Nižšie je popísaný druhý sposob.
+
+\paragraph{}
+Na začiatok si je treba uvedomiť pri určitom Riemannovom itegrále ide o vyýpočet obsahu polchy pod krivkou nejakej funkcie (Riemannov integrál definujeme v $\mathds{R}$). Predstavme si teda funkciu $f$ obmedzenú na interval $[a, b]$ (Pozri obrázok \ref{int1}). 
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.2]{img/int1}
+	\end{center}
+	\caption{Funkcia $f$ obmedzená na interval $[a, b]$\label{int1}}
+\end{figure}
+
+\paragraph{}
+Úlohou je teda vypočítať obsah plochy pod krivkou funckie $f$ obmedzenú na interval $[a, b]$. Interval $[a, b]$ možeme rodeliť na mnešie časti $t_{0}$\dots $t_{5}$; $m_{1}$\dots $m_{5}$ sú výšky obdľžnikov (Pozri obrázok \ref{int2}). Ich obsah potom možeme vypočítať ako $$m_{1}\cdot (t_{1}-t_{0})+m_{2}\cdot (t_{2}-t_{1})+\dotsm + m_{5}\cdot (t_{5}-t_{4})$$ 
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.25]{img/int2}
+	\end{center}
+	\caption{Naznačenie obdĺžnikov pre dolný integrálny súčet\label{int2}}
+\end{figure}
+
+Otázne je ako vypočítať výšky obdĺžnikov. Ako výšku obdĺžnika budeme brať infimum funkcie $f$ obmedzenej na daný podinterval $[t_{i-1}, t_{i}]$. Takže platí $$m_{i}=inf\{ f(x)|x\in [t_{i-1}, t_{i}]\}$$ Pre potreby zápisu zadefinujeme \textbf{delenie} $P$ pričom bude platiť $$P: a=t_{0}<t_{1}<\dots <t_{n}<t_{n+1}=b$$
+
+\begin{definition}
+	Definujeme \textbf{dolný integrálny súčet} ako $L(f, P)=\sum_{i=1}^{n+1}m_{i(t_{i}, t_{i-1})}$
+\end{definition}
+
+\paragraph{}
+Podobnými úvahami možeme prísť k hornému integrálnemu súčtu. (Pozri obrázok \ref{int3}). Výška obdĺžnikov pri hornom integrálnom súčte je zadefinovaná ako $$M_{i}=sup\{ f(x)|x\in [t_{i-1}, t_{i}]\}$$
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.2]{img/int3}
+	\end{center}
+	\caption{Naznačenie obdĺžnikov pre horný integrálny súčet\label{int3}}
+\end{figure}
+
+\begin{definition}
+	Potom zadefinujeme \textbf{holný integrálny súčet} ako $U(f, P)=\sum_{i=1}^{n+1}M_{i(t_{i}, t_{i-1})}$
+\end{definition}
+
+\paragraph{}
+Jednoznačne platí že $L(f, P)\leq U(f, P)$. Teraz máme k dispozícii všetko potrebné aby sme zadefinovali horný a dolný integrál.
+
+\begin{definition}
+	$L\int_{a}^{b}f$ nazveme \textbf{dolný integrál} pričom platí že: $$L\int_{a}^{b}f= sup\{ L(f, P)|P\dots je \;delenie \;[a, b]\}$$
+\end{definition}
+
+\begin{definition}
+	$U\int_{a}^{b}f$ nazveme \textbf{horný integrál} pričom platí že: $$U\int_{a}^{b}f= inf\{ U(f, P)|P\dots je \;delenie \;[a, b]\}$$
+\end{definition}
+
+\vspace{2cm}
+\begin{center}
+	\begin{Huge}
+		\textbf{NASLEDUJE DEFINÍCIA \\ \vspace{1cm} INTEGRÁLU KONEČNE !!!!}
+	\end{Huge}
+\end{center}
+\newpage
+
+\begin{definition}
+	Funkcia $f$ je integrovatelná na $[a, b]$ ak $L\int_{a}^{b}f=U\int_{a}^{b}f$, potom číslo $\int_{a}^{b}f=L\int_{a}^{b}f=U\int_{a}^{b}f$ sa nazýva \textbf{integrál funkcie} $f$ na intervale $[a, b]$.
+\end{definition}
+
+\paragraph{}
+Otázne je ako zvoliť delenie $P$ ... pretože musí byť dostatočne jemné na to aby platil vzťah z definície. Pre zavádzame \textbf{zjemnené delenie} $Q$ pre ktoé platí, že $P\subset Q$ (Pozri obrázok \ref{int4})
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.2]{img/int4}
+	\end{center}
+	\caption{Zjemnené delenie $Q$\label{int4}}
+\end{figure}
+
+\begin{sentence}
+	Funkcia $f$ je integrovatelná na intervale $[a, b]$ práve vtedy, keď pre každé číslo $\epsilon >0$ exituje delenie $P$ (Ide iba o značenie ... úlaha je nájsť dostatočne jemné delenie) tak, že $U(f, P)-L(f, P)< \epsilon$.
+\end{sentence}
+
 %---------------------------------------------------------------------------------------------------------
 % --------------------------------------------- pátý odstavec ---------------------------------------------
 % ---------------------------------------------------------------------------------------------------------
