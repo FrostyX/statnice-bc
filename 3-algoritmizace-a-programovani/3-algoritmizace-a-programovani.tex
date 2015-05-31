@@ -260,7 +260,23 @@ Má-li část R více než jeden prvek $(i<r)$, pak rekurzivně provedeme tříd
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+\newpage
 
+\subsubsection{Heap sort}
+Halda je určitý typ binárního stromu. V každém jeho uzlu je jeden tříděný prvek. Dále mezi prvkem v uzlu a prvky uloženými v jeho následnících (má-li nějaké) platí vztah, že prvek v uzlu má z nich největší (maximální) hodnotu. \\
+Popis algoritmu: \\
+Proces třídění má dvě fáze – vytvoření haldy a vlastní třídění.
+\paragraph{Vytvoření haldy} V první fázi vytvoříme haldu. Halda je vyvážený binární strom. V něm jsou všechny úroveň zcela zaplněné až na poslední úroveň, která jediná může být neúplná.
+\begin{itemize}
+	\item Uzly v úrovni k mají indexy v rozmezí $2^k - 1 \cdots 2^{(k + 1 )}$.
+	\item Následníci (existují-li) uzlu s indexem i mají indexy $2 \ast i+1$ a $2 \ast i+2$, tj, následníci uzlu $u_i$ jsou uzly $u_{2 \ast i+1}$ a $u_{2 \ast i+2}$.
+\end{itemize}
+Nejdříve si z počtu tříděných prvků n vypočítáme výšku haldy, označme ji h: \\
+$h = \lfloor log_2(n) \rfloor$. \\
+Sestavíme si vyvážený binární strom této výšky s n uzly a zaplníme ho tříděnými prvky, tj. do každého uzlu dáme jeden tříděný prvek. \\
+Následně budeme odspodu procházet nelistové uzly a budeme ověřovat, zda splňují podmínku haldy vzhledem ke svým následníkům. U každého z těchto uzlů ověříme, zda prvek v něm uložený není menší než prvek v některém z jeho následníků. Pokud ano, uděláme výměnu. \\
+Jestliže došlo k výměně, je nyní v příslušném následníku jiný prvek, čímž může u něho dojít k narušení podmínky haldy vzhledem k prvkům v jeho následnících. Musíme tedy obdobné srovnání (a případnou výměnu) nyní provést pro tohoto následníka. Takto budeme postupovat směrem dolů tak dlouho, dokud nedojdeme buďto k uzlu, u kterého výměna není nutná, anebo k uzlu, který už žádné následníky nemá (listu).
+\paragraph{Vlastní třídění} Z vlastností haldy plyne, že v jejím kořenu je největší prvek. Ten vyměníme s prvkem v posledním listu haldy. O tento list následně haldu zkrátíme a pro nový prvek v kořenu ověříme, zda splňuje vlastnost haldy vzhledem ke svým následníkům. Pokud ne, vyměňujeme prvky mezi uzly a jejich následníky tak dlouho, až všechny splňují vlastnost haldy. Jde o stejný postup, jakým jsme ve fázi vytváření haldy prováděli výměny prvků mezi nelistovými uzly a jejich následníky. Je zřejmé, že každým krokem se halda zkrátí o jeden uzel. Až nakonec obsahuje jen jeden uzel, čímž proces třídění končí.
 
 
 \newpage
@@ -279,6 +295,12 @@ Vezměme opět nejprve operaci srovnání. V prvním průchodu se prochází vš
 Složitost závisí na tom, v jakém poměru se tříděná část rozdělí na nové části L a R. Nejhorší případ nastane, když jedna z těchto částí obsahuje jen jeden prvek a ta druhá zbývající prvky. Pak by následující třídící krok proběhl vždy jen pro tu větší část a ta by měla vždy o jeden prvek méně, než tomu bylo v předchozím kroku. Počet srovnání je maximálně o 1 větší, než je počet prvků v procházené části. Tento největší počet srovnání nastane v případě, kdy procházená část už je setříděná. \\
 Pro počet výměn nám stačí skutečnost, že jich je nejvýše tolik, kolik je srovnání. Celkově je z toho vidět, že složitost operace srovnání a tím i celé metody je v tomto nejhorším případě kvadratická. \\
 Naopak optimální případ nastane, když procházená část se vždy rozdělí na dvě stejné části. Počet třídících chodů logaritmicky závisí na počtu tříděných prvků. Zbývá stanovit složitost operace srovnání v jednom třídícím průchodu. Ta je závislá na tom, na kolik částí je tříděné pole rozděleno. Máme-li v daném třídícím chodu k částí, pak v každé z nich bude $\frac{n}{k}$ prvků. Počet srovnání v každé části je nejvýše o 1 větší než je počet prvků v ní. V prvním třídícím průchodu chodu je počet částí 1, v posledním, kdy části mají délku 2, je počet $\frac{n}{2}$. Dosazením zjistíme, že počet srovnání v jednom třídím průchodu se pohybuje od n+1 v prvním třídícím průchodu až po $\frac{3n}{2}$ v posledním průchodu. Tedy ve všech průchodech je složitost lineární. \textbf{Výsledná časová složitost je} $\theta (n \times ln(n)$.
+
+\subsubsection{Heap sort}
+Vezměme nejprve složitost vytvoření haldy. Při něm procházíme jednotlivé jeho nelistové uzly, srovnáváme prvky v něm uložené s následníky a případně provádíme přesuny. Srovnání je v každém uzlu nutné provést dvě - se dvěma následníky (má-li uzel oba následníky). Následně proběhne případný přesun. Vezměme ten nejhorší případ, kdy srovnání a přesuny proběhnou od nejhornějšího uzlu (kořene) až po ten nejspodnější nelistový uzel. Jde celkem o $3 \ast h$ operací (3 operace v každém uzlu: 2 srovnání + 1 přesun), kde h je výška stromu. Výška binárního vyváženého stromu logaritmicky závisí na počtu uzlů (prvků). Tedy pro každý probíraný nelistový jeden uzel má v nejhorším případě (a i v průměrném případě) logaritmickou složitost. Vynásobením počtem uvažovaných nelistových uzlů dostáváme složitost $\theta(n\times ln(n))$. \\
+Složitost fáze vlastního třízení je hlavně určena složitostí operací srovnání a případných výměn, které následují po vzájemné výměně prvků mezi kořenem a posledním listem ve stávající haldě a zkrácením haldy o tento list. Opět to vyžaduje 2 srovnání a 1 přesun na každý nelistový uzel (nebo 1 srovnání, pokud uzel má jen jednoho následníka). Tedy maximálně $3\ast h$ operací (tento počet typicky klesá, jak se halda postupně zkracuje). Opět logaritmická složitost pro každý nový prvek v kořenu haldy. Vynásobíme-li ji celkovým počtem prvků, dostáváme zase složitost $\theta(n\times ln(n))$. \textbf{Výsledná časová složitost je} $\theta (n \times ln(n)$.
+
+
 
 
 \newpage
