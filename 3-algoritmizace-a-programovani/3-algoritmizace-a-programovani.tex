@@ -145,6 +145,7 @@ Pole, ve kterém jsou uloženy prvky, je v průběhu třídění rozděleno na d
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+\includegraphics[width=8cm]{img/insert}
 
 \subsubsection{Select sort}
 Část obsahující již setříděné prvky je první a část s doposud nesetříděnými prvky je za ní. V nesetříděné části se v každém kroku najde nejmenší prvek a ten se přesune na konec již setříděné části.
@@ -170,9 +171,10 @@ Pole, ve kterém jsou uloženy prvky, je v průběhu třídění rozděleno na d
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+\includegraphics[width=8cm]{img/select}
 
 \subsubsection{Bubble sort}
-Při třídění přímou výměnou procházíme postupně pole s tříděnými prvky směrem od začátku k jeho konci a srovnáváme sousední dvojice, zda prvky v nich jsou podle velikosti ve správném pořadí. Jestliže ne, tedy větší prvek je před menším, provedeme jejich vzájemnou výměnu. V dalším kroku celý postup zopakujeme, ale už bez posledního prvku, tedy jen s prvními n-1 prvky. Při něm se obdobným způsobem dostane na své cílové místo předposlední prvek setříděné posloupnosti. V následujícím kroku už budeme procházet jen n-2 prvků atd. Je zřejmé, že každým průchodem se délka procházené části sníží o jeden prvek, až nakonec v posledním průchodu bude procházená část mít jen dva prvky a po jejich srovnání a případné výměně je třídění dokončeno.
+Při třídění přímou výměnou procházíme postupně pole s tříděnými prvky směrem od začátku k jeho konci a srovnáváme sousední dvojice, zda prvky v nich jsou podle velikosti ve správném pořadí. Jestliže ne, tedy větší prvek je před menším, provedeme jejich vzájemnou výměnu. V dalším kroku celý postup zopakujeme, ale už bez posledního prvku, tedy jen s prvními n-1 prvky. Při něm se obdobným způsobem dostane na své cílové místo předposlední prvek setříděné posloupnosti. V následujícím kroku už budeme procházet jen n-2 prvků atd. Je zřejmé, že každým průchodem se délka procházené části sníží o jeden prvek, až nakonec v posledním průchodu bude procházená část mít jen dva prvky a po jejich srovnání a případné výměně je třídění dokončeno. \\
 \begin{algorithm}
 \caption{Pseudokód}
 \begin{algorithmic}[]
@@ -187,6 +189,7 @@ Při třídění přímou výměnou procházíme postupně pole s tříděnými 
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+\includegraphics[width=8cm]{img/bubble}
 
 
 
