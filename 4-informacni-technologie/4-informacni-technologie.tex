@@ -13,10 +13,10 @@
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{enumerate}
 \newtheorem{veta}{Věta}
 \newtheorem{definition}{Definice}
 \newtheorem{note}{Poznámka}
-
 
 \lstnewenvironment{Java}
   {\lstset{language=Java, keywordstyle=\color{blue}, morekeywords={String, Connection, SQLException, PreparedStatement}}}
@@ -3468,7 +3468,270 @@ Nemůže dojít k žádnému výše uvedenému fenoménu, vynucuje ACID.
 
 
 
+\section{}
+\newcommand{\M}{\mathscr{M}}
+\newcommand{\G}{\Gamma}
 
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape
+}
+
+\paragraph{Funkční závislosti: definice, pravdivost v datech, modely, sémantické vyplývání, kanonické modely a jejich generátoty,
+charakterizace sémantického vyplývání, sémantické uzávěry množin atributů, algoritmy pro jejich
+výpočet (Closure, LinClosure). Funkční závislosti stanovené z dat: báze, redundance, nalezení minimální báze.
+Axiomatizace sémantického vyplývání funkčních závislostí:}
+
+\subsection{Funkční závislosti}
+\includegraphics[scale=0.35]{img/5-01.jpg}\\[2ex]
+\includegraphics[scale=0.37]{img/5-02.jpg}\\[2ex]
+\includegraphics[scale=0.37]{img/5-03.jpg}\\[2ex]
+\includegraphics[scale=0.37]{img/5-04.jpg}\\[2ex]
+\includegraphics[scale=0.37]{img/5-05.jpg}\\[2ex]
+\includegraphics[scale=0.37]{img/5-06.jpg}\\[2ex]
+\includegraphics[scale=0.37]{img/5-07.jpg}\\[2ex]
+\includegraphics[scale=0.37]{img/5-08.jpg}\\[2ex]
+\includegraphics[scale=0.37]{img/5-09.jpg}\\[2ex]
+\includegraphics[scale=0.37]{img/5-10.jpg}\\[2ex]
+\includegraphics[scale=0.37]{img/5-11.jpg}\\[2ex]
+\includegraphics[scale=0.37]{img/5-12.jpg}\\[2ex]
+
+\paragraph{Sémantické uzávěry množiny atributů}
+$$ M_\Gamma = \{M \subseteq R | D_M \in Mod(\Gamma) \} $$
+se nazývá \emph{systém generátorů kanonických modelů.}\\
+
+\begin{veta}
+$M_\Gamma$ je uzávěrový systém.
+\end{veta}
+%%{\fontfamily{pzc}\selectfont D}
+\begin{definition}
+Pro teorii $\Gamma$ a $M \subseteq R$ definujeme $[M]_\Gamma \subseteq R předpisem:$
+$$[M]_\Gamma = \cap\{N \in \M_\Gamma | M \subseteq N\}$$
+kde $$\M_\Gamma = \{M \subseteq R | D_M \in Mod_c(\Gamma)\}$$
+\end{definition}
+
+\paragraph{Uzávěrový operátor $[...]_\Gamma$ musí splňovat následující 3 podmínky}
+\begin{enumerate}
+\item extenzivitu: $A \subseteq [A]_\Gamma$
+\item monotonii: pokud $A \subseteq B$ pak $ [A]_\Gamma \subseteq [B]_\Gamma $
+\item idempotenci: $[[A]_\G]_\G = [A]_\G$
+\end{enumerate}
+
+\begin{veta}
+Následující tvrzení jsou ekvivalentní
+\begin{enumerate}[i]
+\item $\Gamma \models A \Rightarrow B$
+\item $D_{[A]_\Gamma} \models A \Rightarrow B$
+\item $B \subseteq [A]_\Gamma$
+\end{enumerate}
+\end{veta}
+
+\begin{definition}
+Teorie $\G_1$ a $\G_2$ jsou \emph{sémanticky ekvivalentní}, píšeme $\G_1 \equiv \G_2$ pokud pro každou $A \Rightarrow B$ platí $\G_1 \models A \Rightarrow B$~p.k.~$\G_2 \models A \Rightarrow B$.
+\end{definition}
+
+\begin{veta}
+\label{veta:ekvivMod}
+Následující tvrzení jsou ekvivalentní:
+\begin{enumerate}[i]
+\item $\G_1 \equiv \G_2$
+\item $Mod(\G_1) = Mod(\G_2)$
+\item $Mod_c(\G_1) = Mod_c(\G_2)$
+\end{enumerate}
+\end{veta}
+
+\paragraph{Definujme posloupnost množin $M_\Gamma^0$, $M_\Gamma^1$, ...\\}
+\[ 
+M_\G^i =
+\left \{
+  \begin{tabular}{cc}
+  M & pokud i = 0  \\
+  $$$M_\G^{i-1} \cup \bigcup \{B|A \Rightarrow B \in \G$ a $A \subseteq M_\G^{i-1} \}$$$ & jinak
+  \end{tabular}
+\right. 
+\]
+
+\begin{veta}
+$[M]_\G = M_\G^\infty$ pro každé $M \subseteq R$.
+\end{veta}
+
+\begin{veta}
+Máme teorii $\G$ a vezmeme $\G' = \{A \ni [A]_\G | A \Rightarrow B \in \G \}$. Pak $\G \equiv \G'$
+\end{veta}
+
+\subsection{Uzávěrové algoritmy}
+\subsubsection{Closure}
+\begin{lstlisting}
+repeat
+   set stable to true;
+   forall the $A \Rightarrow B \in \G$ do
+      if $A \subseteq M$ then
+         set $M$ to $M \cup B$;
+         set stable to false;
+         set $\G$ to $\G \setminus \{A \Rightarrow B \}$;
+      end;
+   end;
+until stable;
+return M;
+\end{lstlisting}
+
+\subsubsection{LinClosure}
+count[A $\Rightarrow$ B] $\rightarrow$ integer\\
+list[y] $\rightarrow$ seznam formulí s atributem y na levé straně
+\paragraph{Příprava}
+\paragraph{}
+
+\begin{lstlisting}
+vstup: M,\G
+forall the $A \Rightarrow B \in \G$ do
+   set count$[A \Rightarrow B]$ to |A|
+   if $A = \o$ then
+      set M to $M \cup B$
+   else
+      forall the $y \in A$ do
+         add $A \Rightarrow B$ to list[y]
+      end
+   end
+end
+\end{lstlisting}
+
+\paragraph{Algoritmus}
+\paragraph{}
+
+\begin{lstlisting}
+set update to M
+while update $\neq \o$ do
+   choose y from update
+   set update to update\{y}
+   forall the $A \Rightarrow B \in$ list[y] do
+      set count[$A \Rightarrow B$] to count[$A \Rightarrow B$] - 1
+      if count[$A \Rightarrow B$] = 0 then
+         set new to B\M
+         set M to M$\cup$new
+         set update to update$\cup$new
+      end
+   end
+end
+return M
+\end{lstlisting}
+
+\paragraph{Příklad}
+$\\\G = \{\{a,b\}\} \Rightarrow \{c\},\\ \{a,c\}\} \Rightarrow \{f,g\},\\ \{e\}\} \Rightarrow \{f,c\},\\ \{c,g\}\} \Rightarrow \{g,h\},\\ \{d\}\} \Rightarrow \{a,b\},\\ \{g\} \Rightarrow \{a,e\},\\ \{f\}\} \Rightarrow \{b\}\}$\\[2ex]
+Closure:\\
+$[\{d\}]_\G =~?$\\
+$M = d, a, b, c, f, g, h, e$\\
+$\G = 5, 1, 2, 4, 6, 7, 3$\\
+$[\{d\}]_\G = R$\\[2ex]
+
+LinClosure:\\
+
+\begin{tabular}{cc|cc}
+  count && list&  \\
+  1 & II & a & 1, 2\\
+  2 & II & b & 1\\
+  3 & I  & c & 2, 4\\
+  4 & II & d & 5\\
+  5 & I  & e & 3\\
+  6 & I  & f & 7\\
+  7 & I  & g & 4, 6\\
+  &&h&
+\end{tabular}\\
+$[\{a,c\}]_\G =~?$\\
+$M = a, c, f, g, b, h, e$\\
+update $ = c, f, g, b, h, e$\\
+$y = a, c, f, g, b$\\
+new $= \{f,g\}, \{b\}, \{h\}, \{e\}, \{b\}, \{\}$\\
+$[\{a,c\}]_\G = M$\\
+
+\subsection{Funkční závislosti stanovené z dat}
+\begin{definition}
+Teorie $\G$ se nazývá báze D pokud pro každou $A \Rightarrow B$ platí:
+$ \G \models A \Rightarrow B $~p.k.~$ D \models A \Rightarrow B $
+\end{definition}
+
+\begin{veta}
+Pokud jsou $\G_1$ a $\G_2$ báze D, pak $Mod(\G_1) = Mod(\G_2)$\\
+Důkaz: $\G_1 \models A \Rightarrow B$ p.k. $D \models A \Rightarrow B$ p.k. $\G_2 \neq A \Rightarrow B$ tj. použijeme větu \ref{veta:ekvivMod}.
+\end{veta}
+
+\begin{definition}
+Pro D a $M \subseteq R$ zavedeme: $E_D(M) = \{\langle r,r'\rangle | r(M) = r'(M)\}$.\\
+$E_D(M)$ je binární relace na D. Je reflexivní, symetrická, tranzitivní. Pro libovolné M je $E_D(M)$ ekvivalence na D.
+\end{definition}
+
+\begin{definition}
+Dále definujeme $C_D(M) = \{y \in R | E_D(M) \subseteq E_D(\{y\})$.\\
+Jsou-li si n-tice r a r' rovny M, pak si musí být rovny i na $y$.
+\end{definition}
+
+\begin{veta}
+$C'_D$ je uzávěrový operátor v $2^R$.
+\end{veta}
+\pagebreak
+\begin{veta}
+Následující tvrzení jsou ekvivalentní:
+\begin{enumerate}[i]
+\item $D \models A \Rightarrow B$
+\item $E_D(A) \subseteq E_D(B)$
+\item $B \subseteq C_D(A)$
+\end{enumerate}
+\end{veta}
+
+\begin{veta}
+$\G = \{A \Rightarrow C_D(A) | A \subseteq R\}$ je báze D.
+\end{veta}
+
+\begin{definition}
+$\G$ je neredundantní báze D, pokud $\G$ je báze D a pro každou $\G' \subset \G$ platí, že $\G'$ není báze D.
+\end{definition}
+
+\begin{veta}
+$\G$ je neredundantní báze p.k. $\G$ je báze D a pro každou $A \Rightarrow B \in \G$ platí, že $\G~-~\{A~\Rightarrow~B\}~\nvDash~A~\Rightarrow~B$.
+\end{veta}
+
+\begin{veta}
+$\G = \{P \Rightarrow C_D(P) | P \in P_D \}$ je neredundantní báze D.\\
+Kde $P_D = \{P \neq C_D(P) | $ pro každou $ Q \in P_D $ takovou, že $ Q \subset P$ platí $C_D(Q) \subseteq P\}$.
+\end{veta}
+
+\begin{definition}
+Pokud je $\G$ báze a pro libovolnou $\G'$, která je báze D platí, že $|\G| \leq |\G'|$, pak se $\G$ nazývá minimální báze D.
+\end{definition}
+
+\begin{veta}
+Pokud pro $P \in P_D$ a $A \subseteq R$ platí $P \subseteq C_D(A)$, pak $C_D(A)\cap P = C_D(C_D(A)\cap P)$.
+\end{veta}
+
+\begin{veta}
+Nechť $\G'$ je báze D. Potom pro každou $P \in P_D$ existuje $A \Rightarrow B \in \G'$ taková, že $C_D(A) = C_D(P)$ a $D_P \nVDash A \Rightarrow B$.
+\end{veta}
+
+\begin{veta}
+Pokud $P_1,P_2 \in P_D$ a platí $P_1 \nsubseteq P_2$ a $P_2 \nsubseteq P_1$, pak $C_D(P_1 \cap P_2) = P_1 \cap P_2$.
+\end{veta}
+
+\begin{veta}
+$\G = \{P \Rightarrow C_D(P) | P \in P_D$ je minimální báze D.
+\end{veta}
+
+\paragraph{Algoritmus pro výpočet minimální báze}
+$$M_\G^i~ i = 0,1,...$$
+$$M_\G^0 = M$$
+$$M_\G^{i+1} = M_\G^i \cup \bigcup\{F | E \Rightarrow F \in \G a E \subset M_\G^i$$
+$$M_\G^\infty = \bigcup_{i=0}^\infty M_\G^i$$
+
+
+\begin{veta}
+$M_\G^\infty$ je uzávěrový operátor.
+\end{veta}
+
+\begin{veta}
+Nechť $\G = \{P \Rightarrow C_D(P) | P \in P_D$. Pak je ekvivalentní:
+\begin{enumerate}[i]
+\item $M = M_\G^\infty$
+\item buď $M = C_D(M)$ nebo $M \in P_D$
+\end{enumerate}
+\end{veta}
 
 
 
