@@ -307,7 +307,31 @@ k – je průběžný index pro vytváření výstupní posloupnosti \\
 Je zřejmé, že algoritmu je založen na rozdělování až do setříděných částí (částí obsahující jeden prvek) a slučování již setříděných částí. \\
 \includegraphics[width=8cm]{img/merge.jpg}
 
-
+\subsection{Další metody třídění: Counting sort, Radix Sort, Bucket sort, vnější třídění}
+\subsubsection{Bucket sort}
+Přihrádkové třídění je třídící algoritmus, který tříděné prvky rozdělí do zvoleného počtu přihrádek. Každá přihrádka je následně tříděna samostatně buďto jiným třídícím algoritmem nebo opět přihrádkovým tříděním. Tato metoda je použitelná, je-li třídící klíč celé číslo. Rovněž se dá použít pro třídění řetězců. \\
+Mějme posloupnost celých čísel, jejichž hodnoty jsou v rozsahu: $0 \cdots m$. \\
+Zvolme, kolik různých hodnot bude jedné přihrádce: c. \\
+Vypočítáme počet přihrádek $k = \lceil \frac{m+1}{c} \rceil$ \\
+\paragraph{Popis algoritmu:}
+Přihrádkové třídění pro přihrádky používá pole. Proces třídění má dvě fáze – vytvoření přihrádek a vlastní umísťování prvků do přihrádek. Pro stanovení, kde jsou v cílovém poli jednotlivé přihrádky umístěny se používá další, pomocné pole. \\
+A – je pole, ve kterém jsou vstupní tříděná čísla. \\
+n – je počet tříděných čísel.B – je pole, ve kterém budou přihrádky. \\
+C – je pracovní pole pro zjištění, kde začínají jednotlivé přihrádky, a dále při umísťování čísel do přihrádek se používá pro zjištění, na které místo v přihrádce právě umísťované číslo dát. Počet prvků v poli je k+1 (o 1 větší, než je počet přihrádek). \\
+Přihrádky jsou číslovány od 0 po k-1.
+\paragraph{Vytvoření přihrádek}
+\begin{itemize}
+	\item Pole C vynulujeme.
+	\item Pro každé číslo v poli A zjistíme, do které patří přihrádky, a zvýšíme o 1 hodnotu prvku pole C, který má index o 1 vyšší, než je zjištěné číslo přihrádky. Po ukončení tohoto kroku budeme v $C_1$ mít počet čísel z pole A, která patří do přihrádky 0, v $C_2$ počet čísel patřících do přihrádky $1, \cdots $ v C k počet čísel patřících do přihrádky k-1.
+	\item Nyní zjistíme začátky přihrádek v poli. Přičteme $C_1$ k $C_2$ , $C_2$ k $C_3$, ..., $C_{k-2}$ k $C_{k-1}$. \\
+	Nyní v $C_0$ bude index, kde v poli B začíná přihrádka 0, v $C_1$ začátek přihrádky 1, ..., v $C_{k-1}$ začátek přihrádky k-1.
+\end{itemize}
+\paragraph{Umisťování do přihrádek}
+\begin{itemize}
+	\item Pro každé číslo v poli A zjistíme číslo j přihrádky, do které číslo. V prvku pole C s indexem j zjistíme index prvního volného prvku přihrádky j v poli B. Na toto místo prvek z pole A umístíme a následně zvýšíme o 1 prvek pole C s indexem j – posuneme se v přihrádce j na další volné místo. Z uvedeného popisu je zřejmé, že pole C nám ukazuje v každém okamžiku index prvního volného prvku v jednotlivých přihrádkách (pokud daná přihrádka už není zcela zaplněna).
+	\item Nakonec setříděnou posloupnost případně přesuneme z pole B do pole A na místo původních setříděný posloupností.
+\end{itemize}
+Pokud je počet různých hodnot v přihrádce větší než 1, pole se vhodnou metodou dotřídí – zpravidla přímou metodou třídění vkládáním.
 
 
 
@@ -336,6 +360,10 @@ Složitost fáze vlastního třízení je hlavně určena složitostí operací 
 Nejprve odvodíme časovou složitost slučování. Nechť počet prvků v první slučované posloupnosti je $m_1$ a v druhé $m_2$. V průběhu slučování se dělají srovnání, jejich počet je $\min (m_1, m_2) \cdots m_1 + m_2 - 1$. Dále probíhají přesuny. Každý prvek se nejprve přesune do pole B a na konci se vrátí do pole A. Celkem je přesunů $2 \ast (m_1 + m_2)$. Složitost slučování je lineární $\theta (m_1 + m_2)$. \\
 Nechť n je počet tříděných prvků. Postupných rozdělování se rozdělí na n jednoprvkových částí. Ty se následně slučují. Pro jednoduchost předpokládejme, že obě slučované části mají stejnou délku. Počet operací (srovnání + přesunů) je celkově $k\ast 3n$. Zřejmě mezi číslem kroku i a délkou slučovaných částí v kroku i platí vztah délka slučované části je $2^{i-1}$. Pro poslední krok $\frac{n}{2} = 2^{k-1}$. Odtud $k = log_2(n)$. \textbf{Výsledná časová složitost je} $\theta (n \times ln(n)$.
 
+\subsubsection{Bucket sort}
+Nejprve odvodíme časovou složitost operací s tříděnými čísly. V průběhu třídění je pro každé číslo 2x počítáno, do které patří přihrádky, a 1x je číslo přesunuto do jiného pole. Počet operací pro každé číslo je konstantní a složitost těchto operací je $\theta (n)$. \\
+Dále zde máme samostatné operace s přihrádkami. Přihrádky jsou na začátku vynulovány a dále je pro každou přihrádku počítán její začátek (přičtením začátku předchozí přihrádky k počtu prvků dané přihrádky). Složitost těchto operací je $\theta (k)$. \\
+\textbf{Výsledná časová složitost je} $\theta (n+k)$.
 
 
 
