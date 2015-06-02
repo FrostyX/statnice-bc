@@ -393,7 +393,6 @@ Při tomto rozdělení musí mít vstupní soubory rozdílné počty běhů, aby
 
 
 
-\newpage
 \subsection{Složitosti třídících algoritmů}
 \subsubsection{Insert sort}
 Vezměme nejprve operaci srovnání. Nechť počet prvků v setříděné části je k. Abychom zjistili místo vložení, uděláme 1 až k srovnání. Jedno srovnání v případě, kdy se prvek vkládá hned na konec setříděné části, k srovnání v případě, kdy prvek patří na první nebo druhou pozici v setříděné části. Odtud pro jeden krok dostáváme průměrný počet srovnání $\frac{1+k}{2}$ a maximální počet srovnání $k$. Vezmeme-li v úvahu, že délky setříděných částí v jednotlivých krocích jsou k = 1, 2, ..., n-1, dostaneme celkové počty srovnání průměrný $\frac{2+3+\cdots+n}{2} = \frac{1+2+\cdots+n-1}{2} = \frac{\frac{n(n-1)}{2}-1}{2} = \frac{n^2+n-2}{4}$ a maximální $1+2+\cdots+(n-1) = \frac{(n-1)n}{2} = \frac{n^2-n}{2}$. Z toho plyne, že operace srovnání má kvadratickou složitost bez ohledu na to, zda uvažujeme průměrný nebo maximální počet srovnání. \\
@@ -436,6 +435,22 @@ Vezměme nejprve, kolik operací zahrnuje operace zatřiďování pro jeden prve
 \end{itemize}
 Uvážíme-li, že máme n tříděných prvků, pak pro jeden průchod zatřiďování dostáváme n operaci čtení + nejvýše $n \ast (v-1)$ operací srovnání + n operací zápisu. Protože v je zvolená konstanta, jejíž hodnota je velmi malá vzhledem k počtu tříděných prvků n, je složitost jednoho průchodu zatřiďování lineární. Zbývá stanovit, kolik průchodů zatřiďování proběhne. V prvním průchodu zatřiďování, kdy délka vstupních běhů je 1, vzniknou výstupní běhy délky v. V druhém průchodu zatřiďování, kdy délka vstupních běhů je v, vzniknou výstupní běhy délky $v \ast v$. Atd. Třídění končí, když výstupní běh obsahuje všech n tříděných prvků. Tedy pro číslo k posledního průchodu dostáváme vztah $v^k = n$. A odtud použitím logaritmu $k = \lceil log_v (n) \rceil$. \\
 Počet průchodů logaritmicky závisí na počtu tříděných prvků. Když to vynásobíme lineární složitostí jednoho průchodu, dostáváme, že \textbf{složitost} popsané metody vnějšího třídění \textbf{je} $\theta (n \times log(n))$.
+
+
+
+
+\subsection{Pořádkové statistiky}
+K-tá statistika pořadí z n prvků je k-tý nejmenší prvek. \\
+Minimum z n prvků je 1. statistika pořadí. Maximum z n prvků je n-tá statistika pořadí. \\
+Medián je prvek uprostřed. Je-li počet prvků n liché číslo, medián je statistika pořadí stupně $\frac{n+1}{2}$. Je-li počet prvků sudé číslo máme dva mediány – dolní medián a horní medián. Dolní medián je statistika pořadí stupně $\frac{n}{2}$ a horní medián je statistika pořadí stupně $\frac{n}{2}+1$. Pokud neuvedeme v případě lichého počtu prvků, zda je o dolní nebo horní medián, budeme mít na mysli dolní medián. \\
+\paragraph{Úloha výběru}
+Je dána množina A obsahující n vzájemně odlišných prvků (nejsou v ní žádné dva prvky stejné). \\
+Úloha výběru: Pro zadané $k (1 \leq k \leq n)$ najít v množině A k-tou statistiku pořadí. Nebo-li najít v množině A prvek, který je větší než právě k-1 prvků z množiny A. \\
+Jednoduché řešení: Množinu A setřídíme a hledaná k-tá statistika pořadí je k-tý v prvek v setříděné posloupnosti. Tímto způsobem se dá tato úloha vyřešit se složitostí $\theta (n \times ln(n))$.
+\paragraph{Řešení úlohy výběru v lineárním čase} Úlohu lze řešit obdobnou metodou, jakou používá třídění Quicksort. Budeme procházenou část pole s prvky, ve kterých hledáme statistiku pořadí daného stupně dělit na dvě části. Po rozdělení vybereme pro další dělení tu část, která obsahuje prvek s požadovaným stupněm pořadí.
+\paragraph{Složitost metody} závisí na tom, v jakém poměru se tříděná část rozdělí na nové části L a R. Nejhorší případ nastane, když jedna z těchto částí obsahuje jen jeden prvek a ta druhá zbývající prvky. Pak by následující třídící krok proběhl vždy jen pro tu větší část a ta by měla vždy o jeden prvek méně, než tomu bylo v předchozím kroku. Tedy třídící kroky by proběhly postupně pro části s počty prvků n, n-1, ..., 2. Tím bychom stejně jako u třídění Quicksort dostali kvadratickou složitost. \\
+Naopak optimální případ nastane, když procházená část se vždy rozdělí na dvě stejné části (při lichém počtu prvků na dvě části lišící se o jeden prvek). Možnost, že dělení také může být na dvě části a střední prvek, pro jednoduchost opomineme. Počet třídících chodů logaritmicky závisí na počtu tříděných prvků, jak bylo odvozeno u metody Quicksort. Počet operací srovnání v jednom průchodu dělení na dvě části je podle úvahy uvedené u třídění Quicksort nejvýše o 1 více, než je délka částí. Sečtením přes všechny průchody dostaneme celkový počet operací srovnání. \textbf{Výsledná složitost je typicky} $\theta (n)$.
+
 
 
 
