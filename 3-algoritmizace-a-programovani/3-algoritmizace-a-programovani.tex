@@ -351,6 +351,45 @@ Z obou metod je třídění LSD poněkud efektivnější (rychlejší) a navíc 
 Na rozdíl od vnitřního třídění, kdy všechny tříděné prvky jsou ve vnitřní paměti, při vnějším třídění jsou tříděné prvky uloženy v souborech na vnější paměti (pevném disku). Třídění probíhá tím způsobem, že tříděné prvky jsou ze souborů po určitých částech přenášeny do vnitřní paměti, zde jsou zatřiďovány a pak opět ukládány do souborů. Protože operace čtení ze souborů a zápis do souborů jsou výrazně pomalejší, než když přesuny prvků probíhají výlučně ve vnitřní paměti, je vnější třídění obecně pomalejší než vnitřní třídění a použijeme ho jen v případě, kdy vnitřní třídění nelze použít, protože tříděných prvků je tak velký objem, že se všechny do paměti najednou nevejdou.
 \paragraph{Třídění se stejným počtem vstupních a výstupních souborů} je nejjednodušší varianta vnějšího třídění. Označme si celkový počet souborů použitých při třídění r. Protože vstupních i výstupních souborů je stejný počet, musí to být sudé číslo. Minimální počet vstupních souborů, aby mohla probíhat operace zatřiďování, je 2, čímž celkový nejmenší možný počet souborů je 4. Počet vstupních souborů je $v = \frac{r}{2}$. Vnější třídění je založeno na operaci zatřiďování. Při ní je z více setříděných sekvencí vytvářena jedna delší setříděná sekvence. Setříděným sekvencím budeme říkat běhy. Na začátku třídění běhy mají délku 1, jsou tvořeny jedním prvkem. Opakovaným procesem zatřiďování (slučováním) jsou z nich vytvářeny stále delší a delší běhy, až se dosáhne stavu, že je vytvořen běh tak dlouhý, že obsahuje všechny tříděné prvky. Tím třídění končí. \\
 Popis algoritmu:
+\begin{enumerate}
+	\item fáze rozdělování \\
+	První fáze je poměrně rychlá. Jejím cílem je pravidelně rozdělit tříděné prvky do v souborů, abychom mohli zahájit vlastní třídící proces. Vezmeme ze stanoveného počtu r souborů polovinu (v) a otevřeme je pro výstup (zápis). Do nich pravidelně rozdělujeme tříděné prvky. První prvek zapíšeme do prvního souboru, druhý prvek do druhého souboru, ..., až v-tý prvek do v-tého souboru, následující prvek opět do prvního souboru atd. Po dokončení rozdělování soubory výstupní soubory uzavřeme a následně je otevřeme jako vstupní (pro čtení) a zbývající polovinu souborů otevřeme jako výstupní. Délku běhů nastavíme na 1.
+	\item fáze zatřiďování \\
+	Ze všech v vstupních souborů načteme jejich první běh, zatříděním z něho vytvoříme jeden delší výstupní běh a ten uložíme do prvního výstupního souboru. Pak ze vstupních souborů načteme druhý běh, z něho opět vytvoříme výstupní běh a uložíme ho do druhého výstupního souboru. A tak pokračujeme až v-tý vytvořený výstupní běh uložíme do v-tého souboru. Následující (v+1)-tý vytvořený výstupní běh uložíme opět do prvního souboru, (v+2)-tý vytvořený výstupní běh uložíme opět do druhého souboru atd. Tj. vytvářené výstupní běhy pravidelně rozdělujeme do v výstupních souborů. \\
+	V okamžiku, kdy všechny běhy ze vstupních souborů jsou přečteny, výstupní soubory uzavřeme a otevřeme je jako vstupní a předchozí vstupní soubory uzavřeme a otevřeme je nyní jako výstupní. A znovu opakujeme proces zatřiďování. Tento postup probíhá tak dlouho, dokud vytvořený výstupní běh není tak dlouhý, že obsahuje všechny tříděné prvky.
+\end{enumerate}
+\textbf{Algoritmus zatřiďování}
+K zatřiďování potřebujeme tolik proměnných (míst ve vnitřní paměti), kolik je vstupních souborů, tedy v. Tyto proměnné si označme $x_1, x_2, \cdots, x_v$.
+\begin{enumerate}
+	\item Do každé z proměnných $x_1, x_2, \cdots, x_v$ načteme první prvek z v vstupních běhů.
+	\item Vybereme nejmenší z prvků v $x_1, x_2, \cdots, x_v$. Nechť tento prvek je třeba v proměnné x i . Prvek zapíšeme do výstupního souboru, do kterého je právě ukládán výstupní běh, a do proměnné x i načteme další prvek z i-tého vstupní běhu (zbývá-li v něm ještě nějaký). Tento proces pokračuje tak dlouho, dokud všechnyprvky z proměnných nejsou zapsány do výstupního běhu a dokud všechny prvky ze současných v vstupních běhů nejsou vyčerpány.
+\end{enumerate}
+\paragraph{Vnější třídění s využitím vnitřního třídění} Předpokládejme, že bychom vytvářeli běhy délky m. Pro poslední k-tý běh $m \ast v^k = n$, odtud $k = \lceil log_v(n)-log_v(m) \rceil$. Z toho je zřejmé, že čím bude délka běhů m vytvářených vnitřním tříděním ve fázi rozdělování větší, tím více ušetříme průchodů zatřiďování, což se dalo i očekávat. \\
+I když pro vnitřní třídění máme nejrychlejší metodu Quicksort, vnější třídění používá určitou variantu třídění haldou, která umožňuje při dané používané velikosti paměti pro vnitřní třídění běhů vytvářet běhy typicky delší, než by poskytla metoda Quicksort. \\
+Odlišnosti haldy při vnějším třídění oproti haldě používané při vnitřním třídění:
+\begin{itemize}
+	\item Prvky jsou v haldě uspořádány obráceně – v kořenu je minimální (nejmenší prvek).
+	\item Halda je rozdělena na dvě části - dolní část a horní část. V horní části jsou prvky právě vytvářeného běhu. V dolní části jsou prvky, které nelze zařadit do současného běhu a budou součástí až následujícího běhu.
+\end{itemize}
+\textbf{Popis algoritmu}
+\begin{enumerate}
+	\item Počáteční vytvoření haldy \\
+	Předpokládejme, že halda má m uzlů. Nejprve načteme prvky ze vstupního souboru do listových uzlů haldy $u_{m-1}, u_{m-2} \cdots u_{\frac{m}{2}}$. Následně bereme nelistové uzly haldy v pořadí $u_{\frac{m}{2}-1}, u_{\frac{m}{2}-2} \cdots u_1, u_0$. Pro každý nelistový uzel u i načteme prvek ze vstupního souboru. Zjistíme jeho velikost a před jeho zařazením do haldy uděláme nejprve případné přesuny prvků, které jsou v uzlech pod uzlem $u_i$, aby po zařazení načteného prvku do haldy byla splněna podmínka uspořádání prvků v haldě. Po zaplnění haldy, celou haldu označíme jako horní část haldy (dolní část haldy je prázdná).
+	\item Vytvoření běhu \\
+	Přepokládejme, že aktuální horní část haldy je tvořena uzly $u_0, u_1, \cdots u_{s-1}, u_s$ a dolní část haldy je tvořena následujícími uzly $u_{s+1}, u_{s+2}, \cdots u_{m-2}, u_{m-1}$. Z kořene haldy (uzlu $u_0$) odebereme v něm uložený prvek x a zapíšeme ho do výstupního běhu. Následně přečteme ze vstupního souboru další prvek y a zařadíme ho do haldy. Zde mohou nastat dva případy:
+	\begin{itemize}
+		\item Je-li $x \leq y$, můžeme prvek y začlenit do právě vytvářeného běhu. Ověříme hodnotu prvku y a uděláme nejprve případné přesuny prvků v uzlech pod kořenem, aby po vložení prvku y do právě volného uzlu byla splněna podmínka uspořádání haldy.
+		\item Je-li $y<x$, nelze prvek y již začlenit do právě vytvářeného běhu. Horní část haldy zkrátíme o jeden uzel (její poslední uzel $u_s$ nyní bude patřit do dolní části haldy), odebereme prvek w z uzlu $u_s$ a prvek w vložíme do horní části haldy (po případných přesunech prvků v uzlech pod volným kořenem). Tím uzel u s patřící nyní do dolní části haldy uvolníme. Načtený prvek y zařadíme do dolní části haldy (opět po případných přesunech prvků v uzlech pod volným uzlem $u_s$).
+	\end{itemize}
+	Je zřejmé, že tímto procesem se při vytváření výstupního běhu horní část haldy postupně zkracuje, až dojde k jejímu úplnému vyčerpání. V tomto okamžiku ukončíme vytváření aktuálního běhu, dolní část haldy (obsahující nyní celou haldu) označíme jako horní část, čímž dolní část bude opět prázdná. A začneme vytvářet další běh.
+	\item Vytvoření posledního běhu \\
+	V okamžiku, kdy už jsou načteny všechny prvky ze vstupního souboru, jen dokončíme vytváření posledního běhu odebíráním zbývajících prvků z horní části haldy.
+\end{enumerate}
+\paragraph{Polyfázové třédění}
+Je zřejmé, že počet potřebných průchodů zatřiďování mimo jiné závisí na základu logaritmu v, tj. počtu vstupních souborů. Čím větší tento bude, tím méně průchodů bude potřeba. Můžeme sice počet vstupních souborů zvýšit zvolenímvětší počtu celkově používaných souborů, ale na druhé straně příliš mnoho používaných souborů má negativní vliv na výkonnost systému. Spíše se nabízí myšlenka celkový počet r používaných souborů využít efektivněji a to tak, že místo rozdělení $\frac{r}{2}$ vstupních souborů + $\frac{r}{2}$ výstupních souborů použijeme rozdělení r-1 vstupních souborů + 1 výstupní soubor. \\
+Při tomto rozdělení musí mít vstupní soubory rozdílné počty běhů, aby jeden z nich se vyčerpal dříve než ostatní. V tomto okamžiku se vyčerpaný vstupní soubor uzavře a stane se nyní novým výstupním souborem a dosavadní výstupní soubor se rovněž uzavře a přidá se ke vstupním souborům. Aby tento princip fungoval po celou dobu třídění, musí ve fázi rozdělování být vstupní běhy rozděleny do r-1 vytvářených souborů ve specifických počtech.
+
+
 
 
 
@@ -387,6 +426,16 @@ Dále zde máme samostatné operace s přihrádkami. Přihrádky jsou na začát
 \subsubsection{Radix sort}
 Jde o přihrádkové třídění s konstantním počtem opakování. \textbf{Výsledná časová složitost je} $\theta (n + základ číselné soustavy)$.
 
+\subsubsection{Vnější třídění}
+\paragraph{Třídění se stejným počtem vstupních a výstupních souborů}
+Vezměme nejprve, kolik operací zahrnuje operace zatřiďování pro jeden prvek:
+\begin{itemize}
+	\item jednu operaci čtení, kdy je prvek načten ze vstupního běhu do paměti.
+	\item v-1 operací srovnání, kdy je tento prvek vybrán jako nejmenší (případně těchto operací může být méně, když už některé vstupní běhy jsou vyčerpány a příslušné proměnné těchto běhů už žádný prvek neobsahují), případně žádnou operaci, když už zbyla část je jednoho běhu a tato je kopírována do výstupního běhu.
+	\item jednu operaci zápisu, kdy je prvek zapsán do souboru, do něhož je právě výstupní běh ukládán.
+\end{itemize}
+Uvážíme-li, že máme n tříděných prvků, pak pro jeden průchod zatřiďování dostáváme n operaci čtení + nejvýše $n \ast (v-1)$ operací srovnání + n operací zápisu. Protože v je zvolená konstanta, jejíž hodnota je velmi malá vzhledem k počtu tříděných prvků n, je složitost jednoho průchodu zatřiďování lineární. Zbývá stanovit, kolik průchodů zatřiďování proběhne. V prvním průchodu zatřiďování, kdy délka vstupních běhů je 1, vzniknou výstupní běhy délky v. V druhém průchodu zatřiďování, kdy délka vstupních běhů je v, vzniknou výstupní běhy délky $v \ast v$. Atd. Třídění končí, když výstupní běh obsahuje všech n tříděných prvků. Tedy pro číslo k posledního průchodu dostáváme vztah $v^k = n$. A odtud použitím logaritmu $k = \lceil log_v (n) \rceil$. \\
+Počet průchodů logaritmicky závisí na počtu tříděných prvků. Když to vynásobíme lineární složitostí jednoho průchodu, dostáváme, že \textbf{složitost} popsané metody vnějšího třídění \textbf{je} $\theta (n \times log(n))$.
 
 
 
