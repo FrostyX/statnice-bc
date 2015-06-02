@@ -333,6 +333,25 @@ Přihrádky jsou číslovány od 0 po k-1.
 \end{itemize}
 Pokud je počet různých hodnot v přihrádce větší než 1, pole se vhodnou metodou dotřídí – zpravidla přímou metodou třídění vkládáním.
 
+\subsubsection{Counting sort}
+Je speciální případ přihrádkového třídění, kdy každá přihrádka obsahuje čísla jen s jednou hodnotou (v předchozím popisu by to byl parametr c=1). Výsledkem je tím úplné setřídění (není zapotřebí následné dotřídění vkládáním).
+
+\subsubsection{Radix sort}
+Číslicové třídění třídí postupně číslice v jednotlivých řádech tříděných čísel přihrádkovým tříděním. Podle toho, v jakém pořadí jsou jednotlivé řády tříděny, máme dva způsoby číslicového třídění:
+\begin{itemize}
+	\item \textbf{LSD (Least Significant Digit)} - číslice jsou tříděny od nejméně významného řádu po nejvíce významný (zprava-doleva).
+	\item \textbf{MSD (Most Significant Digit)} - číslice jsou tříděny od nejvíce významného řádu po nejméně významný (zleva-doprava).
+\end{itemize}
+Z obou metod je třídění LSD poněkud efektivnější (rychlejší) a navíc jeho implementace je výrazně jednodušší.
+\paragraph{Číslicové třídění LSD}
+Číslicovým tříděním můžeme třídit čísla, která jsou v libovolné číselné soustavě. Při realizaci číslicového třídění vyjdeme z číselné soustavy, ve které jsou uložena celá čísla v paměti počítače, což je dvojková soustava. Třídění každé číslice by mělo dvě přihrádky. Počet opakování by závisel na délce čísla. Pokud bychom vzali nejběžnější 32-bitová čísla, znamenalo by to, že by se přihrádkové třídění muselo udělat 32x Při každém přihrádkovém třídění se všechna tříděná čísla přesunou z jednoho pole do druhého. To by znamenalo celkem 32 přesunů všech tříděných čísel, což je mnoho a třídění by se tolika přesuny zpomalilo. Bylo by efektivnější použít pro třídění číselnou soustavu s vyšším základem takovou, na kterou se binární číslo snadno převede. To jsou soustavy, jejichž základ je mocnina čísla 2. \\
+Čím je menší počet přihrádek, tím menší čas je zapotřebí na jejich přípravu. Čím je menší počet přihrádkových třídění, tím menší čas je zapotřebí pro jejichprovedení. Zvolíme kompromis mezi těmito dvěma vzájemně si odporujícími požadavky – základ soustavy zvolíme 256.
+
+\subsubsection{Vnější třídění}
+Na rozdíl od vnitřního třídění, kdy všechny tříděné prvky jsou ve vnitřní paměti, při vnějším třídění jsou tříděné prvky uloženy v souborech na vnější paměti (pevném disku). Třídění probíhá tím způsobem, že tříděné prvky jsou ze souborů po určitých částech přenášeny do vnitřní paměti, zde jsou zatřiďovány a pak opět ukládány do souborů. Protože operace čtení ze souborů a zápis do souborů jsou výrazně pomalejší, než když přesuny prvků probíhají výlučně ve vnitřní paměti, je vnější třídění obecně pomalejší než vnitřní třídění a použijeme ho jen v případě, kdy vnitřní třídění nelze použít, protože tříděných prvků je tak velký objem, že se všechny do paměti najednou nevejdou.
+\paragraph{Třídění se stejným počtem vstupních a výstupních souborů} je nejjednodušší varianta vnějšího třídění. Označme si celkový počet souborů použitých při třídění r. Protože vstupních i výstupních souborů je stejný počet, musí to být sudé číslo. Minimální počet vstupních souborů, aby mohla probíhat operace zatřiďování, je 2, čímž celkový nejmenší možný počet souborů je 4. Počet vstupních souborů je $v = \frac{r}{2}$. Vnější třídění je založeno na operaci zatřiďování. Při ní je z více setříděných sekvencí vytvářena jedna delší setříděná sekvence. Setříděným sekvencím budeme říkat běhy. Na začátku třídění běhy mají délku 1, jsou tvořeny jedním prvkem. Opakovaným procesem zatřiďování (slučováním) jsou z nich vytvářeny stále delší a delší běhy, až se dosáhne stavu, že je vytvořen běh tak dlouhý, že obsahuje všechny tříděné prvky. Tím třídění končí. \\
+Popis algoritmu:
+
 
 
 \newpage
@@ -364,6 +383,10 @@ Nechť n je počet tříděných prvků. Postupných rozdělování se rozdělí
 Nejprve odvodíme časovou složitost operací s tříděnými čísly. V průběhu třídění je pro každé číslo 2x počítáno, do které patří přihrádky, a 1x je číslo přesunuto do jiného pole. Počet operací pro každé číslo je konstantní a složitost těchto operací je $\theta (n)$. \\
 Dále zde máme samostatné operace s přihrádkami. Přihrádky jsou na začátku vynulovány a dále je pro každou přihrádku počítán její začátek (přičtením začátku předchozí přihrádky k počtu prvků dané přihrádky). Složitost těchto operací je $\theta (k)$. \\
 \textbf{Výsledná časová složitost je} $\theta (n+k)$.
+
+\subsubsection{Radix sort}
+Jde o přihrádkové třídění s konstantním počtem opakování. \textbf{Výsledná časová složitost je} $\theta (n + základ číselné soustavy)$.
+
 
 
 
