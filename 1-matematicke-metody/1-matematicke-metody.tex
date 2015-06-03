@@ -595,14 +595,14 @@ Ve vektorovém prostoru nad tělesem $T$ můžeme vektory sčítat, odčítat a 
 	Nechť $\mathscr{V}$ je Eukleidovský vektorový prostor, nechť $u \in V$. Číslo $\| u \| = \sqrt{u \circ u}$ nazveme délka vektoru u.
 \end{definition}
 
-\begin{definition}
+\begin{sentence}
 	Nechť $\mathscr{V}$ je Eukleidovský vektorový prostor, $u,v \in V$. Pak
 	\begin{itemize}
 		\item[a)] $\forall c \in \mathbb{R}$ je $\| c \cdot u \| = |c| \cdot \| u \|$
-		\item[b)] $\| o \|$ a pro $u \not= o$ je $\| u \| > 0$
+		\item[b)] $\| o \| = 0$ a pro $u \not= o$ je $\| u \| > 0$
 		\item[c)] $|u \circ v| \leq \| u \| \cdot \| v \|$ (Schwarzova nerovnost)
 	\end{itemize}
-\end{definition}
+\end{sentence}
 
 \begin{definition}
 	Nechť $\mathscr{V}$ je Eukleidovský vektorový prostor, $u,v \in V$, $u \not= o \not= v$. Úhlem $\varphi$ vektorů u,v nazveme číslo $$\varphi = arccos \frac{u \circ v}{\| u \| \cdot \| v \|}$$
@@ -696,9 +696,9 @@ a_{\pi (1)} & a_{\pi (2)} & \dots & a_{\pi (n)} \\
 kde $\pi$ je některé pořadí množiny indexů.
 \end{definition}
 
-\begin{definition}
+\begin{sentence}
 	Pro každou n-prvkovou množinu $(n \geq 1)$ je počet pořadí roven počtu permutací, tj. n!.
-\end{definition}
+\end{sentence}
 
 
 \begin{definition}
@@ -740,7 +740,7 @@ kde $\pi$ je některé pořadí množiny indexů.
 \begin{definition}
 	Nechť $A = \| a_{ij} \|$ je čtvercová matice stupně n nad číselným tělesem T. Determinantem detA matice A rozumíme číslo z T takové, že $$detA =  \sum_P sqnP \cdot a_{1k_1}a_{2k_2} \dots a_{nk_n},$$ kde sčítáme přes všechny permutace $P = \left( \begin{array}{cccc} 1 & 2 & \dots & n\\ k_1 & k_2 & \dots & n \\ \end{array} \right)$. Každý ze součinů \\$a_{1k_1}a_{2k_2} \dots a_{nk_n}$ nazýváme člen determinantu detA.
 \end{definition}
-Tedy determinant matice $A$ je číslo z $T$, které je rovno součtu všech $n!$ součinů prvků matice $A$, ke v každém součinu je každý prvek právě z jednoho řádku a právě z jednoho sloupce, přičemž součin je opatřen znaménkem rovným znaménku permutace určené řádkovými a sloupcovými indexy prvků tohoto součinu.
+Tedy determinant matice $A$ je číslo z $T$, které je rovno součtu všech $n!$ součinů prvků matice $A$, kde v každém součinu je každý prvek právě z jednoho řádku a právě z jednoho sloupce, přičemž součin je opatřen znaménkem rovným znaménku permutace určené řádkovými a sloupcovými indexy prvků tohoto součinu.
 
 \begin{example}
 	Určete determinant matice
@@ -819,12 +819,25 @@ Platí
 	Nechť $A = \| a_{ij} \|  \in \mathscr{M}_n(T)$ Pak
 	\begin{itemize}
 		\item[a)] $\forall i = 1, \dots, n$ platí $detA =  a_{i1}\mathscr{A}_{i1} +  a_{i2}\mathscr{A}_{i2} + \dots +  a_{in}\mathscr{A}_{in}$
-		\item[b)] $\forall i,j = 1, \dots, n,\ i \not=j$ platí $detA =  a_{i1}\mathscr{A}_{j1} +  a_{i2}\mathscr{A}_{j2} + \dots +  a_{in}\mathscr{A}_{jn}$
+		\item[b)] $\forall i,j = 1, \dots, n,\ i \not=j$ platí $a_{i1}\mathscr{A}_{j1} +  a_{i2}\mathscr{A}_{j2} + \dots +  a_{in}\mathscr{A}_{jn} = 0$
 	\end{itemize}
 \end{sentence}
 
 \begin{sentence}
 	Vznikne-li matice B z matice $A \in \mathscr{M}_n(T)$ vynásobením i-tého řádku (resp. sloupce) číslem $c \in T$, pak $detB = c \cdot detA$.
+\end{sentence}
+
+\begin{sentence}
+Je-li i-tý řádek (resp. sloupec) matice  $A \in \mathscr{M}_n(T)$ součtem vektorů \textbf{b},\textbf{c} pak\\
+\begin{center}
+$det \left( \begin{array}{c} \textbf{a}_1 \\ \vdots \\ \textbf{a}_i \\ \vdots \\ \textbf{a}_n \\ \end{array} \right)$
+$= det \left( \begin{array}{c} \textbf{a}_1 \\ \vdots \\ \textbf{b} \\ \vdots \\ \textbf{a}_n \\ \end{array} \right)$
+$+ det \left( \begin{array}{c} \textbf{a}_1 \\ \vdots \\ \textbf{c} \\ \vdots \\ \textbf{a}_n \\ \end{array} \right)$.
+\end{center}
+\end{sentence}
+
+\begin{sentence}
+Nechť $A \in \mathscr{M}_n(T)$ a nechť B vznikne z A tak, že některému řádku (sloupci) matice A přičteme libovolnou lineární kombinaci ostatních řádků (sloupců). Pak $ detB~=~detA $.
 \end{sentence}
 
 \begin{sentence}
