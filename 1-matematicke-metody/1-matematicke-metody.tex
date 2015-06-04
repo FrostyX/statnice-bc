@@ -915,7 +915,7 @@ Nechť $A \in \mathscr{M}_{m \times n}(T)$. Tedy její řádky jsou řádkové v
 \end{sentence}
 
 \begin{definition}
-	\textbf{Vedoucím prvkem} řádkového vektoru $\textbf{a}_i$ nazveme první nenulový prvek v tomto vektoru (řádku). Matice A se nazývá \textbf{redukovaná}, je-li vedoucí prvek každého nenulového řádku v A roven 1 a jestliže jsou v každém sloupci A, který obsahuje vedoucí prvek některého řádku všechny zbývající prvky rovny 0. Redukovaná matice se nazývá \textbf{redukovaná trojúhleníková}, jestliže všechny její nenulové řádky (pokud existují) jsou až za nenulovými a jestliže pro každé $i,j, i < j$ platí, že jsou-li $a_i,a_j$ nenulové řádky, vedoucí prvek v $a_i$ je v $k_i$-tém sloupci, vedoucí prvek v $a_j$ je v $k_j$-tém sloupci, pak $k_i < k_j$. 
+	\textbf{Vedoucím prvkem} řádkového vektoru $\textbf{a}_i$ nazveme první nenulový prvek v tomto vektoru (řádku). Matice A se nazývá \textbf{redukovaná}, je-li vedoucí prvek každého nenulového řádku v A roven 1 a jestliže jsou v každém sloupci A, který obsahuje vedoucí prvek některého řádku všechny zbývající prvky rovny 0. Redukovaná matice se nazývá \textbf{redukovaná trojúhleníková}, jestliže všechny její nulové řádky (pokud existují) jsou až za nenulovými a jestliže pro každé $i,j, i < j$ platí, že jsou-li $a_i,a_j$ nenulové řádky, vedoucí prvek v $a_i$ je v $k_i$-tém sloupci, vedoucí prvek v $a_j$ je v $k_j$-tém sloupci, pak $k_i < k_j$. 
 \end{definition}
 
 \begin{example}
@@ -940,9 +940,9 @@ Nechť $A \in \mathscr{M}_{m \times n}(T)$. Tedy její řádky jsou řádkové v
 	Každá matice A je řádkově ekvivalentní s některou redukovanou maticí, kterou leze získat z A pomocí transformací 2) a 3). Každá matice je řádkově ekvivalentní s redukovanou trojúhelníkovou maticí.
 \end{sentence}
 
-\begin{definition}
-	Nechť $A \in \mathscr{M}_{m \times n}(T)$ je redukovaná matice s nenulovými řádky $a_1,\dots, a_r$. Pak pro každý vektor $\textbf{u} = \sum_{i=1}^r c_i a_i$ řádkového podprostoru matice A je $c_i$ rovno $k_i$-té souřadnici vektoru \textbf{u}. 
-\end{definition}
+\begin{sentence}
+	Nechť $A \in \mathscr{M}_{m \times n}(T)$ je redukovaná matice s nenulovými řádky $\textbf{a}_1,\dots, textbf{a}_r$. Pak pro každý vektor $\textbf{u} = \sum_{i=1}^r c_i textbf{a}_i$ řádkového podprostoru matice A je $c_i$ rovno $k_i$-té souřadnici vektoru \textbf{u}. 
+\end{sentence}
 
 \begin{result}
 	Nenulové řádky redukované matice jsou lineárně nezávislé.
@@ -978,7 +978,7 @@ $, pak jejími subdeterminanty 2. stupně jsou například determinanty $\left| 
 Jinak řečeno pokud matici A zredukujeme tak její hodnost je rovna počtu nenulových řádků.
 
 \begin{definition}
-	Nechť T je číselné těleso $a_1,\dots, a_n,b \in T$. Úloha určit všechny n-tice $(x_1, \dots, x_n) \in T^n$ pro které platí: $$a_1 x_1 + a_2 x_2 + \dots + a_n x_n = b$$ se nazývá \textbf{lineární rovnice o} n \textbf{neznámých nad} T. Každá n-tice $(x_1, \dots, x_n) \in T^n$ pro kterou tato rovnost platí se nazývá \textbf{řešení} této rovnice.
+	Nechť T je číselné těleso, $a_1,\dots, a_n,b \in T$. Úloha určit všechny n-tice $(x_1, \dots, x_n) \in T^n$ pro které platí: $$a_1 x_1 + a_2 x_2 + \dots + a_n x_n = b$$ se nazývá \textbf{lineární rovnice o} n \textbf{neznámých nad} T. Každá n-tice $(x_1, \dots, x_n) \in T^n$ pro kterou tato rovnost platí se nazývá \textbf{řešení} této rovnice.
 \end{definition}
 
 \paragraph{Poznámka} Rovnici $a_1 x_1 + a_2 x_2 + \dots + a_n x_n = b$ budeme zkráceně zapisovat $$\sum^n_{i=1} a_i x_i = b$$
@@ -987,7 +987,7 @@ Jinak řečeno pokud matici A zredukujeme tak její hodnost je rovna počtu nenu
 \begin{definition}
 	Nechť T je číselné těleso, $a_{ij} \in T$ pro $i = 1, \dots,\ j = 1, \dots, m, b_j \in T$ Úloha určit všechny n-tice  $(x_1, \dots, x_n) \in T^n$ pro které platí
 	$$\sum^n_{i=1} a_{1i}x_i = b1 \qquad (R_1)$$
-	$$\vdots$$
+	$$\vdots \qquad \qquad \qquad \qquad \qquad \qquad (S)$$
 	$$\sum^n_{i=1} a_{mi}x_i = bm \qquad (R_m)$$
 	se nazývá \textbf{soustava} m \textbf{lineárních rovnic o} n \textbf{neznámých nad} T (S). Každá n-tice $(x_1, \dots, x_n)$ splňující (S) se nazývá řešení této soustavy. Pokud $b_1 = b_2 = \dots = b_m = 0$, soustava (S) se nazývá \textbf{homogenní}, Není-li (S) homogenní, nazývá se \textbf{nehomogenní}.
 \end{definition}
@@ -1000,13 +1000,13 @@ Jinak řečeno pokud matici A zredukujeme tak její hodnost je rovna počtu nenu
 		\left( \begin{array}{cccc}
 		a_{11} & a_{12} & \dots & a_{1n} \\
 		a_{21} & a_{22} & \dots & a_{2n} \\
-		\vdots & \vdots & \vdots &\vdots \\
+		\vdots & \vdots & \ddots &\vdots \\
 		a_{m1} & a_{m2} & \dots & a_{mn} \\
 		\end{array}\right) \text{ resp. }
 		\left( \begin{array}{ccccc}
 		a_{11} & a_{12} & \dots & a_{1n} & b_1 \\
 		a_{21} & a_{22} & \dots & a_{2n}  & b_2\\
-		\vdots & \vdots & \vdots &\vdots  & \vdots\\
+		\vdots & \vdots & \ddots &\vdots  & \vdots\\
 		a_{m1} & a_{m2} & \dots & a_{mn} & b_m\\
 		\end{array}\right)		
 	\end{displaymath}
@@ -1037,9 +1037,14 @@ Jinak řečeno pokud matici A zredukujeme tak její hodnost je rovna počtu nenu
 \begin{sentence}[\textbf{Frobeniova}]
 	Nehomogenní soustava lineárních rovnic $Ax = b$ je řešitelná tehdy a jen tehdy, je-li $h(A) = h(A, b))$.
 \end{sentence}
-\begin{definition}[\textbf{Frobeniova}]
+
+\begin{sentence}
+Nechť $A\textbf{x} = \textbf{b}, B\textbf{x} = \textbf{c}$ jsou dvě soustavy rovnic o n neznámých nad T. Je-li $(A,\textbf{b}) \sim (B,\textbf{c})$, pak jsou tyto soustavy ekvivalentní.
+\end{sentence}
+
+\begin{sentence}[\textbf{Frobeniova}]
 	Nechť $Ax = b$ je soustava m rovnic o n neznámých nad tělesem T. Tato soustava má řešení právě když $h(A) = h(A,b)$, Je-li $h(A) = n$, soustava má jediné řešení. Je-li $h(A) = h < n$, soustava má nekonečně mnoho řešení závislých na $n - h$ parametrech.
-\end{definition}
+\end{sentence}
 \includegraphics[scale=0.5]{img/LinSoust1}
 
 \includegraphics[scale=0.5]{img/LinSoust2}
@@ -1073,6 +1078,10 @@ Jinak řečeno pokud matici A zredukujeme tak její hodnost je rovna počtu nenu
 \end{sentence}
 
 \includegraphics[scale=0.55]{img/InverzniMatice}
+
+\begin{sentence}
+Je-li $A \in \mathscr{M}_n(T)$ regulární, pak je možné konečnou posloupností $t_1,t_2,...,t_k$ elementárních řádkových transformací převést A na jednotkovou matici E, přičemž pomocí téže posloupnosti $t_1,t_2,...,t_k$ lze E převést na $A^{-1}$.
+\end{sentence}
 \newpage
 \section{Svazy}
 
@@ -1107,8 +1116,17 @@ Na obrázku 6. je znázorněn svaz $N_5$ tzv. pentagon. Obrázek 7. ukazuje svaz
 
 \begin{definition}
 	Svaz L se nazývá distributivní, jestliže pro každé $a,b,c \in L$ platí $$(D)\qquad a \wedge (b \vee c) = (a \wedge b) \vee (a \wedge c).$$
-	Svaz L se nazývá modulární, jestliže pro každé $a,b,c \in L$ splňující $a \leq c$ platí $$(M) \qquad a \vee (b \wedge c) = (a \vee b) \wedge (a \vee b).$$
+	Svaz L se nazývá modulární, jestliže pro každé $a,b,c \in L$ splňující $a \leq c$ platí $$(M) \qquad a \vee (b \wedge c) = (a \vee b) \wedge c.$$
 \end{definition}
+
+\begin{sentence}
+Svaz L je distributivní, právě když pro každé  $a,b,c \in L$ platí rovnost duální k rovnosti (D), tj.
+$$ a \vee (b \wedge c) = (a \vee b) \wedge (a \vee c). $$
+\end{sentence}
+
+\begin{sentence}
+Každý distributivní svaz je modulární.
+\end{sentence}
 
 \begin{definition}
 	Nechť $(A, \wedge, \vee)$ a $(B, \wedge, \vee)$ jsou svazy. Zobrazení $h: A \rightarrow B$ se nazývá homomorfismus, jestliže pro každé $a,b \in A$ platí: $$h(a \vee b) = h(a) \vee h(b), \qquad h(a \wedge b) = h(a) \wedge h(b)$$
@@ -1116,7 +1134,7 @@ Na obrázku 6. je znázorněn svaz $N_5$ tzv. pentagon. Obrázek 7. ukazuje svaz
 Bijektivní homomorfismus se nazývá \textbf{izomorfismus}.
 
 \begin{sentence}
-	Svaz L e modulární, právě když neobsahuje podsvaz izomorfní s $N_5$. Svaz je distributivní, právě když neobsahuje podsvaz izomorfní s $N_5$ nebo $M_3$ (viz obr. 6.,7.).  
+	Svaz L je modulární, právě když neobsahuje podsvaz izomorfní s $N_5$. Svaz je distributivní, právě když neobsahuje podsvaz izomorfní s $N_5$ nebo $M_3$ (viz obr. 6.,7.).  
 \end{sentence}
 
 \begin{definition}
@@ -1125,6 +1143,18 @@ Bijektivní homomorfismus se nazývá \textbf{izomorfismus}.
 Svaz $L$ s $0$ a $1$ se nazývá komplementární, má-li každý prvek aspoň jeden komplement.
 Nechť $L$ je svaz $a,b \in L, a \leq b$ Nechť $c \in [a,b]$. Prvek $d \in [a,b]$ se nazývá relativní komplement prvku c v intervalu $[a, b]$ jestliže platí $$c \vee d = b, \qquad c \wedge d = a.$$
 Svaz $L$ se nazývá relativně komplementární, má-li každá prvek $c \in [a,b]$ pro libovolné $a,b \in L,\ a \leq b$ , aspoň jeden relativní komplement v $[a,b]$.% 
+
+\begin{sentence}
+Nechť L je distributivní svaz s 0 a 1. Pak každý prvek $a \in L$. Pak každý prvek $a \in L$ má nejvýše jeden komplement.
+\end{sentence}
+
+\begin{definition}
+Svaz s 0 a 1 je \textbf{jednoznačně komplementární}, má li každý prvek $a~\in~L$ práve jeden komplement.
+\end{definition}
+
+\begin{sentence}
+Každý konečný jednoznačně distributivní komplementární svaz je distributivní.
+\end{sentence}
 
 % ---------------------------------------------------------------------------------------------------------
 % --------------------------------------------- třetí  odstavec ---------------------------------------------
