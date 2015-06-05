@@ -3733,10 +3733,162 @@ Nechť $\G = \{P \Rightarrow C_D(P) | P \in P_D$. Pak je ekvivalentní:
 \end{enumerate}
 \end{veta}
 
+%-----------------------------------sesty odstavec------------------------------------
+\section{}
+\paragraph{Armstrongova pravidla, důkazy, odvozená pravidla, dokazatelnost, korektnost, úplnost. Automatické dokazování: simplifikační logika, RAP sekvence a jejich grafická reprezentace.
+Algoritmy pro nalezení klíčů. Normalizace: Boyce-Coddova normální forma, normalizace dekompozicí a kompozicí schémat.}
+
+%-----------------------------------otazka 1------------------------------------------
+\subsection{Armstrongova pravidla, důkazy, odvozená pravidla, dokazatelnost,\\ korektnost, úplnost}
+
+\subsubsection{Armstrongova pravidla}
+
+(Ax) $\frac{}{A \cup B \Rightarrow A}$\\\\
+(Cut) $ \frac{A \Rightarrow B, B \cup C \Rightarrow D}{A \cup C \Rightarrow D}$
+	pravidlo řezu (pseudotranzitivity)
+\subsubsection{Důkazy}
+
+\begin{definition}
+Posloupnost formulí $f_1, ...,f_n$, kde:
+\begin{itemize}
+\item $f_i \in \Gamma$
+\item $f_i$ je instanci (Ax)
+\item spadá z některých $f_j$ a $f_k$ kde (j, k < i) pomocí (Cut)
+\end{itemize}
+je důkaz $f_n$ z $\Gamma$
+\end{definition}
+
+Značení: $\Gamma \vdash f_n$ (existuje důkaz $f_n$ z $\Gamma$)
+
+\subsubsection{Odvozená pravidla}
+
+(Weak) $\frac{A \Rightarrow B}{A \cup C \Rightarrow B}$\\\\
+(Ref) $ \frac{}{A \Rightarrow A}$\\\\
+(Add) $\frac{A \Rightarrow B, A \Rightarrow C}{A \Rightarrow B \cup C}$\\\\
+(Pro) $ \frac{A \Rightarrow B \cup C}{A \Rightarrow B}$\\\\
+(Tra) $ \frac{A \Rightarrow B, B \Rightarrow C}{A \Rightarrow C}$\\\\
+(Acc) $ \frac{A \Rightarrow B \cup C, C \Rightarrow D}{A \Rightarrow B \cup C \cup D}$\\\\
+(   ) $ \frac{A \Rightarrow B}{A \cup C \Rightarrow B \cup C}$\\\\
+(Sim) $ \frac{A \Rightarrow B, C \Rightarrow D}{A \cup (C \textbackslash B) \Rightarrow D}$\\\\
+\subsubsection{Dokazatelnost}
+
+\begin{definition}
+Libovolná funkční závislost je dokazatelná pokud existuje důkaz pro tuto funkční závislost.
+\end{definition}
+
+\subsubsection{Korektnost}
+
+\begin{definition}
+Korektností se rozumí,že libovolná závislost, kterou odvodíme pomocí pravidel (Ax) a (Cut)\\ 
+a pravidel odvozených z (Ax) a (Cut), platí na každé relační instanci r z R, která splňuje závislosti v F. 
+\end{definition}
+
+Korektnost v podstatě říká, že: jsou-li platné předpoklady pravidla, je platný i důsledek.\\
+Nebo-li co z množiny F odvodíme, platí pro libovolnou instanci R.\\
+\\
+
+\begin{definition}
+Odvozovací pravidlo je korektní pokud platí: $\{A_1 \Rightarrow B_1 , ... , A_n \Rightarrow B_n\} \models A \Rightarrow B$
+\end{definition}
+
+\begin{definition}
+Věta o korektnosti:\\ $(\{A_1 \Rightarrow B_1 , ... , A_n \Rightarrow B_n\} \vdash A \Rightarrow B) \Rightarrow (\{A_1 \Rightarrow B_1 , ... , A_n \Rightarrow B_n\} \models A \Rightarrow B)$
+\end{definition}
+
+\begin{veta}
+Pravidla (Ax) a (Cut) jsou korektní
+\end{veta}
+\subsubsection{Úplnost}
+
+\begin{definition}
+Axiomatický systém je množina závislostí, které splňují pravidla bezespornosti, úplnosti a nezávislosti.
+\end{definition}
+
+\begin{itemize}
+\item Úplnost: lze odvodit všechny závislosti v dané oblasti
+\item Bezespornost: nelze z ax. systému odvodit dvě protikladné tvrzení
+\item Nezávislost: žádná závislost z tohoto systému není odvoditelná pomocí ostatních
+\end{itemize}
+
+\begin{definition}
+Úplností se rozumí, že opakovaným používáním pravidel některého axiomatického systému při odvozování závislostí
+(tak dlouho, dokud jde něco odvodit) dostáváme jako výsledek kompletní množinu všech možných závislostí. 
+\end{definition}
+
+Nebo-li lze jimi odvodit všechny funkční závislosti platné ve všech instancích R vzhledem k danému F.
+
+Některé axiomatické systémy
+\begin{itemize}
+\item $A_1$: (Ax) (Cut)
+\item $A_2$: (Ax) (Sim)
+\item $A_3$: (Ax) (Tra) (   )
+\item $A_3$: (Ref)(Acc) (Pro)
+\end{itemize}
+%-----------------------------------otazka 2------------------------------------------
+\subsection{Automatické dokazování: simplifikační logika, RAP sekvence a jejich grafická reprezentace.}
 
 
+%-----------------------------------otazka 3------------------------------------------
+\subsection{Algoritmy pro nalezení klíčů.}
+Klíče z pohledu funkčních závislostí:
+\begin{definition}
+Mějme relační schéma R a teorii $\Gamma$ nad R. Pak nadklíč schématu R vzhledemk $\Gamma$ je libovolná K $\subseteq$ R taková, že $\Gamma \models K \Rightarrow R$. Pokud je K nadklíč R vzhledem k $\Gamma$ a žádná K' $\subset$ K není nadklíč R vzhledem k $\Gamma$, pak je K klíč R vzhledem k $\Gamma$
+\end{definition}
 
+\includegraphics[scale=0.65]{img/sesty_odstavec/nadklice_klice_obr.png}\\	
+\includegraphics[scale=0.65]{img/sesty_odstavec/alg_nalezeni_klice_obr.png}\\	
 
+%-----------------------------------otazka 4------------------------------------------
+\subsection{Normalizace: Boyce-Coddova normální forma, normalizace dekompozicí a kompozicí schémat.}
+\subsubsection{Boyce-Coddova normální forma}
+Připomenutí ostatních NF (Normálních forem)
+\begin{definition}
+1NF: Relační schéma obsahuje pouze atomické atributy.
+\end{definition}
+\begin{definition}
+2NF: jestliže je v první normální formě a každý neklíčový atribut je úplně závislý na každém klíči schématu R. 
+Jinak – žádný neklíčový atribut není závislý na podmnožině žádného klíče R.
+\end{definition}
+\begin{definition}
+3NF: jestliže je v první normální formě a každý neklíčový atribut je úplně závislý na každém klíči schématu R. 
+Jinak – žádný neklíčový atribut není závislý na podmnožině žádného klíče R.
+\end{definition}
 
+\begin{definition}
+3NF: jestliže je v první normální formě a každý neklíčový atribut je úplně závislý na každém klíči schématu R. 
+Jinak – žádný neklíčový atribut není závislý na podmnožině žádného klíče R.
+\end{definition}
+
+Boyce-Coddova normální forma\\
+Neformálně:
+omezením třídy relací ve 3NF - vyloučením všech netriviálních funkčních závislostí mezi atributy kromě závislosti na klíči 
+dostaneme relace v Boyce Coddově normální formě.
+
+\begin{definition}
+Mějme relační schéma R a teorii $\Gamma$.Pak R je v Boyce-Coddově normální formě(BCNF) vzhledem k $\Gamma$,
+pokud pro každou netriviální $A \Rightarrow B \in \Gamma$ platí že $ \Gamma \models A \Rightarrow R$.
+\end{definition}
+BCNF zaručuje potlačení redundance
+
+\subsubsection{normalizace dekompozicí a kompozicí schémat.}
+Normalizace pomocí dekompozice:\\
+Pokud není R v BCNF vzhledem ke $\Gamma$ potom :
+\begin{itemize}
+\item vezmeme netriviální $A \Rightarrow B \in \Gamma$ takovou, že $ \Gamma \not\models A \Rightarrow R$.
+\item položme $R_1 = A \cup B$ a $\Gamma_1 = \{C \cap R_1 \Rightarrow D \cap R_1 | C \cap R_1 \Rightarrow D \in \Gamma \}$
+\item položme $R_2 = A \cup (R \backslash B)$ a $\Gamma_2 = \{C \cap R_2 \Rightarrow D \cap R_2 | C \cap R_2 \Rightarrow D \in \Gamma \}$
+\item proces se pokusíme opakovat pro dvojici $R_1$ a $\Gamma_1$ pokud $R_1$ není v BCNF vzhledem k $\Gamma_1$ a analogicky pro $R_2$ a $\Gamma_1$
+\end{itemize}
+
+\includegraphics[scale=0.65]{img/sesty_odstavec/normovani.png}\\	
+
+\includegraphics[scale=0.65]{img/sesty_odstavec/schema_obr.png}\\	
+
+\includegraphics[scale=0.65]{img/sesty_odstavec/normalizace_obr.png}\\
+
+\includegraphics[scale=0.65]{img/sesty_odstavec/reprezentace_dat_obr.png}\\\\
+
+ Normalizace pomocí kompozice:\\
+ Opak dekompozice, slévání tabulek.
 
 \end{document}
